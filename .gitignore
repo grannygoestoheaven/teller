@@ -1,6 +1,6 @@
 .env
 .envrc
-/build
+/build/
 /venv_teaicher/
 /static/
 /src/config/patterns/*

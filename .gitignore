@@ -1,4 +1,6 @@
 .env
+.envrc
+/build
 /venv_teaicher/
 /static/
 /src/config/patterns/*
@@ -13,5 +15,4 @@ node_modules
 ideas
 package.json
 wrappers.py.envrc
-.envrc
 *.egg-info

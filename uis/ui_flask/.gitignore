@@ -1,5 +1,0 @@
-.env
-venv_flask_ui/
-__pycache__/
-*.pyc
-.cache

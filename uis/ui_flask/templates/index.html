@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Storyteller</title>
+</head>
+<body>
+    <h1>AI Storyteller</h1>
+    <form action="/generate_story" method="POST">
+        <label for="subject">Enter the subject:</label>
+        <input type="text" id="subject" name="subject" required><br><br>
+
+        <label for="length">Enter the length of the story:</label>
+        <input type="number" id="length" name="length" required><br><br>
+
+        <label for="track_url">Paste the track URL:</label>
+        <input type="url" id="track_url" name="track_url"><br><br>
+
+        <button type="submit">Generate Story</button>
+    </form>
+    <div id="storyResult"></div>
+    <script>
+        // Here you can write JS to handle the response and update the page dynamically
+    </script>
+</body>
+</html>

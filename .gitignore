@@ -1,6 +1,6 @@
 .env
 .envrc
-.vscode
+/.vscode/
 /build/
 /venv_teaicher/
 /static/

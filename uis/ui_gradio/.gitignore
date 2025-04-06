@@ -1,5 +1,0 @@
-.env
-__pycache__/
-*.pyc
-.cache
-venv_gradio_ui/

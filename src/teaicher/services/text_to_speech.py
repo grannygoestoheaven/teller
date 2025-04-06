@@ -6,12 +6,12 @@ from elevenlabs.client import ElevenLabs # ElevenLabs API client
 
 def openai_text_to_speech(story: str, filename: str = "story.mp3") -> str:
     client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
-    # styled_input = story
+    # styled_input = "(Speed of speech = slow) " + story
 
     response = client.audio.speech.create(
-        # model="gpt-4o-mini-tts-1",
-        model="tts-1-hd",
-        voice="sage",
+        model="gpt-4o-mini-tts",
+        # model="tts-1",
+        voice="fable",
         input=story
     )
 

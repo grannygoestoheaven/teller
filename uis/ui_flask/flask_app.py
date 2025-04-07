@@ -41,12 +41,13 @@ def generate_story_ui():
 
     # Step 5: Generate Speech
     # speech_audio = elevenlabs_text_to_speech(story)
-    speech_audio = openai_text_to_speech(story)
 
     # Step 6: Sync Audio
     if track_url:
+        speech_audio = openai_text_to_speech(story, to_bytes=True)
         play_audio_with_sync(track_url, speech_audio)
     else:
+        speech_audio = openai_text_to_speech(story)
         play_audio(speech_audio)
 
     # return jsonify({"story": story, "audio_link": "path/to/speech_audio.mp3"})  # Adjust path as needed

@@ -4,7 +4,7 @@ import tempfile
 from openai import OpenAI  # OpenAI API client
 from elevenlabs.client import ElevenLabs # ElevenLabs API client
 
-def openai_text_to_speech(story: str, filename: str = "story.mp3") -> str:
+def openai_text_to_speech(story: str, to_bytes = False, filename: str = "story.mp3") -> str:
     client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
     # styled_input = "(Speed of speech = slow) " + story
 
@@ -17,8 +17,11 @@ def openai_text_to_speech(story: str, filename: str = "story.mp3") -> str:
 
     with tempfile.NamedTemporaryFile(suffix=".mp3", delete=False) as tmp:
         tmp.write(response.content)
-        
-    return tmp.name  # return path to temp file
+    if to_bytes:
+        return response.content      
+    
+    speech_file_path = tmp.name
+    return speech_file_path  # return path to temp file
 
 def elevenlabs_text_to_speech(story: str, filename: str = "story.mp3") -> None :
     # Set the path and create folder if needed

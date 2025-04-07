@@ -1,5 +1,6 @@
 import vlc
 import time
+import tempfile
 from mutagen.mp3 import MP3
 # import mutagen.mp3 import MP3
 
@@ -48,18 +49,18 @@ from mutagen.mp3 import MP3
 
     # return story, speech_file_path  # Return the story and path to speech audio
 
-def play_audio(file_path: str) -> None:
+def play_audio(speech_file_path: str) -> None:
     """
     Plays the speech audio from a file path.
 
     Args:
-    - file_path (str): Path to the audio file to play.
+    - speech_file_path (str): Path to the audio file to play.
     """
-    audio_metadata = MP3(file_path)
+    audio_metadata = MP3(speech_file_path)
     duration = audio_metadata.info.length
     
     # Create VLC media player
-    speech_player = vlc.MediaPlayer(file_path)
+    speech_player = vlc.MediaPlayer(speech_file_path)
 
     # Start playback
     speech_player.play()
@@ -73,7 +74,7 @@ def play_audio(file_path: str) -> None:
 
     speech_player.stop()
 
-def play_audio_with_sync(speech_audio: bytes, track_url: str) -> tuple:
+def play_audio_with_sync(track_url: str, speech_file_bytes: bytes) -> tuple:
     """
     Plays a track and speech audio in sync, mixing the track at a lower volume.
 
@@ -84,11 +85,11 @@ def play_audio_with_sync(speech_audio: bytes, track_url: str) -> tuple:
     Returns:
     - tuple: (original speech bytes, path to speech temp file)
     """
-    import tempfile, vlc, time, os
+    # import tempfile, vlc, time, os
 
     # Save speech audio to a temporary file
     with tempfile.NamedTemporaryFile(suffix=".mp3", delete=False) as speech_file:
-        speech_file.write(speech_audio)
+        speech_file.write(speech_file_bytes)
         speech_file_path = speech_file.name
 
     # Create VLC players
@@ -104,7 +105,7 @@ def play_audio_with_sync(speech_audio: bytes, track_url: str) -> tuple:
     speech_player.play()
 
     # Wait for speech to finish
-    time.sleep(len(speech_audio) / 32000 + 3)  # ~32000 bytes/sec for mp3_22050_32
+    time.sleep(len(track_url) / 32000 + 3)  # ~32000 bytes/sec for mp3_22050_32
 
     # Fade out music
     fade_duration = 6  # seconds

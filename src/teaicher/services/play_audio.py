@@ -292,7 +292,7 @@ def play_audio(speech_file_path: str) -> None:
 # else:
 #      print("Cannot find audio files. Please check paths.")
 
-def play_audio_with_sync_events(speech_file_path: str, track_path: str = None, track_url: str = None) -> None:
+# def play_audio_with_sync_events(speech_file_path: str, track_path: str = None, track_url: str = None) -> None:
     """
     Plays track and speech using VLC events for synchronization.
     Prioritizes track_url if both are provided.

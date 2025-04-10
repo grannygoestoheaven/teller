@@ -24,11 +24,11 @@ def generate_story_ui():
     subject = request.form['subject']
     user_length = int(request.form['length'])
     track_url = request.form['track_url']
-    script_dir = os.path.dirname(os.path.abspath(__file__))
+    # script_dir = os.path.dirname(os.path.abspath(__file__))
     # Construct path relative to script_dir
-    relative_path = "../src/teaicher/static/audio/Leaf_Bed.mp3" # Adjust relative steps if needed (e.g., '../../static/...')
-    absolute_path = os.path.join(script_dir, relative_path)
-    track_path = absolute_path
+    # relative_path = "../src/teaicher/static/audio/Leaf_Bed.mp3" # Adjust relative steps if needed (e.g., '../../static/...')
+    # absolute_path = os.path.join(script_dir, relative_path)
+    # track_path = absolute_path
     # track_path = "/Users/grannygoestoheaven/code/computer science projects/teaicher/src/static/audio/Leaf_Bed.mp3"
 
     estimated_chars = get_user_story_length(user_length) # returns estimated_chars
@@ -51,9 +51,9 @@ def generate_story_ui():
     if track_url:
         speech_file_path = openai_text_to_speech(story)
         play_audio_with_sync_events(speech_file_path, track_url)
-    elif track_path:
-        speech_file_path = openai_text_to_speech(story)
-        play_audio_with_sync_events(speech_file_path, track_path = track_path)
+    # elif track_path:
+    #     speech_file_path = openai_text_to_speech(story)
+    #     play_audio_with_sync_events(speech_file_path, track_path = track_path)
     else:
         speech_file_path = openai_text_to_speech(story)
         play_audio(speech_file_path)

@@ -17,10 +17,10 @@ def openai_text_to_speech(story: str, to_bytes = False, filename: str = "story.m
 
     with tempfile.NamedTemporaryFile(suffix=".mp3", delete=False) as tmp:
         tmp.write(response.content)
-    if to_bytes:
-        return response.content      
-    
-    speech_file_path = tmp.name
+    # if to_bytes:
+    #     speech_file = response.content
+    #     return response.content      
+        speech_file_path = tmp.name
     return speech_file_path  # return path to temp file
 
 def elevenlabs_text_to_speech(story: str, filename: str = "story.mp3") -> None :

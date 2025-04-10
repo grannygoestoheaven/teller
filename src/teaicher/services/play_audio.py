@@ -75,7 +75,7 @@ def play_audio(speech_file_path: str) -> None:
 
     speech_player.stop()
 
-def play_audio_with_sync(speech_file_path: str, track_url: str) -> tuple:
+# def play_audio_with_sync(speech_file_path: str, track_url: str) -> tuple:
     """
     Plays a track and speech audio in sync, mixing the track at a lower volume.
 
@@ -130,14 +130,14 @@ def play_audio_with_sync(speech_file_path: str, track_url: str) -> tuple:
 # This little helper function gets called automatically when the event occurs.
 # Its only job is to set our 'speech_finished_event' flag.
 
-def speech_finished_callback(event, data):
+# def speech_finished_callback(event, data):
     """Callback function triggered when the speech player finishes."""
     # print("--> Doorbell Rang! Speech player sent 'Finished' signal.")
     # 'data' here is the threading.Event object we pass when attaching
     speech_finished_event = data
     speech_finished_event.set() # Raise the flag!
 
-def play_audio_with_sync_events(speech_file_path: str, track_path: str = None, track_url: str = None,) -> None:
+# def play_audio_with_sync_events(speech_file_path: str, track_path: str = None, track_url: str = None,) -> None:
     """
     Plays track and speech using VLC events for synchronization.
 
@@ -291,3 +291,172 @@ def play_audio_with_sync_events(speech_file_path: str, track_path: str = None, t
 #      print("--- Playback Function Returned ---")
 # else:
 #      print("Cannot find audio files. Please check paths.")
+
+def play_audio_with_sync_events(speech_file_path: str, track_path: str = None, track_url: str = None) -> None:
+    """
+    Plays track and speech using VLC events for synchronization.
+    Prioritizes track_url if both are provided.
+    """
+    speech_finished_event = threading.Event()
+    instance = None
+    speech_player = None
+    track_player = None
+    event_manager = None
+
+    # --- Determine the Track Source ---
+    actual_track_source = None
+    
+    if track_url:
+        actual_track_source = track_url
+        print(f"Using track source (URL): {actual_track_source}")
+    elif track_path:
+        # Optional: Add an extra check here if needed, though Flask route should check existence
+        # if os.path.exists(track_path):
+        actual_track_source = track_path
+        print(f"Using track source (Path): {actual_track_source}")
+        # else:
+        #      print(f"Track path provided but not found: {track_path}. Proceeding without track.")
+        #      # Fall through to potentially playing speech only if track player setup fails
+    else:
+        print("No track source (URL or Path) provided.")
+        # Decide how to handle this - maybe error out, or proceed with speech only
+
+    try:
+        # --- Setup ---
+        print("Setting up the players...")
+        instance = vlc.Instance('--no-xlib')
+
+        # Setup Speech Player (remains the same)
+        speech_player = instance.media_player_new()
+        # Check if speech_file_path is valid before creating media
+        if not speech_file_path or not os.path.exists(speech_file_path):
+             print(f"Error: Invalid speech file path: {speech_file_path}")
+             return # Exit if speech path is bad
+        speech_media = instance.media_new(speech_file_path)
+        speech_player.set_media(speech_media)
+        speech_player.audio_set_volume(100)
+
+        # Setup Event Manager (remains the same)
+        event_manager = speech_player.event_manager()
+        event_manager.event_attach(
+            vlc.EventType.MediaPlayerEndReached,
+            speech_finished_callback,
+            speech_finished_event
+        )
+        print("Listener attached to speech player.")
+
+        # --- Setup Track Player using the CORRECT source ---
+        if actual_track_source:
+            track_player = instance.media_player_new()
+            track_media = instance.media_new(actual_track_source) # Use the determined source
+            track_player.set_media(track_media)
+            track_player.audio_set_volume(30)
+            print("Track player setup with source.")
+        else:
+            print("Skipping track player setup as no valid source was found.")
+            track_player = None # Ensure track_player is None if not set up
+
+        # --- Start Playback and Synchronization ---
+        if track_player: # Only play track if it was set up correctly
+            print("Starting track...")
+            track_player.play()
+            time.sleep(0.5)
+            track_state = track_player.get_state()
+            if track_state == vlc.State.Error:
+                print(f"Oops! Couldn't play the track: {actual_track_source}. State: {track_state}")
+                # Decide if you want to stop everything or continue with speech only
+                track_player.stop()
+                track_player = None # Treat as if no track was provided from now on
+            elif track_state == vlc.State.Ended:
+                print(f"Warning: Track seems to have ended immediately (maybe very short?): {actual_track_source}")
+                # Continue, but fadeout might be weird.
+
+        # Start speech only if speech player is valid
+        if speech_player and speech_player.get_media():
+            print("Waiting 3 seconds before starting speech...")
+            time.sleep(3)
+            print("Starting speech...")
+            speech_player.play()
+            time.sleep(0.5)
+            speech_state = speech_player.get_state()
+            if speech_state == vlc.State.Error:
+                print(f"Oops! Couldn't play the speech: {speech_file_path}. State: {speech_state}")
+                if track_player and track_player.is_playing(): track_player.stop()
+                # Maybe return an error to the UI? For now, just stops.
+                return # Exit if speech fails
+
+            # --- Wait Patiently using the Event ---
+            print("Waiting for the speech to finish...")
+            speech_finished_event.wait()
+            print("Speech finished signal received!")
+
+        else:
+             print("Error: Cannot play speech, player not ready or invalid path.")
+             if track_player and track_player.is_playing(): track_player.stop()
+             return # Exit if speech can't be played
+
+
+        # --- Post-Speech Actions ---
+        if track_player: # Only do post-speech actions if track exists
+            print("Waiting 3 seconds post-speech...")
+            time.sleep(3)
+
+            print("Fading out track...")
+            initial_volume = track_player.audio_get_volume()
+            # Check if player is still valid before getting volume
+            if initial_volume is None or initial_volume < 0: initial_volume = 30 # Default if error getting volume
+
+            fade_duration = 6
+            step_delay = 0.05
+            steps = int(fade_duration / step_delay)
+
+            if steps > 0 and track_player.is_playing(): # Check if playing before fading
+                for i in range(steps + 1):
+                    volume = int(initial_volume * (1 - (i / steps)))
+                    if volume < 0: volume = 0
+                    track_player.audio_set_volume(volume)
+                    time.sleep(step_delay)
+            elif track_player: # Ensure player exists before setting volume to 0
+                track_player.audio_set_volume(0)
+
+            print("Stopping track player.")
+            track_player.stop()
+        else:
+             print("No track player active, skipping post-speech delay and fade.")
+
+
+        # Speech player should be stopped/ended already via event, but ensure state
+        if speech_player:
+             # Optional: Check state before stopping if needed
+             # current_speech_state = speech_player.get_state()
+             # if current_speech_state not in [vlc.State.Ended, vlc.State.Stopped, vlc.State.Error]:
+             #      speech_player.stop()
+             pass # Already stopped naturally or handled by error
+
+
+    except Exception as e:
+        print(f"Something went wrong during playback: {e}")
+        if track_player and track_player.is_playing(): track_player.stop()
+        if speech_player and speech_player.is_playing(): speech_player.stop()
+
+    finally:
+        # --- Cleanup ---
+        print("Cleaning up...")
+        if event_manager: # Check if event_manager was created
+             try:
+                 # Detach might fail if player was released early or event never fired correctly
+                 event_manager.event_detach(vlc.EventType.MediaPlayerEndReached)
+                 print("Listener detached.")
+             except Exception as detach_error:
+                 print(f"Minor issue during event detach (might be harmless): {detach_error}")
+
+        if speech_player:
+            speech_player.release()
+            print("Speech player released.")
+        if track_player:
+            track_player.release()
+            print("Track player released.")
+        if instance:
+            instance.release()
+            print("VLC instance released.")
+        print("Playback cleanup finished.")

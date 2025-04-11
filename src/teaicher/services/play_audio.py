@@ -105,26 +105,29 @@ def play_audio_with_sync(speech_file_path: str, track_path: str) -> None:
     track_player.audio_set_volume(50)
 
     # time.sleep(duration + 2)  # ~32000 bytes/sec for mp3_22050_32
-
-    # Start track playback
+    
     track_player.play()
-    # wait 3 seconds to start speech
-    time.sleep(3)  # adjust for sync delay
-    # Start speech playback
+    while not track_player.is_playing(): # Here we are handling buffering of the track that may take a while
+        time.sleep(0.1)
+
+    time.sleep(6)
+
     speech_player.play()
+    while not speech_player.is_playing(): # Here we are handling buffering also
+        time.sleep(0.1)
 
     # Wait for speech to finish
     time.sleep(duration + 2)
 
     # Fade out music
-    # fade_duration = 6  # seconds
-    # step_delay = 0.02  # seconds
-    # steps = int(fade_duration / step_delay)  # = 300 steps
+    fade_duration = 6  # seconds
+    step_delay = 0.02  # seconds
+    steps = int(fade_duration / step_delay)  # = 300 steps
 
-    # for i in range(steps):
-    #     volume = int(30 * (1 - i / steps))
-    #     track_player.audio_set_volume(volume)
-    #     time.sleep(step_delay)
+    for i in range(steps):
+        volume = int(30 * (1 - i / steps))
+        track_player.audio_set_volume(max(volume, 0))
+        time.sleep(step_delay)
 
     track_player.stop()
     speech_player.stop()

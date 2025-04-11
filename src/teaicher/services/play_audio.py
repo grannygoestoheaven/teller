@@ -1,3 +1,4 @@
+import os
 import vlc
 import time
 import tempfile
@@ -75,7 +76,7 @@ def play_audio(speech_file_path: str) -> None:
 
     speech_player.stop()
 
-# def play_audio_with_sync(speech_file_path: str, track_url: str) -> tuple:
+def play_audio_with_sync(speech_file_path: str, track_path: str) -> None:
     """
     Plays a track and speech audio in sync, mixing the track at a lower volume.
 
@@ -92,37 +93,43 @@ def play_audio(speech_file_path: str) -> None:
     # with tempfile.NamedTemporaryFile(suffix=".mp3", delete=False) as speech_file:
     #     speech_file.write(speech_file_bytes)
     #     speech_file_path = speech_file.name
+    
+    audio_metadata = MP3(speech_file_path)
+    duration = audio_metadata.info.length
 
     # Create VLC players
     speech_player = vlc.MediaPlayer(speech_file_path)
     speech_player.audio_set_volume(100)
     
-    track_player = vlc.MediaPlayer(track_url)
-    track_player.audio_set_volume(30)
+    track_player = vlc.MediaPlayer(track_path)
+    track_player.audio_set_volume(50)
 
+    # time.sleep(duration + 2)  # ~32000 bytes/sec for mp3_22050_32
 
-    # Start playback
+    # Start track playback
     track_player.play()
-    time.sleep(len(track_url) / 32000 + 3)  # ~32000 bytes/sec for mp3_22050_32
-    speech_player.play()
+    # wait 3 seconds to start speech
     time.sleep(3)  # adjust for sync delay
+    # Start speech playback
+    speech_player.play()
 
     # Wait for speech to finish
+    time.sleep(duration + 2)
 
     # Fade out music
-    fade_duration = 6  # seconds
-    step_delay = 0.02  # seconds
-    steps = int(fade_duration / step_delay)  # = 300 steps
+    # fade_duration = 6  # seconds
+    # step_delay = 0.02  # seconds
+    # steps = int(fade_duration / step_delay)  # = 300 steps
 
-    for i in range(steps):
-        volume = int(30 * (1 - i / steps))
-        track_player.audio_set_volume(volume)
-        time.sleep(step_delay)
+    # for i in range(steps):
+    #     volume = int(30 * (1 - i / steps))
+    #     track_player.audio_set_volume(volume)
+    #     time.sleep(step_delay)
 
     track_player.stop()
     speech_player.stop()
 
-    return speech_audio, speech_file_path
+    # return speech_audio, speech_file_path
 
 
 
@@ -130,14 +137,18 @@ def play_audio(speech_file_path: str) -> None:
 # This little helper function gets called automatically when the event occurs.
 # Its only job is to set our 'speech_finished_event' flag.
 
-# def speech_finished_callback(event, data):
+def speech_finished_callback(event, data):
     """Callback function triggered when the speech player finishes."""
     # print("--> Doorbell Rang! Speech player sent 'Finished' signal.")
     # 'data' here is the threading.Event object we pass when attaching
     speech_finished_event = data
     speech_finished_event.set() # Raise the flag!
 
-# def play_audio_with_sync_events(speech_file_path: str, track_path: str = None, track_url: str = None,) -> None:
+def play_audio_with_sync_events(speech_file_path: str, track_path: str = None, track_url: str = None,) -> None:
+    print(f"\n--- ENTERING play_audio_with_sync_events ---")
+    print(f"FLASK CONTEXT DEBUG: Received speech_file_path: '{speech_file_path}'")
+    print(f"FLASK CONTEXT DEBUG: Received track_path: '{track_path}'")
+    print(f"FLASK CONTEXT DEBUG: Received track_url: '{track_url}'")
     """
     Plays track and speech using VLC events for synchronization.
 
@@ -150,6 +161,8 @@ def play_audio(speech_file_path: str) -> None:
     - Our 'speech_finished_callback' function is the action taken when the doorbell rings.
     - The main script waits patiently using 'speech_finished_event.wait()' until notified.
     - This is more efficient, like waiting for a phone call instead of checking the phone every minute.
+    
+
     """
     # --- The 'Doorbell Ringer' ---
     # Create an Event object. Think of it as a flag that's initially down.
@@ -187,6 +200,7 @@ def play_audio(speech_file_path: str) -> None:
 
         # Setup Track Player
         track_player = instance.media_player_new()
+        print(f"FLASK DEBUG: Final track source path being passed: '{actual_track_source}'")
         track_media = instance.media_new(track_url)
         track_player.set_media(track_media)
         track_player.audio_set_volume(30) # Background track quieter

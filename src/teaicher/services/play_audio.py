@@ -102,7 +102,7 @@ def play_audio_with_sync(speech_file_path: str, track_path: str) -> None:
     speech_player.audio_set_volume(100)
     
     track_player = vlc.MediaPlayer(track_path)
-    track_player.audio_set_volume(50)
+    track_player.audio_set_volume(65)
 
     # time.sleep(duration + 2)  # ~32000 bytes/sec for mp3_22050_32
     
@@ -110,7 +110,7 @@ def play_audio_with_sync(speech_file_path: str, track_path: str) -> None:
     while not track_player.is_playing(): # Here we are handling buffering of the track that may take a while
         time.sleep(0.1)
 
-    time.sleep(6)
+    time.sleep(8)
 
     speech_player.play()
     while not speech_player.is_playing(): # Here we are handling buffering also

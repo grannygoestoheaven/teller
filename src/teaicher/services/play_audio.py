@@ -117,7 +117,7 @@ def play_audio_with_sync(speech_file_path: str, track_path: str) -> None:
         time.sleep(0.1)
 
     # Wait for speech to finish
-    time.sleep(duration + 2)
+    time.sleep(duration + 4)
 
     # Fade out music
     fade_duration = 6  # seconds
@@ -125,7 +125,7 @@ def play_audio_with_sync(speech_file_path: str, track_path: str) -> None:
     steps = int(fade_duration / step_delay)  # = 300 steps
 
     for i in range(steps):
-        volume = int(30 * (1 - i / steps))
+        volume = round(30 * (1 - i / steps))
         track_player.audio_set_volume(max(volume, 0))
         time.sleep(step_delay)
 

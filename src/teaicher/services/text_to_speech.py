@@ -9,10 +9,11 @@ def openai_text_to_speech(story: str, to_bytes = False, filename: str = "story.m
     # styled_input = "(Speed of speech = slow) " + story
 
     response = client.audio.speech.create(
-        model="gpt-4o-mini-tts",
-        # model="tts-1",
+        # model="gpt-4o-mini-tts",
+        model="tts-1-hd",
         voice="fable",
-        input=story
+        input=story,
+        speed=0.8
     )
 
     with tempfile.NamedTemporaryFile(suffix=".mp3", delete=False) as tmp:

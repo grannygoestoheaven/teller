@@ -18,6 +18,7 @@ eleven_labs_api_key = os.environ.get("ELEVEN_LABS_API_KEY")
 @app.route('/')
 def index():
     return render_template('index.html')
+    # return render_template('index_2.html')
 
 @app.route('/generate_story', methods=['POST'])
 def generate_story_ui():

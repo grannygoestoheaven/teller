@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+ <html lang="en">
+ <head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>teller - AI storyteller</title>
+     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+ </head>
+ <body>
+     <div class="chat-container">
+         <header class="chat-header">
+             <h1>teller</h1>
+             <p>Provide the details below to generate your story.</p>
+         </header>
+ 
+         <div class="chat-history" id="chatHistory">
+              {% if story %}
+              <div class="message ai-message">
+                  <p><strong>Generated Story:</strong></p>
+                  <p>{{ story }}</p>
+              </div>
+              {% else %}
+               <div class="message system-message">
+                  <p>Your generated story will appear here after submission.</p>
+              </div>
+              {% endif %}
+              <div id="storyResult"></div>
+         </div>
+ 
+         <footer class="chat-input-area">
+             <form action="/generate_story" method="POST" id="story-form">
+                 <div class="form-row">
+                     <div class="form-group">
+                         <label for="subject">Subject:</label>
+                         <input type="text" id="subject" name="subject" placeholder="e.g., A lonely robot on Mars" required>
+                     </div>
+                     <div class="form-group">
+                        <label for="duration">Duration (minutes):</label>
+                        <input type="number" id="duration" name="duration" placeholder="e.g., 3" required step="1" min="1">
+                     </div>
+                 </div>
+                  <div class="form-row">
+                      <div class="form-group full-width">
+                         <label for="track_url">Optional Track URL (for inspiration):</label>
+                         <input type="url" id="track_url" name="track_url" placeholder="Paste Spotify, YouTube Music, etc. URL">
+                     </div>
+                     <div class="form-group full-width">
+                        <label for="track">Select local track:</label>
+                        <input type="file" id="track_path" name="track_path" accept="audio/*"><br><br>
+                    </div>
+                  <div class="form-row">
+                       <button type="submit" class="send-button">Generate Story</button>
+                  </div>
+             </form>
+         </footer>
+     </div>

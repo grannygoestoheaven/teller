@@ -17,3 +17,4 @@ ideas
 package.json
 wrappers.py.envrc
 *.egg-info
+speech_test.py

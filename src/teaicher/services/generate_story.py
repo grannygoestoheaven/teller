@@ -4,13 +4,13 @@ import math  # For character-to-token conversion
 from openai import OpenAI  # OpenAI API client
 # from mistral import Mistral  # Mistral API client
 
-def generate_story(subject, pattern, story_length: int) -> tuple[str, str]:
+def generate_story(subject_or_video_transcript, pattern, estimated_chars: int = None) -> tuple[str, str]:
     client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
 
     response = client.responses.create(
         model="gpt-4o",
         instructions=pattern,
-        input=subject,
+        input=subject_or_video_transcript
     )
 
     full_output = response.output_text.strip().split("\n", 1)

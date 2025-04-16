@@ -33,6 +33,8 @@
                      <div class="form-group">
                          <label for="subject">Subject:</label>
                          <input type="text" id="subject" name="subject" placeholder="e.g., A lonely robot on Mars" required>
+                         <label for="subject">Video to summarize:</label>
+                         <input type="url" id="video" name="video" placeholder="url of the video you want to summarize" required>
                      </div>
                      <div class="form-group">
                         <label for="duration">Duration (minutes):</label>
@@ -49,7 +51,8 @@
                         <input type="file" id="track_path" name="track_path" accept="audio/*"><br><br>
                     </div>
                   <div class="form-row">
-                       <button type="submit" class="send-button">Generate Story</button>
+                       <button type="submit" class="send-button" id="option" value="storytelling">Storytelling format</button>
+                       <button type="submit" class="send-button" id="option" value="news">News Format</button>
                   </div>
              </form>
          </footer>

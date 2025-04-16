@@ -90,7 +90,7 @@ def play_audio(speech_file_path: str) -> None:
 
     # return speech_audio, speech_file_path
 
-def play_audio_with_sync(speech_file_path: str, track_path: str) -> None:
+def play_audio_with_sync(speech_file_path: str, track_path: str = None, news_background_track_uri: str = None) -> None:
     """
     Plays a track and speech audio in sync, mixing the track at a lower volume with a smoother fade-out.
 
@@ -115,8 +115,12 @@ def play_audio_with_sync(speech_file_path: str, track_path: str) -> None:
     track_player = instance.media_player_new()
 
     speech_media = instance.media_new(speech_file_path)
-    track_media = instance.media_new(track_path)
+    if news_background_track_link:
+        track_media = instance.media_new(news_background_track_uri)
 
+    else:
+        track_media = instance.media_new(track_path)
+    
     speech_player.set_media(speech_media)
     track_player.set_media(track_media)
 

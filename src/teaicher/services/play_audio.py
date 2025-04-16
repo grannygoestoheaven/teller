@@ -3,6 +3,7 @@ import vlc
 import time
 import tempfile
 import threading # We need this for our 'doorbell' (Event)
+
 from mutagen.mp3 import MP3
 # import mutagen.mp3 import MP3
 
@@ -76,7 +77,7 @@ def play_audio(speech_file_path: str) -> None:
 
     speech_player.stop()
 
-def play_audio_with_sync(speech_file_path: str, track_path: str) -> None:
+# def play_audio_with_sync(speech_file_path: str, track_path: str) -> None:
     """
     Plays a track and speech audio in sync, mixing the track at a lower volume.
 
@@ -102,7 +103,7 @@ def play_audio_with_sync(speech_file_path: str, track_path: str) -> None:
     speech_player.audio_set_volume(100)
     
     track_player = vlc.MediaPlayer(track_path)
-    track_player.audio_set_volume(50)
+    track_player.audio_set_volume(45)
 
     # time.sleep(duration + 2)  # ~32000 bytes/sec for mp3_22050_32
     
@@ -134,7 +135,81 @@ def play_audio_with_sync(speech_file_path: str, track_path: str) -> None:
 
     # return speech_audio, speech_file_path
 
+def play_audio_with_sync(speech_file_path: str, track_path: str) -> None:
+    """
+    Plays a track and speech audio in sync, mixing the track at a lower volume with a smoother fade-out.
 
+    Args:
+    - speech_file_path (str): The path of the speech audio file to play.
+    - track_path (str): The path of the track audio file to play.
+    """
+    import vlc
+    import time
+    from mutagen.mp3 import MP3
+
+    try:
+        audio_metadata = MP3(speech_file_path)
+        duration = audio_metadata.info.length
+    except Exception as e:
+        print(f"Error reading speech file metadata: {e}")
+        return
+
+    # Create VLC players
+    instance = vlc.Instance()
+    speech_player = instance.media_player_new()
+    track_player = instance.media_player_new()
+
+    speech_media = instance.media_new(speech_file_path)
+    track_media = instance.media_new(track_path)
+
+    speech_player.set_media(speech_media)
+    track_player.set_media(track_media)
+
+    speech_player.audio_set_volume(100)
+    track_player.audio_set_volume(45)
+
+    track_player.play()
+    time.sleep(0.1)  # Give it a moment to start playing
+
+    # Wait for track to start playing (handle potential buffering)
+    start_time = time.time()
+    while not track_player.is_playing() and time.time() - start_time < 5:  # Timeout after 5 seconds
+        time.sleep(0.1)
+    if not track_player.is_playing():
+        print("Warning: Track failed to start playing.")
+
+    time.sleep(8)
+
+    speech_player.play()
+    time.sleep(0.1) # Give it a moment to start playing
+
+    # Wait for speech to start playing (handle potential buffering)
+    start_time = time.time()
+    while not speech_player.is_playing() and time.time() - start_time < 5:  # Timeout after 5 seconds
+        time.sleep(0.1)
+    if not speech_player.is_playing():
+        print("Warning: Speech failed to start playing.")
+
+    # Wait for speech to finish (with a small buffer)
+    time.sleep(duration + 1)
+
+    # Fade out music more smoothly
+    fade_duration = 6  # seconds
+    fade_start_volume = track_player.audio_get_volume()
+    steps = 100  # More steps for a smoother fade
+    step_delay = fade_duration / steps
+
+    for i in range(steps + 1):
+        volume = int(round(fade_start_volume * (1 - i / steps)))
+        track_player.audio_set_volume(max(volume, 0))
+        time.sleep(step_delay)
+
+    track_player.stop()
+    speech_player.stop()
+    instance.release()
+
+# Example usage (replace with your actual file paths):
+# play_audio_with_sync("path/to/your/speech.mp3", "path/to/your/track.mp3")
 
 # --- The 'Action' function - What happens when the speech finishes ---
 # This little helper function gets called automatically when the event occurs.

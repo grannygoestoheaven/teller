@@ -13,7 +13,7 @@ def openai_text_to_speech(story: str, to_bytes = False, filename: str = "story.m
         model="tts-1-hd",
         voice="fable",
         input=story,
-        speed=0.8
+        speed=1
     )
 
     with tempfile.NamedTemporaryFile(suffix=".mp3", delete=False) as tmp:

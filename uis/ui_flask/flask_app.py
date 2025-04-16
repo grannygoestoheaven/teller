@@ -60,7 +60,7 @@ def generate_story_ui():
     # Step 5: Generate Speech
     # speech_audio = elevenlabs_text_to_speech(story)
 
-    # Step 6: Sync Audio
+    # Step 6: The users chooses audio background or not - if yes sync Audio
     if track_url:
         speech_file_path = openai_text_to_speech(story)
         play_audio_with_sync(speech_file_path, track_url)

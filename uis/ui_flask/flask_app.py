@@ -37,8 +37,6 @@ def generate_story_ui():
     # if transcript_data:
     #     for segment in transcript_data:
     #         print(f"[{segment['start']:.2f} - {segment['start'] + segment['duration']:.2f}] {segment['text']}")
-
-
     # subject = request.form['subject']
     # user_length = int(request.form['duration'])
     # track_url = request.form['track_url']
@@ -47,15 +45,17 @@ def generate_story_ui():
     # track_path = "/Users/grannygoestoheaven/code/computer science projects/teaicher/src/static/audio/Leaf_Bed.mp3"
     # news_background_track_uri = "https://www.youtube.com/watch?v=YF3pj_3mdMc"
     # track_path = request.files.get('track_path')
-
-    estimated_chars = get_user_story_length(user_length) # returns estimated_chars
+    
+    if user_length:
+        estimated_chars = get_user_story_length(user_length) # returns estimated_chars
+    # Define the style    
     pattern = choose_style(option)
     
     # Step 4: Generate Story
     if subject:
         story, filename = generate_story(subject, pattern, estimated_chars)
     elif video_to_summarize_url:
-        story, filename = generate_story(transcript_data, pattern, estimated chars)
+        story, filename = generate_story(transcript_data, pattern, estimated_chars)
 
     # Step 5: Generate Speech
     # speech_audio = elevenlabs_text_to_speech(story)

@@ -121,7 +121,7 @@ def play_audio_with_sync(speech_file_path: str, track_path: str) -> None:
     track_player.set_media(track_media)
 
     speech_player.audio_set_volume(100)
-    track_player.audio_set_volume(50)
+    track_player.audio_set_volume(65)
 
     track_player.play()
     time.sleep(0.1)  # Give it a moment to start playing
@@ -149,7 +149,7 @@ def play_audio_with_sync(speech_file_path: str, track_path: str) -> None:
     time.sleep(duration + 1)
 
     # Fade out music more smoothly
-    fade_duration = 6  # seconds
+    fade_duration = 10  # seconds
     fade_start_volume = track_player.audio_get_volume()
     steps = 100  # More steps for a smoother fade
     step_delay = fade_duration / steps

@@ -24,7 +24,7 @@ def index():
 def generate_story_ui():
     subject = request.form['subject']
     user_length = int(request.form['duration'])
-    track_url = request.form['track_url']
+    # track_url = request.form['track_url']
     # script_dir = os.path.dirname(os.path.abspath(__file__))
     # Construct path relative to script_dir
     # relative_path = "../src/teaicher/static/audio/Leaf_Bed.mp3" # Adjust relative steps if needed (e.g., '../../static/...')
@@ -50,10 +50,10 @@ def generate_story_ui():
     # speech_audio = elevenlabs_text_to_speech(story)
 
     # Step 6: Sync Audio
-    if track_url:
-        speech_file_path = openai_text_to_speech(story)
-        play_audio_with_sync(speech_file_path, track_url)
-    elif track_path:
+    # if track_url:
+    #     speech_file_path = openai_text_to_speech(story)
+    #     play_audio_with_sync(speech_file_path, track_url)
+    if track_path:
         speech_file_path = openai_text_to_speech(story)
         play_audio_with_sync(speech_file_path, track_path)
     else:

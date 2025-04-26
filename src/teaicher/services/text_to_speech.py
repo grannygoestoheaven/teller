@@ -11,8 +11,11 @@ def openai_text_to_speech(story: str, to_bytes = False, filename: str = "story.m
     response = client.audio.speech.create(
         model="gpt-4o-mini-tts",
         # model="tts-1-hd",
-        voice="alloy",
+        voice="ash",
         input=story,
+        instructions='''Accent/Affect: cold and soft, so it's not invasive for the listener.
+                        Pacing: a bit speedy, with a slight pause between each sentence.
+                        ''',
         speed=1
     )
 

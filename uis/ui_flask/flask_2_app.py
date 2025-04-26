@@ -29,7 +29,7 @@ def generate_story_ui():
     speech_file_path = openai_text_to_speech(story)
     play_audio_with_sync(speech_file_path, track_path)
 
-    return render_template("index_4.html", story=story, audio_link=f"/static/audio_output/{os.path.basename(speech_file_path)}")
+    return render_template("index_4.html", story=story, audio_link=filename)
 
 if __name__ == "__main__":
     app.run(debug=True)

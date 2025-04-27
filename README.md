@@ -1,11 +1,11 @@
 ---
-title: Teaicher
+title: teller
 emoji: 🧠
 colorFrom: blue
 colorTo: green
-sdk: gradio
-sdk_version: 3.50.2
-app_file: gradio_app.py
+# sdk: gradio
+# sdk_version: 3.50.2
+app_file: app.py
 pinned: false
 ---
 
@@ -17,11 +17,11 @@ pinned: false
 
 - Converts subject + duration into an insightful short story  
 - Syncs narration with background track  
-- Uses OpenAI, ElevenLabs & Gradio os far
+- Uses OpenAI (text generation + tts) and VLC for media playing
 
 ## How to run
 
-This app runs with `app.py`. No setup required on Spaces—just click `Open in Space`.
+This app runs with `app.py`.
 
 ---
 

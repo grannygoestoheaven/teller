@@ -6,7 +6,7 @@ from src.teaicher.data.get_track_duration import get_track_duration, extract_ser
 from src.teaicher.services.get_story_length import get_user_story_length
 from src.teaicher.services.generate_story import generate_story
 from src.teaicher.services.text_to_speech import openai_text_to_speech
-from src.teaicher.services.play_audio import play_audio, play_audio_with_sync
+from src.teaicher.services.play_audio import play_audio, play_audio_with_sync, play_audio_with_stereo_effect
 
 app = Flask(__name__)
 load_dotenv()
@@ -28,6 +28,7 @@ def generate_story_ui():
     story, filename = generate_story(subject, pattern, estimated_chars)
     speech_file_path = openai_text_to_speech(story)
     play_audio_with_sync(speech_file_path, track_path)
+    # play_audio_with_stereo_effect(speech_file_path, track_path)
 
     return render_template("index_4.html", story=story, audio_link=filename)
 

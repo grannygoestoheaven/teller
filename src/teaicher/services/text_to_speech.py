@@ -11,10 +11,13 @@ def openai_text_to_speech(story: str, to_bytes = False, filename: str = "story.m
     response = client.audio.speech.create(
         model="gpt-4o-mini-tts",
         # model="tts-1-hd",
-        voice="ash",
+        voice="coral",
         input=story,
-        instructions='''Accent/Affect: cold and soft, so it's not invasive for the listener.
-                        Pacing: a bit speedy, with a slight pause between each sentence.
+        instructions='''Affect: Neutral.
+                        Voice Affect: Calm and very formal, no intonation; project quiet authority and confidence.
+                        Tone: Sincere, and gently authoritative—express conveying competence.
+                        Pronunciation: Clear and precise.
+                        Pacing: moderate.
                         ''',
         speed=1
     )

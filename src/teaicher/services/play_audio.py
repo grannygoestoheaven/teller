@@ -121,7 +121,7 @@ def play_audio_with_sync(speech_file_path: str, track_path: str) -> None:
     track_player.set_media(track_media)
 
     speech_player.audio_set_volume(100)
-    track_player.audio_set_volume(70)
+    track_player.audio_set_volume(50)
 
     track_player.play()
     time.sleep(0.1)  # Give it a moment to start playing
@@ -161,6 +161,113 @@ def play_audio_with_sync(speech_file_path: str, track_path: str) -> None:
 
     track_player.stop()
     speech_player.stop()
+    instance.release()
+
+def play_audio_with_stereo_effect(speech_file_path: str, track_path: str) -> None:
+    """
+    Plays a track and speech audio with a stereo effect for speech (panned left/right
+    with a slight delay), mixing the track at a lower volume with a smoother fade-out.
+
+    Args:
+    - speech_file_path (str): The path of the speech audio file to play.
+    - track_path (str): The path of the track audio file to play.
+    """
+    import vlc
+    import time
+    from mutagen.mp3 import MP3
+
+    # --- Get speech duration ---
+    try:
+        audio_metadata = MP3(speech_file_path)
+        duration = audio_metadata.info.length
+    except Exception as e:
+        print(f"Error reading speech file metadata: {e}")
+        return
+
+    # --- Create VLC instance and players ---
+    instance = vlc.Instance()
+    speech_player_left = instance.media_player_new()
+    speech_player_right = instance.media_player_new() # New player for right channel
+    track_player = instance.media_player_new()
+
+    # --- Create media objects ---
+    speech_media = instance.media_new(speech_file_path)
+    track_media = instance.media_new(track_path)
+
+    # --- Set media to players ---
+    speech_player_left.set_media(speech_media)
+    speech_player_right.set_media(speech_media) # Use the same media for the right channel
+    track_player.set_media(track_media)
+
+    # --- Set initial volumes ---
+    speech_player_left.audio_set_volume(50)
+    speech_player_right.audio_set_volume(50) # Volume for the right channel speech
+    track_player.audio_set_volume(50)
+
+    # --- Set panning for speech players ---
+    # VLC pan control: -1.0 is 100% Left, 1.0 is 100% Right, 0.0 is Center
+    # audio_set_pan expects a float between -1.0 and 1.0
+    try:
+        speech_player_left.audio_set_pan(-1.0) # Pan left
+        speech_player_right.audio_set_pan(1.0)  # Pan right
+    except Exception as e:
+         print(f"Warning: Could not set audio pan. Your VLC version may not support it. {e}")
+         # Continue without panning if not supported
+
+
+    # --- Start track playback ---
+    track_player.play()
+    time.sleep(0.1) # Give it a moment to start playing
+
+    # Wait for track to start playing (handle potential buffering)
+    start_time = time.time()
+    while not track_player.is_playing() and time.time() - start_time < 5:  # Timeout after 5 seconds
+        time.sleep(0.1)
+    if not track_player.is_playing():
+        print("Warning: Track failed to start playing.")
+        # Consider adding cleanup here if track fails to play
+
+    # --- Wait for a few seconds before starting speech (optional, based on your original code) ---
+    time.sleep(8)
+
+    # --- Start speech playback with a small delay ---
+    speech_player_left.play()
+
+    # Introduce the 3ms delay (0.003 seconds)
+    time.sleep(0.006)
+
+    speech_player_right.play()
+
+
+    # --- Wait for speech players to start (handle potential buffering) ---
+    start_time = time.time()
+    # Wait until at least one speech player is playing or timeout
+    while not (speech_player_left.is_playing() or speech_player_right.is_playing()) and time.time() - start_time < 5:
+        time.sleep(0.1)
+    if not (speech_player_left.is_playing() or speech_player_right.is_playing()):
+         print("Warning: Neither speech player started playing.")
+         # Consider adding cleanup here if speech fails to play
+
+    # --- Wait for speech to finish ---
+    # Wait for the duration of the speech, plus the delay, plus a small buffer.
+    # We assume both players finish around the same time after their respective starts.
+    time.sleep(duration + 0.003 + 1) # Add delay and buffer
+
+    # --- Fade out music smoothly ---
+    fade_duration = 10  # seconds
+    fade_start_volume = track_player.audio_get_volume()
+    steps = 100  # More steps for a smoother fade
+    step_delay = fade_duration / steps
+
+    for i in range(steps + 1):
+        volume = int(round(fade_start_volume * (1 - i / steps)))
+        track_player.audio_set_volume(max(volume, 0))
+        time.sleep(step_delay)
+
+    # --- Stop all players and release instance ---
+    track_player.stop()
+    speech_player_left.stop()
+    speech_player_right.stop() # Stop the new speech player
     instance.release()
 
 def play_audio_with_sync_ffmpeg(speech_file_path: str, track_path: str) -> None:

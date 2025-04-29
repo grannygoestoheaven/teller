@@ -17,7 +17,7 @@ pinned: false
 
 - Converts subject + duration into an insightful short story  
 - Syncs narration with background track  
-- Uses OpenAI (text generation + tts) and VLC for media playing
+- Uses OpenAI (text generation + tts) and VLC for synchronized media playing
 
 ## How to run
 

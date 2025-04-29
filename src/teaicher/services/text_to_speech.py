@@ -30,6 +30,32 @@ def openai_text_to_speech(story: str, to_bytes = False, filename: str = "story.m
         speech_file_path = tmp.name
     return speech_file_path  # return path to temp file
 
+def openai_text_to_speech_hesitation(story: str, to_bytes = False, filename: str = "story.mp3") -> str:
+    client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
+    # styled_input = "(Speed of speech = slow) " + story
+
+    response = client.audio.speech.create(
+        model="gpt-4o-mini-tts",
+        # model="tts-1-hd",
+        voice="fable",
+        input=story,
+        instructions='''Affect: Invasive.
+                        Voice Affect: curiosity and a bit of frustration.
+                        Tone: Sincere, trying to convice, being a bit creepy.
+                        Pronunciation: Unclear and vague, drunk.
+                        Pacing: hurried.
+                        ''',
+        speed=1
+    )
+
+    with tempfile.NamedTemporaryFile(suffix=".mp3", delete=False) as tmp:
+        tmp.write(response.content)
+    # if to_bytes:
+    #     speech_file = response.content
+    #     return response.content      
+        speech_file_path = tmp.name
+    return speech_file_path  # return path to temp file
+
 def elevenlabs_text_to_speech(story: str, filename: str = "story.mp3") -> None :
     # Set the path and create folder if needed
     static_audio_path = os.path.join('static', 'audio', filename)

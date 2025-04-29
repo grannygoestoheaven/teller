@@ -31,7 +31,7 @@ def generate_story_ui():
             speech_file_path = openai_text_to_speech_hesitation(story)
     elif genre == "news":
         track_path = "/Users/grannygoestoheaven/code/computer science projects/teaicher/src/static/audio/New_York_Sounds.mp3"
-        with open('src/teaicher/config/patterns/news', 'r') as file:
+        with open('src/teaicher/config/patterns/news.md', 'r') as file:
             pattern = file.read().replace("{subject}", str(subject)).replace("{estimated_chars}", str(estimated_chars))
             story, filename = generate_story(subject, pattern, estimated_chars)
             speech_file_path = openai_text_to_speech(story)

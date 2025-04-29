@@ -4,8 +4,8 @@
 
 ## OUTPUT INSTRUCTIONS
 
-### Write a very impactful, cold, and brutal summary in ten most important points of the current subject.
-### Star with a sentence saying : "Here's what to know about {subject} "
+### Write a very impactful, cold, and brutal summary in ten points of the current subject. Listed 1 to 10.
+### Star with a sentence saying : "Here's what to know about {subject}"
 
 ## OUTPUT FORMAT
 

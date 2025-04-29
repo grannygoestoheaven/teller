@@ -9,9 +9,9 @@ app_file: app.py
 pinned: false
 ---
 
-# Teaicher
+# Teller
 
-🧠 **Teaicher** is an AI-powered storytelling assistant that syncs voice and music to create immersive, timed narratives.
+🧠 **Teller** is an AI-powered storytelling assistant that syncs voice and music to create immersive, timed narratives.
 
 ## Features
 

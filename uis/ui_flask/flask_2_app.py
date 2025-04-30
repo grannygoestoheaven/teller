@@ -5,7 +5,7 @@ from flask import Flask, render_template, request
 from src.teaicher.data.get_track_duration import get_track_duration, extract_service_name
 from src.teaicher.services.get_story_length import get_user_story_length
 from src.teaicher.services.generate_story import generate_story
-from src.teaicher.services.text_to_speech import openai_text_to_speech, openai_text_to_speech_hesitation
+from src.teaicher.services.text_to_speech import openai_text_to_speech, openai_text_to_speech_hesitation, openai_text_to_speech_chill
 from src.teaicher.services.play_audio import play_audio, play_audio_with_sync, play_audio_with_stereo_effect
 
 app = Flask(__name__)
@@ -23,18 +23,20 @@ def generate_story_ui():
     
     estimated_chars = get_user_story_length(user_length)
     
-    if genre == "monologue":
+    if genre == "monologue" or genre == "chill":
         track_path = "/Users/grannygoestoheaven/code/computer science projects/teaicher/src/static/audio/New_York_Sounds.mp3"
         with open('src/teaicher/config/patterns/pub_monologue.md', 'r') as file:
             pattern = file.read().replace("{subject}", str(subject)).replace("{estimated_chars}", str(estimated_chars))
             story, filename = generate_story(subject, pattern, estimated_chars)
-            speech_file_path = openai_text_to_speech_hesitation(story)
+        if genre == "chill":
+            speech_file_path = openai_text_to_speech_chill(story)
+        speech_file_path = openai_text_to_speech_hesitation(story)
     elif genre == "news":
         track_path = "/Users/grannygoestoheaven/code/computer science projects/teaicher/src/static/audio/New_York_Sounds.mp3"
         with open('src/teaicher/config/patterns/news.md', 'r') as file:
             pattern = file.read().replace("{subject}", str(subject)).replace("{estimated_chars}", str(estimated_chars))
             story, filename = generate_story(subject, pattern, estimated_chars)
-            speech_file_path = openai_text_to_speech(story)
+            speech_file_path = openai_text_to_speech_chill(story)
     else:
         track_path = "/Users/grannygoestoheaven/code/computer science projects/teaicher/src/static/audio/Leaf_Bed.mp3"
         with open('src/teaicher/config/patterns/insightful_brief.md', 'r') as file:

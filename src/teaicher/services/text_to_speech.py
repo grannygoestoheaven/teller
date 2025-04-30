@@ -30,6 +30,32 @@ def openai_text_to_speech(story: str, to_bytes = False, filename: str = "story.m
         speech_file_path = tmp.name
     return speech_file_path  # return path to temp file
 
+def openai_text_to_speech_chill(story: str, to_bytes = False, filename: str = "story.mp3") -> str:
+    client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
+    # styled_input = "(Speed of speech = slow) " + story
+
+    response = client.audio.speech.create(
+        model="gpt-4o-mini-tts",
+        # model="tts-1-hd",
+        voice="alloy",
+        input=story,
+        instructions='''Voice: Laid-back, mellow, and effortlessly cool, like a surfer who's never in a rush.
+                        Tone: Relaxed and reassuring, keeping things light even when the customer is frustrated.
+                        Speech Mannerisms: Uses casual, friendly phrasing with surfer slang like dude, gnarly, and boom to keep the conversation chill.
+                        Pronunciation: Soft and drawn-out, with slightly stretched vowels and a naturally wavy rhythm in speech.
+                        Tempo: Slow and easygoing, with a natural flow that never feels rushed,
+                        ''',
+        speed=1
+    )
+
+    with tempfile.NamedTemporaryFile(suffix=".mp3", delete=False) as tmp:
+        tmp.write(response.content)
+    # if to_bytes:
+    #     speech_file = response.content
+    #     return response.content      
+        speech_file_path = tmp.name
+    return speech_file_path  # return path to temp file
+
 def openai_text_to_speech_hesitation(story: str, to_bytes = False, filename: str = "story.mp3") -> str:
     client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
     # styled_input = "(Speed of speech = slow) " + story
@@ -37,7 +63,7 @@ def openai_text_to_speech_hesitation(story: str, to_bytes = False, filename: str
     response = client.audio.speech.create(
         model="gpt-4o-mini-tts",
         # model="tts-1-hd",
-        voice="fable",
+        voice="ash",
         input=story,
         instructions='''Affect: Invasive.
                         Voice Affect: curiosity and a bit of frustration.

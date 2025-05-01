@@ -37,13 +37,13 @@ def openai_text_to_speech_chill(story: str, to_bytes = False, filename: str = "s
     response = client.audio.speech.create(
         model="gpt-4o-mini-tts",
         # model="tts-1-hd",
-        voice="alloy",
+        voice="ash",
         input=story,
         instructions='''Voice: Laid-back, mellow, and effortlessly cool, like a surfer who's never in a rush.
                         Tone: Relaxed and reassuring, keeping things light even when the customer is frustrated.
                         Speech Mannerisms: Uses casual, friendly phrasing with surfer slang like dude, gnarly, and boom to keep the conversation chill.
                         Pronunciation: Soft and drawn-out, with slightly stretched vowels and a naturally wavy rhythm in speech.
-                        Tempo: Slow and easygoing, with a natural flow that never feels rushed,
+                        Tempo: Slow and easygoing, with a natural flow that never feels rushed.
                         ''',
         speed=1
     )

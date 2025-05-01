@@ -4,7 +4,7 @@
 
 ## OUTPUT INSTRUCTIONS
 
-### Write a monologue of someone trying to captivate someone else about the current subject, but being hesitant and erratic, repeating words and making the speech kinda disastrous, making efforts to find its words, resulting in a hardly understable complete mess.
+### Write a monologue of someone trying to captivate someone else about the current subject, but being a bit erratic.
 
 ## OUTPUT FORMAT
 

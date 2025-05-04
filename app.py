@@ -1,6 +1,16 @@
 import os
 import gradio as gr
-import spaces
+# Check if running on Hugging Face Spaces
+if os.environ.get('HF_SPACE_ID') is not None:
+    try:
+        import spaces # Or whatever the correct import is
+        # Use spaces features here
+        print("Running on HF Spaces, imported 'spaces'")
+    except ImportError:
+        print("Running on HF Spaces, but 'spaces' import failed.")
+else:
+    print("Running locally or not on HF Spaces.")
+    # Local-specific code or simply skip Spaces features
 import torch
 
 from dotenv import load_dotenv
@@ -24,33 +34,30 @@ load_dotenv()
 
 # UI callback
 def generate_story_app(subject, user_length, track_url):
-    with open('src/config/patterns/insightful_brief.md', 'r') as file:
-        pattern = file.read()
-
     estimated_chars = get_user_story_length(user_length)
-    pattern = pattern.replace("{subject}", subject).replace("{estimated_chars}", str(estimated_chars))
-
-    story = generate_story(subject, pattern, estimated_chars)
-    audio_path = openai_text_to_speech(story)
-
+    track_path = "/Users/grannygoestoheaven/code/computer science projects/teaicher/src/static/audio/Leaf_Bed.mp3"
+    with open('src/teaicher/config/patterns/insightful_brief.md', 'r') as file:
+        pattern = file.read().replace("{subject}", str(subject)).replace("{estimated_chars}", str(estimated_chars))
+        story, filename = generate_story(subject, pattern, estimated_chars)
+        speech_file_path = openai_text_to_speech(story)
     if track_url:
-        play_audio_with_sync(track_url, audio_path)
+        play_audio_with_sync(speech_file_path, track_url)
     else:
-        play_audio(audio_path)
+        play_audio_with_sync(speech_file_path, track_path)
 
-    return story, audio_path
+    return story
 
 # Gradio UI
 gr.Interface(
     fn=generate_story_app,
     inputs=[
         gr.Textbox(label="Subject"),
-        gr.Number(label="Length (in seconds)"),
+        gr.Number(label="Length (in minutes)"),
         gr.Textbox(label="Track URL (optional)")
     ],
     outputs=[
         gr.Textbox(label="Generated Story"),
-        gr.Audio(label="Generated Speech")
+        # gr.Audio(label="Generated Speech")
     ],
-    title="teaicher"
+    title="teller"
 ).launch()

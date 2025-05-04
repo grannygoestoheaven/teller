@@ -13,12 +13,13 @@ load_dotenv()
 
 @app.route('/')
 def index():
-    return render_template('index_5.html')
+    return render_template('index_6.html')
 
 @app.route('/generate_story', methods=['POST'])
-def generate_story_ui():
+def teller_ui():
     subject = request.form['subject']
-    user_length = int(request.form['duration'])
+    # user_length = int(request.form['duration'])
+    user_length = 1
     genre = request.form.get('genre')
     
     estimated_chars = get_user_story_length(user_length)
@@ -28,9 +29,10 @@ def generate_story_ui():
         with open('src/teaicher/config/patterns/pub_monologue.md', 'r') as file:
             pattern = file.read().replace("{subject}", str(subject)).replace("{estimated_chars}", str(estimated_chars))
             story, filename = generate_story(subject, pattern, estimated_chars)
-        if genre == "chill":
-            speech_file_path = openai_text_to_speech_chill(story)
-        speech_file_path = openai_text_to_speech_hesitation(story)
+            if genre == "chill":
+                speech_file_path = openai_text_to_speech_chill(story)
+            else:
+                speech_file_path = openai_text_to_speech_hesitation(story)
     elif genre == "news":
         track_path = "/Users/grannygoestoheaven/code/computer science projects/teaicher/src/static/audio/New_York_Sounds.mp3"
         with open('src/teaicher/config/patterns/news.md', 'r') as file:
@@ -47,7 +49,7 @@ def generate_story_ui():
     play_audio_with_sync(speech_file_path, track_path)
     # play_audio_with_stereo_effect(speech_file_path, track_path)
 
-    return render_template("index_5.html", story=story, audio_link=filename)
+    return render_template("index_6.html", story=story, audio_link=filename)
 
 if __name__ == "__main__":
     app.run(debug=True)

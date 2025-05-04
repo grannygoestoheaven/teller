@@ -17,12 +17,11 @@ pinned: false
 
 - Converts subject + duration into an insightful short story  
 - Syncs narration with background track  
-- Uses OpenAI (text generation + tts) and VLC for synchronized media playing
+- Uses LLMs text generation + tts and VLC for synchronized media playing
 
-## How to run
-
-This app runs with `app.py`.
-
+# How to run
 ---
+
+
 
 Made with ❤️ by Grandpa.

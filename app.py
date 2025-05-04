@@ -9,11 +9,10 @@ if os.environ.get('HF_SPACE_ID') is not None:
     except ImportError:
         print("Running on HF Spaces, but 'spaces' import failed.")
 else:
-    print("Running locally or not on HF Spaces.")
     # Local-specific code or simply skip Spaces features
+    print("Running locally.")
+    from dotenv import load_dotenv
 import torch
-
-from dotenv import load_dotenv
 
 # from src.config import patterns
 # from src.data.get_track_duration import extract_service_name

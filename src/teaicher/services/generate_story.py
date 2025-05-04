@@ -11,7 +11,7 @@ def generate_story(subject, pattern, estimated_chars: int) -> tuple[str, str]:
 
     response = client.responses.create(
         model="gpt-4o",
-        input="the recording of All You Need Is Love",
+        input=subject,
         instructions=pattern,
     )
 

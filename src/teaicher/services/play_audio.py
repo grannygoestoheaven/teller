@@ -98,9 +98,9 @@ def play_audio_with_sync(speech_file_path: str, track_path: str) -> None:
     - speech_file_path (str): The path of the speech audio file to play.
     - track_path (str): The path of the track audio file to play.
     """
-    import vlc
-    import time
-    from mutagen.mp3 import MP3
+    # import vlc
+    # import time
+    # from mutagen.mp3 import MP3
 
     try:
         audio_metadata = MP3(speech_file_path)
@@ -121,7 +121,7 @@ def play_audio_with_sync(speech_file_path: str, track_path: str) -> None:
     track_player.set_media(track_media)
 
     speech_player.audio_set_volume(100)
-    track_player.audio_set_volume(50)
+    track_player.audio_set_volume(70)
 
     track_player.play()
     time.sleep(0.1)  # Give it a moment to start playing
@@ -172,9 +172,6 @@ def play_audio_with_stereo_effect(speech_file_path: str, track_path: str) -> Non
     - speech_file_path (str): The path of the speech audio file to play.
     - track_path (str): The path of the track audio file to play.
     """
-    import vlc
-    import time
-    from mutagen.mp3 import MP3
 
     # --- Get speech duration ---
     try:

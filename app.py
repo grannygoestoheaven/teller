@@ -1,27 +1,15 @@
 import os
-import json # Importing json to pretty-print the environment variables
 import gradio as gr
 import torch
 
-print("--- Environment Variables ---")
-# Print the entire environment dictionary
-print(json.dumps(dict(os.environ), indent=4))
-print("--- End Environment Variables ---")
-
-# Explicitly print the value of HF_SPACE_ID
-hf_space_id_value = os.environ.get('HF_SPACE_ID')
-print(f"Value of HF_SPACE_ID: {hf_space_id_value}")
-
 # Check if running on Hugging Face Spaces
-if hf_space_id_value is not None:
+if os.environ.get('SPACE_ID') is not None:
     try:
-        # You don't typically need to import 'spaces' for basic environment variable checks
-        # If you have specific needs for the 'spaces' library, keep this block,
-        # but ensure 'spaces' is in your requirements.txt if needed.
-        # import spaces
-        print("Running on HF Spaces.")
+        import spaces # Or whatever the correct import is
+        # Use spaces features here
+        print("Running on HF Spaces, imported 'spaces'")
     except ImportError:
-        print("Running on HF Spaces, but an optional import failed.")
+        print("Running on HF Spaces, but 'spaces' import failed.")
 else:
     print("Running locally.")
     try:
@@ -30,9 +18,6 @@ else:
         load_dotenv()
     except ImportError:
         print("Running locally, but 'dotenv' not installed. Please install it (`pip install python-dotenv`).")
-
-# ... rest of your application code ...
-# (Remember to fix the spotipy import as you mentioned)
 
 # from src.config import patterns
 # from src.data.get_track_duration import extract_service_name

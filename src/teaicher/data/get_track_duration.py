@@ -1,5 +1,5 @@
-from teaicher.data.fetch_spotify_duration import fetch_spotify_duration
-from teaicher.data.fetch_youtube_duration import fetch_youtube_duration
+from src.teaicher.data.fetch_spotify_duration import fetch_spotify_duration
+from src.teaicher.data.fetch_youtube_duration import fetch_youtube_duration
 
 def extract_service_name(track_url: str) -> str:
     if "spotify.com" in track_url:

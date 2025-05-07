@@ -13,7 +13,7 @@ load_dotenv()
 
 @app.route('/')
 def index():
-    return render_template('index_6.html')
+    return render_template('index_7.html')
 
 @app.route('/generate_story', methods=['POST'])
 def teller_ui():
@@ -49,7 +49,12 @@ def teller_ui():
     play_audio_with_sync(speech_file_path, track_path)
     # play_audio_with_stereo_effect(speech_file_path, track_path)
 
-    return render_template("index_6.html", story=story, audio_link=filename)
+    # Detect AJAX/fetch request
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest' or request.accept_mimetypes['application/json']:
+        from flask import jsonify
+        return jsonify({"story": story, "audio_link": filename})
+    else:
+        return render_template("index_7.html", story=story, audio_link=filename)
 
 if __name__ == "__main__":
     app.run(debug=True)

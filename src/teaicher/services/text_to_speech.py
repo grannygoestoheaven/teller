@@ -14,14 +14,22 @@ def openai_text_to_speech(story: str, to_bytes = False, filename: str = "story.m
         # voice="ash",
         voice="onyx",
         input=story,
-        instructions='''Affect: Neutral.
-                        Voice Affect: very soft and discrete, no real intonation; project indifference and tranquility.
-                        Tone: Showing no emotion, just competence.
-                        Pronunciation: Clear and precise.
-                        Pacing: Efficient.
-                        Rythm : Very long silences between sentences.
+        # instructions='''Affect: Neutral.
+        #                 Voice Affect: very soft and discrete, no real intonation; project indifference and tranquility.
+        #                 Tone: Showing no emotion, just competence.
+        #                 Pronunciation: Clear and precise.
+        #                 Pacing: Efficient.
+        #                 Rythm : Very long silences between sentences.
+        #                 ''',
+        instructions='''
+                        Tone : very soft, humble, secret.
+                        Pacing : fast, with double long silences between
+                        sentences.
                         ''',
-        speed=1
+        speed=1,
+        # speed=0.5,    # Tone : wise
+                        # Tone : soft, discreet, persuasive.
+                        # Pronunciation : soft and drawn-out, with slightly stretched vowels and a naturally wavy rhythm in speech.
     )
 
     with tempfile.NamedTemporaryFile(suffix=".mp3", delete=False) as tmp:
@@ -67,9 +75,9 @@ def openai_text_to_speech_hesitation(story: str, to_bytes = False, filename: str
         # model="tts-1-hd",
         voice="ash",
         input=story,
-        instructions='''Affect: Invasive.
+        instructions='''Affect: Invasive, secret.
                         Voice Affect: curiosity and a bit of frustration.
-                        Tone: Sincere, trying to convice, being a bit creepy.
+                        Tone: Trying to convice, a bit creepy.
                         Pronunciation: Unclear and vague, drunk.
                         Pacing: hurried.
                         ''',

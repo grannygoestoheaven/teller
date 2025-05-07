@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>teller - AI storyteller</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style_7.css') }}">
+</head>
+<body>
+    <div class="full-screen-container">
+        <header class="chat-header">
+            <h1>teller</h1>
+        </header>
+
+        <div class="chat-history" id="chatHistory">
+            <!-- Story will appear here -->
+        </div>
+
+        <footer class="chat-input-area">
+            <form action="/generate_story" method="POST" id="story-form" enctype="multipart/form-data">
+                <div class="form-fields-container">
+                    <div class="form-group subject-input-group">
+                        <input type="text" id="subject" name="subject" placeholder="What do you want to hear?" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="duration">Duration (minutes):</label>
+                            <input type="number" id="duration" name="duration" placeholder="e.g., 3" required step="1" min="1">
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="send-button" id="generateButton">Generate Story</button>
+            </form>
+        </footer>
+    </div>
+
+    <div id="loading-container">
+        <div id="loading-animation"></div>
+        <div id="loading-text">Generating your story...</div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script_7.js') }}"></script>
+</body>
+</html>

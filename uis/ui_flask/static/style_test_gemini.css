@@ -1,0 +1,236 @@
+/* Add Inika font */
+@font-face {
+    font-family: 'Inika';
+    src: url('/static/fonts/inika/Inika-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Inika';
+    src: url('/static/fonts/inika/Inika-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+body {
+    font-family: 'Inika', serif;
+    background-color: var(--color-ivory-light, #f5f5f0);
+    color: #333;
+    margin: 0;
+    padding: 0;
+    height: 100vh; /* Use height: 100vh to prevent body scroll */
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* Hide body scrollbar just in case */
+}
+
+/* Header styles */
+.chat-header {
+    font-size: 3em;
+    z-index: 10;
+    background: none;
+    padding: 20px 25px 0;
+    margin-bottom: 20px;
+    flex-shrink: 0; /* Prevent header from shrinking */
+}
+
+.chat-header h1 {
+    margin: 0 0 0 10px;
+    font-size: 2.5em;
+    color: #333;
+}
+
+/* Chat history - Centered and scrollable */
+.chat-history {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center content vertically within flex item */
+    justify-content: flex-start; /* Align content from the start */
+    flex-grow: 1; /* Allow chat history to take up available space */
+    max-width: 800px; /* Keep max-width */
+    width: 100%; /* Allow width to adjust up to max-width */
+    margin: 0 auto; /* Center horizontally */
+    padding: 20px; /* Adjusted padding */
+    overflow-y: auto; /* Enable scrolling for history */
+    font-size: 1.4em;
+    box-sizing: border-box; /* Include padding in width/height */
+}
+
+/* Cursor animation */
+.cursor-standby {
+    display: none !important;
+}
+
+@keyframes blink {
+    from, to { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* Message styles */
+.message {
+    background: none;
+    border: none;
+    box-shadow: none;
+    margin: 0 0 15px 0; /* Added bottom margin for message spacing */
+    padding: 0;
+    max-width: 100%; /* Message takes max width of its container */
+    text-align: center;
+}
+
+/* Input area */
+footer.chat-input-area {
+    width: 100%;
+    max-width: 600px;
+    margin: 20px auto 40px auto;
+    padding: 0 20px;
+    box-sizing: border-box;
+    background: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0; /* Prevent footer from shrinking */
+}
+
+.form-fields-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#story-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+}
+
+.subject-input-group {
+    width: 100%;
+    margin-bottom: 0px;
+}
+
+.form-row {
+    width: 100%;
+    display: flex;
+    gap: 15px;
+    margin-bottom: 8px;
+}
+
+.form-group {
+    flex: 1;
+    width: 100%;
+}
+
+/* Input fields */
+.form-group input[type="number"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4一層px;
+    background: rgba(255, 255, 255, 0.8);
+    font-family: 'Inika', serif;
+    box-sizing: border-box;
+}
+
+/* Subject input specific styles */
+#subject {
+    display: block;
+    margin: 0 auto 20px auto;
+    width: 100%;
+    max-width: 400px;
+    padding: 28px 22px;
+    font-size: 2em;
+    border: 2.5px solid #bca18c;
+    border-radius: 20px;
+    background: #fcf9f6;
+    color: #5d4037;
+    font-family: 'Inika', serif;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    box-sizing: border-box;
+    outline: none;
+    text-align: center;
+}
+
+.subject-input-group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+#subject:focus {
+    border-color: #a1887f;
+    box-shadow: 0 0 0 3px #e7d8c9;
+}
+#subject::placeholder {
+    color: #bca18c;
+    font-style: italic;
+    font-size: 0.8em;
+    letter-spacing: 0.5px;
+    /* Blinking cursor effect */
+    position: relative;
+}
+#subject::placeholder:after {
+    content: '|';
+    font-size: 1.2em;
+    color: #bca18c;
+    margin-left: 0.3em;
+    animation: blink 1s steps(1) infinite;
+    vertical-align: middle;
+}
+
+#subject:focus {
+    outline: none;
+    border-color: #a1887f;
+    box-shadow: 0 0 0 2px rgba(161, 136, 127, 0.2);
+}
+
+#subject::placeholder {
+    color: #bcaaa4;
+    font-style: italic;
+}
+
+/* Button styles */
+.send-button {
+    background-color: #8f8d8d;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'Inika', serif;
+    font-size: 1.2em;
+    width: 100%;
+    max-width: 200px;
+    align-self: center;
+}
+
+/* Loading animation */
+#loading-container {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.8);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#loading-animation {
+    width: 40px;
+    height: 40px;
+    border: 3px solid #333;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}

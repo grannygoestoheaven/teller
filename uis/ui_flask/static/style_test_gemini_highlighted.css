@@ -53,7 +53,7 @@ body {
     overflow-y: auto; /* Enable scrolling for history */
     font-size: 1.4em;
     box-sizing: border-box; /* Include padding in width/height */
-    text-align: justify; /* Optional: justify text for better look */
+    text-align: start; /* Optional: justify text for better look */
     line-height: 1.6; /* Optional: improve readability */
 }
 

@@ -4,7 +4,7 @@
 
 ## OUTPUT INSTRUCTIONS
 
-### Write a formal presentation on the subject.
+### Write a formal presentation on the subject, with the right punctuation.
 
 # OUTPUT FORMAT:
 
@@ -19,8 +19,8 @@
 ### Do not include common setup language in any sentence, including: in conclusion, in closing, etc.
 ### Do not output warnings or notes—just the output requested.
 
-### VERY IMPORTANT - add the necessary punctuation to add life to the narration.
-### Add the necessary punctuation to bring respiration inside the sentences.
+<!-- ### VERY IMPORTANT - add the necessary punctuation to add life to the narration.
+### Add the necessary punctuation to bring respiration inside the sentences. -->
 <!-- ### Add a double silence after each '.'. -->
 <!-- ### Add a ' -' at the end of all sentences. -->
 

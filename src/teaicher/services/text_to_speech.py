@@ -22,7 +22,7 @@ def openai_text_to_speech(story: str, to_bytes = False, filename: str = "story.m
         #                 Rythm : Very long silences between sentences.
         #                 ''',
         instructions='''
-                        Tone : very soft, low and discreet.
+                        Tone : very soft, low, reassuring, discreet.
                         Pacing : fast, with double long silences between
                         sentences.
                         ''',

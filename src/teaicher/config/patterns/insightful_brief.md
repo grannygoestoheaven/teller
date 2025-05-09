@@ -8,9 +8,9 @@
 
 # OUTPUT FORMAT:
 
-### ALWAYS START WITH WRITING THE {subject}.
+### ALWAYS START WITH WRITING THE {subject} followed by an newline.
 
-### The text must be {estimated_chars} characters long
+<!-- ### The text must be {estimated_chars} characters long -->
 ### Write in an elegant style, not in a grandiose style. Avoid any mystery tone at all cost. It must be factual.
 ### Do not use cliches or jargon.
 ### Use absolutely ZERO cliches or jargon or journalistic language like "In a world, in the realm", etc.

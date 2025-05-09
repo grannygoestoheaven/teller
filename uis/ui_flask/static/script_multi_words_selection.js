@@ -3,42 +3,29 @@ document.addEventListener('DOMContentLoaded', function() {
     const loadingContainer = document.getElementById('loading-container');
     const chatHistory = document.getElementById('chatHistory');
     const generateButton = document.getElementById('generateButton');
-    const subjectInput = document.getElementById('subject');
-
-    // --- Sound Initialization ---
-    const hoverSound = new Audio('/static/sounds/hover_sound.mp3'); // Adjust path
-    hoverSound.preload = 'auto';
-    // --- End Sound Initialization ---
-
-    // --- Selection Management ---
-    const selectedWords = new Set(); // Use a Set to store selected words/phrases
-    // --- End Selection Management ---
+    const subjectInput = document.getElementById('subject'); // Get the subject input
 
     // Hide loading container on initial load
     loadingContainer.style.display = 'none';
 
-    // Initial standby cursor (might be immediately replaced by streamed words)
-    const standbyCursor = document.createElement('span');
-    standbyCursor.className = 'cursor-standby';
-    chatHistory.appendChild(standbyCursor);
-
+    // Store references to currently highlighted word spans for efficient clearing
+    let currentlyHighlightedWords = [];
 
     form.addEventListener('submit', async function(e) {
         e.preventDefault();
         loadingContainer.style.display = 'flex';
         generateButton.disabled = true;
 
-        // Clear previous content and selections
+        // Clear previous content
         chatHistory.innerHTML = '';
-        selectedWords.clear(); // Clear selected words on new generation
-        updateSubjectInput(); // Clear the input field
-        subjectInput.value = ''; // Ensure input is empty
 
-        // Show standby cursor
+        // Show standby cursor (might be immediately replaced by streamed words)
         const cursor = document.createElement('span');
         cursor.className = 'cursor-standby';
         chatHistory.appendChild(cursor);
 
+        // Clear any previous highlights
+        clearHighlights();
 
         try {
             const formData = new FormData(form);
@@ -50,6 +37,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (response.ok) {
                 const data = await response.json();
                 if (data.story) {
+                    // Pass the story text to the modified streamText function
                     await streamText(data.story, chatHistory);
                 }
             } else {
@@ -58,6 +46,7 @@ document.addEventListener('DOMContentLoaded', function() {
         } catch (error) {
             console.error('Error:', error);
             chatHistory.innerHTML = '<div class="message error">Error generating story. Please try again.</div>';
+            // Remove cursor if it's still there
              const existingCursor = chatHistory.querySelector('.cursor-standby');
              if (existingCursor) {
                  existingCursor.remove();
@@ -69,104 +58,131 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Function to update the subject input based on selectedWords Set
-    function updateSubjectInput() {
-        // Join words with a space. Set maintains insertion order in modern JS.
-        subjectInput.value = Array.from(selectedWords).join(' ');
-    }
-
-    // Function to clean punctuation from a word
-    function cleanWord(word) {
-        // Remove punctuation from the end of the word
-        return word.replace(/[.,!?;:]+$/, '');
-    }
-
     // Function to stream text with typing effect and add interactivity
     async function streamText(text, container) {
         container.innerHTML = ''; // Clear container
-        // Split by whitespace, but keep punctuation attached to words initially
-        const words = text.split(/\s+/);
-        const delay = 50; // Base delay in milliseconds
+        const delay = 20; // Base delay in milliseconds (slightly faster)
 
-        for (let i = 0; i < words.length; i++) {
-            const wordText = words[i];
-            const wordSpan = document.createElement('span');
-            wordSpan.textContent = wordText; // Store original text with punctuation
+        // Regex to split words, spaces, and punctuation separately
+        const parts = text.match(/(\w+|[^\w\s]|\s+)/g);
 
-            // Add interactivity events
-            wordSpan.addEventListener('mouseenter', () => {
-                 wordSpan.classList.add('highlight-word');
-                 // Play sound
-                 hoverSound.currentTime = 0;
-                 hoverSound.play().catch(e => {/* console.warn("Audio blocked:", e); */});
-             });
+        if (!parts) return; // Handle empty text
 
-            wordSpan.addEventListener('mouseleave', () => {
-                 wordSpan.classList.remove('highlight-word');
-             });
+        for (let i = 0; i < parts.length; i++) {
+            const part = parts[i];
+            let node;
 
-            wordSpan.addEventListener('click', () => {
-                const cleaned = cleanWord(wordText); // Get cleaned word text
-                if (cleaned) { // Only add/remove if not empty after cleaning
-                    if (selectedWords.has(cleaned)) {
-                        selectedWords.delete(cleaned);
-                        wordSpan.classList.remove('selected-word');
-                    } else {
-                        selectedWords.add(cleaned);
-                        wordSpan.classList.add('selected-word');
-                    }
-                    updateSubjectInput(); // Update input field
-                }
-            });
+            if (/\w+/.test(part)) { // If it's a word
+                node = document.createElement('span');
+                node.textContent = part;
+                node.classList.add('word'); // Add a class to identify word spans
 
-            container.appendChild(wordSpan); // Add the word span
+                // Add click listener to toggle word in subject input
+                node.addEventListener('click', handleWordClick);
 
-            // Add a space span after the word, unless it's the last word
-            if (i < words.length - 1) {
-                const spaceSpan = document.createElement('span');
-                spaceSpan.textContent = ' '; // The space character
-                spaceSpan.classList.add('word-space'); // Class for space spans
-
-                // Highlight adjacent words when hovering the space
-                spaceSpan.addEventListener('mouseenter', () => {
-                    const prevWord = spaceSpan.previousElementSibling;
-                    const nextWord = spaceSpan.nextElementSibling;
-                    if (prevWord && prevWord.tagName === 'SPAN' && !prevWord.classList.contains('word-space')) {
-                        prevWord.classList.add('highlight-word');
-                    }
-                     if (nextWord && nextWord.tagName === 'SPAN' && !nextWord.classList.contains('word-space')) {
-                        nextWord.classList.add('highlight-word');
-                    }
-                    // Optional: play sound when hovering space too
-                    // hoverSound.currentTime = 0;
-                    // hoverSound.play().catch(e => {});
-                });
-
-                spaceSpan.addEventListener('mouseleave', () => {
-                    const prevWord = spaceSpan.previousElementSibling;
-                    const nextWord = spaceSpan.nextElementSibling;
-                     if (prevWord && prevWord.tagName === 'SPAN' && !prevWord.classList.contains('word-space')) {
-                        prevWord.classList.remove('highlight-word');
-                    }
-                     if (nextWord && nextWord.tagName === 'SPAN' && !nextWord.classList.contains('word-space')) {
-                        nextWord.classList.remove('highlight-word');
-                    }
-                });
-
-                 // Click on space could potentially join adjacent words or do nothing
-                 // For now, let's not make space clickable for selection
-
-                container.appendChild(spaceSpan); // Add the space span
+            } else if (/\s+/.test(part)) { // If it's one or more spaces
+                node = document.createTextNode(part);
+                // Optional: wrap spaces in a span if you need to target them specifically
+                // node = document.createElement('span');
+                // node.textContent = part;
+                // node.classList.add('space');
+            } else { // If it's punctuation
+                 node = document.createTextNode(part);
+                // Optional: wrap punctuation in a span
+                // node = document.createElement('span');
+                // node.textContent = part;
+                // node.classList.add('punctuation');
             }
+
+            container.appendChild(node); // Add the node to the container
 
             // Introduce a small delay for the typing effect
             await new Promise(resolve => setTimeout(resolve, delay));
         }
 
-        // Remove the initial standby cursor
+        // Remove the initial standby cursor if it's still there after streaming
          const existingCursor = container.querySelector('.cursor-standby');
          if (existingCursor) {
              existingCursor.remove();
          }
+
+        // Attach mousemove and mouseout listeners to the container after streaming
+        container.addEventListener('mousemove', handleMouseMove);
+        container.addEventListener('mouseout', handleMouseOut);
     }
+
+    // Handles clicking on a word span in the chat history
+    function handleWordClick(event) {
+        const clickedWordSpan = event.target;
+        const clickedWord = clickedWordSpan.textContent.trim();
+
+        // Get current words in the subject input, split by space and filter empty
+        let subjectWords = subjectInput.value.trim().split(/\s+/).filter(word => word.length > 0);
+
+        const wordIndex = subjectWords.indexOf(clickedWord);
+
+        if (wordIndex > -1) {
+            // Word is already in subject, remove it
+            subjectWords.splice(wordIndex, 1);
+        } else {
+            // Word is not in subject, add it
+            subjectWords.push(clickedWord);
+        }
+
+        // Update the subject input value
+        subjectInput.value = subjectWords.join(' ');
+    }
+
+    // Handles mouse movement for highlighting
+    function handleMouseMove(event) {
+        const target = event.target;
+        const parent = target.parentElement;
+
+        // Check if the mouse is over a word span or a text node within chatHistory
+        if (parent === chatHistory) {
+            // Clear previous highlights
+            clearHighlights();
+
+            if (target.classList && target.classList.contains('word')) {
+                // Mouse is over a word span, highlight it
+                target.classList.add('highlight-word');
+                currentlyHighlightedWords.push(target);
+            } else if (target.nodeType === Node.TEXT_NODE) {
+                // Mouse is over a text node (space or punctuation)
+                // Find adjacent word spans
+                let prevElement = target.previousElementSibling;
+                let nextElement = target.nextElementSibling;
+
+                // Check if previous element is a word span
+                if (prevElement && prevElement.classList.contains('word')) {
+                    prevElement.classList.add('highlight-word');
+                    currentlyHighlightedWords.push(prevElement);
+                }
+
+                // Check if next element is a word span
+                if (nextElement && nextElement.classList.contains('word')) {
+                    nextElement.classList.add('highlight-word');
+                    currentlyHighlightedWords.push(nextElement);
+                }
+            }
+        } else {
+             // If mouse moves off a word/space/punctuation directly in chatHistory, clear highlights
+             // This handles cases where the mouse might be over the padding of chatHistory
+             clearHighlights();
+        }
+    }
+
+    // Handles mouse leaving the chat history area
+    function handleMouseOut() {
+        clearHighlights();
+    }
+
+    // Clears all currently highlighted word spans
+    function clearHighlights() {
+        currentlyHighlightedWords.forEach(span => {
+            span.classList.remove('highlight-word');
+        });
+        currentlyHighlightedWords = []; // Reset the array
+    }
+
 });

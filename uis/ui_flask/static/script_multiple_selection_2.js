@@ -2,8 +2,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('story-form');
     const loadingContainer = document.getElementById('loading-container');
     const chatHistory = document.getElementById('chatHistory');
-    const generateButton = document.getElementById('generateButton');
     const subjectInput = document.getElementById('subject'); // Get the subject input
+    const generateButton = document.getElementById('generateButton');
 
     // Hide loading container on initial load
     loadingContainer.style.display = 'none';

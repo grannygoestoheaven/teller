@@ -64,7 +64,9 @@ document.addEventListener('DOMContentLoaded', function() {
         const delay = 20; // Base delay in milliseconds (slightly faster)
 
         // Regex to split words, spaces, and punctuation separately
-        const parts = text.match(/(\w+|[^\w\s]|\s+)/g);
+        // const parts = text.match(/(\w+|[^\w\s]|\s+)/g);
+        // const parts = text.match(/(\w+(?:'s)?|[^\w\s]|\s+)/g);
+        const parts = text.match(/(\w+'s|\w+|[^\w\s]|\s+)/g);
 
         if (!parts) return; // Handle empty text
 
@@ -73,7 +75,7 @@ document.addEventListener('DOMContentLoaded', function() {
             let node;
 
             if (/\w+/.test(part)) { // If it's a word
-                node = document.createElement('span');
+node = document.createElement('span');                                              
                 node.textContent = part;
                 node.classList.add('word'); // Add a class to identify word spans
 

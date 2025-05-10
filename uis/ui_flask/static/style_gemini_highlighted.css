@@ -80,7 +80,7 @@ body {
 .chat-history span.highlight-word {
     -webkit-text-stroke: 3px rgba(10, 184, 21, 0.849);
     text-stroke: 1px rgba(255, 165, 0, 0.5);
-    transform: scale(1.05); /* Slightly larger on hover */
+    transform: scale(1.01); /* Slightly larger on hover */
     transform-origin: center center; /* Optional: control growth origin */
 }
 

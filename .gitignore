@@ -3,7 +3,7 @@
 /.vscode/
 /build/
 /venv_teaicher/
-/static/
+# /static/
 /src/config/patterns/*
 /tests/.cache
 __pycache__/

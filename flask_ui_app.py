@@ -18,8 +18,14 @@ def index():
 @app.route('/generate_story', methods=['POST'])
 def teller_ui():
     subject = request.form['subject']
-    # user_length = int(request.form['duration'])
-    user_length = 1
+    user_length_str = request.form.get('user_length', '1')
+    try:
+        user_length = int(user_length_str)
+        if user_length < 1:  # Ensure it's at least 1
+            user_length = 1
+    except ValueError:
+        user_length = 1  # Default to 1 if conversion fails
+
     # genre = request.form.get('genre')
     thunder_url = "https://www.youtube.com/watch?v=Z5_-59tIG-8"
     

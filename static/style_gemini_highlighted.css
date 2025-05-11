@@ -1,0 +1,296 @@
+/* Add Inika font */
+@font-face {
+    font-family: 'Inika';
+    src: url('/static/fonts/inika/Inika-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Inika';
+    src: url('/static/fonts/inika/Inika-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+/* Update body and layout */
+body {
+    font-family: 'Inika', serif;
+    /* background-color: var(--color-ivory-light, #f5f5f0); */
+    background-color: rgb(24, 24, 23); /* Darkened UI background */
+    color: #333;
+    margin: 0;
+    padding: 0;
+    height: 100vh; /* Use height: 100vh to prevent body scroll */
+    display: flex; /* Use flexbox */
+    flex-direction: column; /* Stack children vertically */
+    overflow: hidden; /* Hide body scrollbar just in case */
+}
+
+/* Header styles */
+.chat-header {
+    font-size: 3em;
+    z-index: 10;
+    background: none;
+    padding: 20px 25px 0;
+    margin-bottom: 20px;
+    flex-shrink: 0; /* Prevent header from shrinking */
+}
+
+.chat-header h1 {
+    margin: 0 0 0 10px;
+    font-size: 2.5em;
+    /* color: #333; */
+    color: rgba(240, 240, 240, 0.7); /* Adjusted header to match general lighter text, slightly less prominent */
+    opacity: 0.7; /* This existing opacity will further reduce visibility, consider if this is too much */
+}
+
+/* Chat history - Centered and scrollable */
+.chat-history {
+    display: block; /* Changed to block to allow inline spans to flow */
+    flex-grow: 1; /* Allow chat history to take up available space */
+    max-width: 1200px; /* Keep max-width */
+    width: 100%; /* Allow width to adjust up to max-width */
+    margin: 0 auto; /* Center horizontally */
+    padding: 20px; /* Adjusted padding */
+    overflow-y: auto; /* Enable scrolling for history */
+    font-size: 1.4em;
+    color: rgba(240, 240, 240, 0.85); /* Closer to white with opacity */
+    box-sizing: border-box; /* Include padding in width/height */
+    text-align: start; /* Optional: justify text for better look */
+    align-content: center;
+    line-height: 1.6; /* Optional: improve readability */
+}
+
+/* Style for interactive words */
+.chat-history span {
+    display: inline-block; /* Allows border/padding and hover effects */
+    cursor: pointer; /* Indicate that the word is clickable */
+    padding: 0; /* Add padding for border space */
+    margin: 0; /* Add small horizontal margin between words */
+    border: none; /* Default transparent border */
+    -webkit-text-stroke: transparent;
+    text-stroke: transparent;
+    transition: -webkit-text-stroke 0.2s ease-in-out, text-stroke 0.2s ease-in-out;
+    transform: scale(1); /* Default size */
+    vertical-align: bottom;
+    line-height: inherit;
+}
+
+/* Hover effect for words */
+.chat-history span.highlight-word {
+    -webkit-text-stroke: 3px rgba(10, 184, 21, 0.849);
+    text-stroke: 3px rgba(10, 184, 21, 0.849);
+    transform: scale(1.01); /* Slightly larger on hover */
+    transform-origin: center center; /* Optional: control growth origin */
+}
+
+/* Cursor animation */
+/* Remove standby cursor in chat history */
+.cursor-standby {
+    /* display: none !important; */ /* Keep display:none if you don't want the initial cursor */
+    font-size: 1.2em;
+    color: #bca18c; /* Match placeholder color */
+    margin-left: 0.05em; /* Small space after text */
+    animation: blink 1s steps(1) infinite;
+    vertical-align: middle;
+}
+
+@keyframes blink {
+    from, to { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* Message styles */
+/* Note: The message class might not be used if you're just streaming raw text into chatHistory */
+.message {
+    background: none;
+    border: none;
+    box-shadow: none;
+    margin: 0 0 15px 0;
+    padding: 0;
+    max-width: 100%;
+    text-align: center; /* This might conflict with chat-history text-align: justify */
+}
+
+/* Input area */
+footer.chat-input-area {
+    width: 100%;
+    max-width: 1200px;
+    margin: 20px auto 110px auto;
+    padding: 0 20px;
+    box-sizing: border-box;
+    background: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.form-fields-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#story-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+}
+
+.subject-input-group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 1000px; /* Max width for the whole group including subject and selector */
+    margin: 0 auto 20px auto; /* Keep original bottom margin of #subject */
+    padding: 0; /* Ensure no extra padding on the group itself */
+    box-sizing: border-box;
+    position: relative; /* Added for absolute positioning of children */
+}
+
+.form-row {
+    width: 100%;
+    display: flex;
+    gap: 15px;
+    margin-bottom: 8px;
+}
+
+.form-group {
+    flex: 1;
+    width: 100%;
+}
+
+/* Input fields */
+.form-group input[type="number"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.8);
+    font-family: 'Inika', serif;
+    box-sizing: border-box;
+}
+
+/* Subject input specific styles */
+#subject {
+    width: auto; /* Allow flex to determine width */
+    flex-grow: 1; /* Allow subject input to take available space */
+    padding: 28px 22px; /* Reverted padding */
+    font-size: 2em;
+    border: 2.5px solid rgba(220, 220, 220, 0.75); /* Closer to white with opacity */
+    border-radius: 20px;
+    background: #0f0f0f; /* Subject input background is already very dark, keeping it */
+    color: rgba(245, 245, 245, 0.9); /* Closer to white with opacity */
+    font-family: 'Inika', serif;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    box-sizing: border-box;
+    outline: none;
+    text-align: center;
+}
+
+.subject-input-group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+#subject:focus {
+    border-color: rgba(230, 230, 230, 0.85); /* Brighter focus border */
+    box-shadow: 0 0 0 2px rgba(230, 230, 230, 0.2); /* Adjusted shadow to match new border */
+}
+
+#subject::placeholder {
+    color: rgba(188, 170, 164, 0.7); /* Adjusted placeholder color to be slightly less prominent */
+    font-style: italic;
+}
+
+/* Button styles */
+.send-button {
+    background-color: #313030;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'Inika', serif;
+    font-size: 1.2em;
+    /* margin-top: 15px; */
+    width: 100%;
+    max-width: 200px;
+    align-self: center;
+}
+
+/* Loading animation */
+#loading-container {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(15, 15, 14, 0.9); /* Darker than new UI background, increased opacity */
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#loading-animation {
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(230, 230, 230, 0.9); /* Brighter loading animation */
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* --- Add new styles for length selector --- */
+.length-selector-container {
+    width: 50px;  /* Keep 1:1 ratio */
+    height: 50px; /* Keep 1:1 ratio */
+    border: 2.5px solid rgba(220, 220, 220, 0.75); /* Closer to white with opacity */
+    border-radius: 20px; /* Reverted border-radius to original outside style */
+    background: #0f0f0f; /* Match #subject background */
+    color: rgba(245, 245, 245, 0.9); /* Match #subject text color, closer to white */
+    font-family: 'Inika', serif; /* Match #subject font */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-sizing: border-box;
+    flex-shrink: 0; /* Prevent selector from shrinking */
+    transition: border-color 0.3s, box-shadow 0.3s; /* Match #subject focus transition */
+    user-select: none; /* Prevent text selection during interaction */
+    position: absolute; /* Position absolutely */
+    top: 50%;           /* Vertically center */
+    left: 100%;         /* Position to the right of the parent */
+    transform: translateY(-50%); /* Fine-tune vertical centering */
+    margin-left: 10px;  /* Create space from the subject input group */
+}
+
+.length-selector-container #length-display-value {
+    font-size: 1.2em; /* Prominent but not as large as subject input's text */
+    font-weight: bold; /* Assuming 'Inika Bold' is desired from your font setup */
+    opacity: 0; /* Hidden by default */
+    transition: opacity 0.2s ease-in-out; /* Smooth transition for appearing */
+}
+
+.length-selector-container:hover #length-display-value {
+    opacity: 1; /* Show the number when the container is hovered */
+}
+
+.length-selector-container:hover {
+    border-color: rgba(230, 230, 230, 0.85); /* Brighter hover border */
+    box-shadow: 0 0 0 3px rgba(230, 230, 230, 0.2); /* Adjusted shadow to match new border */
+}

@@ -11,7 +11,7 @@ def generate_story(subject, pattern, estimated_chars: int) -> tuple[str, str]:
     client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
 
     response = client.responses.create(
-        model="gpt-4o",
+        model="gpt-4.1",
         input=subject,
         instructions=pattern,
         tools=[{"type": "web_search_preview"}],
@@ -37,7 +37,7 @@ def generate_story_strict(subject, pattern, estimated_chars: int) -> tuple[str, 
         else:
             prompt = pattern
         response = client.responses.create(
-            model="gpt-4o",
+            model="gpt-4.1",
             input=subject,
             instructions=prompt,
             tools=[{"type": "web_search_preview"}],

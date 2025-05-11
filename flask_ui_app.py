@@ -48,7 +48,17 @@ def teller_ui():
     #         else:
     #             speech_file_path = openai_text_to_speech_hesitation(story)
     # else:
-    track_path = "/Users/grannygoestoheaven/code/computer science projects/teaicher/static/audio/Leaf_Bed.mp3"
+    import os
+    import random
+    ambient_dir = os.path.join(os.path.dirname(__file__), 'static', 'audio', 'ambient_songs')
+    ambient_tracks = [
+        "1-09 Tree.mp3",
+        "2-05 A Delicate Romance.mp3",
+        "Hold.mp3",
+        "Leaf_Bed.mp3"
+    ]
+    track_filename = random.choice(ambient_tracks)
+    track_path = os.path.join(ambient_dir, track_filename)
     # track_path = thunder_url
     with open('src/teaicher/config/patterns/insightful_brief.md', 'r') as file:
         pattern = file.read().replace("{subject}", str(subject)).replace("{estimated_chars}", str(estimated_chars))

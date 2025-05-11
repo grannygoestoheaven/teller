@@ -183,7 +183,7 @@ footer.chat-input-area {
     flex-grow: 1; /* Allow subject input to take available space */
     padding: 28px 22px; /* Reverted padding */
     font-size: 2em;
-    border: 2.5px solid rgba(220, 220, 220, 0.75); /* Closer to white with opacity */
+    border: 0px solid rgba(220, 220, 220, 0.75); /* Closer to white with opacity */
     border-radius: 20px;
     background: #0f0f0f; /* Subject input background is already very dark, keeping it */
     color: rgba(245, 245, 245, 0.9); /* Closer to white with opacity */
@@ -207,14 +207,28 @@ footer.chat-input-area {
 }
 
 #subject::placeholder {
-    color: rgba(188, 170, 164, 0.7); /* Adjusted placeholder color to be slightly less prominent */
-    font-style: italic;
+    color: rgba(100, 99, 99, 0.84); /* Adjusted placeholder color to be slightly less prominent */
+    font-style: regular;
+    font-weight: lighter;
+}
+
+/* Pixel PLAY style */
+.pixel-play {
+    font-family: 'Press Start 2P', 'VT323', monospace, sans-serif;
+    text-transform: uppercase;
+    font-size: 1.3em;
+    letter-spacing: 0.12em;
+    display: block;
+    text-align: center;
+    padding: 2px 0;
+    color: inherit;
+    line-height: 1.2;
 }
 
 /* Button styles */
 .send-button {
     background-color: #313030;
-    color: white;
+    color: rgb(234, 232, 232);
     border: none;
     padding: 12px 24px;
     border-radius: 4px;

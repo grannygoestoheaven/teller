@@ -17,7 +17,7 @@
 body {
     font-family: 'Inika', serif;
     /* background-color: var(--color-ivory-light, #f5f5f0); */
-    background-color: rgb(247, 238, 226);
+    background-color: rgb(29, 29, 28);
     color: #333;
     margin: 0;
     padding: 0;
@@ -40,7 +40,8 @@ body {
 .chat-header h1 {
     margin: 0 0 0 10px;
     font-size: 2.5em;
-    color: #333;
+    /* color: #333; */
+    color: #faedea;
     opacity: 0.7;
 }
 
@@ -54,7 +55,7 @@ body {
     padding: 20px; /* Adjusted padding */
     overflow-y: auto; /* Enable scrolling for history */
     font-size: 1.4em;
-    color: #797876;
+    color: #bcb7af;
     box-sizing: border-box; /* Include padding in width/height */
     text-align: start; /* Optional: justify text for better look */
     align-content: center;
@@ -180,8 +181,8 @@ footer.chat-input-area {
     font-size: 2em;
     border: 2.5px solid #bca18c;
     border-radius: 20px;
-    background: #fcf9f6;
-    color: #5d4037;
+    background: #0f0f0f;
+    color: #faedea;
     font-family: 'Inika', serif;
     transition: border-color 0.3s, box-shadow 0.3s;
     box-sizing: border-box;
@@ -230,7 +231,7 @@ footer.chat-input-area {
 
 /* Button styles */
 .send-button {
-    background-color: #8f8d8d;
+    background-color: #313030;
     color: white;
     border: none;
     padding: 12px 24px;
@@ -252,7 +253,7 @@ footer.chat-input-area {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(255, 255, 255, 0.8);
+    background: rgba(64, 63, 63, 0.8);
     z-index: 1000;
     justify-content: center;
     align-items: center;

@@ -15,6 +15,7 @@ summary_3.rtf
 node_modules
 ideas
 package.json
+pyproject.yaml
 wrappers.py.envrc
 *.egg-info
 speech_test.py

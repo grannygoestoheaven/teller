@@ -1,6 +1,6 @@
 .env
 /a_track_venv/
-/static/
+# /static/
 /src/config/patterns/*
 /tests/.cache
 __pycache__/

@@ -20,31 +20,34 @@ def teller_ui():
     subject = request.form['subject']
     # user_length = int(request.form['duration'])
     user_length = 1
-    genre = request.form.get('genre')
+    # genre = request.form.get('genre')
+    thunder_url = "https://www.youtube.com/watch?v=Z5_-59tIG-8"
     
     estimated_chars = get_user_story_length(user_length)
     
-    if genre == "monologue" or genre == "chill":
-        track_path = "/Users/grannygoestoheaven/code/computer science projects/teaicher/src/static/audio/New_York_Sounds.mp3"
-        with open('src/teaicher/config/patterns/pub_monologue.md', 'r') as file:
-            pattern = file.read().replace("{subject}", str(subject)).replace("{estimated_chars}", str(estimated_chars))
-            story, filename = generate_story_strict(subject, pattern, estimated_chars)
-            if genre == "chill":
-                speech_file_path = openai_text_to_speech_chill(story)
-            else:
-                speech_file_path = openai_text_to_speech_hesitation(story)
-    elif genre == "news":
-        track_path = "/Users/grannygoestoheaven/code/computer science projects/teaicher/src/static/audio/New_York_Sounds.mp3"
-        with open('src/teaicher/config/patterns/news.md', 'r') as file:
-            pattern = file.read().replace("{subject}", str(subject)).replace("{estimated_chars}", str(estimated_chars))
-            story, filename = generate_story_strict(subject, pattern, estimated_chars)
-            speech_file_path = openai_text_to_speech(story)
-    else:
-        track_path = "/Users/grannygoestoheaven/code/computer science projects/teaicher/src/static/audio/Leaf_Bed.mp3"
-        with open('src/teaicher/config/patterns/insightful_brief.md', 'r') as file:
-            pattern = file.read().replace("{subject}", str(subject)).replace("{estimated_chars}", str(estimated_chars))
-            story, filename = generate_story_strict(subject, pattern, estimated_chars)
-            speech_file_path = openai_text_to_speech(story)
+    # if genre == "monologue" or genre == "chill":
+    # if genre :
+    #     track_path = "/Users/grannygoestoheaven/code/computer science projects/teaicher/src/static/audio/New_York_Sounds.mp3"
+    #     with open('src/teaicher/config/patterns/pub_monologue.md', 'r') as file:
+    #         pattern = file.read().replace("{subject}", str(subject)).replace("{estimated_chars}", str(estimated_chars))
+    #         story, filename = generate_story_strict(subject, pattern, estimated_chars)
+    #         if genre == "chill":
+    #             speech_file_path = openai_text_to_speech_chill(story)
+    #         elif genre == "news":
+    #             track_path = "/Users/grannygoestoheaven/code/computer science projects/teaicher/src/static/audio/New_York_Sounds.mp3"
+    #             with open('src/teaicher/config/patterns/news.md', 'r') as file:
+    #                 pattern = file.read().replace("{subject}", str(subject)).replace("{estimated_chars}", str(estimated_chars))
+    #                 story, filename = generate_story_strict(subject, pattern, estimated_chars)
+    #                 speech_file_path = openai_text_to_speech(story)
+    #         else:
+    #             speech_file_path = openai_text_to_speech_hesitation(story)
+    # else:
+    track_path = "/Users/grannygoestoheaven/code/computer science projects/teaicher/src/static/audio/Leaf_Bed.mp3"
+    # track_path = thunder_url
+    with open('src/teaicher/config/patterns/insightful_brief.md', 'r') as file:
+        pattern = file.read().replace("{subject}", str(subject)).replace("{estimated_chars}", str(estimated_chars))
+        story, filename = generate_story_strict(subject, pattern, estimated_chars)
+        speech_file_path = openai_text_to_speech(story)
 
     play_audio_with_sync(speech_file_path, track_path)
     # play_audio_with_stereo_effect(speech_file_path, track_path)

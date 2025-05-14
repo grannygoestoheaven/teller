@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (lengthSelector && lengthDisplay && userLengthInput) {
         let currentLength = parseInt(userLengthInput.value, 10) || 1;
         const minLength = 1;
-        const maxLength = 10; // Adjust max length as desired
+        const maxLength = 12; // Adjust max length as desired
 
         // Function to update display and hidden input
         function updateLengthDisplay() {

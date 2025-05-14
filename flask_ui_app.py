@@ -1,7 +1,7 @@
 import os
 import random
 from dotenv import load_dotenv
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, url_for
 
 from src.teaicher.data.get_track_duration import get_track_duration, extract_service_name
 from src.teaicher.services.get_story_length import get_user_story_length
@@ -46,12 +46,17 @@ def _generate_story_and_speech(subject, estimated_chars, pattern_path, logger):
     try:
         with open(pattern_path, 'r') as file:
             pattern = file.read().replace("{subject}", str(subject)).replace("{estimated_chars}", str(estimated_chars))
-        story, filename = generate_story_strict(subject, pattern, estimated_chars)
+        story, filename_from_story_gen = generate_story_strict(subject, pattern, estimated_chars)
         if story == "Error" or "Failed to generate story" in story: 
              logger.error(f"Story generation failed for subject '{subject}'. AI output: {story}")
              return None, None, None 
-        speech_file_path = openai_text_to_speech(story)
-        return story, filename, speech_file_path
+        speech_file_path_relative_to_static = openai_text_to_speech(story, filename_from_story_gen)
+        
+        if not speech_file_path_relative_to_static:
+            logger.error(f"TTS failed for story based on filename: {filename_from_story_gen}")
+            return None, None, None
+            
+        return story, filename_from_story_gen, speech_file_path_relative_to_static
     except FileNotFoundError:
         logger.error(f"Pattern file not found: {pattern_path}")
         return None, None, None
@@ -70,9 +75,9 @@ def teller_ui():
     app_base_dir = os.path.dirname(__file__)
     track_path = _get_ambient_track(app_base_dir, app.logger)
 
-    story, filename, speech_file_path = _generate_story_and_speech(subject, estimated_chars, PATTERN_FILE_PATH, app.logger)
+    story, display_filename, speech_file_static_path = _generate_story_and_speech(subject, estimated_chars, PATTERN_FILE_PATH, app.logger)
 
-    if not story or not speech_file_path:
+    if not story or not speech_file_static_path:
         error_message = "Sorry, there was an error generating the story or audio. Please try again."
         if not os.path.exists(PATTERN_FILE_PATH):
              error_message = "Sorry, the story pattern file is missing. Please contact support."
@@ -82,23 +87,30 @@ def teller_ui():
         else:
             return render_template("index.html", error=error_message), 500
 
-    if speech_file_path and track_path:
-        play_audio_with_sync(speech_file_path, track_path)
-    elif speech_file_path:
-        app.logger.info(f"Playing only speech file: {speech_file_path} as no ambient track was selected or found.")
-        play_audio_with_sync(speech_file_path, None)
+    audio_url_for_client = None
+    if speech_file_static_path:
+        audio_url_for_client = url_for('static', filename=speech_file_static_path)
+
+    if speech_file_static_path and track_path:
+        play_audio_with_sync(audio_url_for_client, track_path)
+    elif speech_file_static_path:
+        app.logger.info(f"Playing only speech file: {audio_url_for_client} as no ambient track was selected or found.")
+        play_audio_with_sync(audio_url_for_client, None)
     else:
         app.logger.error("Speech file was not generated. Cannot play audio.")
         error_message = "Failed to generate audio for the story."
+        if not audio_url_for_client: 
+             logger.warning("audio_url_for_client was None when trying to return error for AJAX")
+
         if request.headers.get('X-Requested-With') == 'XMLHttpRequest' or request.accept_mimetypes['application/json']:
-            return jsonify({"error": error_message}), 500
+            return jsonify({"story": story, "title": display_filename, "audio_link": audio_url_for_client} if story and audio_url_for_client else {"error": error_message}), 500 if not (story and audio_url_for_client) else 200
         else:
             return render_template("index.html", error=error_message), 500
 
     if request.headers.get('X-Requested-With') == 'XMLHttpRequest' or request.accept_mimetypes['application/json']:
-        return jsonify({"story": story, "audio_link": filename})
+        return jsonify({"story": story, "title": display_filename, "audio_link": audio_url_for_client})
     else:
-        return render_template("index.html", story=story, audio_link=filename)
+        return render_template("index.html", story=story, title=display_filename, audio_link=audio_url_for_client)
 
 if __name__ == "__main__":
     app.run(debug=True)

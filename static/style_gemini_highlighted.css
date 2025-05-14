@@ -41,7 +41,7 @@ body {
     margin: 0 0 0 10px;
     font-size: 2.5em;
     /* color: #333; */
-    color: rgba(240, 240, 240, 0.7); /* Adjusted header to match general lighter text, slightly less prominent */
+    color: rgba(249, 245, 245); /* Adjusted header to match general lighter text, slightly less prominent */
     opacity: 0.7; /* This existing opacity will further reduce visibility, consider if this is too much */
 }
 
@@ -207,7 +207,7 @@ footer.chat-input-area {
 }
 
 #subject::placeholder {
-    color: rgba(100, 99, 99, 0.84); /* Adjusted placeholder color to be slightly less prominent */
+    color: rgba(157, 155, 155, 0.84); /* Adjusted placeholder color to be slightly less prominent */
     font-style: regular;
     font-weight: lighter;
 }

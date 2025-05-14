@@ -3,6 +3,12 @@ import tempfile
 
 from openai import OpenAI  # OpenAI API client
 from elevenlabs.client import ElevenLabs # ElevenLabs API client
+# from TTS.api import TTS
+
+# Initialize the TTS model (using a common English model)
+# This assumes you have the model downloaded or it will download it.
+# You might need to choose a different model based on your needs and installed models.
+# tts = TTS("tts_models/en/ljspeech/tacotron2-DDC", gpu=False) # Set gpu=True if you have a CUDA-enabled GPU
 
 def openai_text_to_speech(story: str, to_bytes = False, filename: str = "story.mp3") -> str:
     client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
@@ -22,7 +28,7 @@ def openai_text_to_speech(story: str, to_bytes = False, filename: str = "story.m
         #                 Rythm : Very long silences between sentences.
         #                 ''',
         instructions='''
-                        Tone : reassuring, very soft, low, discreet.
+                        Tone : very reassuring, extremely soft, low, discreet.
                         Pacing : fast, with double long silences between
                         sentences.
                         ''',
@@ -47,7 +53,7 @@ def openai_text_to_speech_chill(story: str, to_bytes = False, filename: str = "s
     response = client.audio.speech.create(
         model="gpt-4o-mini-tts",
         # model="tts-1-hd",
-        voice="ash",
+        voice="onyx",
         input=story,
         instructions='''Voice: Laid-back, mellow, and effortlessly cool, like a surfer who's never in a rush.
                         Tone: Relaxed and reassuring, keeping things light even when the customer is frustrated.
@@ -73,7 +79,7 @@ def openai_text_to_speech_hesitation(story: str, to_bytes = False, filename: str
     response = client.audio.speech.create(
         model="gpt-4o-mini-tts",
         # model="tts-1-hd",
-        voice="ash",
+        voice="onyx",
         input=story,
         instructions='''Affect: Invasive, secret.
                         Voice Affect: curiosity and a bit of frustration.

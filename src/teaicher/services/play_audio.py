@@ -58,7 +58,7 @@ def play_audio(speech_file_path: str) -> None:
     speech_player.audio_set_volume(100)
     
     track_player = vlc.MediaPlayer(track_path)
-    track_player.audio_set_volume(45)
+    track_player.audio_set_volume(30)
 
     # time.sleep(duration + 2)  # ~32000 bytes/sec for mp3_22050_32
     
@@ -148,10 +148,13 @@ def play_audio_with_sync(speech_file_path: str, track_path: str) -> None:
     # Wait for speech to finish (with a small buffer)
     time.sleep(duration + 1)
 
+    # Keep background track playing for 30 more seconds
+    time.sleep(30)
+
     # Fade out music more smoothly
-    fade_duration = 10  # seconds
+    fade_duration = 30  # Increased fade duration to 30 seconds
     fade_start_volume = track_player.audio_get_volume()
-    steps = 100  # More steps for a smoother fade
+    steps = 150  # Adjusted steps for longer duration (e.g., 30s / 0.2s = 150 steps)
     step_delay = fade_duration / steps
 
     for i in range(steps + 1):

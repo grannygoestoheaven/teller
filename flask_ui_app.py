@@ -7,12 +7,15 @@ from src.teaicher.data.get_track_duration import get_track_duration, extract_ser
 from src.teaicher.services.get_story_length import get_user_story_length
 from src.teaicher.services.generate_story import generate_story_strict 
 from src.teaicher.services.text_to_speech import openai_text_to_speech 
-from src.teaicher.services.play_audio import play_audio_with_sync 
+from src.teaicher.services.play_audio import play_audio_with_sync, play_audio
 
 app = Flask(__name__)
 load_dotenv()
 
-DEFAULT_DURATION = 1
+# --- Configuration Flag for Playback Mode ---
+ENABLE_VLC_PLAYBACK = True  # Set to False for browser-only playback, True for VLC server-side playback
+
+DEFAULT_DURATION = 2
 PATTERN_FILE_PATH = 'src/teaicher/config/patterns/insightful_brief.md'
 AMBIENT_SONGS_DIR_NAME = 'ambient_songs'
 
@@ -77,36 +80,43 @@ def teller_ui():
 
     story, display_filename, speech_file_static_path = _generate_story_and_speech(subject, estimated_chars, PATTERN_FILE_PATH, app.logger)
 
-    if not story or not speech_file_static_path:
+    audio_url_for_client = None
+    if speech_file_static_path:
+        audio_url_for_client = url_for('static', filename=speech_file_static_path)
+
+    speech_file_system_path = None
+    if speech_file_static_path:
+        speech_file_system_path = os.path.join(app.static_folder, speech_file_static_path)
+
+    if not story or not speech_file_static_path: # Check speech_file_static_path for early exit
         error_message = "Sorry, there was an error generating the story or audio. Please try again."
         if not os.path.exists(PATTERN_FILE_PATH):
              error_message = "Sorry, the story pattern file is missing. Please contact support."
+        
+        # No audio_url_for_client check here as it depends on speech_file_static_path
+        app.logger.warning("Error response: Story or speech_file_static_path missing.")
 
         if request.headers.get('X-Requested-With') == 'XMLHttpRequest' or request.accept_mimetypes['application/json']:
             return jsonify({"error": error_message}), 500
         else:
             return render_template("index.html", error=error_message), 500
 
-    audio_url_for_client = None
-    if speech_file_static_path:
-        audio_url_for_client = url_for('static', filename=speech_file_static_path)
-
-    if speech_file_static_path and track_path:
-        play_audio_with_sync(audio_url_for_client, track_path)
-    elif speech_file_static_path:
-        app.logger.info(f"Playing only speech file: {audio_url_for_client} as no ambient track was selected or found.")
-        play_audio_with_sync(audio_url_for_client, None)
-    else:
-        app.logger.error("Speech file was not generated. Cannot play audio.")
-        error_message = "Failed to generate audio for the story."
-        if not audio_url_for_client: 
-             logger.warning("audio_url_for_client was None when trying to return error for AJAX")
-
-        if request.headers.get('X-Requested-With') == 'XMLHttpRequest' or request.accept_mimetypes['application/json']:
-            return jsonify({"story": story, "title": display_filename, "audio_link": audio_url_for_client} if story and audio_url_for_client else {"error": error_message}), 500 if not (story and audio_url_for_client) else 200
+    # Conditional VLC Playback
+    if ENABLE_VLC_PLAYBACK:
+        if speech_file_system_path: # Ensure we have a valid system path for speech
+            if track_path: # If an ambient track is also available
+                app.logger.info(f"VLC Enabled: Playing story with ambient track: {speech_file_system_path}, Track: {track_path}")
+                play_audio_with_sync(speech_file_system_path, track_path)
+            else: # Play speech only
+                app.logger.info(f"VLC Enabled: Playing story (no ambient track): {speech_file_system_path}")
+                play_audio(speech_file_system_path)
         else:
-            return render_template("index.html", error=error_message), 500
+            app.logger.warning("VLC Enabled but playback skipped: speech_file_system_path is not available.")
+    else:
+        app.logger.info("VLC Playback Disabled by configuration.")
 
+    # Always provide the audio_link to the client if available
+    # The client-side JavaScript will decide how to use it (e.g., based on its own logic or future enhancements)
     if request.headers.get('X-Requested-With') == 'XMLHttpRequest' or request.accept_mimetypes['application/json']:
         return jsonify({"story": story, "title": display_filename, "audio_link": audio_url_for_client})
     else:

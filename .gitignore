@@ -1,5 +1,6 @@
 .env
 .envrc
+.yaml
 /.vscode/
 /build/
 /venv_teaicher/

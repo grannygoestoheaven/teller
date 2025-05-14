@@ -4,6 +4,7 @@ import math  # For character-to-token conversion
 from dotenv import load_dotenv
 from openai import OpenAI
 from openai.types.responses import web_search_tool  # OpenAI API client
+from mistralai import Mistral, UserMessage  # Import the correct class
 
 load_dotenv()
 
@@ -59,65 +60,51 @@ def generate_story_strict(subject, pattern, estimated_chars: int) -> tuple[str, 
 
     return story, filename
 
-# import os
-# import json # Import the json library
-# # import math # Not needed for this part
-# from dotenv import load_dotenv
-# from openai import OpenAI
-# # from openai.types.responses import web_search_tool # Assuming this is still needed
+def generate_story_mistral(subject, pattern, estimated_chars: int) -> tuple[str, str]:
+    api_key = os.environ.get("MISTRAL_API_KEY")
+    model_name = "open-mixtral-8x7b"
 
-# load_dotenv()
+    # Instantiate the correct class
+    client = Mistral(api_key=api_key)
 
-# def generate_story_json(subject, pattern, estimated_chars: int) -> tuple[str, str]:
-#     client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
+    messages = [
+        {"role": "system", "content": pattern},
+        {"role": "user", "content": subject}
+    ]
 
-#     # IMPORTANT: Update the instructions (your 'pattern' variable)
-#     # Tell the AI explicitly to output JSON with 'title' and 'story' keys.
-#     # Example pattern update (you'll need to adjust your template/source for this):
-#     # pattern = "Generate a short story based on the subject. Format the output as a JSON object with two keys: 'title' for the story title and 'story' for the story text."
+    try:
+        chat_response = client.chat.complete(
+            model=model_name,
+            messages=messages,
+            # Add other parameters like temperature, max_tokens if needed
+            # max_tokens can be roughly estimated from estimated_chars if necessary
+        )
 
-#     try:
-#         response = client.chat.completions.create( # Use chat.completions for structured output
-#             model="gpt-4o", # gpt-4o or similar chat model recommended for JSON
-#             response_format={ "type": "json_object" }, # Tell API to aim for JSON
-#             messages=[ # Use messages format for chat models
-#                 {"role": "system", "content": "You are a helpful assistant that generates stories in JSON format."},
-#                 {"role": "user", "content": f"{pattern}\nSubject: {subject}"} # Combine pattern and subject
-#                 # You might add estimated_chars to the prompt too, e.g., "Approx {estimated_chars} minutes long."
-#             ],
-#             # tools=[{"type": "web_search"}], # Or web_search_preview based on your needs
-#             # tool_choice="auto" # Allow model to choose tools if needed
-#         )
+        if chat_response.choices and len(chat_response.choices) > 0:
+            full_output = chat_response.choices[0].message.content.strip().split("\n", 1)
+            if len(full_output) >= 2:
+                raw_title = full_output[0]
+                story = full_output[1].strip()
+            elif len(full_output) == 1:
+                raw_title = subject # Or a generic title
+                story = full_output[0].strip()
+            else:
+                raw_title = subject
+                story = "Could not generate story content."
+            
+            filename = raw_title.lower().replace(" ", "_") + ".mp3"
+            filename = "".join(c for c in filename if c.isalnum() or c in ('.', '_')).rstrip()
+            if not filename.endswith(".mp3"):
+                filename += ".mp3"
+            if len(filename) > 200: 
+                filename = filename[:200] + ".mp3"
+            if filename == ".mp3": 
+                filename = "mistral_story.mp3"
 
-#         # Assuming the model puts the JSON in the first message's content
-#         ai_output_string = response.choices[0].message.content.strip()
+            return story, filename
+        else:
+            return "Mistral API did not return a valid choice.", "error.mp3"
 
-#         # Parse the JSON string
-#         story_data = json.loads(ai_output_string)
-
-#         # Extract title and story from the parsed JSON
-#         raw_title = story_data.get("title", "Untitled Story") # Use .get() with default to be safe
-#         story = story_data.get("story", "Could not generate story content.") # Use .get() with default
-
-#     except json.JSONDecodeError as e:
-#         print(f"Error parsing JSON from AI: {e}")
-#         print(f"AI output: {ai_output_string}") # Log the raw output for debugging
-#         raw_title = "Error"
-#         story = "Failed to generate story due to invalid format from AI. Please try again."
-#     except Exception as e:
-#         print(f"An unexpected error occurred: {e}")
-#         raw_title = "Error"
-#         story = "An error occurred during story generation."
-
-
-#     # Generate filename from the extracted title
-#     # Make sure the title is clean for a filename
-#     import re
-#     clean_title = re.sub(r'[^a-zA-Z0-9_\-]', '', raw_title.lower().replace(" ", "_"))[:50] # Simple cleaning
-#     if not clean_title: # Handle cases where title is empty or becomes empty after cleaning
-#          clean_title = "generated_story"
-
-#     filename = clean_title + ".mp3"
-
-
-#     return story, filename
+    except Exception as e:
+        print(f"Error calling Mistral API: {e}")
+        return f"Error generating story with Mistral: {e}", "error.mp3"

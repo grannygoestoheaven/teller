@@ -92,16 +92,13 @@ def play_audio(speech_file_path: str) -> None:
 
 def play_audio_with_sync(speech_file_path: str, track_path: str) -> None:
     """
-    Plays a track and speech audio in sync, mixing the track at a lower volume with a smoother fade-out.
+    Plays a track and speech audio in sync, mixing the track at a lower volume.
+    Returns as soon as the speech ends, while the ambient music continues playing.
 
     Args:
     - speech_file_path (str): The path of the speech audio file to play.
     - track_path (str): The path of the track audio file to play.
     """
-    # import vlc
-    # import time
-    # from mutagen.mp3 import MP3
-
     try:
         audio_metadata = MP3(speech_file_path)
         duration = audio_metadata.info.length
@@ -109,62 +106,77 @@ def play_audio_with_sync(speech_file_path: str, track_path: str) -> None:
         print(f"Error reading speech file metadata: {e}")
         return
 
-    # Create VLC players
+    # Create VLC instance and players
     instance = vlc.Instance()
     speech_player = instance.media_player_new()
     track_player = instance.media_player_new()
 
+    # Set up media
     speech_media = instance.media_new(speech_file_path)
     track_media = instance.media_new(track_path)
-
     speech_player.set_media(speech_media)
     track_player.set_media(track_media)
 
+    # Set volumes
     speech_player.audio_set_volume(100)
-    track_player.audio_set_volume(70)
+    track_player.audio_set_volume(70)  # Lower volume for ambient track
 
+    # Start playing the ambient track
     track_player.play()
-    time.sleep(0.1)  # Give it a moment to start playing
+    time.sleep(0.1)  # Small delay to let it start
 
-    # Wait for track to start playing (handle potential buffering)
+    # Wait for track to start playing (with timeout)
     start_time = time.time()
-    while not track_player.is_playing() and time.time() - start_time < 5:  # Timeout after 5 seconds
+    while not track_player.is_playing() and time.time() - start_time < 5:
         time.sleep(0.1)
     if not track_player.is_playing():
         print("Warning: Track failed to start playing.")
 
-    time.sleep(8)
-
+    # Start the speech after a short delay
+    time.sleep(8)  # Initial delay before speech starts
     speech_player.play()
-    time.sleep(0.1) # Give it a moment to start playing
+    time.sleep(0.1)  # Small delay to let it start
 
-    # Wait for speech to start playing (handle potential buffering)
+    # Wait for speech to start playing (with timeout)
     start_time = time.time()
-    while not speech_player.is_playing() and time.time() - start_time < 5:  # Timeout after 5 seconds
+    while not speech_player.is_playing() and time.time() - start_time < 5:
         time.sleep(0.1)
     if not speech_player.is_playing():
         print("Warning: Speech failed to start playing.")
 
     # Wait for speech to finish (with a small buffer)
     time.sleep(duration + 1)
-
-    # Keep background track playing for 30 more seconds
-    time.sleep(30)
-
-    # Fade out music more smoothly
-    fade_duration = 30  # Increased fade duration to 30 seconds
-    fade_start_volume = track_player.audio_get_volume()
-    steps = 150  # Adjusted steps for longer duration (e.g., 30s / 0.2s = 150 steps)
-    step_delay = fade_duration / steps
-
-    for i in range(steps + 1):
-        volume = int(round(fade_start_volume * (1 - i / steps)))
-        track_player.audio_set_volume(max(volume, 0))
-        time.sleep(step_delay)
-
-    track_player.stop()
-    speech_player.stop()
-    instance.release()
+    
+    # At this point, the speech has finished and we can return control to Flask
+    # The ambient music will continue playing in the background
+    
+    # Start a separate thread to handle the music fade out
+    def fade_out_music():
+        # Let the music play for a while longer
+        time.sleep(30)
+        
+        # Fade out music smoothly
+        fade_duration = 30  # seconds
+        fade_start_volume = track_player.audio_get_volume()
+        steps = 150
+        step_delay = fade_duration / steps
+        
+        for i in range(steps + 1):
+            volume = int(round(fade_start_volume * (1 - i / steps)))
+            track_player.audio_set_volume(max(volume, 0))
+            time.sleep(step_delay)
+        
+        # Clean up
+        track_player.stop()
+        speech_player.stop()
+        instance.release()
+    
+    # Start the fade out in a daemon thread (will be killed when main thread exits)
+    fade_thread = threading.Thread(target=fade_out_music, daemon=True)
+    fade_thread.start()
+    
+    # Return immediately, allowing the response to be sent to the client
+    return
 
 def play_audio_with_stereo_effect(speech_file_path: str, track_path: str) -> None:
     """

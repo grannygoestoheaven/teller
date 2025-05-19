@@ -12,13 +12,36 @@ from elevenlabs.client import ElevenLabs # ElevenLabs API client
 
 GENERATED_STORIES_SUBDIR = 'audio/generated_stories'
 
-def openai_text_to_speech(story: str, filename: str) -> str:
+def _add_ssml_breaks(text: str, pause_ms: int = 500) -> str:
+    """Add SSML break tags between sentences.
+    
+    Args:
+        text: Input text to process
+        pause_ms: Duration of pause in milliseconds between sentences
+        
+    Returns:
+        Text with SSML break tags added between sentences
+    """
+    import re
+    # Split into sentences while preserving the delimiters
+    sentences = re.split('([.!?] +)', text)
+    # Join with SSML break tags
+    processed = ''
+    for i in range(0, len(sentences)-1, 2):
+        processed += sentences[i]
+        if i+1 < len(sentences):
+            processed += sentences[i+1]
+        processed += f'<break time="{pause_ms}ms"/>'
+    return processed
+
+def openai_text_to_speech(story: str, filename: str, pause_between_sentences_ms: int = 500) -> str:
     """
     Generates speech from text using OpenAI's TTS and saves it to a static directory.
 
     Args:
         story: The text content of the story.
         filename: The desired filename for the audio (e.g., 'my_story.mp3').
+        pause_between_sentences_ms: Duration of pause between sentences in milliseconds (default: 500ms).
 
     Returns:
         The path to the saved audio file relative to the 'static' directory
@@ -27,14 +50,16 @@ def openai_text_to_speech(story: str, filename: str) -> str:
     client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
 
     try:
+        # Add SSML breaks between sentences
+        ssml_text = f"<speak>{_add_ssml_breaks(story, pause_between_sentences_ms)}</speak>"
+        
         response = client.audio.speech.create(
             model="tts-1-hd",
             voice="onyx",
-            input=story,
+            input=ssml_text,
             instructions='''
                             Tone : very reassuring, extremely soft, low, discreet.
-                            Pacing : fast, with double long silences between
-                            sentences.
+                            Pacing : natural, with controlled silences between sentences.
                             ''',
             speed=1,
         )

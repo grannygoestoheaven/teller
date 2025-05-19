@@ -1,5 +1,6 @@
 import os
 import random
+
 from dotenv import load_dotenv
 from flask import Flask, render_template, request, jsonify, url_for
 
@@ -10,12 +11,12 @@ from src.teaicher.services.text_to_speech import openai_text_to_speech
 from src.teaicher.services.play_audio import play_audio_with_sync, play_audio
 
 app = Flask(__name__)
+
 load_dotenv()
 
 # --- Configuration Flag for Playback Mode ---
 ENABLE_VLC_PLAYBACK = True  # Set to False for browser-only playback, True for VLC server-side playback
-
-DEFAULT_DURATION = 2
+DEFAULT_DURATION = 1
 PATTERN_FILE_PATH = 'src/teaicher/config/patterns/insightful_brief.md'
 AMBIENT_SONGS_DIR_NAME = 'ambient_songs'
 

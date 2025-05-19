@@ -44,23 +44,103 @@ body {
     /* color: #333; */
     color: rgba(249, 245, 245); /* Adjusted header to match general lighter text, slightly less prominent */
     opacity: 0.7; /* This existing opacity will further reduce visibility, consider if this is too much */
+    position: relative;
+    display: inline-block;
+}
+
+/* Removed top overlay */
+
+/* Track selector styles */
+.track-selector {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    z-index: 20;
+    transition: opacity 0.3s ease;
+    background: rgba(20, 20, 20, 0.7);
+    padding: 5px 10px;
+    border-radius: 15px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.track-selector button {
+    background: none;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 0.9);
+    border-radius: 12px;
+    padding: 3px 10px;
+    font-size: 0.8em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    outline: none;
+    font-weight: 500;
+}
+
+.track-selector button:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Subject display styles */
+.subject-display {
+    position: absolute;
+    top: 15px;
+    left: 20px;
+    font-size: 1.2em;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.95);
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    background: none;
+    padding: 8px 0;
+    z-index: 20;
+    max-width: 70%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: flex;
+    align-items: center;
+}
+
+/* Colon animation */
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.subject-colon {
+    display: inline-block;
+    margin-left: 5px;
+    animation: blink 1s infinite;
+    font-weight: 400;
 }
 
 /* Chat history - Centered and scrollable */
 .chat-history {
-    display: block; /* Changed to block to allow inline spans to flow */
-    flex-grow: 1; /* Allow chat history to take up available space */
-    max-width: 1200px; /* Keep max-width */
-    width: 100%; /* Allow width to adjust up to max-width */
-    margin: 0 auto; /* Center horizontally */
-    padding: 20px; /* Adjusted padding */
-    overflow-y: auto; /* Enable scrolling for history */
+    position: relative; /* Needed for absolute positioning of children */
+    display: block;
+    flex-grow: 1;
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 20px; /* Reset to normal padding */
+    overflow-y: auto;
     font-size: 1.4em;
-    color: rgba(240, 240, 240, 0.85); /* Closer to white with opacity */
-    box-sizing: border-box; /* Include padding in width/height */
-    text-align: start; /* Optional: justify text for better look */
+    color: rgba(240, 240, 240, 0.85);
+    box-sizing: border-box;
+    text-align: start;
     align-content: center;
-    line-height: 1.6; /* Optional: improve readability */
+    line-height: 1.6;
+    border: 2px dashed rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    background-color: rgba(20, 20, 20, 0.3);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 /* Style for interactive words */
@@ -184,15 +264,22 @@ footer.chat-input-area {
     flex-grow: 1; /* Allow subject input to take available space */
     padding: 28px 22px; /* Reverted padding */
     font-size: 2em;
-    border: 0px solid rgba(220, 220, 220, 0.75); /* Closer to white with opacity */
+    border: none !important;
     border-radius: 20px;
     background: #0f0f0f; /* Subject input background is already very dark, keeping it */
     color: rgba(245, 245, 245, 0.9); /* Closer to white with opacity */
     font-family: 'Inika', serif;
-    transition: border-color 0.3s, box-shadow 0.3s;
+    transition: none;
     box-sizing: border-box;
-    outline: none;
+    outline: none !important;
+    box-shadow: none !important;
     text-align: center;
+}
+
+#subject:focus, #subject:active {
+    outline: none !important;
+    box-shadow: none !important;
+    border: none !important;
 }
 
 .subject-input-group {
@@ -240,34 +327,6 @@ footer.chat-input-area {
     width: 100%;
     max-width: 200px;
     align-self: center;
-}
-
-/* Loading animation */
-#loading-container {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(15, 15, 14, 0.9); /* Darker than new UI background, increased opacity */
-    z-index: 1000;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}
-
-#loading-animation {
-    width: 40px;
-    height: 40px;
-    border: 3px solid rgba(230, 230, 230, 0.9); /* Brighter loading animation */
-    border-top-color: transparent;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-    to { transform: rotate(360deg); }
 }
 
 /* --- Add new styles for length selector --- */

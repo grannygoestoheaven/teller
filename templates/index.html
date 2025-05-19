@@ -13,6 +13,10 @@
 
         <div class="chat-history" id="chatHistory">
             <!-- Story will appear here -->
+            <div class="track-selector">
+                <button id="trackToggle">Ambient Track 1</button>
+            </div>
+            <div class="subject-display" id="subjectDisplay"></div>
         </div>
 
         <div class="audio-player-container" id="audioPlayerContainer" style="display: none;">
@@ -49,11 +53,6 @@
 </button>
             </form>
         </footer>
-    </div>
-
-    <div id="loading-container">
-        <div id="loading-animation"></div>
-        <div id="loading-text">Generating your story...</div>
     </div>
 
     <script src="{{ url_for('static', filename='sms3.js') }}"></script>

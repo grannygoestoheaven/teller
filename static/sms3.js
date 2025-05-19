@@ -1,9 +1,117 @@
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('story-form');
-    const loadingContainer = document.getElementById('loading-container');
     const chatHistory = document.getElementById('chatHistory');
-    const subjectInput = document.getElementById('subject'); // Get the subject input
+    const subjectInput = document.getElementById('subject');
     const generateButton = document.getElementById('generateButton');
+    const trackToggle = document.getElementById('trackToggle');
+    const subjectDisplay = document.getElementById('subjectDisplay');
+    
+    // Create audio context for sound effects
+    let audioContext;
+    try {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    } catch (e) {
+        console.warn('Web Audio API not supported in this browser');
+    }
+    
+    // Function to play click sound
+    function playClickSound() {
+        if (!audioContext) return;
+        
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+        
+        oscillator.type = 'sine';
+        oscillator.frequency.setValueAtTime(1000, audioContext.currentTime);
+        oscillator.frequency.exponentialRampToValueAtTime(500, audioContext.currentTime + 0.05);
+        
+        gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+        
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+        
+        oscillator.start();
+        oscillator.stop(audioContext.currentTime + 0.1);
+    }
+    
+    // Available ambient tracks
+    const ambientTracks = [
+        { name: 'Ambient Track 1', color: 'rgba(100, 181, 246, 0.8)' },
+        { name: 'Ambient Track 2', color: 'rgba(129, 199, 132, 0.8)' },
+        { name: 'Ambient Track 3', color: 'rgba(255, 183, 77, 0.8)' },
+        { name: 'No Track', color: 'rgba(255, 255, 255, 0.1)' }
+    ];
+    let currentTrackIndex = 0;
+    let isGenerating = false;
+    
+    // Initialize track toggle and subject display
+    updateTrackButton();
+    updateSubjectDisplay();
+    
+    // Handle track toggle click
+    trackToggle.addEventListener('click', function() {
+        currentTrackIndex = (currentTrackIndex + 1) % ambientTracks.length;
+        updateTrackButton();
+        // Here you would also handle changing the actual audio track
+        // For example: changeAudioTrack(ambientTracks[currentTrackIndex]);
+    });
+    
+    function updateTrackButton() {
+        const track = ambientTracks[currentTrackIndex];
+        trackToggle.textContent = track.name;
+        trackToggle.style.backgroundColor = track.color.replace('0.8', '0.2');
+        trackToggle.style.borderColor = track.color;
+        trackToggle.style.color = track.color.replace('0.8', '1');
+    }
+    
+    // Update subject display
+    function updateSubjectDisplay() {
+        const text = subjectInput.value.trim();
+        if (text) {
+            subjectDisplay.innerHTML = `${text}<span class="subject-colon">:</span>`;
+            subjectDisplay.style.opacity = '1';
+            if (trackSelector) trackSelector.style.opacity = '1';
+        } else {
+            subjectDisplay.innerHTML = '';
+        }
+    }
+    
+    // Get track selector element
+    const trackSelector = document.querySelector('.track-selector');
+    
+    // Show/hide elements based on input focus
+    subjectInput.addEventListener('focus', () => {
+        subjectDisplay.style.opacity = '0';
+        if (trackSelector) trackSelector.style.opacity = '0';
+    });
+    
+    subjectInput.addEventListener('blur', () => {
+        updateSubjectDisplay();
+        subjectDisplay.style.opacity = '1';
+        if (trackSelector) trackSelector.style.opacity = '1';
+    });
+    
+    // Update subject display when input changes
+    subjectInput.addEventListener('input', updateSubjectDisplay);
+    
+    // Add click handler to generate button
+    form.addEventListener('submit', function() {
+        if (!isGenerating) {
+            isGenerating = true;
+            playClickSound();
+            // Add colon to subject display
+            const colon = document.createElement('span');
+            colon.className = 'subject-colon';
+            colon.textContent = ':';
+            subjectDisplay.appendChild(colon);
+        }
+    });
+    
+    // Reset generating state when form submission is complete
+    form.addEventListener('formdata', function() {
+        isGenerating = false;
+    });
 
     // --- Start: New Length Selector Logic ---
     const lengthSelector = document.getElementById('length-selector-container');
@@ -50,18 +158,18 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     // --- End: New Length Selector Logic ---
 
-    // Hide loading container on initial load
-    loadingContainer.style.display = 'none';
-
     // Store references to currently highlighted word spans for efficient clearing
     let currentlyHighlightedWords = [];
 
     form.addEventListener('submit', async function(e) {
         e.preventDefault(); // Prevent default form submission
 
-        // Show loading animation immediately
-        loadingContainer.style.display = 'flex';
+        // Disable the button to prevent multiple submissions
         generateButton.disabled = true;
+
+        // Ensure subject display and track selector are visible
+        subjectDisplay.style.opacity = '1';
+        if (trackSelector) trackSelector.style.opacity = '1';
 
         // Clear previous content from chat history but NOT subject input yet
         chatHistory.innerHTML = '';
@@ -108,8 +216,7 @@ document.addEventListener('DOMContentLoaded', function() {
              }
 
         } finally {
-            // Hide loading animation and re-enable button regardless of success or failure
-            loadingContainer.style.display = 'none';
+            // Re-enable button regardless of success or failure
             generateButton.disabled = false;
         }
     });

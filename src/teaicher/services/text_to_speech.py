@@ -51,12 +51,13 @@ def openai_text_to_speech(story: str, filename: str, pause_between_sentences_ms:
 
     try:
         # Add SSML breaks between sentences
-        ssml_text = f"<speak>{_add_ssml_breaks(story, pause_between_sentences_ms)}</speak>"
+        # ssml_text = f"<speak>{_add_ssml_breaks(story, pause_between_sentences_ms)}</speak>"
         
         response = client.audio.speech.create(
             model="tts-1-hd",
             voice="onyx",
-            input=ssml_text,
+            # input=ssml_text,
+            input=story,
             instructions='''
                             Tone : very reassuring, extremely soft, low, discreet.
                             Pacing : natural, with controlled silences between sentences.

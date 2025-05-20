@@ -3,8 +3,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const chatHistory = document.getElementById('chatHistory');
     const subjectInput = document.getElementById('subject');
     const generateButton = document.getElementById('generateButton');
-    const trackToggle = document.getElementById('trackToggle');
-    const subjectDisplay = document.getElementById('subjectDisplay');
     
     // Create audio context for sound effects
     let audioContext;
@@ -45,74 +43,21 @@ document.addEventListener('DOMContentLoaded', function() {
     let currentTrackIndex = 0;
     let isGenerating = false;
     
-    // Initialize track toggle and subject display
-    updateTrackButton();
-    updateSubjectDisplay();
-    
-    // Handle track toggle click
-    trackToggle.addEventListener('click', function() {
-        currentTrackIndex = (currentTrackIndex + 1) % ambientTracks.length;
-        updateTrackButton();
-        // Here you would also handle changing the actual audio track
-        // For example: changeAudioTrack(ambientTracks[currentTrackIndex]);
-    });
-    
-    function updateTrackButton() {
-        const track = ambientTracks[currentTrackIndex];
-        trackToggle.textContent = track.name;
-        trackToggle.style.backgroundColor = track.color.replace('0.8', '0.2');
-        trackToggle.style.borderColor = track.color;
-        trackToggle.style.color = track.color.replace('0.8', '1');
-    }
-    
-    // Update subject display
+    // Update subject display - now essentially a placeholder or can be removed
     function updateSubjectDisplay() {
-        const text = subjectInput.value.trim();
-        if (text) {
-            subjectDisplay.innerHTML = `${text}<span class="subject-colon">:</span>`;
-            subjectDisplay.style.opacity = '1';
-            if (trackSelector) trackSelector.style.opacity = '1';
-        } else {
-            subjectDisplay.innerHTML = '';
-        }
     }
-    
-    // Get track selector element
-    const trackSelector = document.querySelector('.track-selector');
     
     // Show/hide elements based on input focus
     subjectInput.addEventListener('focus', () => {
-        subjectDisplay.style.opacity = '0';
-        if (trackSelector) trackSelector.style.opacity = '0';
     });
     
     subjectInput.addEventListener('blur', () => {
         updateSubjectDisplay();
-        subjectDisplay.style.opacity = '1';
-        if (trackSelector) trackSelector.style.opacity = '1';
     });
     
     // Update subject display when input changes
     subjectInput.addEventListener('input', updateSubjectDisplay);
     
-    // Add click handler to generate button
-    form.addEventListener('submit', function() {
-        if (!isGenerating) {
-            isGenerating = true;
-            playClickSound();
-            // Add colon to subject display
-            const colon = document.createElement('span');
-            colon.className = 'subject-colon';
-            colon.textContent = ':';
-            subjectDisplay.appendChild(colon);
-        }
-    });
-    
-    // Reset generating state when form submission is complete
-    form.addEventListener('formdata', function() {
-        isGenerating = false;
-    });
-
     // --- Start: New Length Selector Logic ---
     const lengthSelector = document.getElementById('length-selector-container');
     const lengthDisplay = document.getElementById('length-display-value');
@@ -158,30 +103,28 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     // --- End: New Length Selector Logic ---
 
-    // Store references to currently highlighted word spans for efficient clearing
     let currentlyHighlightedWords = [];
 
     form.addEventListener('submit', async function(e) {
-        e.preventDefault(); // Prevent default form submission
+        e.preventDefault(); // Ensure default submission is prevented
 
-        // Disable the button to prevent multiple submissions
-        generateButton.disabled = true;
+        if (isGenerating) { // If already generating, do nothing
+            return;
+        }
+        isGenerating = true; // Set generating state
+        generateButton.disabled = true; // Disable button immediately
+        playClickSound(); // Play click sound
 
-        // Ensure subject display and track selector are visible
-        subjectDisplay.style.opacity = '1';
-        if (trackSelector) trackSelector.style.opacity = '1';
-
-        // Clear previous content from chat history but NOT subject input yet
+        // Clear previous content from chat history
         chatHistory.innerHTML = '';
 
-        // Show standby cursor (might be immediately replaced by streamed words)
+        // Show standby cursor
         const cursor = document.createElement('span');
         cursor.className = 'cursor-standby';
         chatHistory.appendChild(cursor);
 
         // Clear any previous highlights
         clearHighlights();
-        // Subject input clearing moved to AFTER streaming
 
         try {
             const formData = new FormData(form);
@@ -193,31 +136,25 @@ document.addEventListener('DOMContentLoaded', function() {
             if (response.ok) {
                 const data = await response.json();
                 if (data.story) {
-                    // Pass the story text to the modified streamText function
                     await streamText(data.story, chatHistory);
-                    // **Clear subject input AFTER streaming is complete**
-                    subjectInput.value = '';
+                    subjectInput.value = ''; // Clear subject input AFTER streaming
                 } else {
-                     // Handle case where response is OK but has no story field
-                     chatHistory.innerHTML = '<div class="message error">Generated response is missing story text.</div>';
+                    chatHistory.innerHTML = '<div class="message error">Generated response is missing story text.</div>';
                 }
             } else {
-                 // Handle HTTP errors
-                const errorText = await response.text(); // Try to get error details
+                const errorText = await response.text();
                 throw new Error(`Server responded with status ${response.status}: ${errorText}`);
             }
         } catch (error) {
             console.error('Error:', error);
             chatHistory.innerHTML = `<div class="message error">Error generating story: ${error.message}. Please try again.</div>`;
-            // Remove cursor if it's still there on error
-             const existingCursor = chatHistory.querySelector('.cursor-standby');
-             if (existingCursor) {
-                 existingCursor.remove();
-             }
-
+            const existingCursor = chatHistory.querySelector('.cursor-standby');
+            if (existingCursor) {
+                existingCursor.remove();
+            }
         } finally {
-            // Re-enable button regardless of success or failure
-            generateButton.disabled = false;
+            isGenerating = false; // Reset generating state
+            generateButton.disabled = false; // Re-enable button
         }
     });
 

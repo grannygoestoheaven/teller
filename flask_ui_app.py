@@ -6,7 +6,7 @@ from flask import Flask, render_template, request, jsonify, url_for
 
 from src.teaicher.data.get_track_duration import get_track_duration, extract_service_name
 from src.teaicher.services.get_story_length import get_user_story_length
-from src.teaicher.services.generate_story import generate_story_strict 
+from src.teaicher.services.generate_story import generate_story_strict, generate_story
 from src.teaicher.services.text_to_speech import openai_text_to_speech 
 from src.teaicher.services.play_audio import play_audio_with_sync, play_audio
 
@@ -16,13 +16,13 @@ load_dotenv()
 
 # --- Configuration Flag for Playback Mode ---
 ENABLE_VLC_PLAYBACK = True  # Set to False for browser-only playback, True for VLC server-side playback
-DEFAULT_DURATION = 1
+DEFAULT_DURATION = 2
 PATTERN_FILE_PATH = 'src/teaicher/config/patterns/insightful_brief.md'
 AMBIENT_SONGS_DIR_NAME = 'ambient_songs'
 
 # helper functions for parameters, track selection, and story generation
 def _prepare_story_parameters(request_form):
-    subject = request_form['subject']
+    subject = request_form.get('subject')
     duration_str = request_form.get('duration', str(DEFAULT_DURATION))
     try:
         duration = int(duration_str)
@@ -36,9 +36,9 @@ def _prepare_story_parameters(request_form):
 def _get_ambient_track(base_dir, logger):
     ambient_dir = os.path.join(base_dir, 'static', 'audio', AMBIENT_SONGS_DIR_NAME)
     try:
-        ambient_tracks_files = [f for f in os.listdir(ambient_dir) if f.endswith('.mp3')]
+        ambient_tracks_files = [f for f in os.listdir(ambient_dir) if f.endswith('.mp3') or f.endswith('.wav')]
         if not ambient_tracks_files:
-            logger.warning(f"No MP3 files found in {ambient_dir}. No ambient sound will be played.")
+            logger.warning(f"No MP3 or WAV files found in {ambient_dir}. No ambient sound will be played.")
             return None
         track_filename = random.choice(ambient_tracks_files)
         return os.path.join(ambient_dir, track_filename)
@@ -50,7 +50,7 @@ def _generate_story_and_speech(subject, estimated_chars, pattern_path, logger):
     try:
         with open(pattern_path, 'r') as file:
             pattern = file.read().replace("{subject}", str(subject)).replace("{estimated_chars}", str(estimated_chars))
-        story, filename_from_story_gen = generate_story_strict(subject, pattern, estimated_chars)
+        story, filename_from_story_gen = generate_story(subject, pattern, estimated_chars)
         if story == "Error" or "Failed to generate story" in story: 
              logger.error(f"Story generation failed for subject '{subject}'. AI output: {story}")
              return None, None, None 

@@ -1,5 +1,6 @@
 import os
 import math  # For character-to-token conversion
+import re
 
 from dotenv import load_dotenv
 from openai import OpenAI
@@ -8,22 +9,49 @@ from mistralai import Mistral, UserMessage  # Import the correct class
 
 load_dotenv()
 
+def _sanitize_filename(text: str) -> str:
+    """
+    Sanitizes a string to be used as a safe filename.
+    Replaces non-alphanumeric characters (except dashes and underscores) with underscores,
+    and limits the length.
+    """
+    # Replace any non-alphanumeric, non-space characters with an empty string
+    # This also removes the '/' character
+    sanitized = re.sub(r'[^\w\s-]', '', text).strip()
+    # Replace spaces and multiple dashes/underscores with a single underscore
+    sanitized = re.sub(r'[\s_-]+', '_', sanitized)
+    # Ensure it's not too long and is lowercase
+    return sanitized[:100].lower() # Limit length to 100 characters, convert to lowercase
+
 def generate_story(subject, pattern, estimated_chars: int) -> tuple[str, str]:
     client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
 
-    response = client.responses.create(
-        model="gpt-4.1",
-        input=subject,
-        instructions=pattern,
-        tools=[{"type": "web_search_preview"}],
-        # tool_choice={"type": "web_search_preview"},   
+    # Use Chat Completions API instead of Responses API
+    response = client.chat.completions.create(
+        model="gpt-4",  # Using gpt-4 instead of gpt-4o for better reliability
+        messages=[
+            {"role": "system", "content": pattern},
+            {"role": "user", "content": subject}
+        ],
+        temperature=0.7,
     )
-
-    full_output = response.output_text.strip().split("\n", 1)
-    raw_title = full_output[0]
-    story = full_output[1].strip()
-    filename = raw_title.lower() + ".mp3"
-
+    
+    # Extract the content from the response
+    output_text = response.choices[0].message.content.strip()
+    
+    # Split into title and story
+    if "\n" in output_text:
+        full_output = output_text.split("\n", 1)
+        raw_title = full_output[0].strip()
+        story = full_output[1].strip()
+    else:
+        # Fallback if no newline is found
+        raw_title = subject[:50]  # Use first 50 chars of subject as title
+        story = output_text
+    
+    # Sanitize the filename
+    filename = _sanitize_filename(raw_title) + ".mp3"
+    
     return story, filename
 
 def generate_story_strict(subject, pattern, estimated_chars: int) -> tuple[str, str]:
@@ -38,7 +66,7 @@ def generate_story_strict(subject, pattern, estimated_chars: int) -> tuple[str, 
         else:
             prompt = pattern
         response = client.responses.create(
-            model="gpt-4.1",
+            model="gpt-4o",
             input=subject,
             instructions=prompt,
             tools=[{"type": "web_search_preview"}],

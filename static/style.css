@@ -196,54 +196,6 @@ body {
     50% { opacity: 0; }
 }
 
-/* --- NEW LOADING ANIMATION STYLES --- */
-.loading-animation {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%; /* Occupy the full height of chatHistory */
-    width: 100%; /* Occupy the full width of chatHistory */
-    font-size: 3em; /* Adjust size as needed */
-    color: #888; /* A subtle grey for the colons */
-    box-sizing: border-box;
-    line-height: 1; /* Ensure colons don't take up too much vertical space */
-}
-
-.loading-animation .colon {
-    opacity: 0; /* Start invisible */
-    animation: colon-fade 1.5s infinite ease-in-out; /* Main animation */
-    margin: 0 2px; /* Small spacing between colons */
-}
-
-/* Delay for each colon */
-.loading-animation .colon-1 {
-    animation-delay: 0s;
-}
-
-.loading-animation .colon-2 {
-    animation-delay: 0.3s; /* Delay for the second colon */
-}
-
-.loading-animation .colon-3 {
-    animation-delay: 0.6s; /* Delay for the third colon */
-}
-
-@keyframes colon-fade {
-    0% {
-        opacity: 0;
-    }
-    33% {
-        opacity: 1; /* Fully visible in the middle of its cycle */
-    }
-    66% {
-        opacity: 1;
-    }
-    100% {
-        opacity: 0;
-    }
-}
-/* --- END NEW LOADING ANIMATION STYLES --- */
-
 /* Message styles */
 /* Note: The message class might not be used if you're just streaming raw text into chatHistory */
 .message {
@@ -430,3 +382,52 @@ footer.chat-input-area {
     border-color: rgba(230, 230, 230, 0.85); /* Brighter hover border */
     box-shadow: 0 0 0 3px rgba(230, 230, 230, 0.2); /* Adjusted shadow to match new border */
 }
+
+/* --- NEW LOADING ANIMATION STYLES (ADD THIS SECTION) --- */
+.loading-animation {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%; /* Occupy the full height of chatHistory */
+    width: 100%; /* Occupy the full width of chatHistory */
+    font-size: 3em; /* Adjust size as needed */
+    color: #888; /* A subtle grey for the colons */
+    box-sizing: border-box;
+    /* Center text vertically for single line if needed, or rely on flex-items centering */
+    line-height: 1; /* Ensure colons don't take up too much vertical space */
+}
+
+.loading-animation .colon {
+    opacity: 0; /* Start invisible */
+    animation: colon-fade 1.5s infinite ease-in-out; /* Main animation */
+    margin: 0 2px; /* Small spacing between colons */
+}
+
+/* Delay for each colon */
+.loading-animation .colon-1 {
+    animation-delay: 0s;
+}
+
+.loading-animation .colon-2 {
+    animation-delay: 0.3s; /* Delay for the second colon */
+}
+
+.loading-animation .colon-3 {
+    animation-delay: 0.6s; /* Delay for the third colon */
+}
+
+@keyframes colon-fade {
+    0% {
+        opacity: 0;
+    }
+    33% {
+        opacity: 1; /* Fully visible in the middle of its cycle */
+    }
+    66% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+/* --- END NEW LOADING ANIMATION STYLES --- */

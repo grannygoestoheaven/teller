@@ -140,11 +140,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Clear previous content from chat history
         chatHistory.innerHTML = '';
-        // 1. Clear subject input immediately
-        subjectInput.value = '';
-
-        // 2. Show loading animation
+        
+        // Show loading animation
         showLoadingAnimation();
+        
+        // Store the subject before clearing the form
+        const subject = subjectInput.value.trim();
+        
+        // Clear the form (after storing the subject)
+        subjectInput.value = '';
 
         // Show standby cursor
         const cursor = document.createElement('span');
@@ -155,7 +159,10 @@ document.addEventListener('DOMContentLoaded', function() {
         clearHighlights();
 
         try {
-            const formData = new FormData(form);
+            const formData = new FormData();
+            // Explicitly add the subject to the form data
+            formData.append('subject', subject);
+            
             const response = await fetch('/generate_story', {
                 method: 'POST',
                 body: formData

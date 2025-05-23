@@ -193,15 +193,43 @@ def elevenlabs_text_to_speech(story: str, filename: str = "story.mp3") -> None :
     
     return audio_bytes
 
-def tts_text_to_speech(story: str, filename: str = "story.mp3") -> str:
-    # Set path and create folder if needed
-    static_audio_path = os.path.join('static', 'audio', filename)
-    os.makedirs(os.path.dirname(static_audio_path), exist_ok=True)
+def tts_text_to_speech(story: str, filename: str = "story.wav", model_name: str = "tts_models/en/ljspeech/glow-tts") -> str:
+    """
+    Generates speech from text using Coqui TTS and saves it to a static directory.
 
-    # Create and save audio
-    audio_bytes = tts.text_to_speech(story)
+    Args:
+        story: The text content of the story.
+        filename: The desired filename for the audio (e.g., 'my_story.wav').
+        model_name: The Coqui TTS model to use (default: 'tts_models/en/ljspeech/glow-tts').
+                  Other options: 'tts_models/en/ljspeech/tacotron2-DDC', 'tts_models/en/ek1/tacotron2'
 
-    with open(static_audio_path, 'wb') as f:
-        f.write(audio_bytes)
-
-    return static_audio_path
+    Returns:
+        The path to the saved audio file relative to the 'static' directory,
+        or None if an error occurs.
+    """
+    try:
+        from TTS.api import TTS
+        import torch
+        
+        # Set device (use GPU if available)
+        device = 'cuda' if torch.cuda.is_available() else 'cpu'
+        
+        # Initialize TTS with the specified model
+        tts = TTS(model_name=model_name, progress_bar=False).to(device)
+        
+        # Create output directory if it doesn't exist
+        if not filename.lower().endswith('.wav'):
+            filename = f"{os.path.splitext(filename)[0]}.wav"
+            
+        output_path = os.path.join('static', GENERATED_STORIES_SUBDIR, filename)
+        os.makedirs(os.path.dirname(output_path), exist_ok=True)
+        
+        # Generate and save speech
+        tts.tts_to_file(text=story, file_path=output_path)
+        
+        # Return path relative to static directory
+        return os.path.join(GENERATED_STORIES_SUBDIR, filename)
+        
+    except Exception as e:
+        print(f"Error in Coqui TTS: {str(e)}")
+        return None

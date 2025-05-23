@@ -170,10 +170,22 @@ document.addEventListener('DOMContentLoaded', function() {
 
             if (response.ok) {
                 const data = await response.json();
+
+                // Load and play audio if available
+                if (data.audio_link && typeof window.loadAndPlayTrack === 'function') {
+                    window.loadAndPlayTrack(data.audio_link, data.title || 'Generated Story');
+                } else if (data.audio_link) {
+                    console.warn('window.loadAndPlayTrack is not available, cannot play audio automatically.');
+                }
+
                 if (data.story) {
                     await streamText(data.story, chatHistory);
                 } else {
-                    chatHistory.innerHTML = '<div class="message error">Generated response is missing story text.</div>';
+                    // If no story text, but audio might have been loaded.
+                    // Display error only if no audio was provided either.
+                    if (!data.audio_link) {
+                        chatHistory.innerHTML = '<div class="message error">Generated response is missing story text and audio.</div>';
+                    }
                 }
             } else {
                 const errorText = await response.text();

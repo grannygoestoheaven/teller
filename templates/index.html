@@ -27,13 +27,13 @@
         </div>
 
         <div class="audio-player-container" id="audioPlayerContainer" style="display: none;">
-            <audio id="storyAudioPlayer"></audio>
+            <audio id="story-audio"></audio>
             <div class="player-controls">
-                <button id="playPauseBtn" class="player-btn">Play</button>
-                <button id="startOverBtn" class="player-btn">Start Over</button>
-                <button id="replay10Btn" class="player-btn">Replay 10s</button> 
+                <button id="play-pause-button" class="player-btn">Play</button>
+                <button id="start-over-button" class="player-btn">Start Over</button>
+                <button id="replay-10s-button" class="player-btn">Replay 10s</button> 
             </div>
-            <div id="storyTitleDisplay" class="story-title-display"></div>
+            <div id="story-title-display" class="story-title-display"></div>
         </div>
 
         <footer class="chat-input-area">
@@ -63,6 +63,6 @@
     </div>
 
     <script src="{{ url_for('static', filename='sms3.js') }}"></script>
-    <!-- <script src="{{ url_for('static', filename='js/audio_player.js') }}"></script> -->
+    <script src="{{ url_for('static', filename='js/audio_player.js') }}"></script>
 </body>
 </html>

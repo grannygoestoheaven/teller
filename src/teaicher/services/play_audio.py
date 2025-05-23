@@ -1,11 +1,36 @@
 import os
+import re
 import vlc
 import time
 import tempfile
 import subprocess
-import threading # We need this for our 'doorbell' (Event)
+import threading
+from urllib.parse import urlparse, parse_qs
 
 from mutagen.mp3 import MP3
+from pytube import YouTube
+
+def is_youtube_url(url):
+    """Check if the given URL is a YouTube URL."""
+    youtube_regex = (
+        r'(https?://)?(www\.)?'
+        '(youtube|youtu|youtube-nocookie)\.(com|be)/'
+        '(watch\?v=|embed/|v/|.+/|\?v=|&v=|\/v\/)?([^&\n\s?]+)'
+    )
+    return bool(re.match(youtube_regex, url))
+
+def get_youtube_stream_url(youtube_url):
+    """Extract the audio stream URL from a YouTube video."""
+    try:
+        yt = YouTube(youtube_url)
+        audio_stream = yt.streams.filter(only_audio=True).order_by('abr').desc().first()
+        if not audio_stream:
+            print("No audio stream found for the YouTube video.")
+            return None
+        return audio_stream.url
+    except Exception as e:
+        print(f"Error getting YouTube stream: {e}")
+        return None
 
 def play_audio(speech_file_path: str) -> None:
     """
@@ -57,8 +82,8 @@ def play_audio(speech_file_path: str) -> None:
     speech_player = vlc.MediaPlayer(speech_file_path)
     speech_player.audio_set_volume(100)
     
-    track_player = vlc.MediaPlayer(track_path)
-    track_player.audio_set_volume(30)
+    # track_player = vlc.MediaPlayer(track_path)
+    # track_player.audio_set_volume(30)
 
     # time.sleep(duration + 2)  # ~32000 bytes/sec for mp3_22050_32
     
@@ -97,7 +122,7 @@ def play_audio_with_sync(speech_file_path: str, track_path: str) -> None:
 
     Args:
     - speech_file_path (str): The path of the speech audio file to play.
-    - track_path (str): The path of the track audio file to play.
+    - track_path (str): The path or YouTube URL of the track to play.
     """
     try:
         audio_metadata = MP3(speech_file_path)

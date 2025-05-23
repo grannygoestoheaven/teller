@@ -18,8 +18,84 @@ load_dotenv()
 ENABLE_VLC_PLAYBACK = True  # Set to False for browser-only playback, True for VLC server-side playback
 DEFAULT_DURATION = 2
 PATTERN_FILE_PATH = 'src/teaicher/config/patterns/insightful_brief.md'
-AMBIENT_SONGS_DIR_NAME = 'ambient_songs'
+LOCAL_AMBIENT_TRACKS = 'ambient_songs'
+YOUTUBE_AMBIENT_LANDSCAPES = 'youtube_ambient_landscapes'
+YOUTUBE_AMBIENT_TRACKS = 'youtube_ambient_tracks'
 
+def _get_local_ambient_track(base_dir, logger):
+    ambient_dir = os.path.join(base_dir, 'static', 'audio', LOCAL_AMBIENT_TRACKS)
+    try:
+        ambient_tracks_files = [f for f in os.listdir(ambient_dir) if f.endswith('.mp3') or f.endswith('.wav')]
+        if not ambient_tracks_files:
+            logger.warning(f"No MP3 or WAV files found in {ambient_dir}. No ambient sound will be played.")
+            return None
+        track_filename = random.choice(ambient_tracks_files)
+        return os.path.join(ambient_dir, track_filename)
+    except FileNotFoundError:
+        logger.error(f"Ambient songs directory not found: {ambient_dir}. No ambient sound will be played.")
+        return None
+
+def _read_youtube_urls(file_path):
+    """Read YouTube video urls from a text file."""
+    try:
+        with open(file_path, 'r') as f:
+            # Read non-empty lines and strip whitespace
+            return [line.strip() for line in f if line.strip()]
+    except Exception as e:
+        logger.error(f"Error reading YouTube URLs from {file_path}: {str(e)}")
+        return []
+
+def _get_ambient_landscapes_from_youtube(base_dir, logger):
+    """
+    Get a random YouTube track URL.
+    
+    Args:
+        base_dir: Base directory of the application
+        logger: Logger instance
+        
+    Returns:
+        dict: Dictionary containing 'type', 'video_id', and 'title' or None if no tracks found
+    """
+    
+    # Create the directory if it doesn't exist
+    youtube_dir = os.path.join(base_dir, 'static', 'audio', YOUTUBE_AMBIENT_LANDSCAPES)
+    os.makedirs(youtube_dir, exist_ok=True)
+    
+    # Look for .txt files in the directory
+    try:
+        url_files = [f for f in os.listdir(youtube_dir) if f.endswith('.txt')]
+        if not url_files:
+            logger.warning(f"No YouTube URL files found in {youtube_dir}")
+            return None
+            
+        # Choose a random URL file
+        url_file = random.choice(url_files)
+        url_file_path = os.path.join(youtube_dir, url_file)
+        
+        # Read URLs from the file
+        urls = _read_youtube_urls(url_file_path)
+        if not urls:
+            logger.warning(f"No valid URLs found in {url_file}")
+            return None
+        track_filename = random.choice(urls)
+        return os.path.join(youtube_dir, track_filename)
+    except FileNotFoundError:
+        logger.error(f"Ambient songs directory not found: {youtube_dir}. No ambient sound will be played.")
+        return None
+    
+def _get_ambient_track_from_youtube(base_dir, logger):
+    youtube_dir = os.path.join(base_dir, 'static', 'audio', YOUTUBE_AMBIENT_TRACKS)
+    try:
+        ambient_tracks_files = [f for f in os.listdir(youtube_dir) if f.endswith('.txt')]
+        if not ambient_tracks_files:
+            logger.warning(f"No MP3 or WAV files found in {youtube_dir}. No ambient sound will be played.")
+            return None
+        track_filename = random.choice(ambient_tracks_files)
+        return os.path.join(youtube_dir, track_filename)
+    except FileNotFoundError:
+        logger.error(f"Ambient songs directory not found: {youtube_dir}. No ambient sound will be played.")
+        return None
+    
 # helper functions for parameters, track selection, and story generation
 def _prepare_story_parameters(request_form):
     subject = request_form.get('subject')
@@ -32,19 +108,6 @@ def _prepare_story_parameters(request_form):
         duration = DEFAULT_DURATION
     estimated_chars = get_user_story_length(duration)
     return subject, duration, estimated_chars
-
-def _get_ambient_track(base_dir, logger):
-    ambient_dir = os.path.join(base_dir, 'static', 'audio', AMBIENT_SONGS_DIR_NAME)
-    try:
-        ambient_tracks_files = [f for f in os.listdir(ambient_dir) if f.endswith('.mp3') or f.endswith('.wav')]
-        if not ambient_tracks_files:
-            logger.warning(f"No MP3 or WAV files found in {ambient_dir}. No ambient sound will be played.")
-            return None
-        track_filename = random.choice(ambient_tracks_files)
-        return os.path.join(ambient_dir, track_filename)
-    except FileNotFoundError:
-        logger.error(f"Ambient songs directory not found: {ambient_dir}. No ambient sound will be played.")
-        return None
 
 def _generate_story_and_speech(subject, estimated_chars, pattern_path, logger):
     try:
@@ -77,7 +140,7 @@ def teller_ui():
     subject, duration, estimated_chars = _prepare_story_parameters(request.form)
     
     app_base_dir = os.path.dirname(__file__)
-    track_path = _get_ambient_track(app_base_dir, app.logger)
+    track_path = _get_local_ambient_track(app_base_dir, app.logger)
 
     story, display_filename, speech_file_static_path = _generate_story_and_speech(subject, estimated_chars, PATTERN_FILE_PATH, app.logger)
 

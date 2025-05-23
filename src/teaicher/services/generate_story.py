@@ -37,7 +37,7 @@ def generate_story(subject, pattern, estimated_chars: int) -> tuple[str, str]:
 
     try:
         response = client.chat.completions.create(
-            model="gpt-4",
+            model="gpt-4o",
             messages=[
                 {"role": "system", "content": system_message},
                 {"role": "user", "content": user_message}
@@ -95,51 +95,66 @@ def generate_story_strict(subject, pattern, estimated_chars: int) -> tuple[str, 
 
     return story, filename
 
-def generate_story_mistral(subject, pattern, estimated_chars: int) -> tuple[str, str]:
-    api_key = os.environ.get("MISTRAL_API_KEY")
-    model_name = "open-mixtral-8x7b"
+def _sanitize_filename(raw_title: str, max_length: int = 200) -> str:
+    """Generate a sanitized filename from a raw title."""
+    if not raw_title or not isinstance(raw_title, str):
+        return "mistral_story.mp3"
+        
+    # Convert to lowercase and replace spaces
+    filename = raw_title.lower().replace(" ", "_")
+    # Remove any non-alphanumeric characters except dots and underscores
+    filename = "".join(c for c in filename if c.isalnum() or c in ('.', '_')).rstrip()
+    
+    # Ensure .mp3 extension
+    if not filename.endswith(".mp3"):
+        filename += ".mp3"
+    
+    # Handle edge cases
+    if len(filename) > max_length:
+        filename = filename[:max_length - 4] + ".mp3"
+    if filename == ".mp3":
+        return "mistral_story.mp3"
+        
+    return filename
 
-    # Instantiate the correct class
-    client = Mistral(api_key=api_key)
-
-    messages = [
-        {"role": "system", "content": pattern},
-        {"role": "user", "content": subject}
-    ]
-
+def generate_story_mistral(subject: str, pattern: str, estimated_chars: int) -> tuple[str, str]:
+    """Generate a story using Mistral's API.
+    
+    Args:
+        subject: The subject of the story
+        pattern: System prompt/pattern for the model
+        estimated_chars: Estimated length in characters (for reference)
+        
+    Returns:
+        tuple: (story_text, output_filename)
+    """
     try:
-        chat_response = client.chat.complete(
-            model=model_name,
-            messages=messages,
-            # Add other parameters like temperature, max_tokens if needed
-            # max_tokens can be roughly estimated from estimated_chars if necessary
+        # Initialize client and make API call
+        client = Mistral(api_key=os.environ.get("MISTRAL_API_KEY"))
+        response = client.chat.complete(
+            model="open-mixtral-8x7b",
+            messages=[
+                {"role": "system", "content": pattern},
+                {"role": "user", "content": subject}
+            ]
         )
 
-        if chat_response.choices and len(chat_response.choices) > 0:
-            full_output = chat_response.choices[0].message.content.strip().split("\n", 1)
-            if len(full_output) >= 2:
-                raw_title = full_output[0]
-                story = full_output[1].strip()
-            elif len(full_output) == 1:
-                raw_title = subject # Or a generic title
-                story = full_output[0].strip()
-            else:
-                raw_title = subject
-                story = "Could not generate story content."
+        # Process response
+        if not response.choices:
+            return "Mistral API did not return any choices.", "error.mp3"
             
-            filename = raw_title.lower().replace(" ", "_") + ".mp3"
-            filename = "".join(c for c in filename if c.isalnum() or c in ('.', '_')).rstrip()
-            if not filename.endswith(".mp3"):
-                filename += ".mp3"
-            if len(filename) > 200: 
-                filename = filename[:200] + ".mp3"
-            if filename == ".mp3": 
-                filename = "mistral_story.mp3"
-
-            return story, filename
-        else:
-            return "Mistral API did not return a valid choice.", "error.mp3"
-
+        content = response.choices[0].message.content.strip()
+        if not content:
+            return "Received empty response from Mistral API.", "error.mp3"
+        
+        # Split title and story content
+        parts = content.split("\n", 1)
+        title = parts[0] if len(parts) > 1 else subject
+        story = parts[1].strip() if len(parts) > 1 else content
+        
+        return story, _sanitize_filename(title)
+        
     except Exception as e:
-        print(f"Error calling Mistral API: {e}")
-        return f"Error generating story with Mistral: {e}", "error.mp3"
+        error_msg = f"Error calling Mistral API: {str(e)}"
+        print(error_msg)
+        return error_msg, "error.mp3"

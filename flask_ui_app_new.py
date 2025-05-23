@@ -146,7 +146,7 @@ def _generate_story_and_speech(subject, estimated_chars, pattern_path, logger):
             pattern = file.read().replace("{subject}", str(subject)).replace("{estimated_chars}", str(estimated_chars))
         
         # Generate the story first
-        story, filename_from_story_gen = generate_story_mistral(subject, pattern, estimated_chars)
+        story, filename_from_story_gen = generate_story(subject, pattern, estimated_chars)
         
         # Check if story generation failed
         if story == "Error" or "Failed to generate story" in story: 

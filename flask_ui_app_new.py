@@ -137,7 +137,8 @@ def _prepare_story_parameters(request_form):
             duration = 1
     except ValueError:
         duration = DEFAULT_DURATION
-    estimated_chars = get_user_story_length(duration)
+    # estimated_chars = get_user_story_length(duration)
+    estimated_chars = 1000
     return subject, duration, estimated_chars
 
 def _generate_story_and_speech(subject, estimated_chars, pattern_path, logger):

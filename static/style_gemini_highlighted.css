@@ -1,3 +1,13 @@
+/* Hide scrollbars for the entire page */
+html, body {
+    overflow: auto; /* Prevent scrolling on the body */
+    scrollbar-width: none; /* Hide scrollbar for Firefox */
+    -ms-overflow-style: none; /* Hide scrollbar for IE and Edge */
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
 /* Add Inika font */
 @font-face {
     font-family: 'Inika';
@@ -144,7 +154,9 @@ body {
     width: 100%;
     margin: 0 auto;
     padding: 20px; /* Reset to normal padding */
-    overflow-y: auto;
+    overflow-y: auto; /* Keep scrolling functionality */
+    scrollbar-width: none; /* Hide scrollbar for Firefox */
+    -ms-overflow-style: none; /* Hide scrollbar for IE and Edge */
     font-size: 1.4em;
     color: rgba(240, 240, 240, 0.85);
     box-sizing: border-box;
@@ -169,6 +181,11 @@ body {
     transform: scale(1); /* Default size */
     vertical-align: bottom;
     line-height: inherit;
+}
+
+/* Hide scrollbar for Webkit browsers (Chrome, Safari, Opera) */
+.chat-history::-webkit-scrollbar {
+    display: none;
 }
 
 /* Hover effect for words */

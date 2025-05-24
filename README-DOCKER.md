@@ -1,20 +1,20 @@
-# Teaicher - Docker Deployment
+# Teller - Docker Deployment
 
-This guide explains how to deploy the Teaicher application using Docker.
+This guide explains how to deploy the Teller application using Docker.
 
 ## Prerequisites
 
 - Docker installed on your system
 - Docker Compose (usually comes with Docker Desktop)
 
-## Building and Running with Docker Compose
+## Building and Running with Docker compose
 
 The easiest way to run the application is using Docker Compose:
 
 1. Clone the repository (if you haven't already):
    ```bash
-   git clone https://github.com/grannygoestoheaven/teaicher.git
-   cd teaicher
+   git clone https://github.com/grannygoestoheaven/teller.git
+   cd teller
    ```
 
 2. Create a `.env` file in the project root with your environment variables:
@@ -36,12 +36,12 @@ If you prefer to use Docker directly:
 
 1. Build the Docker image:
    ```bash
-   docker build -t teaicher .
+   docker build -t teller .
    ```
 
 2. Run the container:
    ```bash
-   docker run -p 5000:5000 --env-file .env teaicher
+   docker run -p 5000:5000 --env-file .env teller
    ```
 
 ## Environment Variables

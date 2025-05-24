@@ -58,13 +58,15 @@ def openai_text_to_speech(story: str, filename: str, pause_between_sentences_ms:
             raise ValueError("Story text must be a non-empty string")
             
         response = client.audio.speech.create(
-            model="tts-1-hd",
+            model="tts-1-hd-1106",
+            # model="gpt-4o-mini-tts",
             voice="onyx",
-            input=story.strip(),  # Ensure we're passing a clean string
+            # input=story.strip(),  # Ensure we're passing a clean string
+            input=story,
             response_format="mp3",
             instructions='''
-                        Tone : very reassuring, very soft, low, discreet.
-                        Pacing : fast, with double long silences between
+                        Tone : reassuring, soft, low, discreet.
+                        Pacing : normal, with controlled, double silences between
                         sentences.
                         ''',
             speed=1.0,

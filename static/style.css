@@ -137,14 +137,16 @@ body {
 
 /* Chat history - Centered and scrollable */
 .chat-history {
-    position: relative; /* Needed for absolute positioning of children */
+    position: relative;
     display: block;
     flex-grow: 1;
     max-width: 1200px;
     width: 100%;
     margin: 0 auto;
-    padding: 20px; /* Reset to normal padding */
-    overflow-y: hidden;
+    padding: 20px;
+    overflow-y: auto; /* Keep auto for scrolling when needed */
+    scrollbar-width: none; /* For Firefox */
+    -ms-overflow-style: none; /* For Internet Explorer and Edge */
     font-size: 1.4em;
     color: rgba(240, 240, 240, 0.85);
     box-sizing: border-box;
@@ -154,6 +156,11 @@ body {
     border: none;
     background-color: rgb(24, 24, 23);
     box-shadow: none;
+}
+
+/* For Webkit browsers (Chrome, Safari, Opera) */
+.chat-history::-webkit-scrollbar {
+    display: none; /* Hide scrollbar */
 }
 
 /* Style for interactive words */
@@ -399,7 +406,7 @@ footer.chat-input-area {
 
 .loading-animation .colon {
     opacity: 0; /* Start invisible */
-    animation: colon-fade 1.5s infinite ease-in-out; /* Main animation */
+    animation: colon-fade 0.8s infinite ease-in-out; /* Main animation */
     margin: 0 2px; /* Small spacing between colons */
 }
 

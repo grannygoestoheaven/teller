@@ -30,10 +30,20 @@ def generate_story(subject, pattern, estimated_chars: int) -> tuple[str, str]:
     system_message = pattern.replace('{subject}', subject).replace('{estimated_chars}', str(estimated_chars))
     
     # Create a clear instruction for the AI
-    user_message = f"""Please generate a short presentation about: {subject}
+    user_message = f"""Please generate a presentation about: {subject}
     - Keep it around {estimated_chars} characters long
     - Be factual and clear
-    - Focus specifically on: {subject}"""
+    - Focus specifically on: {subject}
+    - Conclude by giving three related subjects to the topic
+    
+    ## Instructions :
+    - Write in an elegant style, not in a grandiose style. Avoid any mystery tone at all cost. It must be factual.
+    - Do not use cliches or jargon.
+    - Use absolutely ZERO cliches or jargon or journalistic language like "In a world, in the realm", etc.
+    - USE zero poetry of any kind.
+    - Use ZERO metaphor of any kind.
+    - Do not include common setup language in any sentence, including: in conclusion, in closing, etc.
+    - Do not output warnings or notes—just the output requested."""
 
     try:
         response = client.chat.completions.create(

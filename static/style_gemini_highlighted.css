@@ -144,7 +144,7 @@ body {
     width: 100%;
     margin: 0 auto;
     padding: 20px; /* Reset to normal padding */
-    overflow-y: hidden;
+    overflow-y: auto;
     font-size: 1.4em;
     color: rgba(240, 240, 240, 0.85);
     box-sizing: border-box;

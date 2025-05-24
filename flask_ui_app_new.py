@@ -16,7 +16,7 @@ load_dotenv()
 
 # --- Configuration Flag for Playback Mode ---
 ENABLE_VLC_PLAYBACK = True  # Set to False for browser-only playback, True for VLC server-side playback
-DEFAULT_DURATION = 2
+DEFAULT_DURATION = 1
 PATTERN_FILE_PATH = 'src/teaicher/config/patterns/insightful_brief.md'
 LOCAL_AMBIENT_TRACKS = 'local_ambient_tracks'
 YOUTUBE_AMBIENT_LANDSCAPES = 'youtube_ambient_landscapes'

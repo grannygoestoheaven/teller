@@ -406,7 +406,7 @@ footer.chat-input-area {
 
 .loading-animation .colon {
     opacity: 0; /* Start invisible */
-    animation: colon-fade 0.8s infinite ease-in-out; /* Main animation */
+    animation: colon-fade 1.0s infinite ease-in-out; /* Main animation */
     margin: 0 2px; /* Small spacing between colons */
 }
 

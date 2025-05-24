@@ -44,13 +44,12 @@ body {
     background: none;
     padding: 20px 25px 0;
     margin-bottom: 20px;
-    margin-left: 10px;
     flex-shrink: 0; /* Prevent header from shrinking */
 }
 
 .chat-header h1 {
     margin: 0 0 0 10px;
-    font-size: 2.5em;
+    font-size: 1em;
     /* color: #333; */
     color: rgba(249, 245, 245); /* Adjusted header to match general lighter text, slightly less prominent */
     opacity: 0.7; /* This existing opacity will further reduce visibility, consider if this is too much */
@@ -71,7 +70,7 @@ body {
     flex-shrink: 0;
     height: 80px; /* Increased height for larger text */
     line-height: 1.6; /* Keep line-height relative to font size */
-    font-size: 2em; /* Base font size for header controls */
+    font-size: 1em; /* Base font size for header controls */
 }
 
 /* Track selector styles */
@@ -157,7 +156,7 @@ body {
     overflow-y: auto; /* Keep scrolling functionality */
     scrollbar-width: none; /* Hide scrollbar for Firefox */
     -ms-overflow-style: none; /* Hide scrollbar for IE and Edge */
-    font-size: 1.4em;
+    font-size: 1em;
     color: rgba(240, 240, 240, 0.85);
     box-sizing: border-box;
     text-align: start;
@@ -201,7 +200,7 @@ body {
 /* Remove standby cursor in chat history */
 .cursor-standby {
     /* display: none !important; */ /* Keep display:none if you don't want the initial cursor */
-    font-size: 1.2em;
+    font-size: 1em;
     color: #bca18c; /* Match placeholder color */
     margin-left: 0.05em; /* Small space after text */
     animation: blink 1s steps(1) infinite;
@@ -220,7 +219,7 @@ body {
     align-items: center;
     height: 100%; /* Occupy the full height of chatHistory */
     width: 100%; /* Occupy the full width of chatHistory */
-    font-size: 3em; /* Adjust size as needed */
+    font-size: 1em; /* Adjust size as needed */
     color: #888; /* A subtle grey for the colons */
     box-sizing: border-box;
     line-height: 1; /* Ensure colons don't take up too much vertical space */
@@ -238,11 +237,11 @@ body {
 }
 
 .loading-animation .colon-2 {
-    animation-delay: 0.3s; /* Delay for the second colon */
+    animation-delay: 0.2s; /* Delay for the second colon */
 }
 
 .loading-animation .colon-3 {
-    animation-delay: 0.6s; /* Delay for the third colon */
+    animation-delay: 0.4s; /* Delay for the third colon */
 }
 
 @keyframes colon-fade {
@@ -277,7 +276,7 @@ body {
 footer.chat-input-area {
     width: 100%;
     max-width: 1200px;
-    margin: 20px auto 110px auto;
+    margin: 20px auto 20px auto;
     padding: 0 20px;
     box-sizing: border-box;
     background: none;
@@ -308,7 +307,7 @@ footer.chat-input-area {
     align-items: center;
     width: 100%;
     max-width: 1000px; /* Max width for the whole group including subject and selector */
-    margin: 0 auto 20px auto; /* Keep original bottom margin of #subject */
+    margin: 0 auto auto auto; /* Keep original bottom margin of #subject */
     padding: 0; /* Ensure no extra padding on the group itself */
     box-sizing: border-box;
     position: relative; /* Added for absolute positioning of children */
@@ -339,10 +338,10 @@ footer.chat-input-area {
 
 /* Subject input specific styles */
 #subject {
-    width: auto; /* Allow flex to determine width */
+    max-width: 800px; /* Allow flex to determine width */
     flex-grow: 1; /* Allow subject input to take available space */
-    padding: 28px 22px; /* Reverted padding */
-    font-size: 2em;
+    padding: 24px 16px; /* Reverted padding */
+    font-size: 1em;
     border: none !important;
     border-radius: 20px;
     background: #0f0f0f; /* Subject input background is already very dark, keeping it */
@@ -381,9 +380,11 @@ footer.chat-input-area {
 
 /* Pixel PLAY style */
 .pixel-play {
-    font-family: 'Press Start 2P', 'VT323', monospace, sans-serif;
+    /* font-family: 'Press Start 2P', 'VT323', monospace, sans-serif; */
+    /* font-family: 'Silkscreen', serif; */
+    font-family: 'Pixelify Sans', serif;
     text-transform: uppercase;
-    font-size: 1.3em;
+    font-size: 1em;
     letter-spacing: 0.12em;
     display: block;
     text-align: center;
@@ -397,14 +398,15 @@ footer.chat-input-area {
     background-color: #313030;
     color: rgb(234, 232, 232);
     border: none;
-    padding: 12px 24px;
+    padding: 5px 17px;
     border-radius: 4px;
     cursor: pointer;
     font-family: 'Inika', serif;
-    font-size: 1.2em;
-    /* margin-top: 15px; */
+    font-size: 0.85em;
+    margin-top: 10px;
+    margin-bottom: 10px;
     width: 100%;
-    max-width: 200px;
+    max-width: 100px;
     align-self: center;
 }
 
@@ -433,7 +435,7 @@ footer.chat-input-area {
 }
 
 .length-selector-container #length-display-value {
-    font-size: 1.2em; /* Prominent but not as large as subject input's text */
+    font-size: 1em; /* Prominent but not as large as subject input's text */
     font-weight: bold; /* Assuming 'Inika Bold' is desired from your font setup */
     opacity: 0; /* Hidden by default */
     transition: opacity 0.2s ease-in-out; /* Smooth transition for appearing */

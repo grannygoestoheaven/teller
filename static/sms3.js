@@ -1,8 +1,51 @@
+// Function to save story to localStorage
+function saveStoryToStorage(story, title) {
+    if (story && title) {
+        const storyData = {
+            content: story,
+            title: title,
+            timestamp: new Date().toISOString()
+        };
+        localStorage.setItem('lastGeneratedStory', JSON.stringify(storyData));
+    }
+}
+
+// Function to load story from localStorage
+function loadStoryFromStorage() {
+    const savedStory = localStorage.getItem('lastGeneratedStory');
+    if (savedStory) {
+        try {
+            const storyData = JSON.parse(savedStory);
+            return {
+                story: storyData.content,
+                title: storyData.title
+            };
+        } catch (e) {
+            console.error('Error parsing saved story:', e);
+            return null;
+        }
+    }
+    return null;
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('story-form');
     const chatHistory = document.getElementById('chatHistory');
     const subjectInput = document.getElementById('subject');
     const generateButton = document.getElementById('generateButton');
+    
+    // Load saved story on page load
+    const savedStory = loadStoryFromStorage();
+    if (savedStory) {
+        // Clear any existing content
+        chatHistory.innerHTML = '';
+        // Display the saved story immediately (no streaming)
+        const storyDiv = document.createElement('div');
+        storyDiv.className = 'story-content';
+        storyDiv.innerHTML = savedStory.story.replace(/\n/g, '<br>');
+        chatHistory.appendChild(storyDiv);
+        // Don't modify the subject input to keep the placeholder
+    }
     
     // Create audio context for sound effects
     let audioContext;
@@ -179,7 +222,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
 
                 if (data.story) {
-                    await streamText(data.story, chatHistory);
+                    chatHistory.innerHTML = '';
+                    streamText(data.story, chatHistory);
+                    
+                    // Save the new story to localStorage
+                    const storyTitle = subjectInput.value || 'Untitled Story';
+                    saveStoryToStorage(data.story, storyTitle);
                 } else {
                     // If no story text, but audio might have been loaded.
                     // Display error only if no audio was provided either.

@@ -151,12 +151,13 @@ body {
     flex-grow: 1;
     max-width: 1200px;
     width: 100%;
-    margin: 0 auto;
+    margin: 0 100px;
     padding: 20px; /* Reset to normal padding */
     overflow-y: auto; /* Keep scrolling functionality */
     scrollbar-width: none; /* Hide scrollbar for Firefox */
     -ms-overflow-style: none; /* Hide scrollbar for IE and Edge */
-    font-size: 1em;
+    font-size: 0.85em;
+    opacity: 0.95;
     color: rgba(240, 240, 240, 0.85);
     box-sizing: border-box;
     text-align: start;
@@ -189,8 +190,8 @@ body {
 
 /* Hover effect for words */
 .chat-history span.highlight-word {
-    -webkit-text-stroke: 3px rgba(10, 184, 21, 0.849);
-    text-stroke: 3px rgba(10, 184, 21, 0.849);
+    -webkit-text-stroke: 2px rgba(10, 184, 21, 0.849);
+    text-stroke: 2px rgba(10, 184, 21, 0.849);
     /* Remove transform to prevent text movement */
     position: relative;
     z-index: 1;

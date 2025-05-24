@@ -143,7 +143,7 @@ def play_audio_with_sync(speech_file_path: str, track_path: str) -> None:
     track_player.set_media(track_media)
 
     # Set volumes
-    speech_player.audio_set_volume(100)
+    speech_player.audio_set_volume(90)
     track_player.audio_set_volume(55)  # Lower volume for ambient track
 
     # Start playing the ambient track

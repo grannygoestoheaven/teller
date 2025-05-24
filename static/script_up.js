@@ -42,6 +42,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Display the saved story immediately (no streaming)
         const storyDiv = document.createElement('div');
         storyDiv.className = 'story-content';
+        // Replace newline characters with <br> for display
         storyDiv.innerHTML = savedStory.story.replace(/\n/g, '<br>');
         chatHistory.appendChild(storyDiv);
         // Don't modify the subject input to keep the placeholder
@@ -55,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function() {
         console.warn('Web Audio API not supported in this browser');
     }
     
-    // Function to play click sound
+    // Function to play click sound (if needed, currently commented out in submit)
     function playClickSound() {
         if (!audioContext) return;
         
@@ -99,21 +100,22 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Available ambient tracks
+    // Available ambient tracks (not directly used in this JS snippet beyond definition)
     const ambientTracks = [
         { name: 'Ambient Track 1', color: 'rgba(100, 181, 246, 0.8)' },
         { name: 'Ambient Track 2', color: 'rgba(129, 199, 132, 0.8)' },
         { name: 'Ambient Track 3', color: 'rgba(255, 183, 77, 0.8)' },
         { name: 'No Track', color: 'rgba(255, 255, 255, 0.1)' }
     ];
-    let currentTrackIndex = 0;
+    let currentTrackIndex = 0; // Not used in this snippet's logic
     let isGenerating = false;
     
     // Update subject display - now essentially a placeholder or can be removed
     function updateSubjectDisplay() {
+        // This function is empty in your original code, retaining that behavior.
     }
     
-    // Show/hide elements based on input focus
+    // Show/hide elements based on input focus (empty in original)
     subjectInput.addEventListener('focus', () => {
     });
     
@@ -169,7 +171,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     // --- End: New Length Selector Logic ---
 
-    let currentlyHighlightedWords = [];
+    let currentlyHighlightedWords = []; // Array to keep track of words currently highlighted by mousemove
 
     form.addEventListener('submit', async function(e) {
         e.preventDefault(); // Ensure default submission is prevented
@@ -179,7 +181,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         isGenerating = true; // Set generating state
         generateButton.disabled = true; // Disable button immediately
-        // playClickSound(); // Play click sound
+        // playClickSound(); // Play click sound (uncomment if you want this)
 
         // Clear previous content from chat history
         chatHistory.innerHTML = '';
@@ -193,18 +195,20 @@ document.addEventListener('DOMContentLoaded', function() {
         // Clear the form (after storing the subject)
         subjectInput.value = '';
 
-        // Show standby cursor
+        // Show standby cursor - this will be replaced by streaming text
         const cursor = document.createElement('span');
         cursor.className = 'cursor-standby';
         chatHistory.appendChild(cursor);
 
-        // Clear any previous highlights
+        // Clear any previous highlights (important after content changes)
         clearHighlights();
 
         try {
             const formData = new FormData();
             // Explicitly add the subject to the form data
             formData.append('subject', subject);
+            // Also add the length input
+            formData.append('user_length_input', userLengthInput.value);
             
             const response = await fetch('/generate_story', {
                 method: 'POST',
@@ -214,7 +218,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (response.ok) {
                 const data = await response.json();
 
-                // Load and play audio if available
+                // Load and play audio if available (assuming window.loadAndPlayTrack exists)
                 if (data.audio_link && typeof window.loadAndPlayTrack === 'function') {
                     window.loadAndPlayTrack(data.audio_link, data.title || 'Generated Story');
                 } else if (data.audio_link) {
@@ -222,11 +226,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
 
                 if (data.story) {
-                    chatHistory.innerHTML = '';
+                    // Hide loading animation before streaming
+                    hideLoadingAnimation();
+                    chatHistory.innerHTML = ''; // Ensure it's clear before streaming
                     streamText(data.story, chatHistory);
                     
                     // Save the new story to localStorage
-                    const storyTitle = subjectInput.value || 'Untitled Story';
+                    // Use the subject that was *sent* for the title, or a default
+                    const storyTitle = subject || 'Untitled Story'; 
                     saveStoryToStorage(data.story, storyTitle);
                 } else {
                     // If no story text, but audio might have been loaded.
@@ -249,7 +256,7 @@ document.addEventListener('DOMContentLoaded', function() {
         } finally {
             isGenerating = false; // Reset generating state
             generateButton.disabled = false; // Re-enable button
-            // 3. Hide loading animation when done (success or error)
+            // Ensure loading animation is hidden even on error
             hideLoadingAnimation();
         }
     });
@@ -270,14 +277,15 @@ document.addEventListener('DOMContentLoaded', function() {
         
         for (let p = 0; p < paragraphs.length; p++) {
             const paragraph = paragraphs[p];
-            if (!paragraph.trim()) continue;
+            if (!paragraph.trim()) continue; // Skip empty paragraphs
             
             // Create paragraph element
             const paragraphEl = document.createElement('p');
-            paragraphEl.style.margin = '0.8em 0';
+            paragraphEl.style.margin = '0.8em 0'; // Apply margin for paragraph spacing
             contentWrapper.appendChild(paragraphEl);
             
             // Process words in this paragraph
+            // Split by words (\w+) or non-word/non-space characters ([^\w\s]) or spaces (\s+)
             const parts = paragraph.match(/(\w+|[^\w\s]|\s+)/g) || [];
             
             for (let i = 0; i < parts.length; i++) {
@@ -287,12 +295,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (/\w+/.test(part)) { // If it's a word
                     node = document.createElement('span');
                     node.textContent = part;
-                    node.classList.add('word');
-                    node.addEventListener('click', handleWordClick);
+                    node.classList.add('word'); // Add the 'word' class for highlighting
+                    // No need for individual click listeners here due to event delegation
                 } else { // If it's spaces or punctuation
                     node = document.createTextNode(part);
                 }
-
                 
                 paragraphEl.appendChild(node);
                 
@@ -319,27 +326,40 @@ document.addEventListener('DOMContentLoaded', function() {
          finalCursor.className = 'cursor-standby';
          container.appendChild(finalCursor);
 
-
-        // Attach mousemove and mouseout listeners to the container after streaming
-        // Remove previous listeners first if streamText can be called multiple times
-        // (Though in this flow, it's typically only called once per submit)
-        // container.removeEventListener('mousemove', handleMouseMove);
-        // container.removeEventListener('mouseout', handleMouseOut);
+        // Attach mousemove and mouseout listeners to the chatHistory container itself
+        // This is event delegation: listeners on parent, check target child.
+        // It's crucial that these are attached AFTER content has been streamed.
+        // If streamText can be called multiple times, ensure you remove previous
+        // listeners before adding new ones to prevent multiple handlers.
+        // For this single-stream-per-submit flow, it's fine.
         container.addEventListener('mousemove', handleMouseMove);
         container.addEventListener('mouseout', handleMouseOut);
     }
 
-     // Helper function to find the next word span in the history
+    // Helper function to find the next *word* span (handling paragraphs)
     function findNextWordSpan(currentSpan) {
         let nextNode = currentSpan.nextSibling;
+        // Search within the current paragraph first
         while (nextNode) {
-            // Check if it's an element node (type 1) and has the 'word' class
-            // We also check parentElement to ensure it's a direct child of chatHistory,
-            // although the streaming logic should guarantee this.
-            if (nextNode.nodeType === Node.ELEMENT_NODE && nextNode.classList.contains('word') && nextNode.parentElement === chatHistory) {
-                return nextNode; // Found the next word span
+            if (nextNode.nodeType === Node.ELEMENT_NODE && nextNode.classList.contains('word')) {
+                return nextNode;
             }
             nextNode = nextNode.nextSibling;
+        }
+
+        // If no more words in current paragraph, check next paragraph (if exists)
+        let currentParagraph = currentSpan.parentElement;
+        if (currentParagraph && currentParagraph.nodeName === 'P') {
+            let nextParagraph = currentParagraph.nextElementSibling;
+            while (nextParagraph) {
+                if (nextParagraph.nodeName === 'P') { // Ensure it's a paragraph element
+                    const firstWordInNextParagraph = nextParagraph.querySelector('.word');
+                    if (firstWordInNextParagraph) {
+                        return firstWordInNextParagraph;
+                    }
+                }
+                nextParagraph = nextParagraph.nextElementSibling;
+            }
         }
         return null; // No next word span found
     }
@@ -380,69 +400,48 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Handles mouse movement for highlighting
     function handleMouseMove(event) {
+        // Always clear previous highlights at the start of every mousemove
+        clearHighlights();
+
         const target = event.target;
-        const parent = target.parentElement;
+        // Use .closest() to check if the target or any of its ancestors is a word
+        const hoveredWordSpan = target.closest('.word');
 
-        // Check if the mouse is over an element directly within chatHistory
-        // or over a text node directly within chatHistory
-        if (parent === chatHistory) {
-             // Always clear previous highlights before determining new ones
-            clearHighlights();
+        if (hoveredWordSpan) {
+            // Mouse is over a word span (or inside one)
+            const rect = hoveredWordSpan.getBoundingClientRect();
+            const mouseYRelativeToSpanTop = event.clientY - rect.top;
+            const spanHeight = rect.height;
 
-            if (target.classList && target.classList.contains('word')) {
-                // Mouse is over a word span
-                const rect = target.getBoundingClientRect();
-                const mouseYRelativeToSpanTop = event.clientY - rect.top;
-                const spanHeight = rect.height;
+            // Always highlight the current word
+            hoveredWordSpan.classList.add('highlight-word');
+            currentlyHighlightedWords.push(hoveredWordSpan);
 
-                // Always highlight the current word
-                target.classList.add('highlight-word');
-                currentlyHighlightedWords.push(target);
+            // Divide span into 10 vertical zones (top = 10 words, bottom = 1 word)
+            let zone = 10 - Math.floor((mouseYRelativeToSpanTop / spanHeight) * 10);
+            zone = Math.max(1, Math.min(zone, 10)); // Clamp between 1 and 10
+            let wordsToHighlightCount = zone;
 
-                // Divide span into 10 vertical zones (top = 10 words, bottom = 1 word)
-                let zone = 10 - Math.floor((mouseYRelativeToSpanTop / spanHeight) * 10);
-                zone = Math.max(1, Math.min(zone, 10));
-                let wordsToHighlight = zone;
-
-                let currentSpan = target;
-                for (let i = 0; i < wordsToHighlight - 1; i++) { // -1 because target already highlighted
-                    const nextWord = findNextWordSpan(currentSpan);
-                    if (nextWord) {
-                        nextWord.classList.add('highlight-word');
-                        currentlyHighlightedWords.push(nextWord);
-                        currentSpan = nextWord;
-                    } else {
-                        break;
-                    }
+            let currentSpan = hoveredWordSpan;
+            // Iterate to highlight subsequent words based on 'zone'
+            for (let i = 0; i < wordsToHighlightCount - 1; i++) { // -1 because hoveredWordSpan is already highlighted
+                const nextWord = findNextWordSpan(currentSpan);
+                if (nextWord) {
+                    nextWord.classList.add('highlight-word');
+                    currentlyHighlightedWords.push(nextWord);
+                    currentSpan = nextWord; // Move to the next word for the next iteration
+                } else {
+                    break; // No more words to highlight
                 }
-            } else if (target.nodeType === Node.TEXT_NODE) {
-                 // Mouse is over a text node (space or punctuation)
-                 // Find immediate adjacent word spans and highlight them
-                 let prevElement = target.previousElementSibling;
-                 let nextElement = target.nextElementSibling;
-
-                 if (prevElement && prevElement.classList.contains('word')) {
-                     prevElement.classList.add('highlight-word');
-                     currentlyHighlightedWords.push(prevElement);
-                 }
-                 if (nextElement && nextElement.classList.contains('word')) {
-                     nextElement.classList.add('highlight-word');
-                     currentlyHighlightedWords.push(nextElement);
-                 }
             }
-             // If the target is the chatHistory div itself (e.g. padding area)
-             // or another non-word/non-text node child, clear highlights.
-        } else {
-             // If mouse moves off an interactive element directly in chatHistory, clear highlights
-             // This handles moving from a word/text node onto padding or out of the history area
-             clearHighlights();
         }
+        // If not hovering over a word, clearHighlights() already took care of it.
     }
 
-    // Handles mouse leaving the chat history area
+    // Handles mouse leaving the chat history area (or any word within it)
     function handleMouseOut(event) {
-        // Check if the mouse is actually leaving the chatHistory element
-        // event.relatedTarget is the element the mouse is entering
+        // Only clear highlights if the mouse is actually leaving the chatHistory container itself
+        // or moving from a word to a non-word element *outside* the chatHistory's content area
         if (!event.relatedTarget || !chatHistory.contains(event.relatedTarget)) {
              clearHighlights();
         }
@@ -456,17 +455,11 @@ document.addEventListener('DOMContentLoaded', function() {
         currentlyHighlightedWords = []; // Reset the array
     }
 
-    // Use event delegation for word clicks
+    // Use event delegation for word clicks on the chatHistory container
     chatHistory.addEventListener('click', function(event) {
-        // First try direct target
-        if (event.target.classList && event.target.classList.contains('word')) {
-            handleWordClick(event);
-            return;
-        }
-        
-        // Then check if it's a child of a word element
         const wordSpan = event.target.closest('.word');
         if (wordSpan) {
+            // Call handleWordClick with the identified word span
             handleWordClick({ target: wordSpan });
         }
     });

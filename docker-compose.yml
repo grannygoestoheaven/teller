@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  teller:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"  # Map container port 5000 to host port 5000
+    volumes:
+      - .:/app  # Mount the current directory to /app in the container
+    environment:
+      - FLASK_APP=flask_ui_app.py
+      - FLASK_ENV=production
+      - PYTHONUNBUFFERED=1
+    command: ["python", "flask_ui_app.py"]
+    restart: unless-stopped

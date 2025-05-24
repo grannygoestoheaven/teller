@@ -33,6 +33,7 @@ body {
     padding: 0;
     height: 100vh; /* Use height: 100vh to prevent body scroll */
     display: flex; /* Use flexbox */
+    /* align-items: center; */
     flex-direction: column; /* Stack children vertically */
     overflow: hidden; /* Hide body scrollbar just in case */
 }
@@ -146,41 +147,63 @@ body {
 
 /* Chat history - Centered and scrollable */
 .chat-history {
-    position: relative; /* Needed for absolute positioning of children */
-    display: block;
-    flex-grow: 1;
-    max-width: 1200px;
+    position: relative;
+    max-width: 1200px; /* Wider max-width for a more expansive feel */
     width: 100%;
-    margin: 0 100px;
-    padding: 20px; /* Reset to normal padding */
-    overflow-y: auto; /* Keep scrolling functionality */
-    scrollbar-width: none; /* Hide scrollbar for Firefox */
-    -ms-overflow-style: none; /* Hide scrollbar for IE and Edge */
-    font-size: 0.85em;
-    opacity: 0.95;
-    color: rgba(240, 240, 240, 0.85);
+    height: 100%;
+    margin: 0 auto;
+    padding: 20px 40px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    font-size: 1.1em;
+    line-height: 1.4; /* Reduced line height */
+    color: rgba(240, 240, 240, 0.9);
     box-sizing: border-box;
-    text-align: start;
-    align-content: center;
-    line-height: 1.6;
-    border: none;
     background-color: rgb(24, 24, 23);
-    box-shadow: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* Container for the story content */
+.story-content {
+    width: 100%;
+    text-align: left;
+    padding: 20px;
+    box-sizing: border-box;
+    margin: 0 auto;
+    max-width: 100%;
+    word-wrap: break-word;
 }
 
 /* Style for interactive words */
-.chat-history span {
-    display: inline-block; /* Allows border/padding and hover effects */
-    cursor: pointer; /* Indicate that the word is clickable */
-    padding: 0; /* Add padding for border space */
-    margin: 0; /* Add small horizontal margin between words */
-    border: none; /* Default transparent border */
+.chat-history .word {
+    display: inline;
+    cursor: pointer;
+    white-space: normal;
+    word-wrap: break-word;
     -webkit-text-stroke: transparent;
     text-stroke: transparent;
     transition: -webkit-text-stroke 0.2s ease-in-out, text-stroke 0.2s ease-in-out;
-    transform: scale(1); /* Default size */
-    vertical-align: bottom;
-    line-height: inherit;
+    position: relative;
+    z-index: 1;
+    padding: 0 0.1em; /* Reduced horizontal padding */
+    margin: 0 -0.1em; /* Compensate for padding to reduce word spacing */
+}
+
+/* Ensure proper spacing between words */
+.chat-history {
+    white-space: normal;
+    word-spacing: -0.1em; /* Tighter word spacing */
+    letter-spacing: normal;
+}
+
+/* Add some padding to the container */
+.chat-history > * {
+    margin: 0;
+    padding: 2px 0; /* Reduced vertical padding */
 }
 
 /* Hide scrollbar for Webkit browsers (Chrome, Safari, Opera) */
@@ -189,12 +212,15 @@ body {
 }
 
 /* Hover effect for words */
-.chat-history span.highlight-word {
+.chat-history .word.highlight-word {
     -webkit-text-stroke: 2px rgba(10, 184, 21, 0.849);
     text-stroke: 2px rgba(10, 184, 21, 0.849);
-    /* Remove transform to prevent text movement */
     position: relative;
     z-index: 1;
+    background-color: rgba(10, 184, 21, 0.15); /* Add a subtle background highlight */
+    border-radius: 3px;
+    padding: 0 1px;
+    margin: 0 -1px;
 }
 
 /* Cursor animation */
@@ -450,3 +476,5 @@ footer.chat-input-area {
     border-color: rgba(230, 230, 230, 0.85); /* Brighter hover border */
     box-shadow: 0 0 0 3px rgba(230, 230, 230, 0.2); /* Adjusted shadow to match new border */
 }
+
+/* Adjusted shadow to match new border */

@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const storyTitleElement = document.getElementById('story-title-display'); // Assuming you have an element to display the title
 
     // Sound effect for play button
-    const penClickSound = new Audio('/static/audio/sfx/pen_click.m4v'); 
+    const penClickSound = new Audio('/static/audio/sfx/pen_click.mp3'); 
     // Preload the sound effect for faster playback
     penClickSound.preload = 'auto'; 
 

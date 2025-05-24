@@ -62,6 +62,11 @@ def openai_text_to_speech(story: str, filename: str, pause_between_sentences_ms:
             voice="onyx",
             input=story.strip(),  # Ensure we're passing a clean string
             response_format="mp3",
+            instructions='''
+                        Tone : very reassuring, very soft, low, discreet.
+                        Pacing : fast, with double long silences between
+                        sentences.
+                        ''',
             speed=1.0,
         )
 

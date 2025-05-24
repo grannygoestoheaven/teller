@@ -43,7 +43,7 @@ def generate_story(subject, pattern, estimated_chars: int) -> tuple[str, str]:
                 {"role": "user", "content": user_message}
             ],
             temperature=0.7,
-            max_tokens=2000
+            max_tokens=1300
         )
         
         # Get the story content

@@ -136,7 +136,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         isGenerating = true; // Set generating state
         generateButton.disabled = true; // Disable button immediately
-        playClickSound(); // Play click sound
+        // playClickSound(); // Play click sound
 
         // Clear previous content from chat history
         chatHistory.innerHTML = '';

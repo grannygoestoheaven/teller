@@ -1,15 +1,13 @@
 # Base Python image
 FROM python:3.10-slim
 
-# Non-interactive shell for apt
-ENV DEBIAN_FRONTEND=noninteractive
+# Set environment variables
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    DEBIAN_FRONTEND=noninteractive
 
-# Add /app to PYTHONPATH so packages like teaicher are importable
-ENV PYTHONPATH="/app:$PYTHONPATH"
-
-# Install system-level dependencies
-RUN apt-get update && apt-get install -y \
-    git \
+# Install system dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
     ffmpeg \
     libgl1 \
     libvlc-dev \
@@ -19,23 +17,18 @@ RUN apt-get update && apt-get install -y \
 # Set working directory
 WORKDIR /app
 
-# Clone the GitHub repo (HTTPS version to avoid SSH key issues)
-RUN git clone --branch main https://github.com/grannygoestoheaven/teaicher.git .
+# Copy requirements first to leverage Docker cache
+COPY requirements.txt .
 
-# Optional: Print a file to confirm contents
-# RUN head -n 1 teaicher/data/get_track_duration.py
+# Install Python dependencies
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt
 
-# Upgrade pip
-RUN pip install --upgrade pip
+# Copy the rest of the application
+COPY . .
 
-# Clean stale metadata
-RUN rm -rf *.egg-info
+# Expose the port the app runs on
+EXPOSE 5000
 
-# Install the current repo as a Python package
-RUN pip install --no-cache-dir .
-
-# Copy the .env file for python-dotenv to read it
-COPY .env /app/.env
-
-# Default command to run the Gradio app
-CMD ["python", "gradio_app.py"]
+# Command to run the application
+CMD ["python", "flask_ui_app.py"]

@@ -144,7 +144,7 @@ def play_audio_with_sync(speech_file_path: str, track_path: str) -> None:
 
     # Set volumes
     speech_player.audio_set_volume(90)
-    track_player.audio_set_volume(50)  # Lower volume for ambient track
+    track_player.audio_set_volume(35)  # Lower volume for ambient track
 
     # Start playing the ambient track
     track_player.play()
@@ -158,7 +158,7 @@ def play_audio_with_sync(speech_file_path: str, track_path: str) -> None:
         print("Warning: Track failed to start playing.")
 
     # Start the speech after a short delay
-    time.sleep(8)  # Initial delay before speech starts
+    time.sleep(13)  # Initial delay before speech starts (increased from 8 to 13 seconds)
     speech_player.play()
     time.sleep(0.1)  # Small delay to let it start
 

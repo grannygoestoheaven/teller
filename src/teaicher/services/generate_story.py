@@ -32,15 +32,16 @@ def generate_story(subject, pattern, estimated_chars: int) -> tuple[str, str]:
     # Create a clear instruction for the AI
     user_message = f"""Please generate a presentation about: {subject}
     - Keep it around {estimated_chars} characters long
-    - Be factual and clear
-    - Initiate the text with a soft, quiet opening ; e.g.with three very short sentences, or words, or questions.
-    - use smooth voice attacks and smooth voice exits.
-    - add <[silence]> at the end of all sentences and after each new line.
+    - Be factual and clear.
+    - Divide the text into paragraphs.
+    - Initiate the text with a soft, quiet opening. e.g. with a word, or a short sentence.
+    - add <[silence]> tags between all sentences and between each new line.
+    - Dive a bit into details to catch attention.
     - Focus specifically on: {subject}
     - Conclude by giving three related subjects to the topic
     
     ## Instructions :
-    - Write in an elegant style, not in a grandiose style. Avoid any mystery tone at all cost. It must be factual.
+    - Write in an elegant style, not in a grandiose style. Avoid any mystery tone at all cost.
     - Do not use cliches or jargon.
     - Use absolutely ZERO cliches or jargon or journalistic language like "In a world, in the realm", etc.
     - USE zero poetry of any kind.
@@ -55,7 +56,7 @@ def generate_story(subject, pattern, estimated_chars: int) -> tuple[str, str]:
                 {"role": "system", "content": system_message},
                 {"role": "user", "content": user_message}
             ],
-            temperature=0.7,
+            temperature=0.2,
             max_tokens=1300
         )
         

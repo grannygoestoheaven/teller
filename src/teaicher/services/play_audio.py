@@ -144,7 +144,7 @@ def play_audio_with_sync(speech_file_path: str, track_path: str) -> None:
 
     # Set volumes
     speech_player.audio_set_volume(90)
-    track_player.audio_set_volume(55)  # Lower volume for ambient track
+    track_player.audio_set_volume(50)  # Lower volume for ambient track
 
     # Start playing the ambient track
     track_player.play()
@@ -177,19 +177,37 @@ def play_audio_with_sync(speech_file_path: str, track_path: str) -> None:
     
     # Start a separate thread to handle the music fade out
     def fade_out_music():
-        # Let the music play for a while longer
-        time.sleep(30)
+        # Let the music play for a while longer (30 seconds more than before)
+        time.sleep(30 + 30)  # Added 30 more seconds as requested
         
-        # Fade out music smoothly
-        fade_duration = 30  # seconds
+        # Fade out music with ultra-smooth transition
+        fade_duration = 60  # Increased to 60 seconds for extremely smooth fade
         fade_start_volume = track_player.audio_get_volume()
-        steps = 150
-        step_delay = fade_duration / steps
+        steps = 500  # Significantly increased steps for ultra-smooth transition
         
+        # Use a combination of easing functions for the most natural fade
         for i in range(steps + 1):
-            volume = int(round(fade_start_volume * (1 - i / steps)))
+            # Cubic ease-out: f(i) = 1 - (1 - i/steps)^3
+            # This creates a more natural-sounding fade that's very smooth
+            progress = i / steps
+            # Apply cubic easing for smoother curve
+            volume = int(round(fade_start_volume * (1 - progress ** 3)))
             track_player.audio_set_volume(max(volume, 0))
-            time.sleep(step_delay)
+            
+            # Dynamic timing for natural fade perception
+            # Faster changes at the beginning, slower at the end
+            if i < steps * 0.6:  # First 60% of fade
+                time.sleep(fade_duration / (steps * 1.5))  # Faster steps initially
+            elif i < steps * 0.9:  # Next 30%
+                time.sleep(fade_duration / (steps * 0.9))  # Medium speed
+            else:  # Last 10%
+                time.sleep(fade_duration / (steps * 0.7))  # Slowest at the very end
+        
+        # Gentle final fade and delay for clean stop
+        for v in range(5, 0, -1):
+            track_player.audio_set_volume(v)
+            time.sleep(0.1)
+        time.sleep(0.5)
         
         # Clean up
         track_player.stop()

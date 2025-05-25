@@ -144,18 +144,31 @@ def _prepare_story_parameters(request_form):
 
 def _clean_story_text(story: str) -> str:
     """
-    Clean the story text by removing <[silence]> tags.
+    Clean the story text by removing <[silence]> tags and ensuring proper punctuation.
     
     Args:
         story: The story text potentially containing <[silence]> tags
         
     Returns:
-        str: The cleaned story text with <[silence]> tags removed
+        str: The cleaned story text with proper punctuation
     """
     if not story:
         return story
-    # Remove all <[silence]> tags
-    return re.sub(r'<\[silence]>(\s*)', '', story)
+        
+    # First, remove all <[silence]> tags
+    cleaned = re.sub(r'<\[silence]>(\s*)', lambda m: ' ' if m.group(1) else '', story)
+    
+    # Ensure proper punctuation at the end of sentences
+    # This adds a period if the line ends with a letter (case-insensitive) and is not followed by punctuation
+    cleaned = re.sub(r'([a-z])(\s*\n|$)', r'\1.\2', cleaned, flags=re.IGNORECASE)
+    
+    # Fix double periods that might have been created
+    cleaned = re.sub(r'\.\.+', '.', cleaned)
+    
+    # Ensure there's a space after periods if not already present
+    cleaned = re.sub(r'\.([^ \n])', r'. \1', cleaned)
+    
+    return cleaned.strip()
 
 
 def _generate_story_and_speech(subject, estimated_chars, pattern_path, logger):

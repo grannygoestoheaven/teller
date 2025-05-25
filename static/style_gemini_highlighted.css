@@ -263,7 +263,7 @@ body {
     align-items: center;
     height: 100%; /* Occupy the full height of chatHistory */
     width: 100%; /* Occupy the full width of chatHistory */
-    font-size: 1em; /* Adjust size as needed */
+    font-size: 5em; /* Adjust size as needed */
     color: #888; /* A subtle grey for the colons */
     box-sizing: border-box;
     line-height: 1; /* Ensure colons don't take up too much vertical space */

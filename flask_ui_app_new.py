@@ -1,4 +1,5 @@
 import os
+import re
 import random
 
 from dotenv import load_dotenv
@@ -141,6 +142,22 @@ def _prepare_story_parameters(request_form):
     estimated_chars = 1000
     return subject, duration, estimated_chars
 
+def _clean_story_text(story: str) -> str:
+    """
+    Clean the story text by removing <[silence]> tags.
+    
+    Args:
+        story: The story text potentially containing <[silence]> tags
+        
+    Returns:
+        str: The cleaned story text with <[silence]> tags removed
+    """
+    if not story:
+        return story
+    # Remove all <[silence]> tags
+    return re.sub(r'<\[silence]>(\s*)', '', story)
+
+
 def _generate_story_and_speech(subject, estimated_chars, pattern_path, logger):
     try:
         with open(pattern_path, 'r') as file:
@@ -157,13 +174,16 @@ def _generate_story_and_speech(subject, estimated_chars, pattern_path, logger):
         # Try to generate speech, but don't fail if it doesn't work
         speech_file_path_relative_to_static = None
         try:
+            # Generate speech with the original story (including silence tags)
             speech_file_path_relative_to_static = openai_text_to_speech(story, filename_from_story_gen)
             if not speech_file_path_relative_to_static:
                 logger.warning(f"TTS failed for story, but continuing without audio. Filename: {filename_from_story_gen}")
         except Exception as e:
             logger.warning(f"TTS encountered an error but continuing without audio: {str(e)}")
         
-        return story, filename_from_story_gen, speech_file_path_relative_to_static
+        # Clean the story text before returning it (remove <[silence]> tags)
+        cleaned_story = _clean_story_text(story)
+        return cleaned_story, filename_from_story_gen, speech_file_path_relative_to_static
         
     except FileNotFoundError:
         logger.error(f"Pattern file not found: {pattern_path}")

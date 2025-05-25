@@ -23,17 +23,57 @@ LOCAL_AMBIENT_TRACKS = 'local_ambient_tracks'
 YOUTUBE_AMBIENT_LANDSCAPES = 'youtube_ambient_landscapes'
 YOUTUBE_AMBIENT_TRACKS = 'youtube_ambient_tracks'
 
-def _get_local_ambient_track(base_dir, logger):
-    ambient_dir = os.path.join(base_dir, 'static', 'audio', LOCAL_AMBIENT_TRACKS)
-    try:
-        ambient_tracks_files = [f for f in os.listdir(ambient_dir) if f.endswith('.mp3') or f.endswith('.wav')]
-        if not ambient_tracks_files:
+# Class to manage ambient track playback state
+class AmbientTrackManager:
+    _instance = None
+    _tracks = []
+    _played_tracks = []
+    _initialized = False
+    
+    @classmethod
+    def initialize(cls, base_dir):
+        if not cls._initialized:
+            ambient_dir = os.path.join(base_dir, 'static', 'audio', LOCAL_AMBIENT_TRACKS)
+            try:
+                cls._tracks = [f for f in os.listdir(ambient_dir) 
+                            if f.endswith(('.mp3', '.wav', '.flac'))]
+                random.shuffle(cls._tracks)  # Initial shuffle for more randomness
+                cls._initialized = True
+            except FileNotFoundError:
+                pass
+    
+    @classmethod
+    def get_next_track(cls, base_dir, logger):
+        if not cls._initialized:
+            cls.initialize(base_dir)
+            
+        ambient_dir = os.path.join(base_dir, 'static', 'audio', LOCAL_AMBIENT_TRACKS)
+        
+        if not cls._tracks and not cls._played_tracks:
             logger.warning(f"No MP3 or WAV files found in {ambient_dir}. No ambient sound will be played.")
             return None
-        track_filename = random.choice(ambient_tracks_files)
+            
+        # If we've played all tracks, refresh the list
+        if not cls._tracks:
+            cls._tracks = cls._played_tracks
+            cls._played_tracks = []
+            random.shuffle(cls._tracks)  # Reshuffle before starting over
+            
+        # Get next track and move it to played
+        track_filename = cls._tracks.pop(0)
+        cls._played_tracks.append(track_filename)
+        
         return os.path.join(ambient_dir, track_filename)
-    except FileNotFoundError:
-        logger.error(f"Ambient songs directory not found: {ambient_dir}. No ambient sound will be played.")
+
+def _get_local_ambient_track(base_dir, logger):
+    try:
+        track_path = AmbientTrackManager.get_next_track(base_dir, logger)
+        if track_path and not os.path.exists(track_path):
+            logger.error(f"Track file not found: {track_path}")
+            return None
+        return track_path
+    except Exception as e:
+        logger.error(f"Error getting ambient track: {str(e)}")
         return None
 
 def _read_youtube_urls(file_path, logger):
@@ -139,7 +179,7 @@ def _prepare_story_parameters(request_form):
     except ValueError:
         duration = DEFAULT_DURATION
     # estimated_chars = get_user_story_length(duration)
-    estimated_chars = 1000
+    estimated_chars = 1150
     return subject, duration, estimated_chars
 
 def _clean_story_text(story: str) -> str:

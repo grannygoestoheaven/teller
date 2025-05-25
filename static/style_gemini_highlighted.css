@@ -269,37 +269,43 @@ body {
     line-height: 0.5; /* Ensure colons don't take up too much vertical space */
 }
 
-.loading-animation .colon {
+.loading-animation .period {
     opacity: 0; /* Start invisible */
-    animation: colon-fade 0.5s infinite ease-in-out; /* Main animation */
-    margin: 0 1px; /* Small spacing between colons */
+    animation: period-fade 1.5s infinite ease-in-out; /* Main animation */
+    margin: 0 1px; /* Small spacing between periods */
+    font-size: 1.8em; /* Larger periods */
+    font-weight: bold; /* Make periods bolder */
+    color: #666; /* Slightly darker color for better visibility */
+    display: inline-block;
+    line-height: 0.8; /* Better vertical alignment */
 }
 
-/* Delay for each colon */
-.loading-animation .colon-1 {
+/* Delay for each period */
+.loading-animation .period-1 {
     animation-delay: 0s;
 }
 
-.loading-animation .colon-2 {
-    animation-delay: 0.2s; /* Delay for the second colon */
+.loading-animation .period-2 {
+    animation-delay: 0.3s; /* Slight delay for the second period */
 }
 
-.loading-animation .colon-3 {
-    animation-delay: 0.4s; /* Delay for the third colon */
+.loading-animation .period-3 {
+    animation-delay: 0.6s; /* Slight delay for the third period */
 }
 
-@keyframes colon-fade {
+@keyframes period-fade {
     0% {
-        opacity: 0;
+        opacity: 0.2;
+        transform: translateY(0) scale(0.8);
     }
-    33% {
-        opacity: 1; /* Fully visible in the middle of its cycle */
-    }
-    66% {
+    50% {
         opacity: 1;
+        transform: translateY(-3px) scale(1.2);
+        text-shadow: 0 0 8px rgba(0,0,0,0.2);
     }
     100% {
-        opacity: 0;
+        opacity: 0.2;
+        transform: translateY(0) scale(0.8);
     }
 }
 /* --- END NEW LOADING ANIMATION STYLES --- */

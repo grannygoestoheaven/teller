@@ -236,17 +236,18 @@ def teller_ui():
             'has_audio': bool(audio_url_for_client)
         }
         if audio_url_for_client:
-            response_data.update({
-                'audio_url': audio_url_for_client,
-                'track_path': track_path
-            })
+            response_data['audio_url'] = audio_url_for_client
+        # ONLY add track_path if it's not None
+        if track_path:
+            response_data['track_path'] = track_path
         return jsonify(response_data)
     else:
+        # This part is for direct page loads, not AJAX
         return render_template(
             'index.html',
             story=story,
             audio_url=audio_url_for_client,
-            track_path=track_path,
+            track_path=track_path, # This is fine for direct render, as Jinja handles None
             display_filename=display_filename,
             has_audio=bool(audio_url_for_client)
         )

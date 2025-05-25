@@ -33,6 +33,7 @@ def generate_story(subject, pattern, estimated_chars: int) -> tuple[str, str]:
     user_message = f"""Please generate a presentation about: {subject}
     - Keep it around {estimated_chars} characters long
     - Be factual and clear
+    - add <[silence]> at the end of all sentences.
     - Focus specifically on: {subject}
     - Conclude by giving three related subjects to the topic
     

@@ -257,55 +257,43 @@ document.addEventListener('DOMContentLoaded', function() {
     // Function to stream text with typing effect and add interactivity
     async function streamText(text, container) {
         container.innerHTML = ''; // Clear container before streaming
-        
-        // Create a content wrapper
-        const contentWrapper = document.createElement('div');
-        contentWrapper.className = 'story-content';
-        container.appendChild(contentWrapper);
-        
         const delay = 20; // Base delay in milliseconds (slightly faster)
-        
-        // Split text into paragraphs first
-        const paragraphs = text.split('\n\n');
-        
-        for (let p = 0; p < paragraphs.length; p++) {
-            const paragraph = paragraphs[p];
-            if (!paragraph.trim()) continue;
-            
-            // Create paragraph element
-            const paragraphEl = document.createElement('p');
-            paragraphEl.style.margin = '0.8em 0';
-            contentWrapper.appendChild(paragraphEl);
-            
-            // Process words in this paragraph
-            const parts = paragraph.match(/(\w+|[^\w\s]|\s+)/g) || [];
-            
-            for (let i = 0; i < parts.length; i++) {
-                const part = parts[i];
-                let node;
 
-                if (/\w+/.test(part)) { // If it's a word
-                    node = document.createElement('span');
-                    node.textContent = part;
-                    node.classList.add('word');
-                    node.addEventListener('click', handleWordClick);
-                } else { // If it's spaces or punctuation
-                    node = document.createTextNode(part);
-                }
+        // Regex to split words, spaces, and punctuation separately
+        // \w+ : one or more word characters (letters, numbers, underscore)
+        // [^\w\s] : a single character that is NOT a word character AND NOT a whitespace
+        // \s+ : one or more whitespace characters
+        const parts = text.match(/(\w+|[^\w\s]|\s+)/g);
 
-                
-                paragraphEl.appendChild(node);
-                
-                // Add a small delay for the typing effect
-                if (i % 3 === 0) { // Only add delay every few characters for better performance
-                    await new Promise(resolve => setTimeout(resolve, delay));
-                }
+        if (!parts) {
+             // Handle empty text - maybe append a message or just the cursor
+             const cursor = document.createElement('span');
+             cursor.className = 'cursor-standby'; // Keep cursor if no text
+             container.appendChild(cursor);
+            return;
+        }
+
+        for (let i = 0; i < parts.length; i++) {
+            const part = parts[i];
+            let node;
+
+            if (/\w+/.test(part)) { // If it's a word
+                node = document.createElement('span');
+                node.textContent = part;
+                node.classList.add('word'); // Add a class to identify word spans
+
+                // Click listener is added here, but the logic will read currentlyHighlightedWords
+                node.addEventListener('click', handleWordClick);
+
+            } else { // If it's spaces or punctuation
+                // Create as text nodes so they don't interfere with span highlighting
+                 node = document.createTextNode(part);
             }
-            
-            // Add a small delay between paragraphs
-            if (p < paragraphs.length - 1) {
-                await new Promise(resolve => setTimeout(resolve, delay * 5));
-            }
+
+            container.appendChild(node); // Add the node to the container
+
+            // Introduce a small delay for the typing effect
+            await new Promise(resolve => setTimeout(resolve, delay));
         }
 
         // Remove the initial standby cursor if it's still there after streaming
@@ -456,26 +444,8 @@ document.addEventListener('DOMContentLoaded', function() {
         currentlyHighlightedWords = []; // Reset the array
     }
 
-    // Use event delegation for word clicks
-    chatHistory.addEventListener('click', function(event) {
-        // First try direct target
-        if (event.target.classList && event.target.classList.contains('word')) {
-            handleWordClick(event);
-            return;
-        }
-        
-        // Then check if it's a child of a word element
-        const wordSpan = event.target.closest('.word');
-        if (wordSpan) {
-            handleWordClick({ target: wordSpan });
-        }
-    });
-    
     // Initial clear in case there's lingering data or highlights from a previous state
     clearHighlights();
-    
-    // Make sure the subject input is focused when the page loads
-    if (subjectInput.value === '') {
-        subjectInput.focus();
-    }
+    // subjectInput.value = ''; // Initial clear on page load if needed
+
 });

@@ -162,9 +162,9 @@ body {
     color: rgba(240, 240, 240, 0.9);
     box-sizing: border-box;
     background-color: rgb(24, 24, 23);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    /* display: flex; */
+    /* flex-direction: column; */
+    /* justify-content: center; */
 }
 
 /* Container for the story content */
@@ -172,10 +172,27 @@ body {
     width: 100%;
     text-align: left;
     padding: 20px;
+    overflow-y: auto;
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+    scrollbar-width: none; /* Hide scrollbar for Firefox */
+    -ms-overflow-style: none; /* Hide scrollbar for IE and Edge */
+    font-size: 0.85em;
+    opacity: 0.95;
+    color: rgba(240, 240, 240, 0.85);
     box-sizing: border-box;
-    margin: 0 auto;
-    max-width: 100%;
-    word-wrap: break-word;
+    text-align: start;
+    line-height: 1.6;
+    border: none;
+    background-color: rgb(24, 24, 23);
+    box-shadow: none;
+    min-height: 0; /* Allows the flex item to shrink below its content's minimum height */
+}
+
+.story-content p {
+    text-align: left; /* Ensure paragraphs align left */
+    margin: 0.8em 0; /* Keep your existing margin for paragraphs */
+    word-wrap: break-word; /* Ensure words break if too long */
+    overflow-wrap: break-word; /* Modern equivalent */
 }
 
 /* Style for interactive words */
@@ -215,12 +232,9 @@ body {
 .chat-history .word.highlight-word {
     -webkit-text-stroke: 2px rgba(10, 184, 21, 0.849);
     text-stroke: 2px rgba(10, 184, 21, 0.849);
+    /* Remove transform to prevent text movement */
     position: relative;
     z-index: 1;
-    background-color: rgba(10, 184, 21, 0.15); /* Add a subtle background highlight */
-    border-radius: 3px;
-    padding: 0 1px;
-    margin: 0 -1px;
 }
 
 /* Cursor animation */

@@ -153,6 +153,7 @@ body {
     height: 100%;
     margin: 0 auto;
     padding: 20px 40px;
+    padding-top: 120px;
     overflow-y: auto;
     overflow-x: hidden;
     scrollbar-width: none;
@@ -165,6 +166,8 @@ body {
     /* display: flex; */
     /* flex-direction: column; */
     /* justify-content: center; */
+    /* align-items: center; */
+    /* text-align: center; */
 }
 
 /* Container for the story content */

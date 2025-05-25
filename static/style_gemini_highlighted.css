@@ -263,16 +263,16 @@ body {
     align-items: center;
     height: 100%; /* Occupy the full height of chatHistory */
     width: 100%; /* Occupy the full width of chatHistory */
-    font-size: 5em; /* Adjust size as needed */
+    font-size: 4em; /* Adjust size as needed */
     color: #888; /* A subtle grey for the colons */
     box-sizing: border-box;
-    line-height: 1; /* Ensure colons don't take up too much vertical space */
+    line-height: 0.5; /* Ensure colons don't take up too much vertical space */
 }
 
 .loading-animation .colon {
     opacity: 0; /* Start invisible */
-    animation: colon-fade 1.5s infinite ease-in-out; /* Main animation */
-    margin: 0 2px; /* Small spacing between colons */
+    animation: colon-fade 0.5s infinite ease-in-out; /* Main animation */
+    margin: 0 1px; /* Small spacing between colons */
 }
 
 /* Delay for each colon */

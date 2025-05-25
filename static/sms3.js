@@ -28,7 +28,7 @@ function loadStoryFromStorage() {
     return null;
 }
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async () => {
     const form = document.getElementById('story-form');
     const chatHistory = document.getElementById('chatHistory');
     const subjectInput = document.getElementById('subject');
@@ -46,6 +46,23 @@ document.addEventListener('DOMContentLoaded', function() {
         chatHistory.appendChild(storyDiv);
         // Don't modify the subject input to keep the placeholder
     }
+
+    // Load saved story on page load
+    // const savedStory = loadStoryFromStorage();
+    // if (savedStory) {
+    //     // Clear the subject input when a saved story is loaded
+    //     subjectInput.value = ''; // <-- Fix 2: Clear subject input
+        
+    //     // Use streamText function to load the story, but without animation.
+    //     // This ensures correct HTML structure (p tags, span words) and attaches event listeners.
+    //     await streamText(savedStory.story, chatHistory, false); // <-- Fix 1, 3, 4: Re-uses streamText
+        
+    //     // Optionally, update the subject input with the saved story's title if desired
+    //     // If you want the subject input to reflect the loaded story, uncomment this:
+    //     // if (savedStory.title) {
+    //     //     subjectInput.value = savedStory.title;
+    //     // }
+    // }
     
     // Create audio context for sound effects
     let audioContext;

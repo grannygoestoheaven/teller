@@ -273,7 +273,7 @@ body {
     opacity: 0; /* Start invisible */
     animation: period-fade 1.5s infinite ease-in-out; /* Main animation */
     margin: 0 1px; /* Small spacing between periods */
-    font-size: 1.8em; /* Larger periods */
+    font-size: 1.6em; /* Larger periods */
     font-weight: bold; /* Make periods bolder */
     color: #666; /* Slightly darker color for better visibility */
     display: inline-block;

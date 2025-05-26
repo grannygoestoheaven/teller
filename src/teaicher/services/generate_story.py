@@ -34,11 +34,12 @@ def generate_story(subject, pattern, estimated_chars: int) -> tuple[str, str]:
     - Keep it around {estimated_chars} characters long
     - Be factual and clear.
     - Divide the text into paragraphs.
-    - Initiate the text with a soft, quiet opening. e.g. with a word, or a short sentence.
+    - Initiate the text with a soft, quiet opening. e.g. with a raw list of a few concepts that will be covered in the story.
     - add <[silence]> tags between all sentences and between each new line.
     - Dive a bit into details to catch attention.
+    - Don't use any 'conclusion jargon' or 'conclusion language'.
     - Focus specifically on: {subject}
-    - Conclude by giving three related subjects to the topic
+    - Conclude by giving three related subjects to the topic. Don't write anything after that.
     
     ## Instructions :
     - Write in an elegant style, not in a grandiose style. Avoid any mystery tone at all cost.
@@ -56,7 +57,7 @@ def generate_story(subject, pattern, estimated_chars: int) -> tuple[str, str]:
                 {"role": "system", "content": system_message},
                 {"role": "user", "content": user_message}
             ],
-            temperature=0.2,
+            temperature=0.4,
             max_tokens=1300
         )
         

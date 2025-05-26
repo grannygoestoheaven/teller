@@ -179,7 +179,7 @@ def _prepare_story_parameters(request_form):
     except ValueError:
         duration = DEFAULT_DURATION
     # estimated_chars = get_user_story_length(duration)
-    estimated_chars = 1150
+    estimated_chars = 1000
     return subject, duration, estimated_chars
 
 def _clean_story_text(story: str) -> str:
@@ -326,4 +326,4 @@ def teller_ui():
         )
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=7860, debug=False)

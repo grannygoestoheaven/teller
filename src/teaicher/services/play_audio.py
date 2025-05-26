@@ -115,6 +115,9 @@ def play_audio(speech_file_path: str) -> None:
 
     # return speech_audio, speech_file_path
 
+# Global variable to store the current track player
+current_track_player = None
+
 def play_audio_with_sync(speech_file_path: str, track_path: str) -> None:
     """
     Plays a track and speech audio in sync, mixing the track at a lower volume.
@@ -124,6 +127,7 @@ def play_audio_with_sync(speech_file_path: str, track_path: str) -> None:
     - speech_file_path (str): The path of the speech audio file to play.
     - track_path (str): The path or YouTube URL of the track to play.
     """
+    global current_track_player
     try:
         audio_metadata = MP3(speech_file_path)
         duration = audio_metadata.info.length
@@ -144,9 +148,10 @@ def play_audio_with_sync(speech_file_path: str, track_path: str) -> None:
 
     # Set volumes
     speech_player.audio_set_volume(90)
-    track_player.audio_set_volume(35)  # Lower volume for ambient track
+    track_player.audio_set_volume(40)  # Lower volume for ambient track
 
-    # Start playing the ambient track
+    # Store the track player globally and start playing
+    current_track_player = track_player
     track_player.play()
     time.sleep(0.1)  # Small delay to let it start
 
@@ -177,13 +182,13 @@ def play_audio_with_sync(speech_file_path: str, track_path: str) -> None:
     
     # Start a separate thread to handle the music fade out
     def fade_out_music():
-        # Let the music play for a while longer (30 seconds more than before)
-        time.sleep(30 + 30)  # Added 30 more seconds as requested
+        # Let the music play for 45 seconds after speech ends
+        time.sleep(45)
         
         # Fade out music with ultra-smooth transition
-        fade_duration = 60  # Increased to 60 seconds for extremely smooth fade
+        fade_duration = 45  # 45 seconds for smooth fade
         fade_start_volume = track_player.audio_get_volume()
-        steps = 500  # Significantly increased steps for ultra-smooth transition
+        steps = 500  # High number of steps for smooth transition
         
         # Use a combination of easing functions for the most natural fade
         for i in range(steps + 1):

@@ -1,5 +1,6 @@
 import os
 import tempfile
+import random
 
 from openai import OpenAI  # OpenAI API client
 from elevenlabs.client import ElevenLabs # ElevenLabs API client
@@ -61,6 +62,7 @@ def openai_text_to_speech(story: str, filename: str, pause_between_sentences_ms:
             # model="tts-1-hd-1106",
             model="tts-1-hd",
             # model="gpt-4o-mini-tts",
+            # voice= random.choice(["onyx", "nova", "fable", "alloy", "echo", "verse", "shimmer"]),
             voice="onyx",
             input=story.strip(),  # Ensure we're passing a clean string
             # input=story,

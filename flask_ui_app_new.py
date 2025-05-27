@@ -1,13 +1,15 @@
 import os
 import re
 import random
+import glob
+from datetime import datetime
 
 from dotenv import load_dotenv
 from flask import Flask, render_template, request, jsonify, url_for
 
-from src.teaicher.data.get_track_duration import get_track_duration, extract_service_name
-from src.teaicher.services.get_story_length import get_user_story_length
-from src.teaicher.services.generate_story import generate_story_strict, generate_story, generate_story_mistral
+# from src.teaicher.data.get_track_duration import get_track_duration, extract_service_name
+# from src.teaicher.services.get_story_length import get_user_story_length
+from src.teaicher.services.generate_story import generate_story
 from src.teaicher.services.text_to_speech import openai_text_to_speech 
 from src.teaicher.services.play_audio import play_audio_with_sync, play_audio
 
@@ -211,6 +213,40 @@ def _clean_story_text(story: str) -> str:
     return cleaned.strip()
 
 
+def _cleanup_old_audio_files(logger, max_files=5):
+    """
+    Keep only the most recent audio files in the generated_stories directory.
+    
+    Args:
+        logger: Logger instance for logging messages
+        max_files: Maximum number of audio files to keep (default: 5)
+    """
+    try:
+        # Get the absolute path to the generated_stories directory
+        generated_stories_dir = os.path.join('static', 'audio', 'generated_stories')
+        
+        # Get all mp3 files in the directory with their modification times
+        audio_files = []
+        for file_path in glob.glob(os.path.join(generated_stories_dir, '*.mp3')):
+            mtime = os.path.getmtime(file_path)
+            audio_files.append((mtime, file_path))
+        
+        # Sort by modification time (oldest first)
+        audio_files.sort()
+        
+        # Delete oldest files if we have more than max_files
+        while len(audio_files) >= max_files:
+            _, oldest_file = audio_files.pop(0)
+            try:
+                os.remove(oldest_file)
+                logger.info(f"Removed old audio file: {oldest_file}")
+            except Exception as e:
+                logger.error(f"Error removing old audio file {oldest_file}: {e}")
+                
+    except Exception as e:
+        logger.error(f"Error in _cleanup_old_audio_files: {e}")
+
+
 def _generate_story_and_speech(subject, estimated_chars, pattern_path, logger):
     try:
         with open(pattern_path, 'r') as file:
@@ -227,6 +263,9 @@ def _generate_story_and_speech(subject, estimated_chars, pattern_path, logger):
         # Try to generate speech, but don't fail if it doesn't work
         speech_file_path_relative_to_static = None
         try:
+            # Clean up old audio files before generating a new one
+            _cleanup_old_audio_files(logger)
+            
             # Generate speech with the original story (including silence tags)
             speech_file_path_relative_to_static = openai_text_to_speech(story, filename_from_story_gen)
             if not speech_file_path_relative_to_static:

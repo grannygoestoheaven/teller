@@ -34,7 +34,7 @@ def generate_story(subject, pattern, estimated_chars: int) -> tuple[str, str]:
     - Keep it around {estimated_chars} characters long
     - Be factual and clear.
     - Divide the text into paragraphs.
-    - Initiate the text with a soft, quiet opening. e.g. with a raw list of a few concepts that will be covered in the story.
+    - Initiate the text with a **soft, quiet** opening. e.g. with a raw list of a few concepts that will be covered in the story.
     - add <[silence]> tags between all sentences and between each new line.
     - Dive a bit into details to catch attention.
     - Don't use any 'conclusion jargon' or 'conclusion language'.

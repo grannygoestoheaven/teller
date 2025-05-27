@@ -57,64 +57,6 @@ def play_audio(speech_file_path: str) -> None:
 
     speech_player.stop()
 
-# def play_audio_with_sync(speech_file_path: str, track_path: str) -> None:
-    """
-    Plays a track and speech audio in sync, mixing the track at a lower volume.
-
-    Args:
-    - track_url (str): The URL or path of the track to play (optional).
-    - speech_file_path (bytes): The audio data for speech to play.
-
-    Returns:
-    - tuple: (original speech bytes, path to speech temp file)
-    """
-    # import tempfile, vlc, time, os
-
-    # # Save speech audio to a temporary file
-    # with tempfile.NamedTemporaryFile(suffix=".mp3", delete=False) as speech_file:
-    #     speech_file.write(speech_file_bytes)
-    #     speech_file_path = speech_file.name
-    
-    audio_metadata = MP3(speech_file_path)
-    duration = audio_metadata.info.length
-
-    # Create VLC players
-    speech_player = vlc.MediaPlayer(speech_file_path)
-    speech_player.audio_set_volume(100)
-    
-    # track_player = vlc.MediaPlayer(track_path)
-    # track_player.audio_set_volume(30)
-
-    # time.sleep(duration + 2)  # ~32000 bytes/sec for mp3_22050_32
-    
-    track_player.play()
-    while not track_player.is_playing(): # Here we are handling buffering of the track that may take a while
-        time.sleep(0.1)
-
-    time.sleep(8)
-
-    speech_player.play()
-    while not speech_player.is_playing(): # Here we are handling buffering also
-        time.sleep(0.1)
-
-    # Wait for speech to finish
-    time.sleep(duration + 4)
-
-    # Fade out music
-    fade_duration = 6  # seconds
-    step_delay = 0.02  # seconds
-    steps = int(fade_duration / step_delay)  # = 300 steps
-
-    for i in range(steps):
-        volume = round(30 * (1 - i / steps))
-        track_player.audio_set_volume(max(volume, 0))
-        time.sleep(step_delay)
-
-    track_player.stop()
-    speech_player.stop()
-
-    # return speech_audio, speech_file_path
-
 # Global variable to store the current track player
 current_track_player = None
 
@@ -147,8 +89,8 @@ def play_audio_with_sync(speech_file_path: str, track_path: str) -> None:
     track_player.set_media(track_media)
 
     # Set volumes
-    speech_player.audio_set_volume(90)
-    track_player.audio_set_volume(40)  # Lower volume for ambient track
+    speech_player.audio_set_volume(95)
+    track_player.audio_set_volume(65)  # Lower volume for ambient track
 
     # Store the track player globally and start playing
     current_track_player = track_player

@@ -1,3 +1,16 @@
+git lfs track "*.zip"
+git lfs track "*.ttf"
+git lfs track "*.pdf"
+git lfs track "*.webp"
+git lfs track "*.flac" # Re-add if you expect new flac files
+git lfs track "*.mp3"  # Add any other audio formats you might use
+git lfs track "*.wav"  # Add any other audio formats you might use
+git lfs track "*.flac"  # Common image formats
+git lfs track "*.png"  # Common image formats
+git lfs track "*.jpg"  # Common image formats
+git lfs track "*.jpeg" # Common image formats
+git lfs track "*.gif"  # Common image formats
+# ... add any other binary types your project might contain
 *.zip filter=lfs diff=lfs merge=lfs -text
 *.ttf filter=lfs diff=lfs merge=lfs -text
 *.pdf filter=lfs diff=lfs merge=lfs -text

@@ -1,5 +1,5 @@
-from teaicher.data.fetch_spotify_duration import fetch_spotify_duration
-from teaicher.data.fetch_youtube_duration import fetch_youtube_duration
+from src.teaicher.data.fetch_spotify_duration import fetch_spotify_duration
+from src.teaicher.data.fetch_youtube_duration import fetch_youtube_duration
 
 def get_user_story_length(user_length: int, wpm: int = 178) -> int:
     words = (wpm * user_length)

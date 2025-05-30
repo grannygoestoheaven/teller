@@ -35,15 +35,17 @@ def generate_story(subject, pattern, estimated_chars: int) -> tuple[str, str]:
     - Be factual and clear.
     - Divide the text into paragraphs.
     - Initiate the text with a **soft, quiet** opening. e.g. with a raw list of a few concepts that will be covered in the story.
+    - Always add a new line after the opening.
     - add <[silence]> tags between all sentences and between each new line.
     - Dive a bit into details to catch attention.
     - Don't use any 'conclusion jargon' or 'conclusion language'.
     - Focus specifically on: {subject}
-    - Conclude by giving three related subjects to the topic. Don't write anything after that.
+    - Conclude by giving, in a fluid way, three related subjects to the topic. Don't write anything after that.
     
     ## Instructions :
     - Write in an elegant style, not in a grandiose style. Avoid any mystery tone at all cost.
     - Do not use cliches or jargon.
+    - Use ZERO extreme words like "crucial", "important", "essential", "critical", "fundamental", etc.
     - Use absolutely ZERO cliches or jargon or journalistic language like "In a world, in the realm", etc.
     - USE zero poetry of any kind.
     - Use ZERO metaphor of any kind.
@@ -62,6 +64,7 @@ def generate_story(subject, pattern, estimated_chars: int) -> tuple[str, str]:
         )
         
         # Get the story content
+        # story = response.choices[0].message.content.strip()
         story = response.choices[0].message.content.strip()
         
         # Use the original subject for the filename, not the AI-generated title
@@ -75,40 +78,6 @@ def generate_story(subject, pattern, estimated_chars: int) -> tuple[str, str]:
         error_title = f"Error generating story about {subject}"
         error_story = "We encountered an error while generating the story. Please try again."
         return error_story, _sanitize_filename(error_title) + ".mp3"
-
-def generate_story_strict(subject, pattern, estimated_chars: int) -> tuple[str, str]:
-    client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
-
-    max_retries = 3
-    strict_instruction = "\n\nIMPORTANT: Return your answer as: <title>\\n<story>. Do NOT add any other text, explanations, or formatting. Only output the title, then a single newline, then the story."
-    for attempt in range(max_retries):
-        # Always append the strict instruction
-        if strict_instruction not in pattern:
-            prompt = pattern.strip() + strict_instruction
-        else:
-            prompt = pattern
-        response = client.responses.create(
-            model="gpt-4o",
-            input=subject,
-            instructions=prompt,
-            tools=[{"type": "web_search_preview"}],
-        )
-        output_text = response.output_text.strip()
-        if "\n" in output_text:
-            full_output = output_text.split("\n", 1)
-            raw_title = full_output[0]
-            story = full_output[1].strip()
-            break
-        else:
-            print(f"[generate_story][attempt {attempt+1}] No newline found in output: {output_text}")
-            # Make the instruction even stricter for the next attempt
-            pattern = prompt + "\n\nAGAIN: Only output the title, then a single newline, then the story. Do NOT add anything else."
-    else:
-        raw_title = "Error"
-        story = "Failed to generate story after several attempts. AI did not return expected output."
-    filename = raw_title.lower() + ".mp3"
-
-    return story, filename
 
 def _sanitize_filename(raw_title: str, max_length: int = 200) -> str:
     """Generate a sanitized filename from a raw title."""
@@ -134,7 +103,7 @@ def _sanitize_filename(raw_title: str, max_length: int = 200) -> str:
 
 def generate_story_mistral(subject: str, pattern: str, estimated_chars: int) -> tuple[str, str]:
     """Generate a story using Mistral's API.
-    
+    fff
     Args:
         subject: The subject of the story
         pattern: System prompt/pattern for the model

@@ -4,6 +4,7 @@
 /build/
 /venv_teaicher/
 /static/generated_stories/
+/src/teaicher/other_llms_functions/
 /src/config/patterns/*
 /tests/.cache
 __pycache__/

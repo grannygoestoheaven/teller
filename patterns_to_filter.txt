@@ -1,0 +1,11 @@
+*.zip
+*.ttf
+*.pdf
+*.webp
+*.flac
+*.mp3
+*.wav
+*.png
+*.jpg
+*.jpeg
+*.gif

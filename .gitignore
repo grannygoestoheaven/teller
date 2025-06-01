@@ -9,11 +9,15 @@
 /tests/.cache
 __pycache__/
 *.pyc
+*.wav
+*.mp3
+*.flac
 .cache
 summary_3.rtf
 node_modules
 ideas
 package.json
+pyproject.yaml
 wrappers.py.envrc
 *.egg-info
 speech_test.py

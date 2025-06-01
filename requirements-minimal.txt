@@ -2,18 +2,30 @@
 flask==3.1.0
 python-dotenv==1.1.0
 requests==2.32.1
+regex==2024.11.6
 
 # Audio Processing
-openai==1.70.0
 pydub==0.25.1
 soundfile==0.13.1
 librosa==0.10.0
 numpy==1.22.0
+mutagen==1.47.0
+python-vlc==3.0.21203
+pytube==15.0.0
 
 # Natural Language Processing
 nltk==3.9.1
 transformers==4.50.3
 torch==2.2.2
 
-# Optional: Uncomment if using VLC playback
-python-vlc==3.0.21203
+# completion services
+openai==1.70.0
+mistralai
+
+# tts services
+elevenlabs==1.56.0
+TTS==0.22.0
+
+# audio streaming services
+spotipy==2.25.1
+google-api-python-client==2.166.0

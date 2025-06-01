@@ -1,0 +1,15 @@
+static/audio/01 - Verge.flac
+static/audio/04 - Edge.flac
+static/audio/07 Brian Eno - CD-01 - An Ending.flac
+static/audio/Leaf_Bed
+*.zip
+*.ttf
+*.pdf
+*.webp
+*.flac
+*.mp3
+*.wav
+*.png
+*.jpg
+*.jpeg
+*.gif

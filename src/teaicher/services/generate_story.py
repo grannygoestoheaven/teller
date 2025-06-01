@@ -38,7 +38,6 @@ def generate_story(subject, pattern, estimated_chars: int) -> tuple[str, str]:
     - Initiate the text with a soft, quiet opening (e.g. with a raw list of a few concepts that will be covered in the story).
     - Always add a new line after the opening.
     - add <[silence]> tags between all sentences and between each new line.
-    - add <[pause]> after each period.
     - Conclude by suggesting three related subjects to the topic, in variations of this kind : "Three related subjects are...".Don't write anything after that.
     
     ## Instructions :
@@ -64,7 +63,7 @@ def generate_story(subject, pattern, estimated_chars: int) -> tuple[str, str]:
         
         # Get the story content
         # story = response.choices[0].message.content.strip()
-        story = response.choices[0]
+        story = response.choices[0].message.content
         
         # Use the original subject for the filename, not the AI-generated title
         filename = _sanitize_filename(subject) + ".mp3"

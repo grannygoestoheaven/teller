@@ -255,9 +255,11 @@ def _generate_story_and_speech(subject, estimated_chars, pattern_path, logger):
         # Generate the story first
         story, filename_from_story_gen = generate_story(subject, pattern, estimated_chars)
         
-        # Check if story generation failed
-        if story == "Error" or "Failed to generate story" in story: 
-            logger.error(f"Story generation failed for subject '{subject}'. AI output: {story}")
+        # Check if story generation failed or returned None/empty
+        if not story or not isinstance(story, str) or story == "Error" or "Failed to generate story" in story: 
+            error_msg = f"Story generation failed for subject '{subject}'. "
+            error_msg += f"Got story: {story[:100]}..." if story and isinstance(story, str) else "No story was generated"
+            logger.error(error_msg)
             return None, None, None 
         
         # Try to generate speech, but don't fail if it doesn't work
@@ -265,6 +267,12 @@ def _generate_story_and_speech(subject, estimated_chars, pattern_path, logger):
         try:
             # Clean up old audio files before generating a new one
             _cleanup_old_audio_files(logger)
+            
+            # Ensure filename is valid
+            if not filename_from_story_gen or not isinstance(filename_from_story_gen, str):
+                filename_from_story_gen = f"story_{int(datetime.now().timestamp())}.mp3"
+            elif not filename_from_story_gen.lower().endswith('.mp3'):
+                filename_from_story_gen = f"{os.path.splitext(filename_from_story_gen)[0]}.mp3"
             
             # Generate speech with the original story (including silence tags)
             speech_file_path_relative_to_static = openai_text_to_speech(story, filename_from_story_gen)
@@ -281,7 +289,7 @@ def _generate_story_and_speech(subject, estimated_chars, pattern_path, logger):
         logger.error(f"Pattern file not found: {pattern_path}")
         return None, None, None
     except Exception as e:
-        logger.error(f"An unexpected error occurred: {e}")
+        logger.error(f"An unexpected error occurred: {e}", exc_info=True)  # Include stack trace
         return None, None, None
 
 @app.route('/')

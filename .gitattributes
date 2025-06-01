@@ -10,6 +10,8 @@
 *.jpg filter=lfs diff=lfs merge=lfs -text
 *.jpeg filter=lfs diff=lfs merge=lfs -text
 *.gif filter=lfs diff=lfs merge=lfs -text
+*.otf filter=lfs diff=lfs mergs=lfs -text
+
 *.otf filter=lfs diff=lfs merge=lfs -text
 static/fonts/retro-block-font.zip filter=lfs diff=lfs merge=lfs -text
 static/fonts/retro-block-font/RetroBlockRegular-Zpg8Z.ttf filter=lfs diff=lfs merge=lfs -text

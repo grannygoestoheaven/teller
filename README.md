@@ -3,10 +3,9 @@ title: teller
 emoji: 🧠
 colorFrom: blue
 colorTo: green
-# sdk: gradio
-# sdk_version: 5.23.1
+sdk: docker
 hardware: cpu
-app_file: app.py
+app_file: flask_ui_app_new.py
 pinned: false
 ---
 

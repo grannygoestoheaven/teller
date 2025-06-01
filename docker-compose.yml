@@ -8,8 +8,8 @@ services:
     volumes:
       - .:/app  # Mount the current directory to /app in the container
     environment:
-      - FLASK_APP=flask_ui_app.py
+      - FLASK_APP=flask_ui_app_new.py
       - FLASK_ENV=production
       - PYTHONUNBUFFERED=1
-    command: ["python", "flask_ui_app.py"]
+    command: ["python", "flask_ui_app_new.py"]
     restart: unless-stopped

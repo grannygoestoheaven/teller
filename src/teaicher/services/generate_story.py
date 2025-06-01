@@ -32,24 +32,23 @@ def generate_story(subject, pattern, estimated_chars: int) -> tuple[str, str]:
     # Create a clear instruction for the AI
     user_message = f"""Please generate a presentation about: {subject}
     - Keep it around {estimated_chars} characters long
-    - Be factual and clear.
-    - Divide the text into paragraphs.
-    - Initiate the text with a **soft, quiet** opening. e.g. with a raw list of a few concepts that will be covered in the story.
+    - Focus specifically on: {subject}
+    - Be factual, clear and precise. No generalities.
+    - Make the text four paragraphs long.
+    - Initiate the text with a soft, quiet opening (e.g. with a raw list of a few concepts that will be covered in the story).
     - Always add a new line after the opening.
     - add <[silence]> tags between all sentences and between each new line.
-    - Dive a bit into details to catch attention.
-    - Don't use any 'conclusion jargon' or 'conclusion language'.
-    - Focus specifically on: {subject}
-    - Conclude by giving, in a fluid way, three related subjects to the topic. Don't write anything after that.
+    - add <[pause]> after each period.
+    - Conclude by suggesting three related subjects to the topic, in variations of this kind : "Three related subjects are...".Don't write anything after that.
     
     ## Instructions :
     - Write in an elegant style, not in a grandiose style. Avoid any mystery tone at all cost.
     - Do not use cliches or jargon.
-    - Use ZERO extreme words like "crucial", "important", "essential", "critical", "fundamental", etc.
     - Use absolutely ZERO cliches or jargon or journalistic language like "In a world, in the realm", etc.
-    - USE zero poetry of any kind.
+    - Use ZERO extreme words like "crucial", "important", "essential", "critical", "fundamental", etc.
+    - USE ZERO poetry of any kind.
     - Use ZERO metaphor of any kind.
-    - Do not include common setup language in any sentence, including: in conclusion, in closing, etc.
+    - use ZERO common setup language in any sentence, including: in conclusion, in closing, etc.
     - Do not output warnings or notes—just the output requested."""
 
     try:
@@ -65,7 +64,7 @@ def generate_story(subject, pattern, estimated_chars: int) -> tuple[str, str]:
         
         # Get the story content
         # story = response.choices[0].message.content.strip()
-        story = response.choices[0].message.content.strip()
+        story = response.choices[0]
         
         # Use the original subject for the filename, not the AI-generated title
         filename = _sanitize_filename(subject) + ".mp3"

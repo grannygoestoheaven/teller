@@ -32,7 +32,7 @@ WORKDIR /app
 
 # --- Copy Files and Force Permissions (as root) ---
 # Copy all project files into /app (still owned by root potentially by default after COPY)
-COPY . .
+COPY --chown=appuser:appuser . .
 
 # CRITICAL FIX: Explicitly and recursively force ownership and permissions for ALL files in /app
 # This runs as root, ensuring it has the power to change anything.
@@ -57,6 +57,13 @@ RUN pip install --no-cache-dir --upgrade pip && \
 
 # Expose the port your Flask application listens on.
 EXPOSE 7860
+
+# Create necessary directories and set permissions
+RUN mkdir -p /app/static && \
+    chown -R appuser:appuser /app/static
+
+# Set working directory to ensure relative paths work
+WORKDIR /app
 
 # Command to run the application when the container starts (as appuser)
 CMD ["python", "flask_ui_app_new.py"]

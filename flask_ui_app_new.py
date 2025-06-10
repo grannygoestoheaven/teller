@@ -13,7 +13,16 @@ from src.teaicher.services.generate_story import generate_story
 from src.teaicher.services.text_to_speech import openai_text_to_speech 
 from src.teaicher.services.play_audio import play_audio_with_sync, play_audio
 
-app = Flask(__name__)
+# Get the absolute path to the directory containing this script
+import os
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+app = Flask(__name__, 
+            static_folder=os.path.join(BASE_DIR, 'static'),
+            static_url_path='/static')
+
+# Ensure the static folder exists
+os.makedirs(os.path.join(BASE_DIR, 'static'), exist_ok=True)
 
 load_dotenv()
 

@@ -1,6 +1,8 @@
 import os
 import gradio as gr
 import torch
+from flask import Flask, send_from_directory
+import pathlib
 
 # Check if running on Hugging Face Spaces
 if os.environ.get('SPACE_ID') is not None:
@@ -51,8 +53,16 @@ def generate_story_app(subject, user_length, track_url):
 
     return story
 
-# Gradio UI
-gr.Interface(
+# Create a Flask app for serving static files
+app = Flask(__name__)
+
+# Serve static files
+@app.route('/static/<path:path>')
+def serve_static(path):
+    return send_from_directory('static', path)
+
+# Create a custom Gradio app with the Flask app
+gr.mount_gradio_app(app, gr.Interface(
     fn=generate_story_app,
     inputs=[
         gr.Textbox(label="Subject"),
@@ -63,5 +73,10 @@ gr.Interface(
         gr.Textbox(label="Generated Story"),
         # gr.Audio(label="Generated Speech")
     ],
-    title="teller"
-).launch()
+    title="teller",
+    allow_flagging="never"
+), path="/")
+
+# Run the app
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=7860)

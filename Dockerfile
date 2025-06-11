@@ -32,19 +32,10 @@ WORKDIR /app
 
 # --- Copy Files and Force Permissions (as root) ---
 # Copy all project files into /app (still owned by root potentially by default after COPY)
+# Copy application code with correct ownership
 COPY --chown=appuser:appuser . .
 
-# CRITICAL FIX: Explicitly and recursively force ownership and permissions for ALL files in /app
-# This runs as root, ensuring it has the power to change anything.
-# chown -R appuser:appuser /app: Recursively changes owner and group to appuser.
-# chmod -R u=rwX,g=rX,o=rX /app: Recursively sets permissions:
-#   u=rwX: user (appuser) has read, write, execute (X for directories)
-#   g=rX: group (appuser) has read, execute (X for directories)
-#   o=rX: others have read, execute (X for directories)
-RUN chown -R appuser:appuser /app && \
-    chmod -R u=rwX,g=rX,o=rX /app
-
-# --- Switch to Non-Root User for all subsequent operations and runtime ---
+# Switch to non-root user for security
 USER appuser
 
 # Configure Git user globally (now writable because /app is correctly owned by appuser)
@@ -58,9 +49,13 @@ RUN pip install --no-cache-dir --upgrade pip && \
 # Expose the port your Flask application listens on.
 EXPOSE 7860
 
-# Create necessary directories and set permissions
-RUN mkdir -p /app/static && \
-    chown -R appuser:appuser /app/static
+# Ensure static directory exists and has correct permissions
+RUN mkdir -p /app/static/css /app/static/fonts/inika && \
+    chown -R appuser:appuser /app/static && \
+    chmod -R 755 /app/static
+
+# Copy static files
+COPY --chown=appuser:appuser static/ /app/static/
 
 # Set working directory to ensure relative paths work
 WORKDIR /app

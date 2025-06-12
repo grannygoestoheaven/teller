@@ -20,9 +20,10 @@ app = Flask(__name__,
             static_folder=os.path.join(BASE_DIR, 'static'),
             static_url_path='/static')
 
-# Ensure static files are served with the correct MIME type
+# Configure Flask to serve static files with proper caching
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0  # Disable caching for development
 app.config['TEMPLATES_AUTO_RELOAD'] = True
+app.config['PREFERRED_URL_SCHEME'] = 'https'  # Ensure URLs are generated with https
 
 # Ensure the static folder exists
 os.makedirs(os.path.join(BASE_DIR, 'static'), exist_ok=True)
@@ -30,7 +31,12 @@ os.makedirs(os.path.join(BASE_DIR, 'static'), exist_ok=True)
 # Add a route to serve static files with proper caching
 @app.route('/static/<path:filename>')
 def serve_static(filename):
-    return send_from_directory(app.static_folder, filename, cache_timeout=0)
+    response = send_from_directory(app.static_folder, filename, cache_timeout=0)
+    # Set appropriate cache control headers
+    response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
+    response.headers['Pragma'] = 'no-cache'
+    response.headers['Expires'] = '0'
+    return response
 
 load_dotenv()
 

@@ -49,13 +49,17 @@ RUN pip install --no-cache-dir --upgrade pip && \
 # Expose the port your Flask application listens on.
 EXPOSE 7860
 
-# Ensure static directory exists and has correct permissions
+# Create necessary directories with correct permissions
 RUN mkdir -p /app/static/css /app/static/fonts/inika && \
     chown -R appuser:appuser /app/static && \
     chmod -R 755 /app/static
 
-# Copy static files
+# Copy static files with correct ownership and permissions
 COPY --chown=appuser:appuser static/ /app/static/
+
+# Ensure all files in static are readable
+RUN chmod -R 644 /app/static/* && \
+    find /app/static -type d -exec chmod 755 {} +
 
 # Set working directory to ensure relative paths work
 WORKDIR /app

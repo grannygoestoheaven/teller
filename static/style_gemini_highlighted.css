@@ -1,6 +1,6 @@
 /* Hide scrollbars for the entire page */
 html, body {
-    overflow: auto; /* Prevent scrolling on the body */
+    overflow: hidden; /* Prevent scrolling on the body, manage inner content scroll */
     scrollbar-width: none; /* Hide scrollbar for Firefox */
     -ms-overflow-style: none; /* Hide scrollbar for IE and Edge */
     height: 100%;
@@ -11,14 +11,14 @@ html, body {
 /* Add Inika font */
 @font-face {
     font-family: 'Inika';
-    src: url('./fonts/inika/Inika-Regular.ttf') format('truetype');
+    src: url('./fonts/inika/Inika-Regular.ttf') format('truetype'); /* Ensure path is correct if you have this font */
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'Inika';
-    src: url('./fonts/inika/Inika-Bold.ttf') format('truetype');
+    src: url('./fonts/inika/Inika-Bold.ttf') format('truetype'); /* Ensure path is correct if you have this font */
     font-weight: bold;
     font-style: normal;
 }
@@ -26,21 +26,20 @@ html, body {
 /* Update body and layout */
 body {
     font-family: 'Inika', serif;
-    /* background-color: var(--color-ivory-light, #f5f5f0); */
     background-color: rgb(24, 24, 23); /* Darkened UI background */
     color: #333;
     margin: 0;
     padding: 0;
-    height: 100vh; /* Use height: 100vh to prevent body scroll */
+    height: 100vh; /* Use height: 100vh to fill viewport height */
     display: flex; /* Use flexbox */
-    /* align-items: center; */
     flex-direction: column; /* Stack children vertically */
-    overflow: hidden; /* Hide body scrollbar just in case */
+    overflow: hidden; /* Hide body scrollbar */
 }
 
 /* Header styles */
+/* Header styles */
 .chat-header {
-    font-size: 3em;
+    font-size: 1em; /* Base font size for the header container */
     z-index: 10;
     background: none;
     padding: 20px 25px 0;
@@ -50,99 +49,20 @@ body {
 
 .chat-header h1 {
     margin: 0 0 0 10px;
-    font-size: 1.2em;
-    /* color: #333; */
-    color: rgba(249, 245, 245); /* Adjusted header to match general lighter text, slightly less prominent */
-    opacity: 0.7; /* This existing opacity will further reduce visibility, consider if this is too much */
+    font-size: 3.5em; /* Increased size for teller, relative to .chat-header */
+    color: rgba(249, 245, 245, 0.9);
+    opacity: 0.9;
     position: relative;
     display: inline-block;
 }
 
-/* Removed top overlay */
-
-/* Header controls container */
-.header-controls {
+.chat-header h2 {
+    margin: 0 0 0 10px;
+    font-size: 1.5em; /* Increased size for the knowledge drifter, relative to .chat-header */
+    color: rgba(249, 245, 245, 0.6);
+    opacity: 0.8;
     position: relative;
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 32px 20px 0; /* Increased padding to accommodate larger text */
-    box-sizing: border-box;
-    flex-shrink: 0;
-    height: 80px; /* Increased height for larger text */
-    line-height: 1.6; /* Keep line-height relative to font size */
-    font-size: 1em; /* Base font size for header controls */
-}
-
-/* Track selector styles */
-.track-selector {
-    position: absolute;
-    top: 22px; /* Match header-controls padding-top */
-    right: 20px;
-    z-index: 20;
-    transition: opacity 0.3s ease;
-    background: rgba(20, 20, 20, 0.7);
-    padding: 5px 10px;
-    border-radius: 15px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(5px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.track-selector button {
-    background: none;
-    border: 2px solid rgba(255, 255, 255, 0.2); /* Slightly thicker border */
-    color: rgba(255, 255, 255, 0.9);
-    border-radius: 12px;
-    padding: 6px 15px; /* Increased padding for larger text */
-    font-size: 0.6em; /* Relative to parent's 2em */
-    cursor: pointer;
-    transition: all 0.3s ease;
-    outline: none;
-    font-weight: 500;
-}
-
-.track-selector button:hover {
-    background: rgba(255, 255, 255, 0.15);
-    transform: translateY(-1px);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-}
-
-/* Subject display styles */
-.subject-display {
-    position: absolute;
-    top: 15px;
-    left: 0;
-    font-size: 1em; /* Relative to parent's 2em */
-    font-weight: 600;
-    color: rgba(255, 255, 255, 0.95);
-    opacity: 1;
-    transform: translateY(0);
-    transition: opacity 0.3s ease;
-    pointer-events: none;
-    text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    background: none;
-    padding: 4px 0;
-    z-index: 20;
-    max-width: 70%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: flex;
-    align-items: center;
-}
-
-/* Colon animation */
-@keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.5; }
-}
-
-.subject-colon {
     display: inline-block;
-    margin-left: 5px;
-    animation: blink 1s infinite;
-    font-weight: 400;
 }
 
 /* Chat history - Centered and scrollable */
@@ -150,53 +70,60 @@ body {
     position: relative;
     max-width: 1200px; /* Wider max-width for a more expansive feel */
     width: 100%;
-    height: 100%;
+    height: 100%; /* Take available height in flex column */
     margin: 0 auto;
     padding: 20px 40px;
-    padding-top: 120px;
-    overflow-y: auto;
-    overflow-x: hidden;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-    font-size: 1.1em;
-    line-height: 1.4; /* Reduced line height */
-    color: rgba(240, 240, 240, 0.9);
-    box-sizing: border-box;
-    background-color: rgb(24, 24, 23);
-    /* display: flex; */
-    /* flex-direction: column; */
-    /* justify-content: center; */
-    /* align-items: center; */
-    /* text-align: center; */
-}
-
-/* Container for the story content */
-.story-content {
-    width: 100%;
-    text-align: left;
-    padding: 20px;
-    overflow-y: auto;
+    padding-top: 120px; /* Space for header and potential overlay */
+    overflow-y: auto; /* Enable vertical scrolling for content */
     overflow-x: hidden; /* Prevent horizontal scrolling */
     scrollbar-width: none; /* Hide scrollbar for Firefox */
     -ms-overflow-style: none; /* Hide scrollbar for IE and Edge */
-    font-size: 0.85em;
-    opacity: 0.95;
-    color: rgba(240, 240, 240, 0.85);
+    font-size: 1.1em;
+    line-height: 1.4;
+    color: rgba(240, 240, 240, 0.9);
     box-sizing: border-box;
-    text-align: start;
-    line-height: 1.6;
-    border: none;
     background-color: rgb(24, 24, 23);
-    box-shadow: none;
-    min-height: 0; /* Allows the flex item to shrink below its content's minimum height */
+    /* No flex properties here if content flows within */
 }
 
-.story-content p {
+/* Hide scrollbar for Webkit browsers (Chrome, Safari, Opera) */
+.chat-history::-webkit-scrollbar {
+    display: none;
+}
+
+/* Container for the story content - applies to #chatHistory itself now */
+#chatHistory.story-content-wrapper {
+    /* Base styles, primarily managing its overflow and positioning */
+    /* Other opacity/visibility styles are added by JS via classes like .text-shadow */
+}
+
+/* Styles for the actual text inside chatHistory */
+#chatHistory p {
     text-align: left; /* Ensure paragraphs align left */
     margin: 0.8em 0; /* Keep your existing margin for paragraphs */
     word-wrap: break-word; /* Ensure words break if too long */
     overflow-wrap: break-word; /* Modern equivalent */
 }
+
+/* New: For text that appears briefly then fades to shadowed state */
+#chatHistory.text-shadow {
+    opacity: 0.15; /* Low opacity for shadowed state */
+    transition: opacity 1s ease-out; /* Smooth transition to shadow */
+    pointer-events: auto; /* Still clickable for highlighting */
+}
+
+/* New: For text fully visible (e.g., when toggled) */
+#chatHistory.text-full {
+    opacity: 0.95; /* Full opacity */
+    transition: opacity 0.3s ease-in; /* Smooth transition to full */
+    pointer-events: auto;
+}
+
+/* Base transition for chatHistory's opacity, ensure it smoothly animates */
+#chatHistory {
+    transition: opacity 0.5s ease-in-out;
+}
+
 
 /* Style for interactive words */
 .chat-history .word {
@@ -213,40 +140,27 @@ body {
     margin: 0 -0.1em; /* Compensate for padding to reduce word spacing */
 }
 
-/* Ensure proper spacing between words */
+/* Ensure proper spacing between words (adjusting chat-history directly) */
+/* This is better applied to the #chatHistory itself if you want global word spacing */
 .chat-history {
     white-space: normal;
     word-spacing: -0.1em; /* Tighter word spacing */
     letter-spacing: normal;
 }
 
-/* Add some padding to the container */
-.chat-history > * {
-    margin: 0;
-    padding: 2px 0; /* Reduced vertical padding */
-}
-
-/* Hide scrollbar for Webkit browsers (Chrome, Safari, Opera) */
-.chat-history::-webkit-scrollbar {
-    display: none;
-}
-
 /* Hover effect for words */
 .chat-history .word.highlight-word {
     -webkit-text-stroke: 2px rgba(10, 184, 21, 0.849);
     text-stroke: 2px rgba(10, 184, 21, 0.849);
-    /* Remove transform to prevent text movement */
     position: relative;
     z-index: 1;
 }
 
-/* Cursor animation */
-/* Remove standby cursor in chat history */
+/* Cursor animation for end of text */
 .cursor-standby {
-    /* display: none !important; */ /* Keep display:none if you don't want the initial cursor */
     font-size: 1em;
-    color: #bca18c; /* Match placeholder color */
-    margin-left: 0.05em; /* Small space after text */
+    color: #bca18c;
+    margin-left: 0.05em;
     animation: blink 1s steps(1) infinite;
     vertical-align: middle;
 }
@@ -256,70 +170,91 @@ body {
     50% { opacity: 0; }
 }
 
-/* --- NEW LOADING ANIMATION STYLES --- */
-.loading-animation {
-    display: flex;
+/* --- NEW LOADING ANIMATION & CONTROLS STYLES --- */
+#loadingAnimationContainer {
+    display: none; /* Hidden by default, JS will toggle to 'flex' */
     justify-content: center;
     align-items: center;
-    height: 100%; /* Occupy the full height of chatHistory */
-    width: 100%; /* Occupy the full width of chatHistory */
-    font-size: 4em; /* Adjust size as needed */
-    color: #888; /* A subtle grey for the colons */
-    box-sizing: border-box;
-    line-height: 0.5; /* Ensure colons don't take up too much vertical space */
+    position: absolute; /* Position it on top of chat-history */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    z-index: 100; /* Ensure it's on top */
+    pointer-events: none; /* Allows clicks to pass through when hidden */
+}
+
+#loadingAnimationContainer.visible {
+    display: flex;
+    pointer-events: auto; /* Re-enable pointer events when visible */
+}
+
+.loading-animation {
+    display: flex; /* Flex container for the dots */
+    justify-content: center;
+    align-items: center;
+    font-size: 4em; /* Overall size of the dots */
+    color: #888; /* Initial subtle grey for loading dots */
+    line-height: 0.5; /* Align dots vertically */
 }
 
 .loading-animation .period {
-    opacity: 0; /* Start invisible */
+    opacity: 0; /* Start invisible for animation */
     animation: period-fade 1.5s infinite ease-in-out; /* Main animation */
     margin: 0 1px; /* Small spacing between periods */
-    font-size: 1.6em; /* Larger periods */
-    font-weight: bold; /* Make periods bolder */
-    color: #666; /* Slightly darker color for better visibility */
+    font-size: 1.6em; /* Larger period size relative to parent .loading-animation */
+    font-weight: bold;
+    color: #666; /* Slightly darker color for better visibility during animation */
     display: inline-block;
     line-height: 0.8; /* Better vertical alignment */
+    transition: all 0.3s ease; /* For smooth transformation into buttons */
 }
 
-/* Delay for each period */
-.loading-animation .period-1 {
-    animation-delay: 0s;
-}
-
-.loading-animation .period-2 {
-    animation-delay: 0.3s; /* Slight delay for the second period */
-}
-
-.loading-animation .period-3 {
-    animation-delay: 0.6s; /* Slight delay for the third period */
-}
+/* Animation delays for each period */
+.loading-animation .period-1 { animation-delay: 0s; }
+.loading-animation .period-2 { animation-delay: 0.3s; }
+.loading-animation .period-3 { animation-delay: 0.6s; }
 
 @keyframes period-fade {
-    0% {
-        opacity: 0.2;
-        transform: translateY(0) scale(0.8);
-    }
-    50% {
-        opacity: 1;
-        transform: translateY(-3px) scale(1.2);
-        text-shadow: 0 0 8px rgba(0,0,0,0.2);
-    }
-    100% {
-        opacity: 0.2;
-        transform: translateY(0) scale(0.8);
-    }
+    0% { opacity: 0.2; transform: translateY(0) scale(0.8); }
+    50% { opacity: 1; transform: translateY(-3px) scale(1.2); text-shadow: 0 0 8px rgba(0,0,0,0.2); }
+    100% { opacity: 0.2; transform: translateY(0) scale(0.8); }
 }
-/* --- END NEW LOADING ANIMATION STYLES --- */
 
-/* Message styles */
-/* Note: The message class might not be used if you're just streaming raw text into chatHistory */
-.message {
-    background: none;
-    border: none;
-    box-shadow: none;
-    margin: 0 0 15px 0;
-    padding: 0;
-    max-width: 100%;
-    text-align: center; /* This might conflict with chat-history text-align: justify */
+/* Styles for when dots become interactive controls */
+.loading-animation .period.interactive {
+    animation: none; /* Stop loading animation */
+    cursor: pointer;
+    border-radius: 50%; /* Make them round buttons */
+    padding: 10px 15px; /* Adjust padding for better clickable area */
+    background-color: rgba(60, 60, 60, 0.5); /* Subtle background, as in your second picture */
+    font-size: 1em; /* Adjust text size if adding text */
+    color: rgba(255, 255, 255, 0.7); /* Text color, as in your second picture */
+    transition: background-color 0.2s, color 0.2s, transform 0.2s, font-size 0.2s, padding 0.2s;
+    margin: 0 8px; /* Spacing between transformed buttons, slightly wider */
+    min-width: 40px; /* Ensure a minimum width */
+    text-align: center;
+    display: flex; /* Use flexbox for centering content (icon/text) */
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* Add subtle shadow */
+}
+
+.loading-animation .period.interactive:hover {
+    background-color: rgba(80, 80, 80, 0.7);
+    transform: scale(1.1);
+}
+
+/* Specific colors/states for dots */
+.loading-animation .period.interactive.control-restart { color: #88C0D0; } /* Blueish */
+.loading-animation .period.interactive.control-play { color: #A3BE8C; }    /* Greenish */
+.loading-animation .period.interactive.control-pause { color: #EBCB8B; }   /* Yellowish */
+.loading-animation .period.interactive.control-toggle-text { color: #B48EAD; } /* Purplish */
+
+/* Hide the audio player container, as its controls are now dots */
+#audioPlayerContainer {
+    display: none !important;
 }
 
 /* Input area */
@@ -356,46 +291,23 @@ footer.chat-input-area {
     justify-content: center;
     align-items: center;
     width: 100%;
-    max-width: 1000px; /* Max width for the whole group including subject and selector */
-    margin: 0 auto auto auto; /* Keep original bottom margin of #subject */
-    padding: 0; /* Ensure no extra padding on the group itself */
+    max-width: 1000px;
+    margin: 0 auto auto auto;
+    padding: 0;
     box-sizing: border-box;
-    position: relative; /* Added for absolute positioning of children */
-}
-
-.form-row {
-    width: 100%;
-    display: flex;
-    gap: 15px;
-    margin-bottom: 8px;
-}
-
-.form-group {
-    flex: 1;
-    width: 100%;
-}
-
-/* Input fields */
-.form-group input[type="number"] {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    background: rgba(255, 255, 255, 0.8);
-    font-family: 'Inika', serif;
-    box-sizing: border-box;
+    position: relative;
 }
 
 /* Subject input specific styles */
 #subject {
-    max-width: 800px; /* Allow flex to determine width */
-    flex-grow: 1; /* Allow subject input to take available space */
-    padding: 24px 16px; /* Reverted padding */
+    max-width: 800px;
+    flex-grow: 1;
+    padding: 24px 16px;
     font-size: 1em;
     border: none !important;
     border-radius: 20px;
-    background: #0f0f0f; /* Subject input background is already very dark, keeping it */
-    color: rgba(245, 245, 245, 0.9); /* Closer to white with opacity */
+    background: #0f0f0f; /* As seen in your second picture */
+    color: rgba(245, 245, 245, 0.9);
     font-family: 'Inika', serif;
     transition: none;
     box-sizing: border-box;
@@ -410,28 +322,14 @@ footer.chat-input-area {
     border: none !important;
 }
 
-.subject-input-group {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-}
-
-#subject:focus {
-    border-color: rgba(230, 230, 230, 0.85); /* Brighter focus border */
-    box-shadow: 0 0 0 2px rgba(230, 230, 230, 0.2); /* Adjusted shadow to match new border */
-}
-
 #subject::placeholder {
-    color: rgba(157, 155, 155, 0.84); /* Adjusted placeholder color to be slightly less prominent */
+    color: rgba(157, 155, 155, 0.84); /* As seen in your second picture */
     font-style: regular;
     font-weight: lighter;
 }
 
 /* Pixel PLAY style */
 .pixel-play {
-    /* font-family: 'Press Start 2P', 'VT323', monospace, sans-serif; */
-    /* font-family: 'Silkscreen', serif; */
     font-family: 'Pixelify Sans', serif;
     text-transform: uppercase;
     font-size: 1em;
@@ -443,61 +341,19 @@ footer.chat-input-area {
     line-height: 1.2;
 }
 
-/* Button styles */
+/* Send button styles */
 .send-button {
-    background-color: #313030;
+    background-color: #313030; /* As seen in your second picture */
     color: rgb(234, 232, 232);
     border: none;
     padding: 5px 17px;
-    border-radius: 4px;
+    border-radius: 4px; /* As seen in your second picture */
     cursor: pointer;
     font-family: 'Inika', serif;
     font-size: 0.85em;
     margin-top: 10px;
     margin-bottom: 10px;
     width: 100%;
-    max-width: 100px;
+    max-width: 100px; /* As seen in your second picture */
     align-self: center;
 }
-
-/* --- Add new styles for length selector --- */
-.length-selector-container {
-    width: 50px;  /* Keep 1:1 ratio */
-    height: 50px; /* Keep 1:1 ratio */
-    border: 2.5px solid rgba(220, 220, 220, 0.75); /* Closer to white with opacity */
-    border-radius: 20px; /* Reverted border-radius to original outside style */
-    background: #0f0f0f; /* Match #subject background */
-    color: rgba(245, 245, 245, 0.9); /* Match #subject text color, closer to white */
-    font-family: 'Inika', serif; /* Match #subject font */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    box-sizing: border-box;
-    flex-shrink: 0; /* Prevent selector from shrinking */
-    transition: border-color 0.3s, box-shadow 0.3s; /* Match #subject focus transition */
-    user-select: none; /* Prevent text selection during interaction */
-    position: absolute; /* Position absolutely */
-    top: 50%;           /* Vertically center */
-    left: 100%;         /* Position to the right of the parent */
-    transform: translateY(-50%); /* Fine-tune vertical centering */
-    margin-left: 10px;  /* Create space from the subject input group */
-}
-
-.length-selector-container #length-display-value {
-    font-size: 1em; /* Prominent but not as large as subject input's text */
-    font-weight: bold; /* Assuming 'Inika Bold' is desired from your font setup */
-    opacity: 0; /* Hidden by default */
-    transition: opacity 0.2s ease-in-out; /* Smooth transition for appearing */
-}
-
-.length-selector-container:hover #length-display-value {
-    opacity: 1; /* Show the number when the container is hovered */
-}
-
-.length-selector-container:hover {
-    border-color: rgba(230, 230, 230, 0.85); /* Brighter hover border */
-    box-shadow: 0 0 0 3px rgba(230, 230, 230, 0.2); /* Adjusted shadow to match new border */
-}
-
-/* Adjusted shadow to match new border */

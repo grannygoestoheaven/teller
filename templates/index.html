@@ -3,30 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>teller - AI storyteller</title>
+    <title>teller - AI storytelling, Knowledge drifting</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style_gemini_highlighted.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans&family=Silkscreen&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- <div class="full-screen-container"> -->
-        <header class="chat-header">
+    <header class="chat-header">
             <h1>teller</h1>
+            <h2>the knowledge drifter</h2>
         </header>
 
-        <!-- Chat history container -->
         <div class="chat-history" id="chatHistory">
-            <!-- Story will appear here -->
+            </div>
+
+        <div class="loading-animation-container" id="loadingAnimationContainer">
+            <div class="loading-animation" id="loadingAnimation">
+                <span class="period period-1">.</span>
+                <span class="period period-2">.</span>
+                <span class="period period-3">.</span>
+            </div>
         </div>
 
-        <div class="audio-player-container" id="audioPlayerContainer" style="display: none;">
-            <audio id="story-audio"></audio>
-            <div class="player-controls">
-                <button id="play-pause-button" class="player-btn">Play</button>
-                <button id="start-over-button" class="player-btn">Start Over</button>
-                <button id="replay-10s-button" class="player-btn">Replay 10s</button> 
-            </div>
+        <div class="audio-player-container" id="audioPlayerContainer">
+            <audio id="speechAudio" preload="auto"></audio>
+            <audio id="backgroundAudio" preload="auto" loop></audio>
             <div id="story-title-display" class="story-title-display"></div>
         </div>
 
@@ -35,26 +37,13 @@
                 <div class="form-fields-container">
                     <div class="form-group subject-input-group">
                         <input type="text" id="subject" name="subject" placeholder="What do you want to hear ?" required>
-                        <!-- Start: New Length Selector -->
-                        <!-- <div id="length-selector-container" class="length-selector-container">
-                            <span id="length-display-value">1</span> -->
-                        <!-- </div>
-                        <input type="hidden" id="user_length_input" name="user_length" value="1"> -->
-                        <!-- End: New Length Selector -->
                     </div>
-                    <!-- <div class="length-selector-container">
-                        <div id="length-selector-container" class="length-selector-container">
-                            <label for="duration">Duration (minutes):</label>
-                            <input type="number" id="duration" name="duration" placeholder="e.g., 3" required step="1" min="1">
-                        </div>
-                    </div> -->
                 </div>
                 <button type="submit" class="send-button" id="generateButton" aria-label="Play">
-  <span class="pixel-play">PLAY</span>
-</button>
+                    <span class="pixel-play">PLAY</span>
+                </button>
             </form>
         </footer>
-    </div>
     <script src="{{ url_for('static', filename='sms3.js') }}"></script>
 </body>
 </html>

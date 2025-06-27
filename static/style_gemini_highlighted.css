@@ -194,21 +194,22 @@ body {
     display: flex; /* Flex container for the dots */
     justify-content: center;
     align-items: center;
-    font-size: 8em; /* Overall size of the dots */
+    position: absolute;
+    font-size: 4em; /* Overall size of the dots */
     color: #888; /* Initial subtle grey for loading dots */
     line-height: 0.5; /* Align dots vertically */
 }
 
 .loading-animation .period {
+    display: inline-block;
     opacity: 0; /* Start invisible for animation */
     animation: period-fade 1.5s infinite ease-in-out; /* Main animation */
-    margin: 0; /* Small spacing between periods */
-    font-size: 1.6em; /* Larger period size relative to parent .loading-animation */
+    margin: -0.5; /* Small spacing between periods */
+    font-size: 5em; /* Larger period size relative to parent .loading-animation */
     font-weight: bold;
     color: #666; /* Slightly darker color for better visibility during animation */
-    display: inline-block;
     line-height: 0.8; /* Better vertical alignment */
-    transition: all 0.3s ease; /* For smooth transformation into buttons */
+    transition: all 1.5s ease; /* For smooth transformation into buttons */
 }
 
 /* Animation delays for each period */

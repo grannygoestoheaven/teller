@@ -4,6 +4,7 @@
 /build/
 /venv_teller/
 /static/generated_stories/
+/static/extra_functions.txt
 /src/teaicher/other_llms_functions/
 /src/config/patterns/*
 /tests/.cache

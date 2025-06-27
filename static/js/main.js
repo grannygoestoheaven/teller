@@ -221,16 +221,16 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Load saved story on page load
     const savedStory = loadStoryFromStorage();
-    if (savedStory) {
-        chatHistory.innerHTML = '';
-        // If a saved story exists, we want to immediately display it without streaming or animations
-        streamText(savedStory.story); // Display saved text immediately
-        chatHistory.classList.add('text-full'); // Ensure it's fully visible
-        loadingAnimationContainer.style.display = 'none'; // Ensure loading container is hidden if story loaded
-    } else {
-        // If no saved story, ensure loading animation container is hidden initially
-        loadingAnimationContainer.style.display = 'none';
-    }
+    // if (savedStory) {
+    //     chatHistory.innerHTML = '';
+    //     // If a saved story exists, we want to immediately display it without streaming or animations
+    //     streamText(savedStory.story); // Display saved text immediately
+    //     chatHistory.classList.add('text-full'); // Ensure it's fully visible
+    //     loadingAnimationContainer.style.display = 'none'; // Ensure loading container is hidden if story loaded
+    // } else {
+    //     // If no saved story, ensure loading animation container is hidden initially
+    // }
+    loadingAnimationContainer.style.display = 'none';
 
     let isGenerating = false;
     let currentStoryText = ''; // Store the story text received from the server
@@ -315,6 +315,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             hideLoadingAnimation(); // Ensure controls are activated even on error
             isGenerating = false;
             generateButton.disabled = false;
+        } finally {
+            isGenerating = false;
+            generateButton.disabled = false;
         }
     });
 
@@ -324,9 +327,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         streamText(currentStoryText); // Stream the text (already stored from fetch response)
         chatHistory.classList.add('text-full'); // Ensure text is fully visible, no shadow
         // No need for toggleStoryTextVisibility or shadow timeouts here
-        isGenerating = false; // Allow new generation after speech ends
-        generateButton.disabled = false; // Re-enable the button
     });
+    
 
     clearHighlights(); // Initial call to ensure no lingering highlights
 });

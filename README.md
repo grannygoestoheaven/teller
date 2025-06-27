@@ -11,13 +11,13 @@ pinned: false
 
 # Teller
 
-🧠 **Teller** is an AI-powered storytelling assistant that syncs voice and music to create immersive, timed narratives.
+🧠 Teller is an AI-powered storytelling assistant that syncs voice and background ambient music to create immersive, focus-improved narratives.
 
 ## Features
 
-- Converts subject + duration into an insightful short story  
-- Syncs narration with background track  
-- Uses LLMs text generation + tts and VLC for synchronized media playing
+- Converts subject into an insightful short story  
+- Syncs narration with background track
+- Uses LLMs text generation + TTS
 
 ---
 

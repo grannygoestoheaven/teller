@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>teller - AI storytelling, Knowledge drifting</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style_gemini_highlighted.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans&family=Silkscreen&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="chat-header">
+            <h1>teller</h1>
+            <h2>the knowledge drifter</h2>
+        </header>
+
+        <div class="chat-history" id="chatHistory">
+            </div>
+
+        <div class="loading-animation-container" id="loadingAnimationContainer">
+            <div class="loading-animation" id="loadingAnimation">
+                <span class="period period-1">.</span>
+                <span class="period period-2">.</span>
+                <span class="period period-3">.</span>
+            </div>
+        </div>
+
+        <div class="audio-player-container" id="audioPlayerContainer">
+            <audio id="speechAudio" preload="auto"></audio>
+            <audio id="backgroundAudio" preload="auto" loop></audio>
+            <div id="story-title-display" class="story-title-display"></div>
+        </div>
+
+        <footer class="chat-input-area">
+            <form action="/generate_story" method="POST" id="story-form" enctype="multipart/form-data">
+                <div class="form-fields-container">
+                    <div class="form-group subject-input-group">
+                        <input type="text" id="subject" name="subject" placeholder="What do you want to hear ?" required>
+                    </div>
+                </div>
+                <button type="submit" class="send-button" id="generateButton" aria-label="Play">
+                    <span class="pixel-play">PLAY</span>
+                </button>
+            </form>
+        </footer>
+    <script src="{{ url_for('static', filename='sms3.js') }}"></script>
+</body>
+</html>

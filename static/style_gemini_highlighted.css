@@ -73,7 +73,7 @@ body {
     height: 100%; /* Take available height in flex column */
     margin: 0 auto;
     padding: 20px 40px;
-    padding-top: 120px; /* Space for header and potential overlay */
+    padding-top: 80px; /* Space for header and potential overlay */
     overflow-y: auto; /* Enable vertical scrolling for content */
     overflow-x: hidden; /* Prevent horizontal scrolling */
     scrollbar-width: none; /* Hide scrollbar for Firefox */
@@ -176,7 +176,7 @@ body {
     justify-content: center;
     align-items: center;
     position: absolute; /* Position it on top of chat-history */
-    top: 50%;
+    top: 45%;
     left: 50%;
     transform: translate(-50%, -50%);
     width: 100%;
@@ -198,13 +198,14 @@ body {
     font-size: 4em; /* Overall size of the dots */
     color: #888; /* Initial subtle grey for loading dots */
     line-height: 0.5; /* Align dots vertically */
+    gap: 0.1em; /* Space between dots */
 }
 
 .loading-animation .period {
     display: inline-block;
     opacity: 0; /* Start invisible for animation */
     animation: period-fade 1.5s infinite ease-in-out; /* Main animation */
-    margin: -0.5; /* Small spacing between periods */
+    margin: -0.2em;
     font-size: 5em; /* Larger period size relative to parent .loading-animation */
     font-weight: bold;
     color: #666; /* Slightly darker color for better visibility during animation */

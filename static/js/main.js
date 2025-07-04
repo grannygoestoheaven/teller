@@ -411,16 +411,16 @@ document.addEventListener('DOMContentLoaded', async () => {
         // a new story's handleAudioPlayback starts.
         if (backgroundAudio.duration > 0 && !backgroundAudio.paused) {
             let fadeOutVolume = backgroundAudio.volume;
-            const fadeOutDuration = 45000; // 45 seconds fade out
+            const fadeOutDuration = 1500; // A quicker 1.5-second fade-out
             const intervalMs = 50;
             const steps = fadeOutDuration / intervalMs;
             const volumeDecreasePerStep = fadeOutVolume / steps;
 
-            let quickFadeOutInterval = setInterval(() => { // Use a local variable for this quick fade-out
-                if (fadeOutVolume > 0) {
-                    fadeOutVolume -= volumeDecreasePerStep;
-                    backgroundAudio.volume = Math.max(0, fadeOutVolume);
-                } else {
+            let quickFadeOutInterval = setInterval(() => {
+                fadeOutVolume -= volumeDecreasePerStep;
+                backgroundAudio.volume = Math.max(0, fadeOutVolume);
+
+                if (backgroundAudio.volume <= 0) {
                     clearInterval(quickFadeOutInterval);
                     backgroundAudio.pause();
                     backgroundAudio.currentTime = 0;

@@ -400,63 +400,58 @@ export function handleAudioPlayback(data) {
             backgroundAudio.play().catch(e => console.error("Background audio playback failed:", e));
 
             const maxVolume = 0.3; // Max volume set to 30% for background
+            const fadeInDuration = 10000; // 10 seconds
+            const intervalMs = 50;
+            const steps = fadeInDuration / intervalMs;
+            const volumeIncreasePerStep = maxVolume / steps;
             let bgVolume = 0;
+
             bgFadeInIntervalId = setInterval(() => {
-                if (bgVolume < maxVolume) {
-                    bgVolume += 0.005; // Small step for smooth fade
-                    backgroundAudio.volume = bgVolume;
-                } else {
+                bgVolume += volumeIncreasePerStep;
+                if (bgVolume >= maxVolume) {
+                    backgroundAudio.volume = maxVolume;
                     clearInterval(bgFadeInIntervalId);
-                    bgFadeInIntervalId = null; // Clear reference
-                    // --- Speech starts ONLY after background fade-in is complete ---
-                    speechAudio.play().catch(e => {
-                        console.error("Speech audio playback failed:", e);
-                        // Dispatch speechEnded even if playback fails
-                        const event = new CustomEvent('speechEnded', { detail: { storyText: data.story } });
-                        document.dispatchEvent(event);
-                    });
-                    // updatePlayPauseIcon(); // Not used/implemented
+                    bgFadeInIntervalId = null;
+
+                    // Wait 5 seconds, then play speech
+                    speechDelayTimeoutId = setTimeout(() => {
+                        speechAudio.play().catch(e => {
+                            console.error("Speech audio playback failed:", e);
+                            const event = new CustomEvent('speechEnded', { detail: { storyText: data.story } });
+                            document.dispatchEvent(event);
+                        });
+                    }, 5000); // 5-second delay
+                } else {
+                    backgroundAudio.volume = bgVolume;
                 }
-            }, 50);
+            }, intervalMs);
 
             // Function to handle speech end and cleanup
             speechAudio.onended = () => {
-                clearAllAudioTimeouts(); // Clear all ongoing audio timeouts/intervals from speech's perspective
-
-                // --- Dispatch custom event immediately when speech ends ---
+                // Dispatch event to show story text immediately
                 const event = new CustomEvent('speechEnded', { detail: { storyText: data.story } });
                 document.dispatchEvent(event);
 
-                // Set a timeout for the ambient audio after speech (45 seconds)
+                // Wait for 40 seconds, then fade out
                 speechAudioOnEndedTimeoutId = setTimeout(() => {
-                    speechAudioOnEndedTimeoutId = null; // Clear reference after timeout fires
-
-                    // Start background fade out after ambient period
                     let fadeOutVolume = backgroundAudio.volume;
-                    const fadeOutDuration = 45000; // 45 seconds fade out
-                    const intervalMs = 50;
-                    const steps = fadeOutDuration / intervalMs;
-                    const volumeDecreasePerStep = fadeOutVolume / steps;
+                    const fadeOutDuration = 35000; // 5-second fade-out
+                    const fadeOutSteps = fadeOutDuration / intervalMs;
+                    const volDecrement = fadeOutVolume / fadeOutSteps;
 
                     bgFadeOutIntervalId = setInterval(() => {
-                        if (fadeOutVolume > 0) {
-                            fadeOutVolume -= volumeDecreasePerStep;
-                            backgroundAudio.volume = Math.max(0, fadeOutVolume);
-
-                            if (backgroundAudio.volume <= 0) {
-                                clearInterval(bgFadeOutIntervalId);
-                                bgFadeOutIntervalId = null; // Clear reference
-                                backgroundAudio.pause();
-                                backgroundAudio.currentTime = 0;
-                            }
-                        } else {
+                        fadeOutVolume -= volDecrement;
+                        if (fadeOutVolume <= 0) {
+                            backgroundAudio.volume = 0;
                             clearInterval(bgFadeOutIntervalId);
-                            bgFadeOutIntervalId = null; // Clear reference
+                            bgFadeOutIntervalId = null;
                             backgroundAudio.pause();
                             backgroundAudio.currentTime = 0;
+                        } else {
+                            backgroundAudio.volume = fadeOutVolume;
                         }
                     }, intervalMs);
-                }, 45000); // 45 seconds ambient after speech
+                }, 40000); // 40-second ambient period
             };
         } else { // No background track
             // Just play speech directly

@@ -73,7 +73,7 @@ body {
     height: 100%; /* Take available height in flex column */
     margin: 0 auto;
     padding: 20px 40px;
-    padding-top: 80px; /* Space for header and potential overlay */
+    padding-top: 105px; /* Space for header and potential overlay */
     overflow-y: auto; /* Enable vertical scrolling for content */
     overflow-x: hidden; /* Prevent horizontal scrolling */
     scrollbar-width: none; /* Hide scrollbar for Firefox */
@@ -89,12 +89,6 @@ body {
 /* Hide scrollbar for Webkit browsers (Chrome, Safari, Opera) */
 .chat-history::-webkit-scrollbar {
     display: none;
-}
-
-/* Container for the story content - applies to #chatHistory itself now */
-#chatHistory.story-content-wrapper {
-    /* Base styles, primarily managing its overflow and positioning */
-    /* Other opacity/visibility styles are added by JS via classes like .text-shadow */
 }
 
 /* Styles for the actual text inside chatHistory */

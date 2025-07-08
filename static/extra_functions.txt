@@ -1,0 +1,20 @@
+function transformDotsIntoControls() {
+    // Remove animation classes and add interactive ones for each period
+    period1.classList.remove('period-1');
+    period1.classList.add('interactive', 'control-restart');
+    period1.textContent = '⟲'; // Unicode restart icon
+    period1.onclick = () => restartSpeech();
+
+    period2.classList.remove('period-2');
+    period2.classList.add('interactive', 'control-play');
+    updatePlayPauseIcon(); // Set initial icon based on speech state
+    period2.onclick = () => togglePlayPauseSpeech();
+
+    period3.classList.remove('period-3');
+    period3.classList.add('interactive', 'control-toggle-text');
+    period3.textContent = '👁️‍🗨️'; // Default: text is shadowed, so toggle button implies "show"
+    period3.onclick = () => toggleStoryTextVisibility();
+
+    // Optional: Hide actual story-title-display if we're not using it directly
+    document.getElementById('story-title-display').style.display = 'none';
+}

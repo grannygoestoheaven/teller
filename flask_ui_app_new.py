@@ -20,7 +20,13 @@ load_dotenv()
 # --- Configuration Flag for Playback Mode ---
 ENABLE_VLC_PLAYBACK = True  # Set to False for browser-only playback, True for VLC server-side playback
 DEFAULT_DURATION = 1
-PATTERN_FILE_PATH = 'src/teaicher/config/patterns/insightful_brief.md'
+PATTERN_FILE_PATH = 'src/teaicher/config/patterns/rapid_schema_formation.md'
+# PATTERN_FILE_PATH = 'src/teaicher/config/patterns/inverted_explanation.md'
+# PATTERN_FILE_PATH = 'src/teaicher/config/patterns/interleaving.md'
+# PATTERN_FILE_PATH = 'src/teaicher/config/patterns/concrete_examples_first.md'
+# PATTERN_FILE_PATH = 'src/teaicher/config/patterns/dual_coding_theory.md'
+# PATTERN_FILE_PATH = 'src/teaicher/config/patterns/desirable_difficulty.md'
+# PATTERN_FILE_PATH = 'src/teaicher/config/patterns/memory_palace.md'
 LOCAL_AMBIENT_TRACKS = 'local_ambient_tracks'
 YOUTUBE_AMBIENT_LANDSCAPES = 'youtube_ambient_landscapes'
 YOUTUBE_AMBIENT_TRACKS = 'youtube_ambient_tracks'

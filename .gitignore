@@ -11,6 +11,7 @@ __pycache__/
 *.pyc
 .cache
 summary_3.rtf
+paths_to_remove.txt
 node_modules
 ideas
 package.json

@@ -90,7 +90,7 @@ def play_audio_with_sync(speech_file_path: str, track_path: str) -> None:
 
     # Set volumes
     speech_player.audio_set_volume(95)
-    track_player.audio_set_volume(40)  # Lower volume for ambient track
+    track_player.audio_set_volume(35)  # Lower volume for ambient track
 
     # Store the track player globally and start playing
     current_track_player = track_player
@@ -128,7 +128,7 @@ def play_audio_with_sync(speech_file_path: str, track_path: str) -> None:
         time.sleep(45)
         
         # Fade out music with ultra-smooth transition
-        fade_duration = 45  # 45 seconds for smooth fade
+        fade_duration = 20  # 45 seconds for smooth fade
         fade_start_volume = track_player.audio_get_volume()
         steps = 500  # High number of steps for smooth transition
         

@@ -51,33 +51,18 @@ def openai_text_to_speech(story: str, filename: str, pause_between_sentences_ms:
     client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
 
     try:
-        # Add SSML breaks between sentences
-        # ssml_text = f"<speak>{_add_ssml_breaks(story, pause_between_sentences_ms)}</speak>"
-        
         # Ensure the input text is not empty and is a string
         if not story or not isinstance(story, str):
             raise ValueError("Story text must be a non-empty string")
             
         response = client.audio.speech.create(
-            # model="tts-1-hd-1106",
             model="tts-1-hd",
-            # model="gpt-4o-mini-tts",
-            # voice= random.choice(["onyx", "nova", "fable", "alloy", "echo", "verse", "shimmer"]),
             voice="onyx",
             input=story.strip(),  # Ensure we're passing a clean string
-            # input=story,
             response_format="mp3",
-            # instructions="Speak in a chill, surfer voice, making no noise, detached from worries, with double silences between sentences.",
-            instructions='''
-                        Tone : discreet, tired.
-                        Pacing : fast, with controlled, double silences between sentences.
-                        Emotional Range : peaceful''',
             speed=1.0,
         )
-
-        # Determine the absolute path to the static directory
-        # Assuming this script is in src/teaicher/services,
-        # static_dir is ../../../static
+        
         current_script_dir = os.path.dirname(os.path.abspath(__file__))
         project_root = os.path.abspath(os.path.join(current_script_dir, '..', '..', '..'))
         static_dir_abs_path = os.path.join(project_root, 'static')
@@ -135,7 +120,7 @@ def openai_text_to_speech(story: str, filename: str, pause_between_sentences_ms:
     
     return audio_bytes
 
-def tts_text_to_speech(story: str, filename: str = "story.wav", model_name: str = "tts_models/en/ljspeech/glow-tts") -> str:
+def coqui_tts_text_to_speech(story: str, filename: str = "story.wav", model_name: str = "tts_models/en/ljspeech/glow-tts") -> str:
     """
     Generates speech from text using Coqui TTS and saves it to a static directory.
 

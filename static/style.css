@@ -1,0 +1,139 @@
+/* ===== GLOBAL RESET & SCROLLBAR HIDING ===== */
+html,
+body{
+  overflow:hidden;               /* hide page scrollbars         */
+  scrollbar-width:none;          /* Firefox                      */
+  -ms-overflow-style:none;       /* IE / Edge                    */
+  height:100%;
+  margin:0;
+  padding:0;
+}
+
+/* ===== FONTS ===== */
+@font-face{
+  font-family:'Inika';
+  src:url('./fonts/inika/Inika-Regular.ttf') format('truetype');
+  font-weight:normal;
+  font-style:normal;
+}
+@font-face{
+  font-family:'Inika';
+  src:url('./fonts/inika/Inika-Bold.ttf') format('truetype');
+  font-weight:bold;
+  font-style:normal;
+}
+
+/* ===== LAYOUT BODY ===== */
+body{
+  font-family:'Inika',serif;
+  background:#181817;
+  color:#333;
+  height:100vh;
+  margin:0;
+  padding:0;
+  display:flex;                  /* header | chat | footer stack */
+  flex-direction:column;
+  overflow:hidden;
+}
+
+/* ===== HEADER ===== */
+.chat-header{
+  font-size:2em;                 /* base size for “TELLER”       */
+  z-index:10;
+  background:none;
+  padding:20px 25px 0;
+  margin-bottom:20px;
+  flex-shrink:0;                 /* don’t let header compress    */
+}
+
+.brand{
+  margin:0 0 0 10px;
+  color:rgba(249,245,245,1);
+  font-weight:700;
+}
+.tagline{
+  font-size:0.25em;              /* small subtitle               */
+  font-weight:500;
+  opacity:.4;
+}
+
+/* ===== CHAT HISTORY (NEW CENTRING) ===== */
+.chat-history{
+  flex:1;                        /* fill remaining vertical room */
+  display:flex;
+  justify-content:center;        /* horizontal centring          */
+  align-items:center;            /* vertical centring            */
+  overflow-y:auto;               /* scroll long content          */
+  overflow-x:hidden;
+  scrollbar-width:none;
+  -ms-overflow-style:none;
+  background:#181817;
+}
+.chat-history::-webkit-scrollbar{display:none;}  /* Chrome/Safari */
+
+/* inner text block */
+.chat-inner#chatHistory{         /* keeps old ID for JS & effects */
+  max-width:60ch;                /* comfortable measure width    */
+  text-align:center;
+  font-size:1.1em;
+  line-height:1.4;
+  color:rgba(240,240,240,.9);
+  word-spacing:-0.1em;
+}
+
+/* paragraphs inside history */
+#chatHistory p{
+  text-align:left;
+  margin:.8em 0;
+  word-wrap:break-word;
+  overflow-wrap:break-word;
+}
+
+/* fade / full-opacity modes still work */
+#chatHistory.text-shadow{
+  opacity:.15;
+  transition:opacity 1s ease-out;
+  pointer-events:auto;
+}
+#chatHistory.text-full{
+  opacity:.95;
+  transition:opacity .3s ease-in;
+  pointer-events:auto;
+}
+#chatHistory{transition:opacity .5s ease-in-out;}
+
+/* ===== WORD SPANS ===== */
+.chat-inner .word{
+  display:inline;
+  cursor:pointer;
+  white-space:normal;
+  word-wrap:break-word;
+  -webkit-text-stroke:transparent;
+  text-stroke:transparent;
+  transition:-webkit-text-stroke .2s ease-in-out,text-stroke .2s ease-in-out;
+  position:relative;
+  z-index:1;
+  padding:0 .1em;
+  margin:0 -.1em;
+}
+.chat-inner .word.highlight-word{
+  -webkit-text-stroke:2px rgba(10,184,21,.85);
+  text-stroke:2px rgba(10,184,21,.85);
+  position:relative;
+  z-index:1;
+}
+
+/* ===== BLINKING CURSOR ===== */
+.cursor-standby{
+  font-size:1em;
+  color:#bca18c;
+  margin-left:.05em;
+  animation:blink 1s steps(1) infinite;
+  vertical-align:middle;
+}
+@keyframes blink{from,to{opacity:1;}50%{opacity:0;}}
+
+/* ===== LOADING DOTS, INPUT AREA, & OTHER EXISTING STYLES ===== */
+/* (unchanged from your original file) ------------------------- */
+/* ... put everything from #loadingAnimationContainer downwards  */
+/*     exactly as it was, since those rules don’t interfere.     */

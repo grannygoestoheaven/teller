@@ -10,6 +10,77 @@ from flask import Flask, render_template, request, jsonify, url_for
 from src.teaicher.services.generate_story import generate_story
 from src.teaicher.services.text_to_speech import openai_text_to_speech
 
+# --- Hard-coded stories for local testing -------------------
+HARD_STORIES = {
+    "synesthesia": """Synesthesia. Perception. Sensory cross-wiring.
+    Synesthesia is a neurological condition where stimulation of one sensory pathway leads to automatic,
+    involuntary experiences in a second sensory pathway. This phenomenon is not a disorder but rather
+    a unique perceptual condition. Individuals with synesthesia, known as synesthetes, might see colors
+    when they hear music or taste flavors when they read words. The most common type is grapheme-color synesthesia,
+    where letters or numbers are perceived as inherently colored. Research suggests that synesthesia affects
+    approximately 4% of the population. It is believed to arise from increased connectivity or cross-activation
+    between different areas of the brain, particularly those involved in processing sensory information.
+    Genetic factors may play a role, as synesthesia often runs in families. Despite its unusual nature,
+    synesthesia is generally considered benign and can even enhance creativity and memory. Studies have shown
+    that synesthetes often perform better in tasks involving memory and creativity compared to non-synesthetes.
+    This advantage is attributed to the additional sensory associations that aid in information processing and recall.
+    While synesthesia can vary greatly among individuals, it remains consistent over time for each person.
+    The condition is not well understood, but it provides valuable insights into the complexities of human perception
+    and cognition. Three related subjects are sensory processing, neural plasticity, and cognitive neuroscience.
+    """,
+    "foxes": """Adaptation. Auditory range. Desert survival. Species variation.
+    The foxes found in the Californian desert, primarily the kit fox (Vulpes macrotis), exhibit physiological and behavioral
+    adaptations to arid conditions. They are small, lightweight, and have disproportionately large ears, which assist with
+    thermoregulation by dissipating heat. Their fur is pale, reflecting sunlight, and they are mostly nocturnal, minimizing
+    water loss during the day.
+    Their diet is flexible, including rodents, insects, fruits, and small reptiles. They do not require direct water intake
+    and instead obtain moisture from food. Dens are used year-round, offering protection from heat and predators. Den selection
+    often involves multiple entrances and concealment by vegetation or terrain features.
+    Human expansion and habitat alteration have introduced pressures such as road mortality, pesticide exposure, and competition
+    with non-native species. Conservation status is stable in general, but localized declines are documented where urban sprawl
+    encroaches on native scrubland. Ongoing studies monitor population shifts and genetic diversity.
+    Observational techniques include camera traps, telemetry, and scat analysis. These tools assist in mapping territory use,
+    identifying breeding patterns, and measuring dietary shifts over seasons. Collaboration between biologists and land management
+    agencies supports habitat preservation efforts.
+    Three related subjects are: arid-adapted mammals of North America, denning behavior in carnivores, and habitat fragmentation
+    impacts.
+    """,
+    "the bees language": """Communication. Movement patterns. Pheromonal signals. Colony structure.
+    The language of bees consists of a precise system of movements and chemical cues used to convey information within the colony.
+    The most studied is the waggle dance, performed by worker bees to indicate the direction and distance of food sources.
+    The angle of the dance in relation to gravity encodes direction relative to the sun, while the duration of the waggle indicates distance.
+    Pheromones complement these movements and play a role in coordinating social functions. The queen emits pheromones that regulate
+    reproductive behavior and suppress ovary development in workers. Alarm pheromones alert the colony to threats, while brood pheromones
+    influence foraging behavior and care patterns. Each chemical signal has a specific function, contributing to the colony’s cohesion.
+    Auditory and tactile cues also appear to influence communication, especially in dark hive environments where visual input is limited.
+    Bees can detect air vibrations and use antennal contact to reinforce signals. These interactions are frequent near the brood area and
+    in proximity to the queen, suggesting spatial variation in communication dynamics.
+    Research continues to map how bees adapt their communication in response to environmental changes, such as pesticide presence or floral
+    scarcity. Recent studies have examined how learning and memory affect dance accuracy and how noise pollution interferes with signaling.
+    Insights from these findings inform broader studies in neuroethology and collective behavior.
+    Three related subjects are: pheromone signaling in social insects, spatial encoding in animal communication, and environmental effects
+    on pollinator behavior."""
+}
+
+# --- serve pre-made MP3s instead of paying for TTS -----------------
+GENERATED_DIR = os.path.join('audio', 'generated_stories')
+
+def _get_random_generated_audio(base_dir, logger):
+    """
+    Return a relative static-folder path like
+    'audio/generated_stories/my_story.mp3', or None.
+    """
+    folder = os.path.join(base_dir, 'static', GENERATED_DIR)
+    try:
+        tracks = [f for f in os.listdir(folder) if f.lower().endswith('.mp3')]
+        if not tracks:
+            logger.warning(f"No MP3 files found in {folder}")
+            return None
+        return os.path.join(GENERATED_DIR, random.choice(tracks))
+    except FileNotFoundError:
+        logger.error(f"Folder not found: {folder}")
+        return None
+
 app = Flask(__name__)
 
 load_dotenv()
@@ -192,7 +263,9 @@ def _generate_story_and_speech(subject, estimated_chars, pattern_path, base_dir,
         with open(pattern_path, 'r') as file:
             pattern = file.read().replace("{subject}", str(subject)).replace("{estimated_chars}", str(estimated_chars))
         
-        story, filename_from_story_gen = generate_story(subject, pattern, estimated_chars)
+        # story, filename_from_story_gen = generate_story(subject, pattern, estimated_chars)
+        story = HARD_STORIES.get(subject.lower(), HARD_STORIES["foxes"])
+        filename_from_story_gen = f"hard_{subject}_{int(datetime.now().timestamp())}.mp3"
         
         if not story or not isinstance(story, str) or story == "Error" or "Failed to generate story" in story: 
             error_msg = f"Story generation failed for subject '{subject}'. "
@@ -201,16 +274,21 @@ def _generate_story_and_speech(subject, estimated_chars, pattern_path, base_dir,
             return None, None, None, None # Return None for all on story failure
         
         try:
-            _cleanup_old_audio_files(logger)
+            # _cleanup_old_audio_files(logger)
             
-            if not filename_from_story_gen or not isinstance(filename_from_story_gen, str):
-                filename_from_story_gen = f"story_{int(datetime.now().timestamp())}.mp3"
-            elif not filename_from_story_gen.lower().endswith('.mp3'):
-                filename_from_story_gen = f"{os.path.splitext(filename_from_story_gen)[0]}.mp3"
+            # if not filename_from_story_gen or not isinstance(filename_from_story_gen, str):
+            #     filename_from_story_gen = f"story_{int(datetime.now().timestamp())}.mp3"
+            # elif not filename_from_story_gen.lower().endswith('.mp3'):
+            #     filename_from_story_gen = f"{os.path.splitext(filename_from_story_gen)[0]}.mp3"
             
-            speech_file_path_relative_to_static = openai_text_to_speech(story, filename_from_story_gen)
-            if not speech_file_path_relative_to_static:
-                logger.warning(f"TTS failed for story, but continuing without audio. Filename: {filename_from_story_gen}")
+            # speech_file_path_relative_to_static = openai_text_to_speech(story, filename_from_story_gen)
+            # if not speech_file_path_relative_to_static:
+            #     logger.warning(f"TTS failed for story, but continuing without audio. Filename: {filename_from_story_gen}")
+      
+            # ---------------- NEW ----------------------------
+            speech_file_path_relative_to_static = _get_random_generated_audio(base_dir, logger)
+            filename_from_story_gen = os.path.basename(
+                speech_file_path_relative_to_static) if speech_file_path_relative_to_static else None
         except Exception as e:
             logger.warning(f"TTS encountered an error but continuing without audio: {str(e)}")
         

@@ -18,3 +18,5 @@ package.json
 wrappers.py.envrc
 *.egg-info
 speech_test.py
+/static/audio/main2.js
+/static/audio/webAudioAPI.js

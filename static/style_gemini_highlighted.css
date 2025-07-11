@@ -37,7 +37,6 @@ body {
 }
 
 /* Header styles */
-/* Header styles */
 .chat-header {
     font-size: 1em; /* Base font size for the header container */
     z-index: 10;
@@ -55,10 +54,16 @@ body {
   }
   
   /* main word */
-  .brand{                   /* h1 already sits on one line      */
+  .brand{
+    cursor:pointer;                   /* h1 already sits on one line      */
+    display:inline-block;
     margin:0 0 0 10px;      /* keep your left indent            */
     color:rgba(249,245,245);
     font-weight:700;        /* make it stand out                */
+    transition:border 0.2s ease;
+  }
+  .brand:hover{
+    border:1px solid rgba(249,245,245,0.4);
   }
   
   /* smaller tagline that stays on same line */
@@ -82,11 +87,11 @@ body {
 }
 
 /* New: For text that appears briefly then fades to shadowed state */
-#chatHistory.text-shadow {
+/* #chatHistory.text-shadow {
     opacity: 0.15; /* Low opacity for shadowed state */
-    transition: opacity 1s ease-out; /* Smooth transition to shadow */
-    pointer-events: auto; /* Still clickable for highlighting */
-}
+    /* transition: opacity 1s ease-out; Smooth transition to shadow */
+    /* pointer-events: auto; Still clickable for highlighting */
+/* } */
 
 /* New: For text fully visible (e.g., when toggled) */
 #chatHistory.text-full {
@@ -164,7 +169,7 @@ body {
     justify-content: center;
     align-items: center;
     position: absolute; /* Position it on top of chat-history */
-    top: 45%;
+    top: 35%;
     left: 50%;
     transform: translate(-50%, -50%);
     width: 100%;

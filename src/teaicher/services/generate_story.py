@@ -38,7 +38,7 @@ def generate_story(subject, pattern, estimated_chars: int) -> tuple[str, str]:
     - Initiate the text with a soft, quiet opening (e.g. with a raw list of a few concepts that will be covered in the story).
     - Always add a new line after the opening.
     - add <[silence]> tags between all sentences and between each new line.
-    - Conclude by suggesting three related subjects to the topic, in variations of this kind : "Three related subjects are...".Don't write anything after that.
+    - Conclude by suggesting three related subjects to the topic, in variations of this kind : "Three related subjects are...". Don't write anything after that.
     
     ## Instructions :
     - Write in an elegant style, not in a grandiose style. Avoid any mystery tone at all cost.

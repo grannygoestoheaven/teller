@@ -190,12 +190,10 @@ def _generate_story_and_speech(subject, estimated_chars, pattern_path, base_dir,
 
     try:
         with open(pattern_path, 'r') as file:
-            pattern = file.read().replace("{subject}", str(subject)).replace("{estimated_chars}", str(estimated_chars))
-        
+            # pattern = file.read().replace("{subject}", str(subject)).replace("{estimated_chars}", str(estimated_chars))
         story, filename_from_story_gen = generate_story(subject, pattern, estimated_chars)
-        
         if not story or not isinstance(story, str) or story == "Error" or "Failed to generate story" in story: 
-            error_msg = f"Story generation failed for subject '{subject}'. "
+            error_msg = f"Story generation failed for subject '{subject}'."
             error_msg += f"Got story: {story[:100]}..." if story and isinstance(story, str) else "No story was generated"
             logger.error(error_msg)
             return None, None, None, None # Return None for all on story failure

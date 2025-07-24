@@ -2,8 +2,8 @@ import { saveStoryToStorage, loadStoryFromStorage } from './storage.js';
 import { initLoadingElements, showLoadingAnimation, hideLoadingAnimation } from './loadingAnimation.js';
 import { initTextStreamer, streamText, clearHighlights } from './textStreamer.js';
 // Import the new clearAllAudioTimeouts function, and the handleAudioPlayback for starting
-import { initAudioElements, handleAudioPlayback, clearAllAudioTimeouts } from './audioControls.js';
-
+// import { initAudioElements, handleAudioPlayback, clearAllAudioTimeouts } from './audioControls.js';
+import { initElements, playStory, clearAllAudioTimeouts, toggleLandscape } from './webAudioAPI.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
     const form = document.getElementById('story-form');
@@ -21,7 +21,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     let period3 = loadingAnimation.querySelector('.period-3');
 
     // Initialize modules with necessary DOM elements
-    initAudioElements(speechAudio, backgroundAudio);
+    // initAudioElements(speechAudio, backgroundAudio);
+    initElements({ speech: speechAudio, background: backgroundAudio });
     initLoadingElements(loadingAnimationContainer, loadingAnimation, period1, period2, period3, chatHistory);
     initTextStreamer(chatHistory, subjectInput);
 
@@ -73,27 +74,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         // --- NEW: Call the centralized clear function from audioControls ---
         clearAllAudioTimeouts();
 
-        // --- Immediate fade out of any ongoing audio from previous story ---
-        // This part needs to remain in main.js as it uses backgroundAudio directly for a quick fade out before
-        // a new story's handleAudioPlayback starts.
-        if (backgroundAudio.duration > 0 && !backgroundAudio.paused) {
-            let fadeOutVolume = backgroundAudio.volume;
-            const fadeOutDuration = 10000;
-            const intervalMs = 50;
-            const steps = fadeOutDuration / intervalMs;
-            const volumeDecreasePerStep = fadeOutVolume / steps;
-
-            let quickFadeOutInterval = setInterval(() => {
-                fadeOutVolume -= volumeDecreasePerStep;
-                backgroundAudio.volume = Math.max(0, fadeOutVolume);
-
-                if (backgroundAudio.volume <= 0) {
-                    clearInterval(quickFadeOutInterval);
-                    backgroundAudio.pause();
-                    backgroundAudio.currentTime = 0;
-                }
-            }, intervalMs);
-        }
         speechAudio.pause();
         speechAudio.currentTime = 0;
         // --- END NEW HANDLING ---
@@ -117,7 +97,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                 currentStoryText = data.story; // Store the story text
 
                 // --- AUDIO PLAYBACK LOGIC ---
-                handleAudioPlayback(data); // Call the function from audioControls module
+                // handleAudioPlayback(data); // Call the function from audioControls module
+                // initElements({ speech: speechAudio, background: backgroundAudio, landscape: null });
+                await playStory(data); // Play the story using webAudioAPI
 
                 // Save story immediately (as soon as we have it from backend)
                 const storyTitle = subject || 'Untitled Story';

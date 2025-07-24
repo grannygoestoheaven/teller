@@ -17,20 +17,32 @@ const BG_LINGER = 35;      // seconds BG keeps playing after speech
 const BG_FADE_OUT = 30;    // seconds BG takes to fade out
 const BG_VOL = 0.30;       // target background volume
 
+const silentLandscape = (() => {
+  const a = new Audio();
+  a.volume = 0;
+  // if you like, append it to the DOM but keep it muted/inert
+  a.style.display = 'none';
+  document.body.appendChild(a);
+  return a;
+})();
+
+// -- variables for fade‑in/out intervals and timeouts
+let speechDelayTimeoutId, bgPauseTimeoutId;
+
 // ── Web‑Audio plumbing ───────────────────────────────────────────────────
 const ctx = new (window.AudioContext || webkitAudioContext)();
 let bgEl, speechEl, landEl;
 let bgGain, speechGain, landGain;
 let landOn = false;
 
-export function initElements({ background, speech, landscape }) {
+export function initElements({ background, speech, landscape = silentLandscape }) {
   bgEl = background;
   speechEl = speech;
   landEl = landscape;
 
-  const bgSrc     = ctx.createMediaElementAudioSourceNode(bgEl);
-  const speechSrc = ctx.createMediaElementAudioSourceNode(speechEl);
-  const landSrc   = ctx.createMediaElementAudioSourceNode(landEl);
+  const bgSrc     = ctx.createMediaElementSource(bgEl);
+  const speechSrc = ctx.createMediaElementSource(speechEl);
+  const landSrc   = ctx.createMediaElementSource(landEl);
 
   bgGain     = ctx.createGain();     bgGain.gain.value = 0;
   speechGain = ctx.createGain();     speechGain.gain.value = 1;
@@ -46,18 +58,22 @@ export function initElements({ background, speech, landscape }) {
 
 export async function playStory(data) {
   if (!bgEl || !speechEl) throw new Error('Call initElements() first');
+  await ctx.resume(); // ensure context is running
 
   /* ─── Background track ─────────────────────────────────────────────── */
   bgEl.src = data.track_url;
   bgEl.loop = true;
-  await bgEl.load(); // ensure metadata ready
+  bgEl.load();
 
-  const t0 = ctx.currentTime;
-  bgGain.gain.cancelScheduledValues(t0);
-  bgGain.gain.setValueAtTime(0, t0);
-  bgGain.gain.linearRampToValueAtTime(BG_VOL, t0 + BG_FADE_IN);
-  bgEl.currentTime = 0;
-  bgEl.play();
+  let t0;
+  bgEl.addEventListener('canplaythrough', () => {
+    t0 = ctx.currentTime;
+    bgGain.gain.cancelScheduledValues(t0);
+    bgGain.gain.setValueAtTime(0, t0);
+    bgGain.gain.linearRampToValueAtTime(BG_VOL, t0 + BG_FADE_IN);
+    bgEl.currentTime = 0;
+    bgEl.play();
+  }, { once: true });
 
   /* ─── Speech: start 3 s after fade‑in completes ───────────────────── */
   speechEl.src = data.audio_url;
@@ -94,4 +110,23 @@ export function toggleLandscape(vol = 0.4, fade = 1) {
   landGain.gain.linearRampToValueAtTime(landOn ? vol : 0, now + fade);
   if (landOn) landEl.play();
   else setTimeout(() => landEl.pause(), fade * 1000);
+}
+
+export function clearAllAudioTimeouts() {
+  if (bgFadeInIntervalId) {
+      clearInterval(bgFadeInIntervalId);
+      bgFadeInIntervalId = null; // Clear reference
+  }
+  if (bgFadeOutIntervalId) {
+      clearInterval(bgFadeOutIntervalId);
+      bgFadeOutIntervalId = null; // Clear reference
+  }
+  if (speechDelayTimeoutId) {
+      clearTimeout(speechDelayTimeoutId);
+      speechDelayTimeoutId = null; // Clear reference
+  }
+  if (speechAudioOnEndedTimeoutId) {
+      clearTimeout(speechAudioOnEndedTimeoutId);
+      speechAudioOnEndedTimeoutId = null; // Clear reference
+  }
 }

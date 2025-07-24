@@ -33,7 +33,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     } catch (e) {
         console.warn('Web Audio API not supported in this browser');
     }
-
     // Function to play click sound (if needed, currently not used on generateButton)
     function playClickSound() {
         if (!audioContext) return;
@@ -54,7 +53,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         oscillator.start();
         oscillator.stop(audioContext.currentTime + 0.1);
     }
-
     // Load saved story on page load
     const savedStory = loadStoryFromStorage();
     loadingAnimationContainer.style.display = 'none';
@@ -64,25 +62,19 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     form.addEventListener('submit', async function(e) {
         e.preventDefault();
-
         if (isGenerating) {
             return;
         }
         isGenerating = true;
         generateButton.disabled = true;
-
         // --- NEW: Call the centralized clear function from webAudioAPI ---
         clearAllAudioTimeouts();
-
         speechAudio.pause();
         speechAudio.currentTime = 0;
         // --- END NEW HANDLING ---
-
         showLoadingAnimation(); // Display loading dots
-
         const subject = subjectInput.value.trim();
         subjectInput.value = '';
-
         try {
             const formData = new FormData();
             formData.append('subject', subject);
@@ -91,20 +83,14 @@ document.addEventListener('DOMContentLoaded', async () => {
                 method: 'POST',
                 body: formData
             });
-
             if (response.ok) {
                 const data = await response.json();
                 currentStoryText = data.story; // Store the story text
-
                 // --- AUDIO PLAYBACK LOGIC ---
-                // handleAudioPlayback(data); // Call the function from audioControls module
-                // initElements({ speech: speechAudio, background: backgroundAudio, landscape: null });
                 await playStory(data); // Play the story using webAudioAPI
-
                 // Save story immediately (as soon as we have it from backend)
                 const storyTitle = subject || 'Untitled Story';
                 saveStoryToStorage(data.story, storyTitle);
-
             } else {
                 const errorText = await response.text();
                 throw new Error(`Server responded with status ${response.status}: ${errorText}`);

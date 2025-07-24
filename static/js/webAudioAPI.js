@@ -27,7 +27,9 @@ const silentLandscape = (() => {
 })();
 
 // -- variables for fade‑in/out intervals and timeouts
-let speechDelayTimeoutId, bgPauseTimeoutId;
+let speechDelayTimeoutId
+let speechAudioOnEndedTimeoutId;
+let bgPauseTimeoutId;
 
 // ── Web‑Audio plumbing ───────────────────────────────────────────────────
 const ctx = new (window.AudioContext || webkitAudioContext)();
@@ -113,14 +115,6 @@ export function toggleLandscape(vol = 0.4, fade = 1) {
 }
 
 export function clearAllAudioTimeouts() {
-  if (bgFadeInIntervalId) {
-      clearInterval(bgFadeInIntervalId);
-      bgFadeInIntervalId = null; // Clear reference
-  }
-  if (bgFadeOutIntervalId) {
-      clearInterval(bgFadeOutIntervalId);
-      bgFadeOutIntervalId = null; // Clear reference
-  }
   if (speechDelayTimeoutId) {
       clearTimeout(speechDelayTimeoutId);
       speechDelayTimeoutId = null; // Clear reference

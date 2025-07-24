@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         isGenerating = true;
         generateButton.disabled = true;
 
-        // --- NEW: Call the centralized clear function from audioControls ---
+        // --- NEW: Call the centralized clear function from webAudioAPI ---
         clearAllAudioTimeouts();
 
         speechAudio.pause();

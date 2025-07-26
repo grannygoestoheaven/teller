@@ -1,9 +1,7 @@
 import { saveStoryToStorage, loadStoryFromStorage } from './storage.js';
 import { initLoadingElements, showLoadingAnimation, hideLoadingAnimation } from './loadingAnimation.js';
 import { initTextStreamer, streamText, clearHighlights } from './textStreamer.js';
-// Import the new clearAllAudioTimeouts function, and the handleAudioPlayback for starting
-// import { initAudioElements, handleAudioPlayback, clearAllAudioTimeouts } from './audioControls.js';
-import { initElements, playStory, clearAllAudioTimeouts, toggleLandscape } from './webAudioAPI.js';
+import { initElements, playStory, clearAllAudioTimeouts, toggleLandscape, pauseAudio, resumeAudio } from './webAudioAPI.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
     const form = document.getElementById('story-form');
@@ -21,38 +19,19 @@ document.addEventListener('DOMContentLoaded', async () => {
     let period3 = loadingAnimation.querySelector('.period-3');
 
     // Initialize modules with necessary DOM elements
-    // initAudioElements(speechAudio, backgroundAudio);
     initElements({ speech: speechAudio, background: backgroundAudio });
     initLoadingElements(loadingAnimationContainer, loadingAnimation, period1, period2, period3, chatHistory);
     initTextStreamer(chatHistory, subjectInput);
 
-    // Create audio context for sound effects (for UI clicks, not main audio)
-    let audioContext;
-    try {
-        audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    } catch (e) {
-        console.warn('Web Audio API not supported in this browser');
-    }
-    // Function to play click sound (if needed, currently not used on generateButton)
-    function playClickSound() {
-        if (!audioContext) return;
+    let state = 'Idle'
 
-        const oscillator = audioContext.createOscillator();
-        const gainNode = audioContext.createGain();
-
-        oscillator.type = 'sine';
-        oscillator.frequency.setValueAtTime(1000, audioContext.currentTime);
-        oscillator.frequency.exponentialRampToValueAtTime(500, audioContext.currentTime + 0.05);
-
-        gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
-
-        oscillator.connect(gainNode);
-        gainNode.connect(audioContext.destination);
-
-        oscillator.start();
-        oscillator.stop(audioContext.currentTime + 0.1);
-    }
+    // Initialize Web Audio API context
+    // let audioContext;
+    // try {
+    //     audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    // } catch (e) {
+    //     console.warn('Web Audio API not supported in this browser');
+    // }
     // Load saved story on page load
     const savedStory = loadStoryFromStorage();
     loadingAnimationContainer.style.display = 'none';
@@ -62,16 +41,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     form.addEventListener('submit', async function(e) {
         e.preventDefault();
-        if (isGenerating) {
-            return;
-        }
+        if (state !== 'Idle') return;
+        state = 'Playing';
+        generateButton.textContent = 'Pause';
         isGenerating = true;
-        generateButton.disabled = true;
-        // --- NEW: Call the centralized clear function from webAudioAPI ---
+        // speechAudio.pause();
+        // speechAudio.currentTime = 0;
         clearAllAudioTimeouts();
-        speechAudio.pause();
-        speechAudio.currentTime = 0;
-        // --- END NEW HANDLING ---
         showLoadingAnimation(); // Display loading dots
         const subject = subjectInput.value.trim();
         subjectInput.value = '';
@@ -103,6 +79,21 @@ document.addEventListener('DOMContentLoaded', async () => {
             generateButton.disabled = false; // Re-enable on error
         }
     });
+
+    // 2) button click handler
+    generateButton.addEventListener('click', async (e) => {
+        if (state === 'Idle') return;
+        e.preventDefault();
+        if (state === 'Playing') {
+        await pauseAudio();
+        generateButton.textContent = 'Resume';
+        state = 'Paused';
+        } else {
+        await resumeAudio();
+        generateButton.textContent = 'Pause';
+        state = 'Playing';
+        }
+  });
 
     // --- Event Listener for when speech ends ---
     document.addEventListener('speechEnded', (event) => {

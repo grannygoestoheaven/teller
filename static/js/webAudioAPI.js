@@ -58,6 +58,15 @@ export function initElements({ background, speech, landscape = silentLandscape }
   document.addEventListener('click', () => ctx.resume(), { once: true });
 }
 
+// inside webAudioAPI.js
+export async function pauseAudio() {
+  await ctx.suspend();
+}
+export async function resumeAudio() {
+  await ctx.resume();
+}
+
+
 export async function playStory(data) {
   if (!bgEl || !speechEl) throw new Error('Call initElements() first');
   await ctx.resume(); // ensure context is running
@@ -67,9 +76,9 @@ export async function playStory(data) {
   bgEl.loop = true;
   bgEl.load();
 
-  let t0;
+  let t0 = ctx.currentTime;
   bgEl.addEventListener('canplaythrough', () => {
-    t0 = ctx.currentTime;
+    // t0 = ctx.currentTime;
     bgGain.gain.cancelScheduledValues(t0);
     bgGain.gain.setValueAtTime(0, t0);
     bgGain.gain.linearRampToValueAtTime(BG_VOL, t0 + BG_FADE_IN);

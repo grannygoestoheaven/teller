@@ -165,9 +165,17 @@
 //     }
 // }
 
+
 let ctx, speechEl, bgEl;
 let speechGain, bgGain;
 let speechSource, bgSource;
+
+const POST_DELAY = 3;
+const BG_LINGER = 45;
+const BG_FADE_IN = 5000;   // in ms for setInterval
+const BG_FADE_OUT = 30000; // in ms
+const BG_TARGET_GAIN = 0.3;
+
 let bgFadeInterval = null;
 
 export function initAudioElements({ speech, background }) {
@@ -189,6 +197,29 @@ export function initAudioElements({ speech, background }) {
     bgSource.connect(bgGain).connect(ctx.destination);
 }
 
+// export async function handleAudioPlayback(data) {
+//     speechEl.src = data.audio_url;
+//     bgEl.src = data.track_url;
+
+//     await speechEl.load();
+//     await bgEl.load();
+
+//     speechEl.currentTime = 0;
+//     bgEl.currentTime = 0;
+//     bgEl.loop = true;
+
+//     speechGain.gain.setValueAtTime(0, ctx.currentTime);
+//     bgGain.gain.setValueAtTime(0, ctx.currentTime);
+
+//     await ctx.resume();
+//     bgEl.play();
+//     speechEl.play();
+
+//     // Simple smooth fade-in (Web Audio ramp)
+//     speechGain.gain.linearRampToValueAtTime(1, ctx.currentTime + 0.2);
+//     fadeBgTo(0.3, 5000);
+// }
+
 export async function handleAudioPlayback(data) {
     speechEl.src = data.audio_url;
     bgEl.src = data.track_url;
@@ -198,19 +229,65 @@ export async function handleAudioPlayback(data) {
 
     speechEl.currentTime = 0;
     bgEl.currentTime = 0;
-    bgEl.loop = true;
+    bgEl.loop = false;
 
     speechGain.gain.setValueAtTime(0, ctx.currentTime);
     bgGain.gain.setValueAtTime(0, ctx.currentTime);
 
     await ctx.resume();
     bgEl.play();
-    speechEl.play();
 
-    // Simple smooth fade-in (Web Audio ramp)
-    speechGain.gain.linearRampToValueAtTime(1, ctx.currentTime + 0.2);
-    fadeBgTo(0.3, 5000);
+    // 🎵 Background fade-in via setInterval
+    fadeGainViaInterval(bgGain, BG_TARGET_GAIN, BG_FADE_IN);
+
+    // 🎙️ Start speech after BG_FADE_IN + POST_DELAY
+    const delay = BG_FADE_IN + POST_DELAY * 1000;
+
+    setTimeout(() => {
+        speechEl.play();
+        speechGain.gain.setValueAtTime(0, ctx.currentTime);
+        speechGain.gain.linearRampToValueAtTime(1, ctx.currentTime + 0.2); // Quick fade
+    }, delay);
+
+    // 🧠 Speech end logic
+    speechEl.onended = () => {
+        document.dispatchEvent(new CustomEvent('speechEnded', {
+            detail: { storyText: data.story }
+        }));
+
+        // Wait BG_LINGER then fade out BG slowly
+        setTimeout(() => {
+            fadeGainViaInterval(bgGain, 0, BG_FADE_OUT);
+
+            // Optional: pause after fade ends
+            setTimeout(() => {
+                bgEl.pause();
+            }, BG_FADE_OUT);
+        }, BG_LINGER * 1000);
+    };
 }
+
+function fadeGainViaInterval(gainNode, target, duration) {
+    clearInterval(bgFadeInterval);
+
+    const steps = 60;
+    const stepTime = duration / steps;
+    const start = gainNode.gain.value;
+    const delta = target - start;
+    let currentStep = 0;
+
+    bgFadeInterval = setInterval(() => {
+        currentStep++;
+        const newVal = start + (delta * currentStep) / steps;
+        gainNode.gain.setValueAtTime(newVal, ctx.currentTime);
+
+        if (currentStep >= steps) {
+            clearInterval(bgFadeInterval);
+            gainNode.gain.setValueAtTime(target, ctx.currentTime);
+        }
+    }, stepTime);
+}
+
 
 export async function togglePlayPauseSpeech() {
     await ctx.resume();
@@ -218,8 +295,13 @@ export async function togglePlayPauseSpeech() {
     if (speechEl.paused) {
         speechEl.play();
         bgEl.play();
-        speechGain.gain.linearRampToValueAtTime(1, ctx.currentTime + 0.1);
-        fadeBgTo(0.3, 3000);
+
+        // Smooth ramp back in — NOT from 0
+        speechGain.gain.setValueAtTime(speechGain.gain.value, ctx.currentTime);
+        speechGain.gain.linearRampToValueAtTime(1, ctx.currentTime + 0.2);
+
+        bgGain.gain.setValueAtTime(bgGain.gain.value, ctx.currentTime);
+        bgGain.gain.linearRampToValueAtTime(0.3, ctx.currentTime + 0.5);
     } else {
         speechEl.pause();
         bgEl.pause();
@@ -229,10 +311,30 @@ export async function togglePlayPauseSpeech() {
 
         bgGain.gain.cancelScheduledValues(ctx.currentTime);
         bgGain.gain.setValueAtTime(bgGain.gain.value, ctx.currentTime);
-
-        clearInterval(bgFadeInterval);
     }
 }
+
+// export async function togglePlayPauseSpeech() {
+//     await ctx.resume();
+
+//     if (speechEl.paused) {
+//         speechEl.play();
+//         bgEl.play();
+//         speechGain.gain.linearRampToValueAtTime(1, ctx.currentTime + 0.1);
+//         fadeBgTo(0.3, 3000);
+//     } else {
+//         speechEl.pause();
+//         bgEl.pause();
+
+//         speechGain.gain.cancelScheduledValues(ctx.currentTime);
+//         speechGain.gain.setValueAtTime(speechGain.gain.value, ctx.currentTime);
+
+//         bgGain.gain.cancelScheduledValues(ctx.currentTime);
+//         bgGain.gain.setValueAtTime(bgGain.gain.value, ctx.currentTime);
+
+//         clearInterval(bgFadeInterval);
+//     }
+// }
 
 function fadeBgTo(target, duration) {
     clearInterval(bgFadeInterval);

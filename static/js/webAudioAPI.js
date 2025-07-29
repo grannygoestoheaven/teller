@@ -65,7 +65,21 @@ export async function pauseAudio() {
 export async function resumeAudio() {
   await ctx.resume();
 }
+// Pause both background and speech immediately
+export function pauseTracks() {
+  if (speechEl) speechEl.pause();
+  if (bgEl)      bgEl.pause();
+}
 
+export function resumeTracks() {
+  if (bgEl) {
+    // only play if it’s not already playing
+    if (bgEl.paused) bgEl.play().catch(e => console.error('BG resume err', e));
+  }
+  if (speechEl) {
+    if (speechEl.paused) speechEl.play().catch(e => console.error('Speech resume err', e));
+  }
+}
 
 export async function playStory(data) {
   if (!bgEl || !speechEl) throw new Error('Call initElements() first');

@@ -2,7 +2,7 @@
 // import { initLoadingElements, showLoadingAnimation, hideLoadingAnimation } from './loadingAnimation.js';
 // import { initTextStreamer, streamText, clearHighlights } from './textStreamer.js';
 // import { initElements, playStory, clearAllAudioTimeouts, toggleLandscape, pauseAudio, resumeAudio } from './webAudioAPI.js';
-// import { initAudioElements, handleAudioPlayback, togglePlayPauseSpeech } from './audioControls.js';
+// import { initAudioElements, handleAudioPlayback, togglePlayPause } from './audioControls.js';
 // import { pauseTracks, resumeTracks} from './webAudioAPI.js';
 
 // document.addEventListener('DOMContentLoaded', async () => {
@@ -168,13 +168,13 @@
 //         if (state === 'Playing') {
 //         // freeze all scheduled audio and rendering
 //         // await pauseAudio();
-//         await togglePlayPauseSpeech();
+//         await togglePlayPause();
 //         generateButton.textContent = 'Resume';
 //         state = 'Paused';
         
 //     } else if (state === 'Paused') {
 //         // await resumeAudio();
-//         await togglePlayPauseSpeech()  
+//         await togglePlayPause()  
 //         generateButton.textContent = 'Pause';
 //         state = 'Playing';
 //         }
@@ -196,7 +196,7 @@
 import { saveStoryToStorage, loadStoryFromStorage } from './storage.js';
 import { initLoadingElements, showLoadingAnimation, hideLoadingAnimation } from './loadingAnimation.js';
 import { initTextStreamer, streamText, clearHighlights } from './textStreamer.js';
-import { initAudioElements, handleAudioPlayback, togglePlayPauseSpeech } from './audioControls.js';
+import { initAudioElements, handleAudioPlayback, togglePlayPause, fadeVolume, stopPlayback, replayPlayback, clearPlaybacktimers, updateButtons} from './audioControls.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
     const form = document.getElementById('story-form');
@@ -272,7 +272,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         e.preventDefault();
 
-        await togglePlayPauseSpeech();
+        await togglePlayPause();
 
         if (state === 'Playing') {
             state = 'Paused';

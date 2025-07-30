@@ -43,6 +43,8 @@
                     <input type="text" id="subject" name="subject" placeholder="What do you want to hear ?" required>
                 </div>
             </div>
+            <button id="replayButton">Replay</button>
+            <button id="stopButton">Stop</button>
             <button type="submit" class="send-button" id="generateButton" aria-label="Play">
                 <span class="pixel-play">PLAY</span>
             </button>
@@ -51,10 +53,10 @@
 
     <script type="module" src="{{ url_for('static', filename='js/storage.js') }}"></script>
     <!-- <script type="module" src="{{ url_for('static', filename='js/webAudioAPI2.js') }}"></script> -->
-    <script type="module" src="{{ url_for('static', filename='js/audioControls.js') }}"></script>
+    <script type="module" src="{{ url_for('static', filename='js/audioControls2.js') }}"></script>
     <script type="module" src="{{ url_for('static', filename='js/loadingAnimation.js') }}"></script>
     <script type="module" src="{{ url_for('static', filename='js/textStreamer.js') }}"></script>
-    <script type="module" src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script type="module" src="{{ url_for('static', filename='js/main3.js') }}"></script>
 
 </body>
 </html>

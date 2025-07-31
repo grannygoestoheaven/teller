@@ -191,14 +191,14 @@ body {
     font-size: 4em; /* Overall size of the dots */
     color: #888; /* Initial subtle grey for loading dots */
     line-height: 0.5; /* Align dots vertically */
-    gap: -0.2em; /* Space between dots */
+    gap: 0;
 }
 
 .loading-animation .period {
     display: inline-block;
     opacity: 0; /* Start invisible for animation */
     animation: period-fade 1.5s infinite ease-in-out; /* Main animation */
-    margin: -0.1em;
+    margin: 0 -0.17em;
     font-size: 5em; /* Larger period size relative to parent .loading-animation */
     font-weight: bold;
     color: #666; /* Slightly darker color for better visibility during animation */

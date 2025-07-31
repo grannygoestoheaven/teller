@@ -295,6 +295,10 @@ footer.chat-input-area {
 
 /* Subject input specific styles */
 #subject {
+    overflow: hidden;
+    resize: none;    /* user can’t manually drag it */
+    min-height: 1.5em;
+    line-height: 1.2em;
     max-width: 800px;
     flex-grow: 1;
     padding: 24px 16px;
@@ -322,6 +326,13 @@ footer.chat-input-area {
     font-style: regular;
     font-weight: lighter;
 }
+
+.controls {
+    display: flex;
+    justify-content: center;  /* or space-between, as you like */
+    gap: 0.5rem;              /* spacing between buttons */
+    margin-top: 1rem;
+  }
 
 /* Pixel PLAY style */
 .pixel-play {

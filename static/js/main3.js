@@ -17,6 +17,18 @@ document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('story-form');
   const chatHistory = document.getElementById('chatHistory');
   const subjectInput = document.getElementById('subject');
+  const subjectPlaceholder = document.getElementById('subjectPlaceholder');// after you grab subjectInput…
+  subjectInput.style.overflow = 'hidden';
+  subjectInput.style.height   = 'auto';
+  // capture its one-line default
+  const minHeight = subjectInput.clientHeight;
+  const adjustSubjectHeight = () => {
+    subjectInput.style.height = 'auto';
+    const h = Math.max(subjectInput.scrollHeight, minHeight);
+    subjectInput.style.height = h + 'px';
+  };
+  subjectInput.addEventListener('input', adjustSubjectHeight);
+  adjustSubjectHeight();
   const generateButton = document.getElementById('generateButton');
   const stopButton = document.getElementById('stopButton');
   const replayButton = document.getElementById('replayButton');

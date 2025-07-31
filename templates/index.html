@@ -40,14 +40,17 @@
         <form action="/generate_story" method="POST" id="story-form" enctype="multipart/form-data">
             <div class="form-fields-container">
                 <div class="form-group subject-input-group">
-                    <input type="text" id="subject" name="subject" placeholder="What do you want to hear ?" required>
+                    <!-- <input type="text" id="subject" name="subject" placeholder="What do you want to hear ?" required> -->
+                    <textarea id="subject" name="subject" placeholder="What do you want to hear ?" required rows="1"></textarea>
                 </div>
             </div>
-            <button id="replayButton">Replay</button>
-            <button id="stopButton">Stop</button>
-            <button type="submit" class="send-button" id="generateButton" aria-label="Play">
-                <span class="pixel-play">PLAY</span>
-            </button>
+            <div class="controls">
+                <button id="replayButton">Replay</button>
+                <button id="stopButton">Stop</button>
+                <button type="submit" class="send-button" id="generateButton" aria-label="Play">
+                    <span class="pixel-play">PLAY</span>
+                </button>
+            </div>
         </form>
     </footer>
 

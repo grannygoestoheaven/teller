@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initAudioElements({ speech: speechAudio, background: backgroundAudio });
   initLoadingElements(loadingAnimationContainer, loadingAnimation, period1, period2, period3, chatHistory);
   initTextStreamer(chatHistory, subjectInput);
-  updateButtons('stopped');
+  // updateButtons('stopped');
 
   loadingAnimationContainer.style.display = 'none';
 
@@ -65,14 +65,17 @@ document.addEventListener('DOMContentLoaded', () => {
     subjectInput.value = '';
 
     try {
-      const formData = new FormData();
-      formData.append('subject', subject);
-      const res = await fetch('/generate_story', { method: 'POST', body: formData });
-      if (!res.ok) throw new Error((await res.json()).error || `Error ${res.status}`);
-      const data = await res.json();
-      currentStoryText = data.story;
-      await handleAudioPlayback(data);
-      saveStoryToStorage(data.story, subject);
+      // const formData = new FormData();
+      // formData.append('subject', subject);
+      // const res = await fetch('/generate_story', { method: 'POST', body: formData });
+      // if (!res.ok) throw new Error((await res.json()).error || `Error ${res.status}`);
+      // const data = await res.json();
+      // currentStoryText = data.story;
+      await handleAudioPlayback({
+        audio_url:"static/audio/generated_stories/cosmic_microwave_background.mp3",
+        track_url:"static/audio/local_ambient_tracks/abstract_aprils_hold.mp3"
+      });
+      // saveStoryToStorage(data.story, subject);
     } catch (err) {
       console.error(err);
       hideLoadingAnimation();
@@ -98,13 +101,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // ─── Stop ───
-  stopButton.addEventListener('click', (e) => {
-    e.preventDefault();
-    stopPlayback();
-    state = 'Idle';
-    generateButton.textContent = 'Play';
-  });
+  // // ─── Stop ───
+  // stopButton.addEventListener('click', (e) => {
+  //   e.preventDefault();
+  //   stopPlayback();
+  //   state = 'Idle';
+  //   generateButton.textContent = 'Play';
+  // });
 
   // ─── Replay ───
   replayButton.addEventListener('click', (e) => {
@@ -125,8 +128,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ─── Keyboard shortcuts ───
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' && state === 'Idle' && document.activeElement === subjectInput) {
-      e.preventDefault(); form.requestSubmit();
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();           // stop the newline
+      if (state === 'Idle') {
+        form.requestSubmit();       // launch the story
+      }
     }
     if (e.key === ' ' && (state === 'Playing' || state === 'Paused')) {
       e.preventDefault(); generateButton.click();

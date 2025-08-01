@@ -52,6 +52,8 @@ export function handleAudioPlayback(data) {
 
   // Begin background fade-in
   backgroundAudio.play();
+  // Immediately switch button to pause state when playback starts via Enter
+  updateButtons('playing');
   fadeVolume(backgroundAudio, 0, 0.1, BG_FADE_IN);
 
   // After fade-in + small delay, start speech
@@ -111,20 +113,60 @@ export function clearPlaybackTimers() {
 }
 
 // UI button state management (assumes buttons with these IDs)
+// export function updateButtons(state) {
+//   console.log('updateButtons()', state);
+
+//   const playBtn   = document.getElementById('generateButton');
+//   const stopBtn   = document.getElementById('stopButton');
+//   const replayBtn = document.getElementById('replayButton');
+//   const span      = playBtn.querySelector('.pixel-play');
+
+//   playBtn.disabled   = false;
+//   stopBtn.disabled   = (state === 'stopped');
+//   replayBtn.disabled = (state === 'playing' || state === 'paused');
+
+//   if (state === 'playing') {
+//     span.textContent = 'PAUSE';
+//   } else if (state === 'paused') {
+//     span.textContent = 'RESUME';
+//   } else {
+//     span.textContent = 'PLAY';
+//   }
+// }
+
 export function updateButtons(state) {
   const playBtn   = document.getElementById('generateButton');
   const stopBtn   = document.getElementById('stopButton');
   const replayBtn = document.getElementById('replayButton');
+  const subjectInput = document.getElementById('subject');
+  const subjectEmpty = subjectInput && !subjectInput.value.trim();
 
-  playBtn.disabled   = false;
-  stopBtn.disabled   = (state === 'stopped');
-  replayBtn.disabled = (state === 'playing' || state === 'paused');
+  // Replay always enabled
+  if (replayBtn) replayBtn.disabled = false;
+  // Stop enabled only when playing or paused
+  if (stopBtn) stopBtn.disabled = (state === 'stopped' || state === 'Idle');
 
-  if (state === 'playing') {
-    playBtn.textContent = 'Pause';
-  } else if (state === 'paused') {
-    playBtn.textContent = 'Resume';
-  } else {
-    playBtn.textContent = 'Play';
+  // Play button logic
+  if (playBtn) {
+    switch(state) {
+      case 'Idle':
+        // New story only if subject is filled
+        playBtn.disabled = subjectEmpty;
+        playBtn.textContent = 'PLAY';
+        break;
+      case 'playing':
+      case 'Playing':
+        playBtn.disabled = false;
+        playBtn.textContent = 'PAUSE';
+        break;
+      case 'paused':
+      case 'Paused':
+        playBtn.disabled = false;
+        playBtn.textContent = 'RESUME';
+        break;
+      default:
+        playBtn.disabled = subjectEmpty;
+        playBtn.textContent = 'PLAY';
+    }
   }
 }

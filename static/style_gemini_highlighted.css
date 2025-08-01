@@ -349,19 +349,20 @@ footer.chat-input-area {
 
 /* Send button styles */
 .send-button {
-    min-width: 5.5em;  /* big enough for “Resume” */
-    text-align: center;
-    background-color: #313030; /* As seen in your second picture */
-    color: rgb(234, 232, 232);
+    background-color: #313030;
+    color: rgb(234,232,232);
     border: none;
     padding: 5px 17px;
-    border-radius: 4px; /* As seen in your second picture */
+    border-radius: 4px;
     cursor: pointer;
-    font-family: 'Inika', serif;
+    font-family: 'Pixelify Sans', serif;  /* ← pixel font */
+    text-transform: uppercase;             /* ← uppercase */
+    letter-spacing: 0.12em;                /* ← pixel spacing */
     font-size: 0.85em;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    width: 100%;
-    max-width: 100px; /* As seen in your second picture */
-    align-self: center;
+    margin: 0 4px;
+}
+
+.send-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
 }

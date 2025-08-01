@@ -123,3 +123,19 @@ export function hideLoadingAnimation() {
 // export function setStoryTextShadowTimeout(timeoutId) { /* ... */ }
 
 // export function clearStoryTextShadowTimeout() { /* ... */ }
+
+export function getColor() {
+    // Example: random color
+    const letters = "0123456789ABCDEF";
+    let color = "#";
+    for(let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
+
+  export function onTextDataReceived() {
+    const container = document.getElementById('loadingAnimation')
+    const color = getColor(); // generate a color
+    container.style.setProperty("--period-color", color);
+  }

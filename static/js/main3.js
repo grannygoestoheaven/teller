@@ -72,9 +72,10 @@ document.addEventListener('DOMContentLoaded', () => {
       // const data = await res.json();
       // currentStoryText = data.story;
       await handleAudioPlayback({
-        audio_url:"static/audio/generated_stories/cosmic_microwave_background.mp3",
+        audio_url:"static/audio/generated_stories/the_chronology_protection_conjecture.mp3",
         track_url:"static/audio/local_ambient_tracks/abstract_aprils_hold.mp3"
       });
+
       // saveStoryToStorage(data.story, subject);
     } catch (err) {
       console.error(err);

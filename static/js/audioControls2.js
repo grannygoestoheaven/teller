@@ -43,6 +43,18 @@ export function handleAudioPlayback(data) {
   clearPlaybackTimers();
   lastData = data;
 
+  // Disable play/pause until background music actually starts
+  const playBtn = document.getElementById('generateButton');
+  if (playBtn) playBtn.disabled = true;
+  const enablePause = () => {
+    if (playBtn) {
+      playBtn.disabled = false;
+      updateButtons('playing'); // enable pause when bg starts
+    }
+    backgroundAudio.removeEventListener('playing', enablePause);
+  };
+  backgroundAudio.addEventListener('playing', enablePause);
+
   speechAudio.src     = data.audio_url;
   backgroundAudio.src = data.track_url;
 
@@ -52,8 +64,6 @@ export function handleAudioPlayback(data) {
 
   // Begin background fade-in
   backgroundAudio.play();
-  // Immediately switch button to pause state when playback starts via Enter
-  updateButtons('playing');
   fadeVolume(backgroundAudio, 0, 0.1, BG_FADE_IN);
 
   // After fade-in + small delay, start speech
@@ -76,14 +86,16 @@ export function handleAudioPlayback(data) {
 
 // Pause/resume toggle
 export function togglePlayPause() {
-  if (speechAudio.paused) {
-    speechAudio.play();
-    backgroundAudio.play();
-    updateButtons('playing');
-  } else {
-    speechAudio.pause();
+  if (!backgroundAudio.paused) {
+    // If background is playing (speech may not have started), pause both
     backgroundAudio.pause();
+    speechAudio.pause();
     updateButtons('paused');
+  } else {
+    // If background is paused, resume both
+    backgroundAudio.play();
+    speechAudio.play();
+    updateButtons('playing');
   }
 }
 

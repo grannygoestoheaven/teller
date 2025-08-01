@@ -1,4 +1,5 @@
 // audioControls.js
+import { onTextDataReceived } from "./loadingAnimation.js";
 
 // Constants (tweak durations as needed)
 const BG_FADE_IN  = 10000;  // ms
@@ -41,22 +42,23 @@ export function initAudioElements({ speech, background }) {
 export async function handleAudioPlayback(data) {
   clearPlaybackTimers();
   lastData = data;
-
+  
   // Disable play/pause until background music starts
   const playBtn = document.getElementById('generateButton');
   playBtn.disabled = true;
   const enablePause = () => {
-    playBtn.disabled = false;
-    backgroundAudio.removeEventListener('playing', enablePause);
-  };
-  backgroundAudio.addEventListener('playing', enablePause);
-
-  speechAudio.src     = data.audio_url;
-  backgroundAudio.src = data.track_url;
-  speechAudio.currentTime     = 0;
-  backgroundAudio.currentTime = 0;
-  backgroundAudio.loop        = false;
-
+      playBtn.disabled = false;
+      backgroundAudio.removeEventListener('playing', enablePause);
+    };
+    backgroundAudio.addEventListener('playing', enablePause);
+    
+    speechAudio.src     = data.audio_url;
+    backgroundAudio.src = data.track_url;
+    speechAudio.currentTime     = 0;
+    backgroundAudio.currentTime = 0;
+    backgroundAudio.loop        = false;
+    
+  onTextDataReceived() // Makes the dots change color
   // Begin background fade-in
   backgroundAudio.play();
   fadeVolume(backgroundAudio, 0, 0.3, BG_FADE_IN);

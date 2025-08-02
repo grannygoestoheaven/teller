@@ -1,3 +1,7 @@
+:root {
+    --period-color: #888; /* Default color for periods */
+}
+
 /* Hide scrollbars for the entire page */
 html, body {
     overflow: hidden; /* Prevent scrolling on the body, manage inner content scroll */
@@ -188,8 +192,8 @@ body {
     justify-content: center;
     align-items: center;
     position: absolute;
+    color: var(--period-color); /* Use the dynamically set color, fallback to #888 */
     font-size: 4em; /* Overall size of the dots */
-    color: var(--period-color, #888); /* Initial subtle grey for loading dots */
     line-height: 0.5; /* Align dots vertically */
     gap: 0;
 }
@@ -201,7 +205,7 @@ body {
     margin: 0 -0.17em;
     font-size: 5em; /* Larger period size relative to parent .loading-animation */
     font-weight: bold;
-    color:#666; /* Slightly darker color for better visibility during animation */
+    color: var(--period-color); /*Slightly darker color for better visibility during animation  */
     line-height: 0.8; /* Better vertical alignment */
     transition: all 1.5s ease; /* For smooth transformation into buttons */
 }

@@ -58,9 +58,10 @@ export async function handleAudioPlayback(data) {
     backgroundAudio.currentTime = 0;
     backgroundAudio.loop        = false;
     
-  onTextDataReceived() // Makes the dots change color
+  console.log(onTextDataReceived()); // Makes the dots change color
   // Begin background fade-in
   backgroundAudio.play();
+  console.log('playing background audio');
   fadeVolume(backgroundAudio, 0, 0.3, BG_FADE_IN);
 
   // After fade-in + delay, start speech
@@ -124,11 +125,11 @@ export function clearPlaybackTimers() {
 // UI button state management (assumes buttons with these IDs)
 export function updateButtons(state) {
   const playBtn   = document.getElementById('generateButton');
-  const stopBtn   = document.getElementById('stopButton');
+  // const stopBtn   = document.getElementById('stopButton');
   const replayBtn = document.getElementById('replayButton');
 
   playBtn.disabled   = false;
-  stopBtn.disabled   = (state === 'stopped');
+  // stopBtn.disabled   = (state === 'stopped');
   replayBtn.disabled = (state === 'playing' || state === 'paused');
 
   if (state === 'playing') {

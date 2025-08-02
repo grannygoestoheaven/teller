@@ -10,9 +10,11 @@ import {
   replayPlayback,
   clearPlaybackTimers,
   updateButtons
-} from './audioControls2.js';
+} from './audioControls3.js';
 
 document.addEventListener('DOMContentLoaded', () => {
+  const root = document.documentElement;
+  console.log(getComputedStyle(root).getPropertyValue('--period-color'));
   // Form and UI elements
   const form = document.getElementById('story-form');
   const chatHistory = document.getElementById('chatHistory');

@@ -135,6 +135,7 @@ export function getColor() {
   }
 
   export function onTextDataReceived() {
+    console.log("onReceivedData called");
     const container = document.getElementById('loadingAnimation')
     const color = getColor(); // generate a color
     container.style.setProperty("--period-color", color);

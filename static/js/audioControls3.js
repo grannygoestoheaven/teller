@@ -35,7 +35,7 @@ export function initAudioElements({ speech, background }) {
   speechAudio     = speech;
   backgroundAudio = background;
   speechAudio.volume     = 1;
-  backgroundAudio.volume = 0;
+  backgroundAudio.volume = 0.04; // Set initial background volume
 }
 
 // Primary playback handler (JS-only fades, no Web Audio API)
@@ -46,6 +46,7 @@ export async function handleAudioPlayback(data) {
   // Disable play/pause until background music starts
   const playBtn = document.getElementById('generateButton');
   playBtn.disabled = true;
+  updateButtons('playing');
   const enablePause = () => {
       playBtn.disabled = false;
       backgroundAudio.removeEventListener('playing', enablePause);
@@ -62,12 +63,11 @@ export async function handleAudioPlayback(data) {
   // Begin background fade-in
   backgroundAudio.play();
   console.log('playing background audio');
-  fadeVolume(backgroundAudio, 0, 0.3, BG_FADE_IN);
+  fadeVolume(backgroundAudio, 0, backgroundAudio.volume, BG_FADE_IN);
 
   // After fade-in + delay, start speech
   bgFadeTimeout = setTimeout(() => {
     speechAudio.play();
-    updateButtons('playing');
   }, BG_FADE_IN + POST_DELAY);
 
   // When speech ends: dispatch event, then schedule BG fade-out
@@ -130,7 +130,7 @@ export function updateButtons(state) {
 
   playBtn.disabled   = false;
   // stopBtn.disabled   = (state === 'stopped');
-  replayBtn.disabled = (state === 'playing' || state === 'paused');
+  // replayBtn.disabled = (state === 'playing' || state === 'paused');
 
   if (state === 'playing') {
     playBtn.textContent = 'PAUSE';
@@ -140,3 +140,38 @@ export function updateButtons(state) {
     playBtn.textContent = 'PLAY';
   }
 }
+
+// export function updateButtons(state) {
+//   const playBtn   = document.getElementById('generateButton');
+//   const stopBtn   = document.getElementById('stopButton');
+//   const replayBtn = document.getElementById('replayButton');
+//   const subjectInput = document.getElementById('subject');
+//   const subjectEmpty = subjectInput && !subjectInput.value.trim();
+
+//   // Replay always enabled
+//   if (replayBtn) replayBtn.disabled = false;
+//   // Stop enabled only when playing or paused
+//   if (stopBtn) stopBtn.disabled = (state === 'stopped' || state === 'Idle');
+
+//   // Play button logic
+//   if (playBtn) {
+//     switch(state) {
+//       case 'Idle':
+//         // New story only if subject is filled
+//         playBtn.disabled = subjectEmpty;
+//         playBtn.textContent = 'PLAY';
+//         break;
+//       case 'Playing':
+//         playBtn.disabled = false;
+//         playBtn.textContent = 'PAUSE';
+//         break;
+//       case 'Paused':
+//         playBtn.disabled = false;
+//         playBtn.textContent = 'RESUME';
+//         break;
+//       default:
+//         playBtn.disabled = subjectEmpty;
+//         playBtn.textContent = 'PLAY';
+//     }
+//   }
+// }

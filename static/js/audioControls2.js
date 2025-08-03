@@ -64,7 +64,7 @@ export function handleAudioPlayback(data) {
 
   // Begin background fade-in
   backgroundAudio.play();
-  fadeVolume(backgroundAudio, 0, 0.1, BG_FADE_IN);
+  fadeVolume(backgroundAudio, 0, backgroundAudio.volume, BG_FADE_IN);
 
   // After fade-in + small delay, start speech
   bgFadeTimeout = setTimeout(() => {
@@ -166,12 +166,10 @@ export function updateButtons(state) {
         playBtn.disabled = subjectEmpty;
         playBtn.textContent = 'PLAY';
         break;
-      case 'playing':
       case 'Playing':
         playBtn.disabled = false;
         playBtn.textContent = 'PAUSE';
         break;
-      case 'paused':
       case 'Paused':
         playBtn.disabled = false;
         playBtn.textContent = 'RESUME';

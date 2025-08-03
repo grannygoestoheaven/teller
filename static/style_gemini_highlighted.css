@@ -201,19 +201,18 @@ body {
 .loading-animation .period {
     display: inline-block;
     opacity: 0; /* Start invisible for animation */
-    animation: period-fade 1.5s infinite ease-in-out; /* Main animation */
+    animation: period-fade 2.2s infinite ease-in-out; /* Main animation */
     margin: 0 -0.17em;
     font-size: 5em; /* Larger period size relative to parent .loading-animation */
     font-weight: bold;
     color: var(--period-color); /*Slightly darker color for better visibility during animation  */
     line-height: 0.8; /* Better vertical alignment */
-    transition: all 1.5s ease; /* For smooth transformation into buttons */
 }
 
 /* Animation delays for each period */
 .loading-animation .period-1 { animation-delay: 0s; }
-.loading-animation .period-2 { animation-delay: 0.3s; }
-.loading-animation .period-3 { animation-delay: 0.6s; }
+.loading-animation .period-2 { animation-delay: 0.2s; }
+.loading-animation .period-3 { animation-delay: 0.4s; }
 
 @keyframes period-fade {
     0% { opacity: 0.2; transform: translateY(0) scale(0.9); }
@@ -283,6 +282,7 @@ footer.chat-input-area {
     flex-direction: column;
     gap: 10px;
     align-items: center;
+    margin-bottom: 0.5em;
 }
 
 .subject-input-group {
@@ -303,7 +303,7 @@ footer.chat-input-area {
     resize: none;    /* user can’t manually drag it */
     min-height: 1.5em;
     line-height: 1.2em;
-    max-width: 800px;
+    max-width: 650px;
     flex-grow: 1;
     padding: 24px 16px;
     font-size: 1em;
@@ -334,7 +334,8 @@ footer.chat-input-area {
 .controls {
     display: flex;
     justify-content: center;  /* or space-between, as you like */
-    gap: 0.5rem;              /* spacing between buttons */
+    gap: 0.7rem;              /* spacing between buttons */
+    margin-top: 0.5rem;
     margin-bottom: 1rem;
   }
 

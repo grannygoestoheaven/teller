@@ -11,6 +11,7 @@ const FADE_STEP   = 50;     // ms per step
 let speechAudio, backgroundAudio;
 let lastData = null;
 let bgFadeTimeout, bgFadeOutTimeout;
+let speechStarted = false;
 
 // Generic fade utility using HTMLAudioElement.volume
 export function fadeVolume(el, from, to, duration, stepTime = FADE_STEP, onEnd) {
@@ -40,6 +41,7 @@ export function initAudioElements({ speech, background }) {
 
 // Primary playback handler (JS-only fades, no Web Audio API)
 export async function handleAudioPlayback(data) {
+  speechStarted = false;
   clearPlaybackTimers();
   lastData = data;
   
@@ -67,7 +69,18 @@ export async function handleAudioPlayback(data) {
 
   // After fade-in + delay, start speech
   bgFadeTimeout = setTimeout(() => {
-    speechAudio.play();
+    if (backgroundAudio.paused) {
+      // Wait: speech starts only after user resumes
+      const onResume = () => {
+        speechStarted = true;
+        speechAudio.play();
+        backgroundAudio.removeEventListener('play', onResume);
+      };
+      backgroundAudio.addEventListener('play', onResume);
+    } else {
+      speechStarted = true;
+      speechAudio.play();
+    }
   }, BG_FADE_IN + POST_DELAY);
 
   // When speech ends: dispatch event, then schedule BG fade-out
@@ -86,6 +99,19 @@ export async function handleAudioPlayback(data) {
 
 // Pause/resume both speech and background together
 export function togglePlayPause() {
+  // If speech has not started, just pause/resume background
+  if (!speechStarted) {
+    if (backgroundAudio.paused) {
+      backgroundAudio.play();
+      updateButtons('playing');
+    } else {
+      backgroundAudio.pause();
+      updateButtons('paused');
+    }
+    return;
+  }
+
+  // After speech started, pause/resume both
   if (speechAudio.paused || backgroundAudio.paused) {
     speechAudio.play();
     backgroundAudio.play();
@@ -99,6 +125,7 @@ export function togglePlayPause() {
 
 // Fully stop playback, reset to start
 export function stopPlayback() {
+  speechStarted = false;
   clearPlaybackTimers();
   speechAudio.pause();
   backgroundAudio.pause();

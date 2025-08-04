@@ -9,6 +9,7 @@ from flask import Flask, render_template, request, jsonify, url_for
 
 from src.teaicher.services.generate_story import generate_story
 from src.teaicher.services.text_to_speech import openai_text_to_speech
+from src.teaicher.services.store_story import save_story_to_server
 
 app = Flask(__name__)
 
@@ -237,7 +238,7 @@ def teller_ui():
     app_base_dir = os.path.dirname(__file__)
     
     # _generate_story_and_speech now handles track selection and returns its URL
-    story, display_filename, speech_file_static_path, track_url_for_client = \
+    raw_story, story, display_filename, speech_file_static_path, track_url_for_client = \
         _generate_story_and_speech(subject, estimated_chars, PATTERN_FILE_PATH, app_base_dir, app.logger)
 
     audio_url_for_client = None
@@ -263,11 +264,15 @@ def teller_ui():
     if request.headers.get('X-Requested-With') == 'XMLHttpRequest' or request.accept_mimetypes['application/json']:
         response_data = {
             'story': story,
+            'tagged_story': raw_story,
             'display_filename': display_filename,
             'has_audio': bool(audio_url_for_client),
             'audio_url': audio_url_for_client, # Will be None if not generated
             'track_url': track_url_for_client # Will be None if not found
         }
+        if story:
+            saved_fname = save_story_to_server(subject, raw_story, story)
+            response_data['server_filename'] = saved_fname
         return jsonify(response_data)
     else:
         return render_template(

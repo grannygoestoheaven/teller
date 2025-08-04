@@ -1,5 +1,5 @@
 // main.js
-import { saveStoryToStorage, loadStoryFromStorage } from './storage.js';
+import { saveStoryToStorage, loadStoryFromStorage, } from './storage2.js';
 import { initLoadingElements, showLoadingAnimation, hideLoadingAnimation } from './loadingAnimation.js';
 import { initTextStreamer, streamText, clearHighlights } from './textStreamer.js';
 import {
@@ -99,6 +99,14 @@ document.addEventListener('DOMContentLoaded', () => {
         throw new Error((await res.json()).error || `Error ${res.status}`);
       }
       const data = await res.json();
+
+      saveStoryToStorage({
+        subject: subject,
+        tagged: data.tagged_story,
+        human: data.story,
+        timestamp: Date.now
+      })
+
       currentStoryText = data.story;
       
       await handleAudioPlayback(data)

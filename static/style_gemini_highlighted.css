@@ -193,7 +193,7 @@ body {
 }
 
 .loading-animation.blur-overlay{
-    filter: blur(2px); /* Apply blur effect to the entire loading animation */
+    filter: blur(1px); /* Apply blur effect to the entire loading animation */
 }
 
 .loading-animation {

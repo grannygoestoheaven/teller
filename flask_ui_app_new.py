@@ -216,8 +216,9 @@ def _generate_story_and_speech(subject, estimated_chars, pattern_path, base_dir,
         # Get the ambient track URL
         track_url_for_client = _get_local_ambient_track_url(base_dir, logger)
 
-        cleaned_story = _clean_story_text(story)
-        return cleaned_story, filename_from_story_gen, speech_file_path_relative_to_static, track_url_for_client
+        raw_story = story.strip() if story else ""
+        cleaned_story = _clean_story_text(raw_story)
+        return raw_story, cleaned_story, filename_from_story_gen, speech_file_path_relative_to_static, track_url_for_client
         
     except FileNotFoundError:
         logger.error(f"Pattern file not found: {pattern_path}")

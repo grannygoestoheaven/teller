@@ -6,15 +6,13 @@ import {
   initAudioElements,
   handleAudioPlayback,
   togglePlayPause,
-  stopPlayback,
   replayPlayback,
-  clearPlaybackTimers,
-  updateButtons
+  NEW_PLAY_FADE_OUT,
+  FADE_STEP,
+  BG_INITIAL_VOLUME
 } from './audioControls3.js';
 
 document.addEventListener('DOMContentLoaded', () => {
-  const root = document.documentElement;
-  console.log(getComputedStyle(root).getPropertyValue('--period-color'));
   // Form and UI elements
   const form = document.getElementById('story-form');
   const overlay = document.querySelector('.blur-overlay');
@@ -43,6 +41,31 @@ document.addEventListener('DOMContentLoaded', () => {
   const period2 = loadingAnimation.querySelector('.period-2');
   const period3 = loadingAnimation.querySelector('.period-3');
 
+  // replayButton.disabled = true;
+
+  // Track whether we have a story loaded that can actually be replayed
+  let canReplay = false;
+
+  // Centralized state update
+  const updateReplayState = () => {
+    // Disabled if:
+    //  • we haven’t loaded a story yet (canReplay === false)
+    //  • OR the form has content (user is typing a new request)
+    replayButton.disabled = !canReplay || subjectInput.value.trim().length > 0;
+  };
+
+  // 1) On load, there’s nothing to replay
+  updateReplayState();
+
+  // 2) Whenever the user types a new subject, disable replay
+  subjectInput.addEventListener('input', updateReplayState);
+
+  // 3) When the speech ends, we know we have a fresh story to replay
+  document.addEventListener('speechEnded', () => {
+    canReplay = true;
+    updateReplayState();
+  });
+  
   // Initialize subsystems
   initAudioElements({ speech: speechAudio, background: backgroundAudio });
   initLoadingElements(loadingAnimationContainer, loadingAnimation, period1, period2, period3, chatHistory, overlay);
@@ -59,6 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     if (state !== 'Idle' || isGenerating) return;
+    
     const subject = subjectInput.value.trim();
     if (!subject) return;
 
@@ -68,16 +92,21 @@ document.addEventListener('DOMContentLoaded', () => {
     subjectInput.value = '';
 
     try {
-      // const formData = new FormData();
-      // formData.append('subject', subject);
-      // const res = await fetch('/generate_story', { method: 'POST', body: formData });
-      // if (!res.ok) throw new Error((await res.json()).error || `Error ${res.status}`);
-      // const data = await res.json();
-      // currentStoryText = data.story;
-      await handleAudioPlayback({
-        audio_url:"static/audio/generated_stories/the_chronology_protection_conjecture.mp3",
-        track_url:"static/audio/local_ambient_tracks/abstract_aprils_hold.mp3"
-      });
+      const formData = new FormData();
+      formData.append('subject', subject);
+      const res = await fetch('/generate_story', { method: 'POST', body: formData });
+      if (!res.ok) { 
+        throw new Error((await res.json()).error || `Error ${res.status}`);
+      }
+      const data = await res.json();
+      currentStoryText = data.story;
+      
+      await handleAudioPlayback(data)
+      
+      // await handleAudioPlayback({
+        // audio_url:"static/audio/generated_stories/the_chronology_protection_conjecture.mp3",
+        // track_url:"static/audio/local_ambient_tracks/abstract_aprils_hold.mp3"
+      // });
 
       // saveStoryToStorage(data.story, subject);
     } catch (err) {

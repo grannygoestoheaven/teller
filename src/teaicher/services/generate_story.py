@@ -9,19 +9,19 @@ from mistralai import Mistral, UserMessage  # Import the correct class
 
 load_dotenv()
 
-def _sanitize_filename(text: str) -> str:
-    """
-    Sanitizes a string to be used as a safe filename.
-    Replaces non-alphanumeric characters (except dashes and underscores) with underscores,
-    and limits the length.
-    """
-    # Replace any non-alphanumeric, non-space characters with an empty string
-    # This also removes the '/' character
-    sanitized = re.sub(r'[^\w\s-]', '', text).strip()
-    # Replace spaces and multiple dashes/underscores with a single underscore
-    sanitized = re.sub(r'[\s_-]+', '_', sanitized)
-    # Ensure it's not too long and is lowercase
-    return sanitized[:100].lower() # Limit length to 100 characters, convert to lowercase
+# def _sanitize_filename(text: str) -> str:
+#     """
+#     Sanitizes a string to be used as a safe filename.
+#     Replaces non-alphanumeric characters (except dashes and underscores) with underscores,
+#     and limits the length.
+#     """
+#     # Replace any non-alphanumeric, non-space characters with an empty string
+#     # This also removes the '/' character
+#     sanitized = re.sub(r'[^\w\s-]', '', text).strip()
+#     # Replace spaces and multiple dashes/underscores with a single underscore
+#     sanitized = re.sub(r'[\s_-]+', '_', sanitized)
+#     # Ensure it's not too long and is lowercase
+#     return sanitized[:100].lower() # Limit length to 100 characters, convert to lowercase
 
 def generate_story(subject, pattern, estimated_chars: int) -> tuple[str, str]:
     client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))

@@ -72,6 +72,8 @@
 
 // import { restartSpeech, togglePlayPauseSpeech, updatePlayPauseIcon } from './audioControls.js'; // Not needed here, remove this line
 
+import { getRedColor, getEarthToneColor, getSoftPastelColor, getColor } from './appearance/colors.js'; // Import the color function
+
 let loadingAnimationContainer;
 let loadingAnimation;
 let period1;
@@ -81,7 +83,11 @@ let chatHistory; // Still need chatHistory to clear its content
 
 // storyTextShadowTimeoutId is no longer needed as we're not using shadow
 // let storyTextShadowTimeoutId = null; 
+let arrayOfRedShades = ["#FF0000", "#FF4040", "#FF7373", "#FFA07A"];
+let shuffled = [];
+let index = 0;
 
+// const overlay = document.querySelector('.blur-overlay');
 export function initLoadingElements(container, animation, p1, p2, p3, ch) {
     loadingAnimationContainer = container;
     loadingAnimation = animation;
@@ -124,19 +130,34 @@ export function hideLoadingAnimation() {
 
 // export function clearStoryTextShadowTimeout() { /* ... */ }
 
-export function getColor() {
-    // Example: random color
-    const letters = "0123456789ABCDEF";
-    let color = "#";
-    for(let i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
-  }
 
-  export function onTextDataReceived() {
-    console.log("onReceivedData called");
-    const container = document.getElementById('loadingAnimation')
-    const color = getColor(); // generate a color
-    container.style.setProperty("--period-color", color);
+export function shuffle(arr) {
+  let a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
   }
+  return a;
+}
+
+export function getRandomNoRepeat() {
+  if (index === 0 || index >= shuffled.length) {
+    shuffled = shuffle(arrayOfRedShades);
+    index = 0;
+  }
+  return shuffled[index++];
+}
+
+export function onTextDataReceived() {
+  console.log("onReceivedData called");
+  const container = document.getElementById('loadingAnimation')
+  const color = getRedColor(); // generate a color
+  container.style.setProperty("--period-color", color);
+}
+
+export function addBlurr() {
+  loadingAnimation.classList.add('blur-overlay')
+}
+export function removeBlurr() { 
+  loadingAnimation.classList.remove('blur-overlay')
+}

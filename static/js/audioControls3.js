@@ -1,5 +1,5 @@
 // audioControls.js
-import { onTextDataReceived } from "./loadingAnimation.js";
+import { onTextDataReceived, addBlurr, removeBlurr } from "./loadingAnimation.js";
 
 // Constants (tweak durations as needed)
 const BG_FADE_IN  = 10000;  // ms
@@ -161,8 +161,10 @@ export function updateButtons(state) {
 
   if (state === 'playing') {
     playBtn.textContent = 'PAUSE';
+    removeBlurr(); // Remove blurr effect when stopped or idle
   } else if (state === 'paused') {
     playBtn.textContent = 'RESUME';
+    addBlurr(); // Add blurr effect when paused
   } else {
     playBtn.textContent = 'PLAY';
   }

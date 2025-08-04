@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
   console.log(getComputedStyle(root).getPropertyValue('--period-color'));
   // Form and UI elements
   const form = document.getElementById('story-form');
+  const overlay = document.querySelector('.blur-overlay');
   const chatHistory = document.getElementById('chatHistory');
   const subjectInput = document.getElementById('subject');
   const subjectPlaceholder = document.getElementById('subjectPlaceholder');// after you grab subjectInput…
@@ -44,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Initialize subsystems
   initAudioElements({ speech: speechAudio, background: backgroundAudio });
-  initLoadingElements(loadingAnimationContainer, loadingAnimation, period1, period2, period3, chatHistory);
+  initLoadingElements(loadingAnimationContainer, loadingAnimation, period1, period2, period3, chatHistory, overlay);
   initTextStreamer(chatHistory, subjectInput);
   // updateButtons('stopped');
 

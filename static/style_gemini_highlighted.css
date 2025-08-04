@@ -188,11 +188,21 @@ body {
 }
 
 .loading-animation {
+    filter: none;
+    transition: filter .25s ease-in-out;
+}
+
+.loading-animation.blur-overlay{
+    filter: blur(2px); /* Apply blur effect to the entire loading animation */
+}
+
+.loading-animation {
     display: flex; /* Flex container for the dots */
     justify-content: center;
     align-items: center;
     position: absolute;
     color: var(--period-color); /* Use the dynamically set color, fallback to #888 */
+    border: #0f0f0f;
     font-size: 4em; /* Overall size of the dots */
     line-height: 0.5; /* Align dots vertically */
     gap: 0;

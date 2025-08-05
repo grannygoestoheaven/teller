@@ -4,7 +4,7 @@
 
 ## OUTPUT INSTRUCTIONS
 
-### Write a formal presentation on the subject, with the right punctuation.
+### Write a formal presentation on the {subject}, with the right punctuation.
 
 # OUTPUT FORMAT:
 

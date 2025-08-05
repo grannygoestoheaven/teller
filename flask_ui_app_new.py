@@ -7,7 +7,7 @@ from datetime import datetime
 from dotenv import load_dotenv
 from flask import Flask, render_template, request, jsonify, url_for
 
-from src.teaicher.services.generate_story import generate_story
+from src.teaicher.services.generate_story import generate_story, generate_story_cognitive_boost
 from src.teaicher.services.text_to_speech import openai_text_to_speech
 from src.teaicher.services.store_story import save_story_to_server
 
@@ -17,7 +17,8 @@ load_dotenv()
 
 # --- Configuration Constants ---
 DEFAULT_DURATION = 1
-PATTERN_FILE_PATH = 'src/teaicher/config/patterns/insightful_brief.md'
+# PATTERN_FILE_PATH = 'src/teaicher/config/patterns/insightful_brief.md'
+PATTERN_FILE_PATH = 'src/teaicher/config/patterns/default_narrative.md'
 LOCAL_AMBIENT_TRACKS_DIR = 'local_ambient_tracks'
 YOUTUBE_AMBIENT_LANDSCAPES_DIR = 'youtube_ambient_landscapes' # Not used in current logic, kept for reference
 YOUTUBE_AMBIENT_TRACKS_DIR = 'youtube_ambient_tracks'         # Not used in current logic, kept for reference

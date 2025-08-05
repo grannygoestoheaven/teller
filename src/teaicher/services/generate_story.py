@@ -35,7 +35,7 @@ def generate_story(subject, pattern, estimated_chars: int) -> tuple[str, str]:
     - Focus specifically on: {subject}
     - Be factual, clear and precise. No generalities.
     - Make the text four paragraphs long.
-    - Initiate the text with a soft, quiet opening (e.g. with a raw list of a few concepts that will be covered in the story).
+    - Initiate the text with a soft, quiet opening e.g. with a raw list of a few concepts that will be covered in the story. **always pick concepts slighlty more unexpected than normal**.
     - Always add a new line after the opening.
     - add <[silence]> tags between all sentences and between each new line.
     - Conclude by suggesting three related subjects to the topic, in variations of this kind : "Three related subjects are...". Don't write anything after that.
@@ -66,7 +66,41 @@ def generate_story(subject, pattern, estimated_chars: int) -> tuple[str, str]:
         story = response.choices[0].message.content
         
         # Use the original subject for the filename, not the AI-generated title
-        filename = _sanitize_filename(subject) + ".mp3"
+        filename = _sanitize_filename(subject)
+        
+        return story, filename
+        
+    except Exception as e:
+        print(f"Error in generate_story: {str(e)}")
+        # Return a default error response
+        error_title = f"Error generating story about {subject}"
+        error_story = "We encountered an error while generating the story. Please try again."
+        return error_story, _sanitize_filename(error_title) + ".mp3"
+    
+def generate_story_cognitive_boost(subject, pattern) -> tuple[str, str]:
+    client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
+
+    # Format the pattern by replacing placeholders
+    system_message = pattern.replace('{subject}', subject)
+    user_message = f"Write a TTS story about '{subject}' following the system instructions."
+    
+    try:
+        response = client.chat.completions.create(
+            model="gpt-4o",
+            messages=[
+                {"role": "system", "content": system_message},
+                {"role": "user", "content": user_message}
+            ],
+            temperature=0.4,
+            max_tokens=1300
+        )
+        
+        # Get the story content
+        # story = response.choices[0].message.content.strip()
+        story = response.choices[0].message.content
+        
+        # Use the original subject for the filename, not the AI-generated title
+        filename = _sanitize_filename(subject)
         
         return story, filename
         

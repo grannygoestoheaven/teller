@@ -215,6 +215,85 @@ export function initAudioElements({ speech, background }) {
 }
 
 // Primary playback handler (JS-only fades, no Web Audio API)
+// export async function handleAudioPlayback(data) {
+//   // --- QUICK FADE-OUT FOR ONGOING BACKGROUND ---
+//   if (backgroundAudio && !backgroundAudio.paused && backgroundAudio.volume > 0) {
+//     return fadeVolume(
+//       backgroundAudio,
+//       backgroundAudio.volume,
+//       0,
+//       NEW_PLAY_FADE_OUT,
+//       FADE_STEP,
+//       () => {
+//         backgroundAudio.pause();
+//         backgroundAudio.volume = BG_INITIAL_VOLUME;
+//         handleAudioPlayback(data);
+//       }
+//     );
+//   }
+
+//   // --- NORMAL PLAYBACK SEQUENCE ---
+//   speechStarted = false;
+//   clearPlaybackTimers();
+//   lastData = data;
+  
+//   // Disable play/pause until background music starts
+//   const playBtn = document.getElementById('generateButton');
+//   playBtn.disabled = true;
+//   updateButtons('playing');
+//   const enablePause = () => {
+//     playBtn.disabled = false;
+//     backgroundAudio.removeEventListener('playing', enablePause);
+//   };
+
+//   backgroundAudio.addEventListener('playing', enablePause);
+  
+//   speechAudio.src     = data.audio_url;
+//   backgroundAudio.src = data.track_url;
+//   speechAudio.currentTime     = 0;
+//   backgroundAudio.currentTime = 0;
+//   backgroundAudio.loop        = false;
+  
+//   console.log(onTextDataReceived()); // Makes the dots change color
+//   // Begin background fade-in
+//   backgroundAudio.play();
+//   console.log('playing background audio');
+//   // fadeVolume(backgroundAudio, 0, backgroundAudio.volume, BG_FADE_IN);
+//   // reset to silent start
+//   backgroundAudio.volume = 0;
+//   // then fade up to your intended level
+//   fadeVolume(backgroundAudio, 0, BG_INITIAL_VOLUME, BG_FADE_IN);
+
+//   // After fade-in + delay, start speech
+//   bgFadeTimeout = setTimeout(() => {
+//     if (backgroundAudio.paused) {
+//       // Wait: speech starts only after user resumes
+//       const onResume = () => {
+//         speechStarted = true;
+//         speechAudio.play();
+//         backgroundAudio.removeEventListener('play', onResume);
+//       };
+//       backgroundAudio.addEventListener('play', onResume);
+//     } else {
+//       speechStarted = true;
+//       speechAudio.play();
+//     }
+//   }, BG_FADE_IN + POST_DELAY);
+
+//   // When speech ends: dispatch event, then schedule BG fade-out
+//   speechAudio.onended = () => {
+//     document.dispatchEvent(
+//       new CustomEvent('speechEnded', { detail: { storyText: data.story } })
+//     );
+//     bgFadeOutTimeout = setTimeout(() => {
+//       fadeVolume(backgroundAudio, backgroundAudio.volume, 0, BG_FADE_OUT, FADE_STEP, () => {
+//         backgroundAudio.pause();
+//         updateButtons('stopped');
+//       });
+//     }, BG_LINGER);
+//   };
+// }
+
 export async function handleAudioPlayback(data) {
   // --- QUICK FADE-OUT FOR ONGOING BACKGROUND ---
   if (backgroundAudio && !backgroundAudio.paused && backgroundAudio.volume > 0) {
@@ -252,21 +331,17 @@ export async function handleAudioPlayback(data) {
   speechAudio.currentTime     = 0;
   backgroundAudio.currentTime = 0;
   backgroundAudio.loop        = false;
-  
-  console.log(onTextDataReceived()); // Makes the dots change color
-  // Begin background fade-in
+
+  console.log(onTextDataReceived()); // Dots animation
+
+  // ✅ Start background music immediately
+  backgroundAudio.volume = BG_INITIAL_VOLUME;
   backgroundAudio.play();
   console.log('playing background audio');
-  // fadeVolume(backgroundAudio, 0, backgroundAudio.volume, BG_FADE_IN);
-  // reset to silent start
-  backgroundAudio.volume = 0;
-  // then fade up to your intended level
-  fadeVolume(backgroundAudio, 0, BG_INITIAL_VOLUME, BG_FADE_IN);
 
-  // After fade-in + delay, start speech
+  // Speech starts after delay
   bgFadeTimeout = setTimeout(() => {
     if (backgroundAudio.paused) {
-      // Wait: speech starts only after user resumes
       const onResume = () => {
         speechStarted = true;
         speechAudio.play();
@@ -277,21 +352,29 @@ export async function handleAudioPlayback(data) {
       speechStarted = true;
       speechAudio.play();
     }
-  }, BG_FADE_IN + POST_DELAY);
+  }, POST_DELAY); // ⬅️ No longer depends on BG_FADE_IN
 
-  // When speech ends: dispatch event, then schedule BG fade-out
+  // Fade out background after speech ends
+  // speechAudio.onended = () => {
+  //   document.dispatchEvent(
+  //     new CustomEvent('speechEnded', { detail: { storyText: data.story } })
+  //   );
+  //   bgFadeOutTimeout = setTimeout(() => {
+  //     fadeVolume(backgroundAudio, backgroundAudio.volume, 0, BG_FADE_OUT, FADE_STEP, () => {
+  //       backgroundAudio.pause();
+  //       updateButtons('stopped');
+  //     });
+  //   }, BG_LINGER);
+  // };
+ 
   speechAudio.onended = () => {
     document.dispatchEvent(
       new CustomEvent('speechEnded', { detail: { storyText: data.story } })
     );
-    bgFadeOutTimeout = setTimeout(() => {
-      fadeVolume(backgroundAudio, backgroundAudio.volume, 0, BG_FADE_OUT, FADE_STEP, () => {
-        backgroundAudio.pause();
-        updateButtons('stopped');
-      });
-    }, BG_LINGER);
+    updateButtons('stopped');
   };
 }
+
 
 // Pause/resume both speech and background together
 export function togglePlayPause() {

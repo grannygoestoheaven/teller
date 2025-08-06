@@ -2,6 +2,7 @@ import os
 import re
 import random
 import glob
+import json
 from datetime import datetime
 
 from dotenv import load_dotenv
@@ -185,11 +186,22 @@ def _generate_story_and_speech(subject, estimated_chars, pattern_path, base_dir,
     Generates a story and speech, returning paths for both.
     Also selects an ambient track URL.
     """
+    if subject == "test":
+        with open("src/server_data/stories/20250805T233810Z_eyewitness_testimony.json") as f:
+            story_data = json.load(f)
+            story_raw = story_data["raw"]
+            story_cleaned = story_data["clean"]
+        filename_from_story_gen = "eyewitness_testimony.mp3"
+        speech_file_path_relative_to_static = "audio/generated_stories/eyewitness_testimony.mp3"
+        track_url_for_client = "static/audio/local_ambient_tracks/abstract_aprils_hold.mp3"
+        return story_raw, story_cleaned, filename_from_story_gen, speech_file_path_relative_to_static, track_url_for_client
+    
+    return story, story, filename_from_story_gen, speech_file_path_relative_to_static, track_url_for_client
     story = None
     filename_from_story_gen = None
     speech_file_path_relative_to_static = None
     track_url_for_client = None
-
+    
     try:
         with open(pattern_path, 'r') as file:
             # pattern = file.read().replace("{subject}", str(subject)).replace("{estimated_chars}", str(estimated_chars))

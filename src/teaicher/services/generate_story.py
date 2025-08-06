@@ -44,7 +44,7 @@ def generate_story(subject, pattern, estimated_chars: int) -> tuple[str, str]:
     - Write in an elegant style, not in a grandiose style. Avoid any mystery tone at all cost.
     - Do not use cliches or jargon.
     - Use absolutely ZERO cliches or jargon or journalistic language like "In a world, in the realm", etc.
-    - Use ZERO extreme words like "crucial", "important", "essential", "critical", "fundamental", etc.
+    - Forbidden extreme words = "crucial", "essential", "critical", "fundamental" etc.
     - USE ZERO poetry of any kind.
     - Use ZERO metaphor of any kind.
     - use ZERO common setup language in any sentence, including: in conclusion, in closing, etc.

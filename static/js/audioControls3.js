@@ -181,7 +181,7 @@ export const NEW_PLAY_FADE_OUT = 1500;     // ms quick fade-out when starting ne
 export const POST_DELAY  = 3000;           // ms after fade-in to start speech
 export const FADE_STEP   = 50;             // ms per step
 
-export const BG_INITIAL_VOLUME = 0.08;     // Default background volume
+export const BG_INITIAL_VOLUME = 0.05;     // Default background volume
 
 let speechAudio, backgroundAudio;
 let lastData = null;

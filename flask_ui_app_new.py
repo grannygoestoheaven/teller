@@ -192,16 +192,16 @@ def _generate_story_and_speech(subject, estimated_chars, pattern_path, base_dir,
             story_raw = story_data["raw"]
             story_cleaned = story_data["clean"]
         filename_from_story_gen = "eyewitness_testimony.mp3"
-        speech_file_path_relative_to_static = "audio/generated_stories/the_conspirationists_fear_of_critical_thinking.mp3"
+        speech_file_path_relative_to_static = "audio/generated_stories/the_role_of_education_in_belief_formation.mp3"
         # track_url_for_client = ""
         track_url_for_client = "static/audio/local_ambient_tracks/abstract_aprils_hold.mp3"
         return story_raw, story_cleaned, filename_from_story_gen, speech_file_path_relative_to_static, track_url_for_client
     
-    return story, story, filename_from_story_gen, speech_file_path_relative_to_static, track_url_for_client
-    story = None
-    filename_from_story_gen = None
-    speech_file_path_relative_to_static = None
-    track_url_for_client = None
+    # return story, story, filename_from_story_gen, speech_file_path_relative_to_static, track_url_for_client
+    # story = None
+    # filename_from_story_gen = None
+    # speech_file_path_relative_to_static = None
+    # track_url_for_client = None
     
     try:
         with open(pattern_path, 'r') as file:

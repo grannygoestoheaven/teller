@@ -31,12 +31,14 @@ html, body {
 body {
     font-family: 'Inika', serif;
     background-color: rgb(24, 24, 23); /* Darkened UI background */
-    color: #333;
+    background-color: rgb(46, 46, 44); /* Darkened UI background */
+    color: #d1caca;
     margin: 0;
     padding: 0;
     height: 100vh; /* Use height: 100vh to fill viewport height */
     display: flex; /* Use flexbox */
     flex-direction: column; /* Stack children vertically */
+    align-items: center; /* Center children horizontally */
     overflow: hidden; /* Hide body scrollbar */
 }
 
@@ -99,27 +101,45 @@ body {
 
 /* New: For text fully visible (e.g., when toggled) */
 #chatHistory.text-full {
-    opacity: 0.95; /* Full opacity */
-    transition: opacity 0.3s ease-in; /* Smooth transition to full */
+    opacity: 1 !important;/* Full opacity */
+    /* transition: opacity 0.3s ease-in;  */
     pointer-events: auto;
 }
 
-.chat-history{        /* new flex centring */
-    flex:1;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    overflow:auto;      /* retain scrolling */
+.chat-history {
+    color: rgb(199, 191, 191); /* Text color */
+    flex: 1;
+    display: flex;
+    max-width: 60ch;
+    justify-content: center;
+    align-items: flex-start;
+    overflow: hidden;
+    border-radius: 5px;
+    /* border: 2px solid rgba(201, 200, 200, 0.691); */
+}
+
+.chat-inner {
+    max-width: 60ch;
+    max-height: 100%;
+    margin: 0 auto;
+    box-sizing: border-box;
+    overflow-y: auto;
+    scrollbar-width: auto;
+    scrollbar-color: rgba(201, 200, 200, 0.691) transparent;
+    padding: 1rem;
   }
   
-  .chat-inner{          /* real text box */
-    max-width:60ch;
-    text-align:left;
+  .chat-inner::-webkit-scrollbar {
+    width: 16px;
   }
   
-  .chat-inner .word{
-    display:inline;
-    margin:0 .05em;
+  .chat-inner::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  
+  .chat-inner .word {
+    display: inline;
+    margin: 0 .05em;
   }
   
 /* Style for interactive words */

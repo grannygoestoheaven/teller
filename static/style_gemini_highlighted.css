@@ -44,26 +44,25 @@ body {
 
 /* Header styles */
 .chat-header {
-    font-size: 1em; /* Base font size for the header container */
+    font-size: 2em; /* Base font size for the header container */
     z-index: 10;
     background: none;
-    padding: 20px 25px 0;
-    margin-bottom: 20px;
+    padding: 20px 25px;
+    /* margin-bottom: 20px; */
     flex-shrink: 0; /* Prevent header from shrinking */
 }
 
 /* header block (keeps previous padding / spacing) */
-.chat-header{
-    font-size:2em;         /* sets the *base* size for TELLER   */
+/* .chat-header{
+    font-size:2em;         
     padding:20px 25px 0;
-    margin-bottom:20px;
-  }
+  } */
   
   /* main word */
   .brand{
     cursor:pointer;                   /* h1 already sits on one line      */
     display:inline-block;
-    margin:0 0 0 10px;      /* keep your left indent            */
+    margin:0 0 0 0px;      /* keep your left indent            */
     color:rgba(249,245,245);
     font-weight:700;        /* make it stand out                */
     /* transition:border 0.2s ease; */
@@ -126,7 +125,7 @@ body {
     overflow-y: auto;
     scrollbar-width: auto;
     scrollbar-color: rgba(201, 200, 200, 0.691) transparent;
-    padding: 1rem;
+    /* padding: 1rem; */
   }
   
   .chat-inner::-webkit-scrollbar {
@@ -312,6 +311,7 @@ footer.chat-input-area {
     flex-direction: column;
     gap: 10px;
     align-items: center;
+    margin-top: 0.5em;
     margin-bottom: 0.5em;
 }
 
@@ -365,8 +365,8 @@ footer.chat-input-area {
     display: flex;
     justify-content: center;  /* or space-between, as you like */
     gap: 0.7rem;              /* spacing between buttons */
-    margin-top: 0.5rem;
-    margin-bottom: 1rem;
+    /* margin-top: 1rem;
+    margin-bottom: 1rem; */
   }
 
 /* Pixel PLAY style */
@@ -384,7 +384,7 @@ footer.chat-input-area {
 
 /* Send button styles */
 .send-button {
-    background-color: #313030;
+    background-color: #1f1e1e;
     color: rgb(234,232,232);
     border: none;
     padding: 5px 17px;

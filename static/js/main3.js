@@ -2,6 +2,7 @@
 import { saveStoryToStorage, loadStoryFromStorage, } from './storage2.js';
 import { initLoadingElements, showLoadingAnimation, hideLoadingAnimation } from './loadingAnimation.js';
 import { initTextStreamer, streamText, clearHighlights } from './textStreamer.js';
+import { initElements_spatial } from './webAudioAPI2.js';
 import {
   initAudioElements,
   handleAudioPlayback,
@@ -68,6 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // Initialize subsystems
   initAudioElements({ speech: speechAudio, background: backgroundAudio });
+  initElements_spatial({speech: speechAudio, background: backgroundAudio});
   initLoadingElements(loadingAnimationContainer, loadingAnimation, period1, period2, period3, chatHistory, overlay);
   initTextStreamer(chatHistory, subjectInput);
   // updateButtons('stopped');

@@ -192,7 +192,8 @@ def _generate_story_and_speech(subject, estimated_chars, pattern_path, base_dir,
             story_raw = story_data["raw"]
             story_cleaned = story_data["clean"]
         filename_from_story_gen = "eyewitness_testimony.mp3"
-        speech_file_path_relative_to_static = "audio/generated_stories/eyewitness_testimony.mp3"
+        speech_file_path_relative_to_static = "audio/generated_stories/the_conspirationists_fear_of_critical_thinking.mp3"
+        # track_url_for_client = ""
         track_url_for_client = "static/audio/local_ambient_tracks/abstract_aprils_hold.mp3"
         return story_raw, story_cleaned, filename_from_story_gen, speech_file_path_relative_to_static, track_url_for_client
     
@@ -224,6 +225,8 @@ def _generate_story_and_speech(subject, estimated_chars, pattern_path, base_dir,
             speech_file_path_relative_to_static = openai_text_to_speech(story, filename_from_story_gen)
             if not speech_file_path_relative_to_static:
                 logger.warning(f"TTS failed for story, but continuing without audio. Filename: {filename_from_story_gen}")
+            elif not track_url_for_client:
+                logger.warning(f"No music but speech will go on")
         except Exception as e:
             logger.warning(f"TTS encountered an error but continuing without audio: {str(e)}")
         

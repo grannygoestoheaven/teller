@@ -6,9 +6,10 @@ const BG_FADE_OUT     = 30;  // seconds BG takes to fade out
 const BG_VOL          = 0.20;
 // const BG_VOL          = 1;
 
-const ctx = new (window.AudioContext || webkitAudioContext)();
+export const ctx = new (window.AudioContext || webkitAudioContext)();
 let bgEl, speechEl, landEl;
 let bgGain, speechGain, landGain;
+let speechPanner; // 🧠 New: Panner node for spatial speech
 
 export function initElements({ background, speech, landscape }) {
   let initialized = false;  
@@ -35,6 +36,52 @@ export function initElements({ background, speech, landscape }) {
   landSrc.connect(landGain).connect(ctx.destination);
 
   document.addEventListener('click', () => ctx.resume(), { once: true });
+}
+
+export function initElements_spatial({ background, speech}) {
+  let initialized = false;  
+  if (initialized) return;
+  initialized = true;
+
+  bgEl     = background;
+  speechEl = speech;
+  // landEl   = landscape || new Audio();  landEl   = new Audio();  // silent dummy if none
+
+  const bgSrc     = ctx.createMediaElementSource(bgEl);
+  const speechSrc = ctx.createMediaElementSource(speechEl);
+  // const landSrc   = ctx.createMediaElementSource(landEl);
+
+  bgGain = ctx.createGain();
+  bgGain.gain.value = 0.3;
+
+  speechGain = ctx.createGain();
+  speechGain.gain.value = 3.0;
+
+  // 🧠 New: Panner node for spatial speech
+  speechPanner = ctx.createPanner();
+  speechPanner.panningModel = "HRTF";
+  speechPanner.distanceModel = "inverse";
+  speechPanner.refDistance = 10;       // 👈 Raise this
+  speechPanner.maxDistance = 100;
+  speechPanner.rolloffFactor = 4.5;   // 👈 Increase this for faster volume drop
+  speechPanner.positionX.value = 0;
+  speechPanner.positionY.value = 0;
+  speechPanner.positionZ.value = 4;   // 👈 Increase Z to push it further away
+
+  // const reverb = ctx.createConvolver();
+  // fetch('/static/impulses/aksrooms_001.wav')
+  //   .then(res => res.arrayBuffer())
+  //   .then(data => ctx.decodeAudioData(data, buffer => {
+  //     reverb.buffer = buffer;
+  // }));
+
+  landGain = ctx.createGain();
+  landGain.gain.value = 0;
+
+  bgSrc.connect(bgGain).connect(ctx.destination);
+  speechSrc.connect(speechGain).connect(speechPanner).connect(ctx.destination);
+  // landSrc.connect(landGain).connect(ctx.destination);
+
 }
 
 export async function playStory(data) {

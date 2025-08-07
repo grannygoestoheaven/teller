@@ -172,6 +172,7 @@
 
 
 import { onTextDataReceived, addBlurr, removeBlurr } from "./loadingAnimation.js";
+import { ctx } from "./webAudioAPI2.js"; // Import the Web Audio context
 
 // Constants (tweak durations as needed)
 const BG_FADE_IN  = 10000;          // ms
@@ -181,7 +182,7 @@ export const NEW_PLAY_FADE_OUT = 1500;     // ms quick fade-out when starting ne
 export const POST_DELAY  = 3000;           // ms after fade-in to start speech
 export const FADE_STEP   = 50;             // ms per step
 
-export const BG_INITIAL_VOLUME = 0.05;     // Default background volume
+export const BG_INITIAL_VOLUME = 1;     // Default background volume
 
 let speechAudio, backgroundAudio;
 let lastData = null;
@@ -296,6 +297,9 @@ export function initAudioElements({ speech, background }) {
 
 export async function handleAudioPlayback(data) {
   // --- QUICK FADE-OUT FOR ONGOING BACKGROUND ---
+  if (ctx.state === 'suspended') {
+    await ctx.resume();
+  }
   if (backgroundAudio && !backgroundAudio.paused && backgroundAudio.volume > 0) {
     return fadeVolume(
       backgroundAudio,
@@ -355,26 +359,25 @@ export async function handleAudioPlayback(data) {
   }, POST_DELAY); // ⬅️ No longer depends on BG_FADE_IN
 
   // Fade out background after speech ends
-  // speechAudio.onended = () => {
-  //   document.dispatchEvent(
-  //     new CustomEvent('speechEnded', { detail: { storyText: data.story } })
-  //   );
-  //   bgFadeOutTimeout = setTimeout(() => {
-  //     fadeVolume(backgroundAudio, backgroundAudio.volume, 0, BG_FADE_OUT, FADE_STEP, () => {
-  //       backgroundAudio.pause();
-  //       updateButtons('stopped');
-  //     });
-  //   }, BG_LINGER);
-  // };
- 
   speechAudio.onended = () => {
     document.dispatchEvent(
       new CustomEvent('speechEnded', { detail: { storyText: data.story } })
     );
-    updateButtons('stopped');
+    bgFadeOutTimeout = setTimeout(() => {
+      fadeVolume(backgroundAudio, backgroundAudio.volume, 0, BG_FADE_OUT, FADE_STEP, () => {
+        backgroundAudio.pause();
+        updateButtons('stopped');
+      });
+    }, BG_LINGER);
   };
+ 
+  // speechAudio.onended = () => {
+  //   document.dispatchEvent(
+  //     new CustomEvent('speechEnded', { detail: { storyText: data.story } })
+  //   );
+  //   updateButtons('stopped');
+  // };
 }
-
 
 // Pause/resume both speech and background together
 export function togglePlayPause() {
@@ -415,6 +418,9 @@ export function stopPlayback() {
 
 // Replay the last story from the beginning
 export function replayPlayback() {
+  if (ctx.state === 'suspended') {
+    ctx.resume();
+  }
   if (!lastData) return;
   backgroundAudio.pause();
   backgroundAudio.currentTime = 0;

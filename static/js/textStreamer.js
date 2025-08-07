@@ -11,7 +11,7 @@ export function initTextStreamer(chatHistoryEl, subjectInputEl) {
 export async function streamText(text) {
     chatHistoryElement.innerHTML = ''; // Clear container before streaming
 
-    const delay = 20; // Base delay in milliseconds
+    const delay = 5; // Base delay in milliseconds
     const parts = text.match(/(\w+|[^\w\s]|\s+)/g);
 
     if (!parts) {

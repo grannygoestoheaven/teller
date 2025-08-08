@@ -322,13 +322,14 @@ export async function handleAudioPlayback(data) {
   
   // Disable play/pause until background music starts
   const playBtn = document.getElementById('generateButton');
-  playBtn.disabled = true;
-  updateButtons('playing');
+  updateButtons('playing', { disabled: true });
+
   const enablePause = () => {
-    playBtn.disabled = false;
+    updateButtons('playing', { disabled: false });
     backgroundAudio.removeEventListener('playing', enablePause);
   };
-  backgroundAudio.addEventListener('playing', enablePause);
+  // Wait for background to start playing before enabling pause
+  // backgroundAudio.addEventListener('playing', enablePause);
   
   speechAudio.src     = data.audio_url;
   backgroundAudio.src = data.track_url;
@@ -439,11 +440,11 @@ export function clearPlaybackTimers() {
 }
 
 // UI button state management (assumes buttons with these IDs)
-export function updateButtons(state) {
+export function updateButtons(state, {disabled = false} = {}) {
   const playBtn   = document.getElementById('generateButton');
   // const replayBtn = document.getElementById('replayButton');
 
-  playBtn.disabled   = false;
+  playBtn.disabled = disabled;
 
   if (state === 'playing') {
     playBtn.textContent = 'PAUSE';

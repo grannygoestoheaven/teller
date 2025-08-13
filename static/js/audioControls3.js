@@ -329,7 +329,7 @@ export async function handleAudioPlayback(data) {
     backgroundAudio.removeEventListener('playing', enablePause);
   };
   // Wait for background to start playing before enabling pause
-  // backgroundAudio.addEventListener('playing', enablePause);
+  backgroundAudio.addEventListener('playing', enablePause);
   
   speechAudio.src     = data.audio_url;
   backgroundAudio.src = data.track_url;

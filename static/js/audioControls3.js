@@ -326,7 +326,10 @@ export async function handleAudioPlayback(data) {
 
   const enablePause = () => {
     updateButtons('playing', { disabled: false });
+    playBtn.focus()
     backgroundAudio.removeEventListener('playing', enablePause);
+    document.dispatchEvent(new Event('replayUnlocked'));
+
   };
   // Wait for background to start playing before enabling pause
   backgroundAudio.addEventListener('playing', enablePause);

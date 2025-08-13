@@ -49,25 +49,13 @@ document.addEventListener('DOMContentLoaded', () => {
   let canReplay = false;
 
   // Centralized state update
-  const updateReplayState = () => {
-    // Disabled if:
-    //  • we haven’t loaded a story yet (canReplay === false)
-    //  • OR the form has content (user is typing a new request)
-    replayButton.disabled = !canReplay || subjectInput.value.trim().length > 0;
-  };
+  // const updateReplayState = () => {
+  //   // Disabled if:
+  //   //  • we haven’t loaded a story yet (canReplay === false)
+  //   //  • OR the form has content (user is typing a new request)
+  //   replayButton.disabled = !canReplay || subjectInput.value.trim().length > 0;
+  // };
 
-  // 1) On load, there’s nothing to replay
-  updateReplayState();
-
-  // 2) Whenever the user types a new subject, disable replay
-  subjectInput.addEventListener('input', updateReplayState);
-
-  // 3) When the speech ends, we know we have a fresh story to replay
-  document.addEventListener('speechEnded', () => {
-    canReplay = true;
-    updateReplayState();
-  });
-  
   // Initialize subsystems
   initAudioElements({ speech: speechAudio, background: backgroundAudio });
   initElements_spatial({speech: speechAudio, background: backgroundAudio});
@@ -80,6 +68,37 @@ document.addEventListener('DOMContentLoaded', () => {
   let currentStoryText = '';
   let state = 'Idle'; // "Idle" | "Playing" | "Paused"
   let isGenerating = false;
+  let isEmpty = true;
+
+  // 2) DEFINE (single source of truth)
+  const updateReplayState = (currentState = state) => {
+    isEmpty = subjectInput.value.trim().length === 0;
+
+    // replay enabled only when we can replay AND input is empty
+    replayButton.disabled = !canReplay || !isEmpty;
+
+    // while playing/paused: empty => show PAUSE/RESUME, typed => show PLAY
+    if (currentState === 'Playing' || currentState === 'Paused') {
+      updateButtons(isEmpty ? currentState : 'stopped');
+    }
+  };
+
+  // 1) On load, there’s nothing to replay
+  updateReplayState();
+
+  // 2) Whenever the user types a new subject, disable replay
+  subjectInput.addEventListener('input', () => {
+    updateReplayState(state);
+    if (isEmpty && (state === 'Paused' || state === 'Playing')) {
+      generateButton.focus();
+    }
+  });
+
+  // 3) When the speech ends, we know we have a fresh story to replay
+  document.addEventListener('speechEnded', () => {
+    canReplay = true;
+    updateReplayState();
+  });
 
   // ─── Submit handler (generate new story) ───
   form.addEventListener('submit', async (e) => {
@@ -95,6 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
     subjectInput.value = '';
 
     try {
+      subjectInput.disabled = true;
       updateButtons('playing', { disabled: true })
       const formData = new FormData();
       formData.append('subject', subject);
@@ -122,21 +142,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // saveStoryToStorage(data.story, subject);
     } catch (err) {
+      subjectInput.disabled = false;
       console.error(err);
       hideLoadingAnimation();
       chatHistory.innerHTML = `<div class="message error">Error: ${err.message}</div>`;
       state = 'Idle';
       // generateButton.textContent = 'Play';
     } finally {
+      subjectInput.disabled = false;
       isGenerating = false;
     }
   });
 
   // ─── Play / Pause toggle ───
   generateButton.addEventListener('click', async (e) => {
-    if (state === 'Idle') return;
+    // if (state === 'Idle') return;
     e.preventDefault();
-    await togglePlayPause();
+    if (state === 'Idle') { form.requestSubmit(); return; }
+    togglePlayPause();
     if (state === 'Playing') {
       state = 'Paused';
       // generateButton.textContent = 'Resume';
@@ -167,22 +190,53 @@ document.addEventListener('DOMContentLoaded', () => {
     hideLoadingAnimation();
     streamText(currentStoryText, chatHistory);
     chatHistory.classList.add('text-full');
-    state = 'Idle';
+    canReplay = true;           // allow replay
+    updateReplayState(state);   // refresh button labels
+    // state = 'Idle';
     // generateButton.textContent = 'Play';
   });
 
-  // ─── Keyboard shortcuts ───
+  document.addEventListener('replayUnlocked', () => {
+    canReplay = true;
+    updateReplayState();
+  });
+  
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();           // stop the newline
-      if (state === 'Idle') {
-        form.requestSubmit();       // launch the story
-      }
+    // ENTER triggers submit only when typing in the input
+    if (e.key === 'Enter' && !e.shiftKey && document.activeElement === subjectInput) {
+      e.preventDefault();
+      form.requestSubmit();
     }
-    if (e.key === ' ' && (state === 'Playing' || state === 'Paused')) {
-      e.preventDefault(); generateButton.click();
+  
+    // SPACE toggles play/pause only when Play/Pause button is focused
+    if (e.key === ' ' && document.activeElement === generateButton) {
+      e.preventDefault();
+      generateButton.click();
     }
   });
+  
+
+  // ─── Keyboard shortcuts ───
+  // document.addEventListener('keydown', (e) => {
+  //   if (e.key === 'Enter' && !e.shiftKey) {
+  //     e.preventDefault();           // stop the newline
+  //     if (state === 'Idle') {
+  //       form.requestSubmit();       // launch the story
+  //     }
+  //     if (e.key === ' ') {
+  //       if (speechAudio.src || backgroundAudio.src && (state === 'Playing' || state === 'Paused')) {
+  //           e.preventDefault();
+  //           // generateButton.click();
+  //           togglePlayPause();
+  //       }
+  //   }
+  // }
+  
+  //   // if (e.key === ' ' && (!speechAudio.paused || !backgroundAudio.paused)) {
+  //   // // if (e.key === ' ' && (state === 'Playing' || state === 'Paused')) {
+  //   //   e.preventDefault(); generateButton.click();
+  //   // }
+  // });
 
   // ─── Initial cleanup ───
   clearHighlights();

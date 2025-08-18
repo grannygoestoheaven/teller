@@ -1,5 +1,5 @@
 // main.js
-import { saveStoryToStorage, loadStoryFromStorage, } from './storage2.js';
+import { saveStoryToStorage, loadStoryFromStorage, } from './storage.js';
 import { initLoadingElements, showLoadingAnimation, hideLoadingAnimation } from './loadingAnimation.js';
 import { initTextStreamer, streamText, clearHighlights } from './textStreamer.js';
 import { initElements_spatial } from './webAudioAPI2.js';

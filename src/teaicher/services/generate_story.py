@@ -92,7 +92,7 @@ def generate_story_cognitive_boost(subject, pattern) -> tuple[str, str]:
                 {"role": "user", "content": user_message}
             ],
             temperature=0.4,
-            max_tokens=1300
+            max_tokens=1100
         )
         
         # Get the story content

@@ -111,7 +111,7 @@ body {
     display: flex;
     max-width: 60ch;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
     overflow: hidden;
     border-radius: 5px;
     /* border: 2px solid rgba(201, 200, 200, 0.691); */

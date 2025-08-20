@@ -1,65 +1,82 @@
-import { showLoadingAnimation } from "./views";
+import { appState } from './state.js';
 
 // Update UI based on the form's state
-export function updateFormState(formState) {
-    if (formState.formIsNotEmpty) {
-      playPauseButton.textContent = 'Play new story';
-      playPauseButton.disabled = false;
-      replayButton.disabled = true;
-      formInput.disabled = true;
-      stopButton.disabled = false;
-    } else {
-      // This will be handled by the updatePlayerUI function
-      // that depends on playerState, not the form's content.
-    }
+export function updateFormUI(appState) {
+  if (!appState.IsInputEmpty) {
+    playPauseButton.textContent = 'Play new story';
+    playPauseButton.disabled = false;
+    replayButton.disabled = true;
+    stopButton.disabled = false;
+  } else {
+    // This will be handled by the updatePlayerUI function
+    // that depends on playerState, not the form's content.
   }
+}
+
+  // Update text visibility state and trigger UI update
+export function updateTextVisibility(booleanValue) {
+  appState.isTextVisible = booleanValue;
+  if (booleanValue) {
+      showChatHistory();
+  } else {
+      hideChatHistory();
+  }
+}
 
 // Update UI based on the player's state
-export function updatePlayerUI(playerState) {
-    if (playerState === 'idle') {
-      // Reset buttons, hide chat history, hide animation.
-      playPauseButton.textContent = 'Play new story';
-      playPauseButton.disabled = true;
-      replayButton.disabled = true;
-      hideLoadingAnimation();
-      hideChatHistory();
-    } else if (playerState === 'loading') {
-      showLoadingAnimation();
-      playPauseButton.disabled = true;
-      replayButton.disabled = true;
-    } else if (playerState === 'ready') {
-      // The player is loaded and ready, but not playing yet.
-      playPauseButton.textContent = 'Pause';
-      playPauseButton.disabled = false;
-      replayButton.disabled = false;
-    } else if (playerState === 'playing') {
-      playPauseButton.textContent = 'Pause';
-      playPauseButton.disabled = false;
-      replayButton.disabled = false;
-    } else if (playerState === 'paused') {
-      playPauseButton.textContent = 'Resume';
-      playPauseButton.disabled = false;
-      replayButton.disabled = false;
-    } else if (playerState === 'ended') {
-      // Speech is over. Background audio may still be playing.
-      playPauseButton.textContent = 'Pause';
-      replayButton.disabled = false;
-      hideLoadingAnimation();
-      showChatHistory();
-    }
+export function updatePlayerUI(newPlayerState) {
+  const playerState = newPlayerState;
+  if (playerState === 'idle') {
+    // Reset buttons, hide chat history, hide animation.
+    formInput.disabled = false; // Enable input when idle.
+    playPauseButton.textContent = 'Play new story';
+    playPauseButton.disabled = true;
+    replayButton.disabled = true;
+    hideLoadingAnimation();
+    hideChatHistory();
+  } else if (playerState === 'loading') {
+    showLoadingAnimation();
+    formInput.disabled = true; // Disable input while loading.
+    playPauseButton.disabled = true;
+    replayButton.disabled = true;
+  } else if (playerState === 'ready') {
+    // The player is loaded and ready, but not playing yet.
+    formInput.disabled = true; // Disable input while ready.
+    playPauseButton.textContent = 'Pause';
+    playPauseButton.disabled = false;
+    replayButton.disabled = false;
+  } else if (playerState === 'playing') {
+    formInput.disabled = false; // Enable input while playing.
+    playPauseButton.textContent = 'Pause';
+    playPauseButton.disabled = false;
+    replayButton.disabled = false;
+  } else if (playerState === 'paused') {
+    formInput.disabled = false; // Enable input while paused.
+    playPauseButton.textContent = 'Resume';
+    playPauseButton.disabled = false;
+    replayButton.disabled = false;
+  } else if (playerState === 'ended') {
+    // Speech is over. Background audio may still be playing.
+    hideLoadingAnimation();
+    showChatHistory();
+    formInput.disabled = false; // Enable input while Idle.
+    playPauseButton.textContent = 'Play new story';
+    playPauseButton.disabled = false;
+    replayButton.disabled = false;
   }
+}
 
 export function displaySubject(subject) {
-    // Display the subject in the UI
-    storyTitle.value = subject;
+  // Display the subject in the UI
+  storyTitle.value = subject;
 }
 
   // Functions to control visual elements
 export function showLoadingAnimation() {
-    // Show the dot animation
-    loadingAnimationContainer.style.display = 'flex';
-    loadingAnimationContainer.classList.add('is-loading'); 
-  }
+  // Show the dot animation
+  loadingAnimationContainer.style.display = 'flex';
+  loadingAnimationContainer.classList.add('is-loading'); 
+}
   
 export function hideLoadingAnimation() {
   // Hide the dot animation
@@ -69,8 +86,10 @@ export function hideLoadingAnimation() {
 
 export function showChatHistory() {
   // Make the chat history visible
+  chatHistory.style.display = 'flex';
 }
 
 export function hideChatHistory() {
   // Make the chat history hidden
+  chatHistory.style.display = 'none';
 }

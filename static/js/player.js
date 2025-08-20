@@ -1,13 +1,7 @@
 // Import necessary modules and functions
-import { updatePlayerUI, updatePlayerState, updateFormState, updateChatHistoryState } from './view';
-import { appState } from './state';
+import { updatePlayerUI, updatePlayerState, updateFormState, updateChatHistoryState } from './view.js';
+import { appState, updatePlayerState } from './state';
 import { saveStoryToStorage } from './storage';
-
-// The central state management function
-export function updatePlayerState(newState) {
-    appState.playerState = newState;
-    updatePlayerUI(appState.playerState); // Tell the view to update its display
-  }
 
 // The main event router.
 export function handleAppEvent(event, form = null) {
@@ -57,7 +51,15 @@ export async function startNewStoryProcess(form) {
       throw new Error((await res.json()).error || `Error ${res.status}`);
     }
 
+    // Update the player state to 'ready' after fetching the story.
+    updatePlayerState('ready');
+    // Update the form state to reflect that the form is not empty.
+    appState.formIsNotEmpty = true;
+
+    // Parse the JSON response.
     const data = await response.json();
+
+    // Save the story to local storage.
     saveStoryToStorage({
       subject: subject,
       tagged: data.tagged_story,

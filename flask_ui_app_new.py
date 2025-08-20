@@ -18,7 +18,8 @@ load_dotenv()
 
 # --- Configuration Constants ---
 DEFAULT_DURATION = 1
-# PATTERN_FILE_PATH = 'src/teaicher/config/patterns/insightful_brief.md'
+# PATTERN_FILE_PATH = 'src/teaicher/config/patterns/abrupt.md'
+# PATTERN_FILE_PATH = 'src/teaicher/config/patterns/sensory_precision.md'
 PATTERN_FILE_PATH = 'src/teaicher/config/patterns/default_narrative.md'
 LOCAL_AMBIENT_TRACKS_DIR = 'local_ambient_tracks'
 YOUTUBE_AMBIENT_LANDSCAPES_DIR = 'youtube_ambient_landscapes' # Not used in current logic, kept for reference

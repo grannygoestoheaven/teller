@@ -1,42 +1,46 @@
+import { showLoadingAnimation } from "./views";
+
 // Update UI based on the form's state
-export function updateFormUI(state) {
-    if (state.formIsNotEmpty) {
+export function updateFormState(formState) {
+    if (formState.formIsNotEmpty) {
       playPauseButton.textContent = 'Play new story';
       playPauseButton.disabled = false;
       replayButton.disabled = true;
+      formInput.disabled = true;
+      stopButton.disabled = false;
     } else {
       // This will be handled by the updatePlayerUI function
       // that depends on playerState, not the form's content.
     }
   }
 
-  // Update UI based on the player's state
-export function updatePlayerUI(state) {
-    if (state.playerState === 'idle') {
+// Update UI based on the player's state
+export function updatePlayerUI(playerState) {
+    if (playerState === 'idle') {
       // Reset buttons, hide chat history, hide animation.
       playPauseButton.textContent = 'Play new story';
       playPauseButton.disabled = true;
       replayButton.disabled = true;
       hideLoadingAnimation();
       hideChatHistory();
-    } else if (state.playerState === 'loading') {
+    } else if (playerState === 'loading') {
       showLoadingAnimation();
       playPauseButton.disabled = true;
       replayButton.disabled = true;
-    } else if (state.playerState === 'ready') {
+    } else if (playerState === 'ready') {
       // The player is loaded and ready, but not playing yet.
       playPauseButton.textContent = 'Pause';
       playPauseButton.disabled = false;
       replayButton.disabled = false;
-    } else if (state.playerState === 'playing') {
+    } else if (playerState === 'playing') {
       playPauseButton.textContent = 'Pause';
       playPauseButton.disabled = false;
       replayButton.disabled = false;
-    } else if (state.playerState === 'paused') {
+    } else if (playerState === 'paused') {
       playPauseButton.textContent = 'Resume';
       playPauseButton.disabled = false;
       replayButton.disabled = false;
-    } else if (state.playerState === 'ended') {
+    } else if (playerState === 'ended') {
       // Speech is over. Background audio may still be playing.
       playPauseButton.textContent = 'Pause';
       replayButton.disabled = false;
@@ -45,6 +49,11 @@ export function updatePlayerUI(state) {
     }
   }
 
+export function displaySubject(subject) {
+    // Display the subject in the UI
+    storyTitle.value = subject;
+}
+
   // Functions to control visual elements
 export function showLoadingAnimation() {
     // Show the dot animation
@@ -52,16 +61,16 @@ export function showLoadingAnimation() {
     loadingAnimationContainer.classList.add('is-loading'); 
   }
   
-  export function hideLoadingAnimation() {
-    // Hide the dot animation
-    loadingAnimationContainer.style.display = 'none';
-    loadingAnimationContainer.classList.remove('is-loading');
-  }
-  
-  export function showChatHistory() {
-    // Make the chat history visible
-  }
-  
-  export function hideChatHistory() {
-    // Make the chat history hidden
-  }
+export function hideLoadingAnimation() {
+  // Hide the dot animation
+  loadingAnimationContainer.style.display = 'none';
+  loadingAnimationContainer.classList.remove('is-loading');
+}
+
+export function showChatHistory() {
+  // Make the chat history visible
+}
+
+export function hideChatHistory() {
+  // Make the chat history hidden
+}

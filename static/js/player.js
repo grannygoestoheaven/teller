@@ -1,20 +1,23 @@
 // Import necessary modules and functions
-import { updatePlayerUI, updatePlayerState, updateFormState, updateChatHistoryState } from './view.js';
+import { updatePlayerState, updateFormState, updateChatHistoryState } from './view.js';
 import { appState, updatePlayerState } from './state';
 import { saveStoryToStorage } from './storage';
+import { clearPlaybackTimers } from './utils.js';
 
 // The main event router.
 export function handleAppEvent(event, form = null) {
     // Check the form's state first. This has the highest priority.
-    updateFormState(appState.formIsNotEmpty);
-    if (appState.formIsNotEmpty && (event === 'playPauseClick' || event === 'submit')) {
+    updateFormState(appState.isInputEmpty);
+    if (appState.isInputEmpty && (event === 'playPauseClick' || event === 'submit')) {
       startNewStoryProcess(form);
     } else if (event === 'playPauseClick') {
       // Logic for playing and pausing an existing story.
       if (appState.playerState === 'playing') {
+        updatePlayerState('paused');
         speechAudio.pause();
         backgroundAudio.pause();
       } else if (appState.playerState === 'paused' || appState.playerState === 'ready') {
+        updatePlayerState('playing');
         speechAudio.play();
         backgroundAudio.play();
       }
@@ -22,6 +25,7 @@ export function handleAppEvent(event, form = null) {
       // Logic for replaying a finished story.
       speechAudio.currentTime = 0;
       backgroundAudio.currentTime = 0;
+      updatePlayerState('playing');
       speechAudio.play();
       backgroundAudio.play();
     } else if (event === 'speechEnded') {
@@ -33,14 +37,24 @@ export function handleAppEvent(event, form = null) {
 
 // The function that communicates with the backend.
 export async function startNewStoryProcess(form) {
+    clearPlaybackTimers(); // Clear any previous playback timers.
     chatHistory.innerHTML = '' ; // Clear previous chat history
-    updateChatHistoryState()
+    updateChatHistoryState(); // Update the chat history state to reflect the cleared history.
     updatePlayerState('loading');
+
+    const data = await fetchStoryFromBackend(form);
+    updatePlayerState('ready');
+
+    await playStory(data);
+    updatePlayerState('playing');
+}
+
+export async function fetchStoryFromBackend(form) {
+    // Fetch from the backend.
     const formData = new FormData(form);
     const subject = formData.get('subject').trim(); // Get the subject from the form data
     formData.append('subject', subject); /* --> I get the subject to use it in the saveStoryToStorage function*/
   
-    // Fetch from the backend.
     const response = await fetch('/generate_story', {
       method: 'POST',
       body: formData,
@@ -54,7 +68,7 @@ export async function startNewStoryProcess(form) {
     // Update the player state to 'ready' after fetching the story.
     updatePlayerState('ready');
     // Update the form state to reflect that the form is not empty.
-    appState.formIsNotEmpty = true;
+    appState.isInputEmpty = true;
 
     // Parse the JSON response.
     const data = await response.json();
@@ -66,13 +80,15 @@ export async function startNewStoryProcess(form) {
       human: data.story,
       timestamp: Date.now
     })
+    return data
+}
 
+export async function playStory(data) {
     const audioUrl = data.audio_url;
-    const storyText = data.story_text;
+    // const storyText = data.story_text;
     
     // Update audio elements with the new data.
     speechAudio.src = audioUrl;
-
     // The background track is the first to play.
     backgroundAudio.play();
     // We immediately update the state to reflect that something is playing.

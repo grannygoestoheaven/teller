@@ -40,7 +40,7 @@ document.addEventListener('keydown', (event) => {
 form.addEventListener('keydown', (event) => {
     if (event.key === 'Enter' && !event.shiftKey) {
       event.preventDefault(); // Prevent default form submission
-      handleUserAction('submit');
+      handleAppEvent('submit');
     }
 });
 formInput.addEventListener('input', () => {
@@ -50,11 +50,11 @@ formInput.addEventListener('input', () => {
 });
 
 playPauseButton.addEventListener('click', () => {
-  handleUserAction('playPauseClick');
+  handleAppEvent('playPauseClick');
 });
 
 replayButton.addEventListener('click', () => {
-  handleUserAction('replayClick');
+  handleAppEvent('replayClick');
 });
 
 // Add listeners for native audio events
@@ -68,5 +68,5 @@ speechAudio.addEventListener('pause', () => {
 
 speechAudio.addEventListener('ended', () => {
   // A custom event to handle the end of the story.
-  handleUserAction('speechEnded');
+  handleAppEvent('speechEnded');
 });

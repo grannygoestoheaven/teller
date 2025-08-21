@@ -1,4 +1,6 @@
 // state.js
+import { updatePlayerUI, updateFormUI } from './view.js';
+
 export const appState = {
     playerState: "idle",
     isInputEmpty: true,
@@ -12,8 +14,7 @@ export function updatePlayerState(newPlayerState) {
     updatePlayerUI(appState.playerState); // Tell the view to update its display
   }
 
-export function updateInputState(booleanValue) {
-    appState.isInputEmpty = booleanValue;
+export function updateInputState(isEmpty) {
+    appState.isInputEmpty = isEmpty;
     updateFormUI(appState.isInputEmpty); // Tell the view to update its display
   }
-

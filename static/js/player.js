@@ -1,5 +1,5 @@
 // Import necessary modules and functions
-import { updatePlayerState, updateFormState, updateChatHistoryState } from './view.js';
+import { updatePlayerState, formInputState, updateChatHistoryState, onTextDataReceived } from './view.js';
 import { appState, updatePlayerState } from './state';
 import { saveStoryToStorage } from './storage';
 import { clearPlaybackTimers } from './utils.js';
@@ -7,7 +7,6 @@ import { clearPlaybackTimers } from './utils.js';
 // The main event router.
 export function handleAppEvent(event, form = null) {
     // Check the form's state first. This has the highest priority.
-    updateFormState(appState.isInputEmpty);
     if (appState.isInputEmpty && (event === 'playPauseClick' || event === 'submit')) {
       startNewStoryProcess(form);
     } else if (event === 'playPauseClick') {
@@ -84,8 +83,12 @@ export async function fetchStoryFromBackend(form) {
 }
 
 export async function playStory(data) {
-    const audioUrl = data.audio_url;
-    // const storyText = data.story_text;
+  const audioUrl = data.audio_url;
+  // const storyText = data.story_text;
+  if(!audioUrl) {
+    
+  }
+  onTextDataReceived();
     
     // Update audio elements with the new data.
     speechAudio.src = audioUrl;

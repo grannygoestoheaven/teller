@@ -148,9 +148,7 @@ export function getRandomNoRepeat() {
   return shuffled[index++];
 }
 
-export function onTextDataReceived() {
-  console.log("onReceivedData called");
-  const container = document.getElementById('loadingAnimation')
+export function colorDots() {
   const color = getRedColor(); // generate a color
   container.style.setProperty("--period-color", color);
 }

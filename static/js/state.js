@@ -1,6 +1,4 @@
 // state.js
-import { updatePlayerUI, updateFormUI } from './view.js';
-
 export const appState = {
     playerState: "idle",
     isInputEmpty: true,
@@ -8,13 +6,13 @@ export const appState = {
     isLoadingAnimationVisible: false,
   };
   
-// Function to update the form state in the UI
+  // Function to update the form state in the UI
 export function updatePlayerState(newPlayerState) {
-    appState.playerState = newPlayerState;
-    updatePlayerUI(appState.playerState); // Tell the view to update its display
-  }
+  appState.playerState = newPlayerState;
+  updatePlayerUI(appState.playerState); // Tell the view to update its display
+}
 
 export function updateInputState(isEmpty) {
-    appState.isInputEmpty = isEmpty;
-    updateFormUI(appState.isInputEmpty); // Tell the view to update its display
-  }
+  appState.isInputEmpty = isEmpty;
+  updateFormUI(appState.isInputEmpty); // Tell the view to update its display
+}

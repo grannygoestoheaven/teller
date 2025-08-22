@@ -1,6 +1,6 @@
-import { handleAudioPlayback } from "./audioControls3";
 import { handleAppEvent, updatePlayerState } from "./player.js";
 import { initTextStreamer, streamText, clearHighlights } from './textStreamer.js';
+import { appState } from "./state.js";
 
 // Get DOM element references (done once)
 const body = document.body;
@@ -13,40 +13,39 @@ const chatHistory = getElementById('chatHistory');
 const speechAudio = getElementById('speechAudio');
 const backgroundAudio = getElementById('backgroundAudio');
 
-// Define the central state object
-const appState = {
-    playerState: 'idle',
-    formIsNotEmpty: false,
-  };
-
 initAudioElements({ speech: speechAudio, background: backgroundAudio });
 initElements_spatial({speech: speechAudio, background: backgroundAudio});
 initLoadingElements(loadingAnimationContainer, loadingAnimation, period1, period2, period3, chatHistory, overlay);
 initTextStreamer(chatHistory, subjectInput);
 
+form.addEventListener('keydown', (event) => {
+  if (event.key === 'Enter' && !event.shiftKey) {
+    event.preventDefault(); // Prevent default form submission
+    handleAppEvent('submit');
+  }
+});
+
 // Add Event Listeners
-document.addEventListener('keydown', (event) => {
-  if (event.code === 'Escape') {
+body.addEventListener('keydown', (event) => {
+  if (event.code === 'space') {
     // Pause the playing and update the state
-    if (appState.playerState === 'playing') {
+    if (appState.playerState === 'playing' && appState.isInputEmpty) {
       updatePlayerState('paused');
       handleAppEvent('playPauseClick');
       updatePlayerUI(appState.playerState);
-      updateFormUI(appState.formIsNotEmpty);
+    }
+    else if (appState.playerState === 'paused' && appState.isInputEmpty) {
+      updatePlayerState('playing');
+      handleAppEvent('playPauseClick');
+      updatePlayerUI(appState.playerState);
     }
     return;
   }
 });
-form.addEventListener('keydown', (event) => {
-    if (event.key === 'Enter' && !event.shiftKey) {
-      event.preventDefault(); // Prevent default form submission
-      handleAppEvent('submit');
-    }
-});
+
 formInput.addEventListener('input', () => {
   // Update appState and trigger UI update
-  appState.formIsNotEmpty = formInput.value.trim().length > 0;
-  updateFormUI(appState);
+  appState.isInput = formInput.value.trim().length > 0;
 });
 
 playPauseButton.addEventListener('click', () => {

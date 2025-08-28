@@ -10,6 +10,7 @@ from flask import Flask, render_template, request, jsonify, url_for
 
 from src.teaicher.services.generate_story import generate_story, generate_story_cognitive_boost
 from src.teaicher.services.text_to_speech import openai_text_to_speech
+from src.teaicher.services.store_story import save_story_to_server
 
 app = Flask(__name__)
 
@@ -24,8 +25,6 @@ LOCAL_AMBIENT_TRACKS_DIR = 'local_ambient_tracks'
 YOUTUBE_AMBIENT_LANDSCAPES_DIR = 'youtube_ambient_landscapes' # Not used in current logic, kept for reference
 YOUTUBE_AMBIENT_TRACKS_DIR = 'youtube_ambient_tracks'         # Not used in current logic, kept for reference
 
-# Stories
-WEBSOCKET = 'src/server_data/stories/md_stories/websocket.md'
 # Class to manage ambient track playback state
 class AmbientTrackManager:
     _instance = None
@@ -194,12 +193,12 @@ def _generate_story_and_speech(subject, estimated_chars, pattern_path, base_dir,
             story_raw = story_data["raw"]
             story_cleaned = story_data["clean"]
         filename_from_story_gen = "eyewitness_testimony.mp3"
-        speech_file_path_relative_to_static = "audio/generated_stories/the_role_of_education_in_belief_formation.mp3"
+        speech_file_path_relative_to_static = "audio/generated_stories/pseudo_hologram_discovery.mp3"
         # track_url_for_client = ""
         track_url_for_client = "static/audio/local_ambient_tracks/abstract_aprils_hold.mp3"
         return story_raw, story_cleaned, filename_from_story_gen, speech_file_path_relative_to_static, track_url_for_client
     elif subject == "test2":
-        story_raw = WEBSOCKET
+        openai_text_to_speech(WEBSOCKET)
     # return story, story, filename_from_story_gen, speech_file_path_relative_to_static, track_url_for_client
     # story = None
     # filename_from_story_gen = None

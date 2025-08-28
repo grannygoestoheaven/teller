@@ -61,6 +61,7 @@ def generate_story(subject, pattern, estimated_chars: int) -> tuple[str, str]:
             max_tokens=1300
         )
         
+        print(f"Response from OpenAI: {response}")
         # Get the story content
         # story = response.choices[0].message.content.strip()
         story = response.choices[0].message.content

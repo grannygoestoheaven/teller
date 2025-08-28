@@ -105,3 +105,9 @@ export function hideChatHistory() {
   chatHistory.style.display = 'none';
 }
 
+export function onTextDataReceived() {
+  console.log("onReceivedData called");
+  const container = document.getElementById('loadingAnimation')
+  const color = getRedColor(); // generate a color
+  container.style.setProperty("--period-color", color);
+}

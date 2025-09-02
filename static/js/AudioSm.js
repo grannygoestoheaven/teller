@@ -2,7 +2,7 @@
 // Algorithm: Balanced2. See https://github.com/StateSmith/StateSmith/wiki/Algorithms
 
 // Generated state machine
-export class AudioSm
+class AudioSm
 {
     static EventId = 
     {
@@ -237,7 +237,7 @@ export class AudioSm
         // No ancestor handles this event.
     }
     
-
+    
     ////////////////////////////////////////////////////////////////////////////////
     // event handlers for state LOADING
     ////////////////////////////////////////////////////////////////////////////////

@@ -1,0 +1,62 @@
+@startuml AudioSm
+' Single line comments (like this) start with a single quote.
+' The name of the state machine is specified above.
+
+'############################ styles ############################
+skinparam state {
+    BackgroundColor<<red>> a20025
+    FontColor<<red>> white
+    BackgroundColor<<blue>> 1ba1e2
+    FontColor<<blue>> white
+    BackgroundColor<<dark>> 545454
+    FontColor<<dark>> white
+}
+
+'############################ state organization ############################
+' Top-level initial transition.
+[*] -> PLAYER
+
+' Composite state for the audio player lifecycle.
+state PLAYER {
+    ' Initial substate of PLAYER.
+    [*] -> IDLE
+
+    state IDLE
+    state LOADING <<dark>>
+    state PLAYING <<blue>>
+    state PAUSED
+    state REPLAYING <<red>>
+
+    '############################ handlers ############################
+    IDLE: enter / stopAll(); uiIdle();
+
+    ' Start flow: begin music first, then move on when ready.
+    IDLE --> LOADING: PLAY
+    LOADING: enter / loadingSpeech(); uiLoading();
+    LOADING --> PLAYING: SPEECH_READY
+
+    ' While playing, start speech, ambient, and sync all.
+    PLAYING: enter / startMusic(); startAmbient(); startSpeech(); syncAll(); uiPlaying();
+    PLAYING --> PAUSED: PAUSE_ALL
+    PLAYING --> REPLAYING: REPLAY
+
+    ' Soft controls while playing.
+    PLAYING : MUTE_MUSIC   / muteMusic();
+    PLAYING : UNMUTE_MUSIC / unmuteMusic();
+    PLAYING : MUTE_AMBIENT / muteAmbient();
+    PLAYING : UNMUTE_AMBIENT / unmuteAmbient();
+
+    PAUSED: enter / pauseAll(); uiPaused();
+    PAUSED --> PLAYING: RESUME_ALL
+    PAUSED --> REPLAYING: REPLAY
+
+    REPLAYING: enter / restartSpeech(); uiLoading();
+    REPLAYING --> PLAYING: SPEECH_READY
+}
+
+'######################## StateSmith config ########################
+/'! $CONFIG : toml
+SmRunnerSettings.transpilerId = "JavaScript"
+'/
+
+@enduml

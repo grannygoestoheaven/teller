@@ -1,6 +1,6 @@
 import { handleAppEvent, updatePlayerState } from "./player.js";
 import { initTextStreamer, streamText, clearHighlights } from './textStreamer.js';
-import { appState } from "./state.js";
+import { sm } from "./smStore.js";
 
 // Get DOM element references (done once)
 const body = document.body;
@@ -13,10 +13,39 @@ const chatHistory = getElementById('chatHistory');
 const speechAudio = getElementById('speechAudio');
 const backgroundAudio = getElementById('backgroundAudio');
 
-initAudioElements({ speech: speechAudio, background: backgroundAudio });
-initElements_spatial({speech: speechAudio, background: backgroundAudio});
-initLoadingElements(loadingAnimationContainer, loadingAnimation, period1, period2, period3, chatHistory, overlay);
-initTextStreamer(chatHistory, subjectInput);
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById('story-form');
+  const overlay = document.querySelector('.blur-overlay');
+  const chatHistory = document.getElementById('chatHistory');
+  const subjectInput = document.getElementById('subject');
+  const subjectPlaceholder = document.getElementById('subjectPlaceholder');// after you grab subjectInput…
+  subjectInput.style.overflow = 'hidden';
+  subjectInput.style.height   = 'auto';
+  // capture its one-line default
+  const minHeight = subjectInput.clientHeight;
+  const adjustSubjectHeight = () => {
+    subjectInput.style.height = 'auto';
+    const h = Math.max(subjectInput.scrollHeight, minHeight);
+    subjectInput.style.height = h + 'px';
+  };
+  subjectInput.addEventListener('input', adjustSubjectHeight);
+  adjustSubjectHeight();
+  const generateButton = document.getElementById('generateButton');
+  const stopButton = document.getElementById('stopButton');
+  const replayButton = document.getElementById('replayButton');
+  const speechAudio = document.getElementById('speechAudio');
+  const backgroundAudio = document.getElementById('backgroundAudio');
+  const loadingAnimationContainer = document.getElementById('loadingAnimationContainer');
+  const loadingAnimation = document.getElementById('loadingAnimation');
+  const period1 = loadingAnimation.querySelector('.period-1');
+  const period2 = loadingAnimation.querySelector('.period-2');
+  const period3 = loadingAnimation.querySelector('.period-3');
+
+  initAudioElements({ speech: speechAudio, background: backgroundAudio });
+  initElements_spatial({speech: speechAudio, background: backgroundAudio});
+  initLoadingElements(loadingAnimationContainer, loadingAnimation, period1, period2, period3, chatHistory, overlay);
+  initTextStreamer(chatHistory, subjectInput);
+}) 
 
 form.addEventListener('keydown', (event) => {
   if (event.key === 'Enter' && !event.shiftKey) {

@@ -31,12 +31,12 @@ state PLAYER {
     IDLE: enter / stopAll(); uiIdle();
 
     ' Start flow: begin music first, then move on when ready.
-    IDLE --> LOADING: PLAY
-    LOADING: enter / loadingSpeech(); uiLoading();
+    IDLE --> LOADING: LAUNCH_STORY_PROCESS
+    LOADING: enter / loadingSpeech(); loadingUi();
     LOADING --> PLAYING: SPEECH_READY
 
     ' While playing, start speech, ambient, and sync all.
-    PLAYING: enter / startMusic(); startAmbient(); startSpeech(); syncAll(); uiPlaying();
+    PLAYING: enter / startSpeech(); startMusic(); startAmbient(); syncAll(); uiPlaying();
     PLAYING --> PAUSED: PAUSE_ALL
     PLAYING --> REPLAYING: REPLAY
 
@@ -50,7 +50,7 @@ state PLAYER {
     PAUSED --> PLAYING: RESUME_ALL
     PAUSED --> REPLAYING: REPLAY
 
-    REPLAYING: enter / restartSpeech(); uiLoading();
+    REPLAYING: enter / restartSpeech(); restartMusic(); uiLoading();
     REPLAYING --> PLAYING: SPEECH_READY
 }
 

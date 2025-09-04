@@ -1,8 +1,8 @@
 // Import necessary modules and functions
 import { updatePlayerState, formInputState, updateChatHistoryState, onTextDataReceived } from './view.js';
-import { appState, updatePlayerState } from './state';
 import { saveStoryToStorage } from './storage';
 import { clearPlaybackTimers } from './utils.js';
+import { sm } from './smStore.js';
 
 // The main event router.
 export function handleAppEvent(event, form = null) {
@@ -63,6 +63,8 @@ export async function fetchStoryFromBackend(form) {
     if (!res.ok) { 
       throw new Error((await res.json()).error || `Error ${res.status}`);
     }
+
+    sm.dispatchEvent(AudioSm.EventId.SPEECH_READY);
 
     // Update the player state to 'ready' after fetching the story.
     updatePlayerState('ready');

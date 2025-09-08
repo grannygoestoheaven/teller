@@ -1,26 +1,26 @@
-import { handleAppEvent, updatePlayerState } from "./player.js";
-import { initTextStreamer, streamText, clearHighlights } from './textStreamer.js';
+import { AudioSm } from "./state.js";
 import { sm } from "./smStore.js";
 
 // Get DOM element references (done once)
+document.addEventListener('DOMContentLoaded', () => {
 const body = document.body;
-const form = getElementById('story-form');
-const formInput = getElementById('subject'); // Using the correct ID from your HTML
-const playPauseButton = getElementById('generateButton'); // Renamed for clarity
-const replayButton = getElementById('replayButton');
-const loadingAnimationContainer = getElementById('loadingAnimationContainer');
-const chatHistory = getElementById('chatHistory');
-const speechAudio = getElementById('speechAudio');
-const backgroundAudio = getElementById('backgroundAudio');
+const chatHistory = document.getElementById('chatHistory');
+const loadingAnimationContainer = document.getElementById('loadingAnimationContainer');
+const overlay = document.querySelector('.blur-overlay');
+const form = document.getElementById('story-form');
+const formInput = document.getElementById('subject'); // Using the correct ID from your HTML
+const subjectPlaceholder = document.document.getElementById('subjectPlaceholder');// after you grab subjectInput…
+subjectInput.style.overflow = 'hidden';
+subjectInput.style.height   = 'auto';
+const playPauseButton = document.getElementById('generateButton'); // Renamed for clarity
+const replayButton = document.getElementById('replayButton');
+const speechAudio = document.getElementById('speechAudio');
+const backgroundAudio = document.getElementById('backgroundAudio');
+});
 
 document.addEventListener('DOMContentLoaded', () => {
-  const form = document.getElementById('story-form');
-  const overlay = document.querySelector('.blur-overlay');
   const chatHistory = document.getElementById('chatHistory');
   const subjectInput = document.getElementById('subject');
-  const subjectPlaceholder = document.getElementById('subjectPlaceholder');// after you grab subjectInput…
-  subjectInput.style.overflow = 'hidden';
-  subjectInput.style.height   = 'auto';
   // capture its one-line default
   const minHeight = subjectInput.clientHeight;
   const adjustSubjectHeight = () => {
@@ -55,7 +55,7 @@ form.addEventListener('keydown', (event) => {
 });
 
 // Add Event Listeners
-body.addEventListener('keydown', (event) => {
+window.addEventListener('keydown', (event) => {
   if (event.code === 'space') {
     // Pause the playing and update the state
     if (appState.playerState === 'playing' && appState.isInputEmpty) {
@@ -72,29 +72,3 @@ body.addEventListener('keydown', (event) => {
   }
 });
 
-formInput.addEventListener('input', () => {
-  // Update appState and trigger UI update
-  appState.isInput = formInput.value.trim().length > 0;
-});
-
-playPauseButton.addEventListener('click', () => {
-  handleAppEvent('playPauseClick');
-});
-
-replayButton.addEventListener('click', () => {
-  handleAppEvent('replayClick');
-});
-
-// Add listeners for native audio events
-speechAudio.addEventListener('play', () => {
-  updatePlayerState('playing');
-});
-
-speechAudio.addEventListener('pause', () => {
-  updatePlayerState('paused');
-});
-
-speechAudio.addEventListener('ended', () => {
-  // A custom event to handle the end of the story.
-  handleAppEvent('speechEnded');
-});

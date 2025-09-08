@@ -1,3 +1,2 @@
-import { AudioSm } from "state.js";
+import { AudioSm } from "AudioSm.js";
 export const sm = new AudioSm();
-sm.start();

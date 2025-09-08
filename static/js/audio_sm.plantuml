@@ -1,0 +1,38 @@
+@startuml AudioSm
+[*] --> PLAYER
+
+state PLAYER {
+    [*] --> IDLE
+
+    state IDLE
+    state LOADING <<dark>>
+    state PLAYING <<red>>
+    state PAUSED <<blue>>
+
+    '############################ handlers ############################
+    IDLE: enter / stopAll(); uiIdle();
+    LOADING: enter / loadingSpeech(); loadingUi(); loadingDots();
+    PLAYING: enter / startSpeech(); startMusic(); syncAll(); playingDots(); uiPlaying();
+    PAUSED: enter / pauseAll(); blurPlayingDots(); uiPaused();
+
+    '############################ transitions ############################
+    ' Single button controls
+    IDLE --> LOADING : PLAY_BTN_CLICKED
+    LOADING --> PLAYING : SPEECH_READY
+    PLAYING --> PAUSED : PLAY_BTN_CLICKED
+    PAUSED --> PLAYING : PLAY_BTN_CLICKED / resumeAll(); playingDots(); uiPlaying();
+
+    '############################ soft controls ############################
+    PLAYING : REPLAY / startSpeech(); startMusic(); syncAll();
+    PAUSED  : REPLAY / startSpeech(); startMusic(); syncAll();
+    
+    ' Stop / cancel transitions
+    LOADING --> IDLE : CANCEL
+    PLAYING --> IDLE : CANCEL
+    PAUSED --> IDLE : CANCEL
+}
+
+/'! $CONFIG : toml
+SmRunnerSettings.transpilerId = "JavaScript"
+'/
+@enduml

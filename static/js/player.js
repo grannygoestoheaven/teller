@@ -1,4 +1,7 @@
-function startSpeech() {
+const speechAudio = document.getElementById('speechAudio');
+const backgroundAudio = document.getElementById('backgroundAudio')
+
+export function startSpeech() {
   // delay speech start by 3s
   setTimeout(() => {
     speechAudio.currentTime = 0;
@@ -6,12 +9,12 @@ function startSpeech() {
   }, 3000);
 }
 
-function startMusic() {
+export function startMusic() {
   backgroundAudio.currentTime = 0;
   backgroundAudio.play();
 }
 
-function syncAll() {
+export function syncAll() {
   // Keep speech as master
   const drift = backgroundAudio.currentTime - speechAudio.currentTime;
 

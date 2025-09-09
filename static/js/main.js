@@ -1,6 +1,7 @@
 import { sm } from "smStore.js"
-import { initEvents } from "./ui";
 import { initPlayer } from ".player.js"
+import { initControlEvents } from "./ui";
+import { initLoadingElements } from "./loadingAnimation.js";
 
 document.addEventListener('DOMContentLoaded', () => {
   
@@ -8,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const speechAudio = document.getElementById('speechAudio');
   const backgroundAudio = document.getElementById('backgroundAudio')  
   
-  // ----- Ui elements -----
+  // ----- Chat & animation ----- 
   const chatHistory = document.getElementById('chatHistory');
   const loadingAnimationContainer = document.getElementById('loadingAnimationContainer');
   const loadingAnimation = document.getElementById('loadingAnimation');
@@ -16,19 +17,20 @@ document.addEventListener('DOMContentLoaded', () => {
   const period2 = loadingAnimation.querySelector('.period-2');
   const period3 = loadingAnimation.querySelector('.period-3');
   
+  // ----- Form -----
   const form = document.getElementById('storyForm');
   const formInput = document.getElementById('subject');
+
+  // ----- Controls -----
   const replayBtn = document.getElementById('replayButton');
   const playPauseBtn = document.getElementById('playPauseBtn');
   const stopBtn = document.getElementById('stopButton');
   
   initPlayer({ speech: speechAudio, background: backgroundAudio });
-  initEvents(sm, {form, formInput, replayBtn, playPauseBtn, stopBtn}); // wire UI events to State Machine
-  initLoadingElements(loadingAnimationContainer, loadingAnimation, period1, period2, period3, chatHistory, overlay);
+  initControlEvents(sm, {form, formInput, replayBtn, playPauseBtn, stopBtn}); // wire UI events to State Machine
+  initLoadingElements(chatHistory, loadingAnimationContainer, loadingAnimation, period1, period2, period3);
   initTextStreamer(chatHistory, subjectInput);
   
   // starting the state machine
   sm.start();
 }) 
-
-

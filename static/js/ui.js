@@ -39,6 +39,17 @@ export function initEvents(sm, {form, formInput, replayBtn, playPauseBtn, stopBt
   });
 }
 
+export function uiIdle(chatHistory, playPauseBtn, replayBtn) {
+  // Clear past story
+  chatHistory.innerHTML = '';
+
+  // Reset buttons
+  replayBtn.disabled = true;
+  playPauseBtn.disabled = true;
+  playPauseBtn.textContent = 'Start Story';
+}
+
+
 function initInputAdjustments(subjectInput, subjectPlaceholder, minHeight = subjectInput.clientHeight) {
   const adjustInput = () => {
     subjectInput.style.overflow = 'hidden'

@@ -1,6 +1,3 @@
-const speechAudio = document.getElementById('speechAudio');
-const backgroundAudio = document.getElementById('backgroundAudio')
-
 export function startSpeech() {
   // delay speech start by 3s
   setTimeout(() => {

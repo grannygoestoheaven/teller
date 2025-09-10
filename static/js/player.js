@@ -1,3 +1,11 @@
+let speechAudio;
+let backgroundAudio;
+
+export function initPlayer({ speech, background }) {
+  speechAudio = speech;
+  backgroundAudio = background;
+}
+
 export function startSpeech() {
   // delay speech start by 3s
   setTimeout(() => {

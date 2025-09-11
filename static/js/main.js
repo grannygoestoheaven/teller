@@ -1,6 +1,7 @@
 import { createSm } from "smStore.js"
 import { initPlayer, startSpeech, startMusic, syncAll } from ".player.js"
 import { uiIdle, initInputAdjustments } from "./ui.js";
+import { startNewStoryProcess } from "./storyService.js";
 import { 
   initLoadingElements, 
   showLoadingAnimation, 
@@ -52,6 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const actions = {
     uiIdle,
+    startNewStoryProcess,
     startSpeech,
     startMusic,
     syncAll,

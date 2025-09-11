@@ -8,7 +8,7 @@ export function uiIdle(chatHistory, playPauseBtn, replayBtn) {
   playPauseBtn.textContent = 'Start Story';
 }
 
-function initInputAdjustments(subjectInput, subjectPlaceholder, minHeight = subjectInput.clientHeight) {
+export function initInputAdjustments(subjectInput, subjectPlaceholder, minHeight = subjectInput.clientHeight) {
   const adjustInput = () => {
     subjectInput.style.overflow = 'hidden'
     subjectInput.style.height = 'auto';
@@ -20,5 +20,3 @@ function initInputAdjustments(subjectInput, subjectPlaceholder, minHeight = subj
   subjectInput.addEventListener('input', adjustInput);
   adjustInput(); // initialize on load
 }
-
-initInputAdjustments(subjectInput, subjectPlaceholder)

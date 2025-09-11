@@ -1,6 +1,6 @@
 import { createSm } from "smStore.js"
 import { initPlayer, startSpeech, startMusic, syncAll } from ".player.js"
-import { initControlEvents } from "./ui";
+import { uiIdle, initInputAdjustments } from "./ui.js";
 import { 
   initLoadingElements, 
   showLoadingAnimation, 
@@ -10,6 +10,7 @@ import {
   addBlurr, 
   removeBlurr 
 } from './loadingAnimation.js';
+
 import {
   initTextStreamer,
   streamText,
@@ -45,26 +46,33 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ----- Init functions -----
   initPlayer({ speech: speechAudio, background: backgroundAudio });
-  initControlEvents(sm, {form, formInput, replayBtn, playPauseBtn, stopBtn}); // wire UI events to State Machine
   initLoadingElements(chatHistory, loadingAnimationContainer, loadingAnimation, period1, period2, period3);
   initTextStreamer(chatHistory, subjectInput);
+  initInputAdjustments(subjectInput, subjectPlaceholder)
 
-  // ----- Ui functions -----
-  showLoadingAnimation();
-  hideLoadingAnimation();
-  getRedColor();
-  redDots();
-  addBlurr();
-  removeBlurr();
+  const actions = {
+    uiIdle,
+    startSpeech,
+    startMusic,
+    syncAll,
+    showLoadingAnimation, 
+    hideLoadingAnimation, 
+    getRedColor, 
+    redDots, 
+    addBlurr, 
+    removeBlurr,
+    streamText,
+    handleWordClick,
+    handleMouseMove,
+    handleMouseOut,
+    findNextWordSpan,
+    clearHighlights
+  }
 
-  // ----- Text streaming functions -----
-  streamText();
-  handleWordClick();
-  handleMouseMove();
-  handleMouseOut();
-  findNextWordSpan();
-  clearHighlights();
+  createSm(actions);
   
+  initControlEvents(sm, {form, formInput, replayBtn, playPauseBtn, stopBtn}); // wire UI events to State Machine
+
   // starting the state machine
   sm.start();
 })

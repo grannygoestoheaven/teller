@@ -36,6 +36,7 @@ export function Events(sm, {form, formInput, speechAudio, replayBtn, playPauseBt
       sm.dispatchEvent(AudioSm.EventId.CANCEL);
     });
   }
+  
   function startOrRestartNewStory(sm, formInput) {
     const ready = formInput.value.trim().length >= 1;
     if (!ready) return;

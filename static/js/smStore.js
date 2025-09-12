@@ -1,4 +1,4 @@
-import { AudioSm } from "AudioSm.js";
+import { AudioSm } from "./AudioSm.js";
 
 export function createSm(actions) {
     const sm = new AudioSm();

@@ -20,3 +20,16 @@ export function initInputAdjustments(subjectInput, subjectPlaceholder, minHeight
   subjectInput.addEventListener('input', adjustInput);
   adjustInput(); // initialize on load
 }
+
+// Update UI based on the form's input state
+export function formInputState(isInputEmpty) {
+  if (!isInputEmpty) {
+    playPauseButton.textContent = 'Play new story';
+    playPauseButton.disabled = false;
+    replayButton.disabled = true;
+    stopButton.disabled = false;
+  } else {
+    // This will be handled by the updatePlayerUI function
+    // that depends on playerState, not the form's content.
+  }
+}

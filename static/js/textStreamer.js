@@ -52,7 +52,7 @@ export async function streamText(text) {
 }
 
  // Helper function to find the next word span in the history
-function findNextWordSpan(currentSpan) {
+export function findNextWordSpan(currentSpan) {
     let nextNode = currentSpan.nextSibling;
     while (nextNode) {
         if (nextNode.nodeType === Node.ELEMENT_NODE && nextNode.classList.contains('word') && nextNode.parentElement === chatHistoryElement) {
@@ -64,7 +64,7 @@ function findNextWordSpan(currentSpan) {
 }
 
 // Handles clicking on a word span in the chat history
-function handleWordClick() {
+export function handleWordClick() {
     if (currentlyHighlightedWords.length === 0) {
         return;
     }
@@ -83,7 +83,7 @@ function handleWordClick() {
 }
 
 // Handles mouse movement for highlighting
-function handleMouseMove(event) {
+export function handleMouseMove(event) {
     const target = event.target;
     const parent = target.parentElement;
 
@@ -132,7 +132,7 @@ function handleMouseMove(event) {
 }
 
 // Handles mouse leaving the chat history area
-function handleMouseOut(event) {
+export function handleMouseOut(event) {
     if (!event.relatedTarget || !chatHistoryElement.contains(event.relatedTarget)) {
          clearHighlights();
     }

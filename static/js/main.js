@@ -1,5 +1,5 @@
-import { createSm } from "smStore.js"
-import { initPlayer, startSpeech, startMusic, syncAll } from ".player.js"
+import { createSm } from "./smStore.js"
+import { initPlayer, startSpeech, startMusic, syncAll } from "./player.js"
 import { uiIdle, initInputAdjustments } from "./ui.js";
 import { startNewStoryProcess } from "./storyService.js";
 import { 
@@ -10,7 +10,7 @@ import {
   redDots, 
   addBlurr, 
   removeBlurr 
-} from './loadingAnimation.js';
+} from './animation.js';
 
 import {
   initTextStreamer,

@@ -11,7 +11,7 @@ export function startSpeech() {
   setTimeout(() => {
     speechAudio.currentTime = 0;
     speechAudio.play();
-  }, 3000);
+  }, 5000);
 }
 
 export function startMusic() {

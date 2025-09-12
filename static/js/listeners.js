@@ -20,7 +20,7 @@ export function Events(sm, {form, formInput, speechAudio, replayBtn, playPauseBt
     });
     
     speechAudio?.addEventListener('canplaythrough', () => {
-      sm.dispatchEvent(AudioSm.EventId.SPEECH_READY);
+      sm.dispatchEvent(AudioSm.EventId.SPEECH_READY); // leads to LOADING state
     });
     
     playPauseBtn?.addEventListener("click", () => {
@@ -29,11 +29,11 @@ export function Events(sm, {form, formInput, speechAudio, replayBtn, playPauseBt
     });
     
     replayBtn?.addEventListener("click", () => {
-      sm.dispatchEvent(AudioSm.EventId.REPLAY);
+      sm.dispatchEvent(AudioSm.EventId.REPLAY); // leads to PLAYING state
     });
     
     stopBtn?.addEventListener("click", () => {
-      sm.dispatchEvent(AudioSm.EventId.CANCEL);
+      sm.dispatchEvent(AudioSm.EventId.CANCEL); // leads to IDLE state
     });
   }
   

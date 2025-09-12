@@ -41,7 +41,7 @@ export function getRedColor() {
   return Math.random(arrayOfRedShades) < 0.5 ? arrayOfRedShades[Math.floor(Math.random() * arrayOfRedShades.length)] : "#FF0000";
 }
 
-export function onTextDataReceived() {
+export function redDots() {
   const color = getRedColor(); // generate a color
   loadingAnimation.setProperty("--period-color", color);
 }

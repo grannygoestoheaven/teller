@@ -5,30 +5,26 @@ state PLAYER {
     [*] --> IDLE
 
     state IDLE
+    state READY
     state LOADING <<dark>>
     state PLAYING <<red>>
     state PAUSED <<blue>>
 
-    '############################ handlers ############################
-    IDLE: enter / stopAll(); uiIdle();
-    LOADING: enter / loadingSpeech(); loadingUi(); loadingDots();
-    PLAYING: enter / startSpeech(); startMusic(); syncAll(); playingDots(); uiPlaying();
-    PAUSED: enter / pauseAll(); blurPlayingDots(); uiPaused();
-
     '############################ transitions ############################
-    ' Single button controls
-    IDLE --> LOADING : PLAY_BTN_CLICKED
-    LOADING --> PLAYING : SPEECH_READY
-    PLAYING --> PAUSED : PLAY_BTN_CLICKED
-    PAUSED --> PLAYING : PLAY_BTN_CLICKED / resumeAll(); playingDots(); uiPlaying();
-
-    '############################ soft controls ############################
-    PLAYING : REPLAY / startSpeech(); startMusic(); syncAll();
-    PAUSED  : REPLAY / startSpeech(); startMusic(); syncAll();
     
-    ' Stop / cancel transitions
+    IDLE --> READY : FORM_NOT_EMPTY
+
+    READY --> LOADING : PLAY_BTN_CLICKED
+
+    LOADING --> PLAYING : SPEECH_READY
     LOADING --> IDLE : CANCEL
+
+    PLAYING --> PAUSED : PLAY_BTN_CLICKED
+    PLAYING --> READY : FORM_NOT_EMPTY
     PLAYING --> IDLE : CANCEL
+
+    PAUSED --> PLAYING : PLAY_BTN_CLICKED
+    PAUSED --> READY : FORM_NOT_EMPTY
     PAUSED --> IDLE : CANCEL
 }
 

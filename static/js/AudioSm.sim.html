@@ -263,29 +263,21 @@ state PLAYER {
 
         IDLE : IDLE
 
-        IDLE : enter / #123; stopAll()#59; uiIdle()#59; #125;
+        READY
+
+        READY : READY
 
         LOADING
 
         LOADING : LOADING
 
-        LOADING : enter / #123; loadingSpeech()#59; loadingUi()#59; loadingDots()#59; #125;
-
         PLAYING
 
         PLAYING : PLAYING
 
-        PLAYING : enter / #123; startSpeech()#59; startMusic()#59; syncAll()#59; playingDots()#59; uiPlaying()#59; #125;
-
-        PLAYING : REPLAY / #123; startSpeech()#59; startMusic()#59; syncAll()#59; #125;
-
         PAUSED
 
         PAUSED : PAUSED
-
-        PAUSED : enter / #123; pauseAll()#59; blurPlayingDots()#59; uiPaused()#59; #125;
-
-        PAUSED : REPLAY / #123; startSpeech()#59; startMusic()#59; syncAll()#59; #125;
 
 }
 
@@ -293,7 +285,9 @@ ROOT.(InitialState) --> PLAYER
 
 PLAYER.(InitialState) --> IDLE
 
-IDLE --> LOADING : PLAY_BTN_CLICKED
+IDLE --> READY : FORM_NOT_EMPTY
+
+READY --> LOADING : PLAY_BTN_CLICKED
 
 LOADING --> PLAYING : SPEECH_READY
 
@@ -301,9 +295,13 @@ LOADING --> IDLE : CANCEL
 
 PLAYING --> PAUSED : PLAY_BTN_CLICKED
 
+PLAYING --> READY : FORM_NOT_EMPTY
+
 PLAYING --> IDLE : CANCEL
 
-PAUSED --> PLAYING : PLAY_BTN_CLICKED / #123; resumeAll()#59; playingDots()#59; uiPlaying()#59; #125;
+PAUSED --> PLAYING : PLAY_BTN_CLICKED
+
+PAUSED --> READY : FORM_NOT_EMPTY
 
 PAUSED --> IDLE : CANCEL
 
@@ -357,8 +355,8 @@ evaluateGuard = null;
     static EventId = 
     {
         CANCEL : 0,
-        PLAY_BTN_CLICKED : 1,
-        REPLAY : 2,
+        FORM_NOT_EMPTY : 1,
+        PLAY_BTN_CLICKED : 2,
         SPEECH_READY : 3,
     }
     static { Object.freeze(this.EventId); }
@@ -374,10 +372,11 @@ evaluateGuard = null;
         LOADING : 3,
         PAUSED : 4,
         PLAYING : 5,
+        READY : 6,
     }
     static { Object.freeze(this.StateId); }
     
-    static StateIdCount = 6;
+    static StateIdCount = 7;
     static { Object.freeze(this.StateIdCount); }
     
     // Used internally by state machine. Feel free to inspect, but don't modify.
@@ -446,7 +445,7 @@ evaluateGuard = null;
             case AudioSm.StateId.IDLE:
                 switch (eventId)
                 {
-                    case AudioSm.EventId.PLAY_BTN_CLICKED: this.#IDLE_play_btn_clicked(); break;
+                    case AudioSm.EventId.FORM_NOT_EMPTY: this.#IDLE_form_not_empty(); break;
                 }
                 break;
             
@@ -463,8 +462,8 @@ evaluateGuard = null;
             case AudioSm.StateId.PAUSED:
                 switch (eventId)
                 {
-                    case AudioSm.EventId.REPLAY: this.#PAUSED_replay(); break;
                     case AudioSm.EventId.PLAY_BTN_CLICKED: this.#PAUSED_play_btn_clicked(); break;
+                    case AudioSm.EventId.FORM_NOT_EMPTY: this.#PAUSED_form_not_empty(); break;
                     case AudioSm.EventId.CANCEL: this.#PAUSED_cancel(); break;
                 }
                 break;
@@ -473,9 +472,17 @@ evaluateGuard = null;
             case AudioSm.StateId.PLAYING:
                 switch (eventId)
                 {
-                    case AudioSm.EventId.REPLAY: this.#PLAYING_replay(); break;
                     case AudioSm.EventId.PLAY_BTN_CLICKED: this.#PLAYING_play_btn_clicked(); break;
+                    case AudioSm.EventId.FORM_NOT_EMPTY: this.#PLAYING_form_not_empty(); break;
                     case AudioSm.EventId.CANCEL: this.#PLAYING_cancel(); break;
+                }
+                break;
+            
+            // STATE: READY
+            case AudioSm.StateId.READY:
+                switch (eventId)
+                {
+                    case AudioSm.EventId.PLAY_BTN_CLICKED: this.#READY_play_btn_clicked(); break;
                 }
                 break;
         }
@@ -499,6 +506,8 @@ evaluateGuard = null;
                 case AudioSm.StateId.PAUSED: this.#PAUSED_exit(); break;
                 
                 case AudioSm.StateId.PLAYING: this.#PLAYING_exit(); break;
+                
+                case AudioSm.StateId.READY: this.#READY_exit(); break;
                 
                 default: return;  // Just to be safe. Prevents infinite loop if state ID memory is somehow corrupted.
             }
@@ -559,13 +568,6 @@ evaluateGuard = null;
             // Step 1: execute action `this.tracer?.enterState('IDLE');`
             this.tracer?.enterState('IDLE');
         } // end of behavior for IDLE
-        
-        // IDLE behavior
-        // uml: enter / { this.tracer?.log("⚡ FSM would execute action: " + "stopAll(); uiIdle();"); }
-        {
-            // Step 1: execute action `this.tracer?.log("⚡ FSM would execute action: " + "stopAll(); uiIdle();");`
-            this.tracer?.log("⚡ FSM would execute action: " + "stopAll(); uiIdle();");
-        } // end of behavior for IDLE
     }
     
     #IDLE_exit()
@@ -580,10 +582,10 @@ evaluateGuard = null;
         this.stateId = AudioSm.StateId.PLAYER;
     }
     
-    #IDLE_play_btn_clicked()
+    #IDLE_form_not_empty()
     {
         // IDLE behavior
-        // uml: PLAY_BTN_CLICKED / { this.tracer?.edgeTransition("edge2"); } TransitionTo(LOADING)
+        // uml: FORM_NOT_EMPTY / { this.tracer?.edgeTransition("edge2"); } TransitionTo(READY)
         {
             // Step 1: Exit states until we reach `PLAYER` state (Least Common Ancestor for transition).
             this.#IDLE_exit();
@@ -591,8 +593,8 @@ evaluateGuard = null;
             // Step 2: Transition action: `this.tracer?.edgeTransition("edge2");`.
             this.tracer?.edgeTransition("edge2");
             
-            // Step 3: Enter/move towards transition target `LOADING`.
-            this.#LOADING_enter();
+            // Step 3: Enter/move towards transition target `READY`.
+            this.#READY_enter();
             
             // Step 4: complete transition. Ends event dispatch. No other behaviors are checked.
             return;
@@ -616,13 +618,6 @@ evaluateGuard = null;
             // Step 1: execute action `this.tracer?.enterState('LOADING');`
             this.tracer?.enterState('LOADING');
         } // end of behavior for LOADING
-        
-        // LOADING behavior
-        // uml: enter / { this.tracer?.log("⚡ FSM would execute action: " + "loadingSpeech(); loadingUi(); loadingDots();"); }
-        {
-            // Step 1: execute action `this.tracer?.log("⚡ FSM would execute action: " + "loadingSpeech(); loadingUi(); loadingDots();");`
-            this.tracer?.log("⚡ FSM would execute action: " + "loadingSpeech(); loadingUi(); loadingDots();");
-        } // end of behavior for LOADING
     }
     
     #LOADING_exit()
@@ -640,13 +635,13 @@ evaluateGuard = null;
     #LOADING_cancel()
     {
         // LOADING behavior
-        // uml: CANCEL / { this.tracer?.edgeTransition("edge4"); } TransitionTo(IDLE)
+        // uml: CANCEL / { this.tracer?.edgeTransition("edge5"); } TransitionTo(IDLE)
         {
             // Step 1: Exit states until we reach `PLAYER` state (Least Common Ancestor for transition).
             this.#LOADING_exit();
             
-            // Step 2: Transition action: `this.tracer?.edgeTransition("edge4");`.
-            this.tracer?.edgeTransition("edge4");
+            // Step 2: Transition action: `this.tracer?.edgeTransition("edge5");`.
+            this.tracer?.edgeTransition("edge5");
             
             // Step 3: Enter/move towards transition target `IDLE`.
             this.#IDLE_enter();
@@ -661,13 +656,13 @@ evaluateGuard = null;
     #LOADING_speech_ready()
     {
         // LOADING behavior
-        // uml: SPEECH_READY / { this.tracer?.edgeTransition("edge3"); } TransitionTo(PLAYING)
+        // uml: SPEECH_READY / { this.tracer?.edgeTransition("edge4"); } TransitionTo(PLAYING)
         {
             // Step 1: Exit states until we reach `PLAYER` state (Least Common Ancestor for transition).
             this.#LOADING_exit();
             
-            // Step 2: Transition action: `this.tracer?.edgeTransition("edge3");`.
-            this.tracer?.edgeTransition("edge3");
+            // Step 2: Transition action: `this.tracer?.edgeTransition("edge4");`.
+            this.tracer?.edgeTransition("edge4");
             
             // Step 3: Enter/move towards transition target `PLAYING`.
             this.#PLAYING_enter();
@@ -694,13 +689,6 @@ evaluateGuard = null;
             // Step 1: execute action `this.tracer?.enterState('PAUSED');`
             this.tracer?.enterState('PAUSED');
         } // end of behavior for PAUSED
-        
-        // PAUSED behavior
-        // uml: enter / { this.tracer?.log("⚡ FSM would execute action: " + "pauseAll(); blurPlayingDots(); uiPaused();"); }
-        {
-            // Step 1: execute action `this.tracer?.log("⚡ FSM would execute action: " + "pauseAll(); blurPlayingDots(); uiPaused();");`
-            this.tracer?.log("⚡ FSM would execute action: " + "pauseAll(); blurPlayingDots(); uiPaused();");
-        } // end of behavior for PAUSED
     }
     
     #PAUSED_exit()
@@ -718,13 +706,13 @@ evaluateGuard = null;
     #PAUSED_cancel()
     {
         // PAUSED behavior
-        // uml: CANCEL / { this.tracer?.edgeTransition("edge8"); } TransitionTo(IDLE)
+        // uml: CANCEL / { this.tracer?.edgeTransition("edge11"); } TransitionTo(IDLE)
         {
             // Step 1: Exit states until we reach `PLAYER` state (Least Common Ancestor for transition).
             this.#PAUSED_exit();
             
-            // Step 2: Transition action: `this.tracer?.edgeTransition("edge8");`.
-            this.tracer?.edgeTransition("edge8");
+            // Step 2: Transition action: `this.tracer?.edgeTransition("edge11");`.
+            this.tracer?.edgeTransition("edge11");
             
             // Step 3: Enter/move towards transition target `IDLE`.
             this.#IDLE_enter();
@@ -736,19 +724,19 @@ evaluateGuard = null;
         // No ancestor handles this event.
     }
     
-    #PAUSED_play_btn_clicked()
+    #PAUSED_form_not_empty()
     {
         // PAUSED behavior
-        // uml: PLAY_BTN_CLICKED / { this.tracer?.log("⚡ FSM would execute action: " + "resumeAll(); playingDots(); uiPlaying();");this.tracer?.edgeTransition("edge7"); } TransitionTo(PLAYING)
+        // uml: FORM_NOT_EMPTY / { this.tracer?.edgeTransition("edge10"); } TransitionTo(READY)
         {
             // Step 1: Exit states until we reach `PLAYER` state (Least Common Ancestor for transition).
             this.#PAUSED_exit();
             
-            // Step 2: Transition action: `this.tracer?.log("⚡ FSM would execute action: " + "resumeAll(); playingDots(); uiPlaying();");this.tracer?.edgeTransition("edge7");`.
-            this.tracer?.log("⚡ FSM would execute action: " + "resumeAll(); playingDots(); uiPlaying();");this.tracer?.edgeTransition("edge7");
+            // Step 2: Transition action: `this.tracer?.edgeTransition("edge10");`.
+            this.tracer?.edgeTransition("edge10");
             
-            // Step 3: Enter/move towards transition target `PLAYING`.
-            this.#PLAYING_enter();
+            // Step 3: Enter/move towards transition target `READY`.
+            this.#READY_enter();
             
             // Step 4: complete transition. Ends event dispatch. No other behaviors are checked.
             return;
@@ -757,13 +745,22 @@ evaluateGuard = null;
         // No ancestor handles this event.
     }
     
-    #PAUSED_replay()
+    #PAUSED_play_btn_clicked()
     {
         // PAUSED behavior
-        // uml: REPLAY / { this.tracer?.log("⚡ FSM would execute action: " + "startSpeech(); startMusic(); syncAll();"); }
+        // uml: PLAY_BTN_CLICKED / { this.tracer?.edgeTransition("edge9"); } TransitionTo(PLAYING)
         {
-            // Step 1: execute action `this.tracer?.log("⚡ FSM would execute action: " + "startSpeech(); startMusic(); syncAll();");`
-            this.tracer?.log("⚡ FSM would execute action: " + "startSpeech(); startMusic(); syncAll();");
+            // Step 1: Exit states until we reach `PLAYER` state (Least Common Ancestor for transition).
+            this.#PAUSED_exit();
+            
+            // Step 2: Transition action: `this.tracer?.edgeTransition("edge9");`.
+            this.tracer?.edgeTransition("edge9");
+            
+            // Step 3: Enter/move towards transition target `PLAYING`.
+            this.#PLAYING_enter();
+            
+            // Step 4: complete transition. Ends event dispatch. No other behaviors are checked.
+            return;
         } // end of behavior for PAUSED
         
         // No ancestor handles this event.
@@ -784,13 +781,6 @@ evaluateGuard = null;
             // Step 1: execute action `this.tracer?.enterState('PLAYING');`
             this.tracer?.enterState('PLAYING');
         } // end of behavior for PLAYING
-        
-        // PLAYING behavior
-        // uml: enter / { this.tracer?.log("⚡ FSM would execute action: " + "startSpeech(); startMusic(); syncAll(); playingDots(); uiPlaying();"); }
-        {
-            // Step 1: execute action `this.tracer?.log("⚡ FSM would execute action: " + "startSpeech(); startMusic(); syncAll(); playingDots(); uiPlaying();");`
-            this.tracer?.log("⚡ FSM would execute action: " + "startSpeech(); startMusic(); syncAll(); playingDots(); uiPlaying();");
-        } // end of behavior for PLAYING
     }
     
     #PLAYING_exit()
@@ -808,13 +798,13 @@ evaluateGuard = null;
     #PLAYING_cancel()
     {
         // PLAYING behavior
-        // uml: CANCEL / { this.tracer?.edgeTransition("edge6"); } TransitionTo(IDLE)
+        // uml: CANCEL / { this.tracer?.edgeTransition("edge8"); } TransitionTo(IDLE)
         {
             // Step 1: Exit states until we reach `PLAYER` state (Least Common Ancestor for transition).
             this.#PLAYING_exit();
             
-            // Step 2: Transition action: `this.tracer?.edgeTransition("edge6");`.
-            this.tracer?.edgeTransition("edge6");
+            // Step 2: Transition action: `this.tracer?.edgeTransition("edge8");`.
+            this.tracer?.edgeTransition("edge8");
             
             // Step 3: Enter/move towards transition target `IDLE`.
             this.#IDLE_enter();
@@ -826,16 +816,37 @@ evaluateGuard = null;
         // No ancestor handles this event.
     }
     
-    #PLAYING_play_btn_clicked()
+    #PLAYING_form_not_empty()
     {
         // PLAYING behavior
-        // uml: PLAY_BTN_CLICKED / { this.tracer?.edgeTransition("edge5"); } TransitionTo(PAUSED)
+        // uml: FORM_NOT_EMPTY / { this.tracer?.edgeTransition("edge7"); } TransitionTo(READY)
         {
             // Step 1: Exit states until we reach `PLAYER` state (Least Common Ancestor for transition).
             this.#PLAYING_exit();
             
-            // Step 2: Transition action: `this.tracer?.edgeTransition("edge5");`.
-            this.tracer?.edgeTransition("edge5");
+            // Step 2: Transition action: `this.tracer?.edgeTransition("edge7");`.
+            this.tracer?.edgeTransition("edge7");
+            
+            // Step 3: Enter/move towards transition target `READY`.
+            this.#READY_enter();
+            
+            // Step 4: complete transition. Ends event dispatch. No other behaviors are checked.
+            return;
+        } // end of behavior for PLAYING
+        
+        // No ancestor handles this event.
+    }
+    
+    #PLAYING_play_btn_clicked()
+    {
+        // PLAYING behavior
+        // uml: PLAY_BTN_CLICKED / { this.tracer?.edgeTransition("edge6"); } TransitionTo(PAUSED)
+        {
+            // Step 1: Exit states until we reach `PLAYER` state (Least Common Ancestor for transition).
+            this.#PLAYING_exit();
+            
+            // Step 2: Transition action: `this.tracer?.edgeTransition("edge6");`.
+            this.tracer?.edgeTransition("edge6");
             
             // Step 3: Enter/move towards transition target `PAUSED`.
             this.#PAUSED_enter();
@@ -847,14 +858,52 @@ evaluateGuard = null;
         // No ancestor handles this event.
     }
     
-    #PLAYING_replay()
+    
+    ////////////////////////////////////////////////////////////////////////////////
+    // event handlers for state READY
+    ////////////////////////////////////////////////////////////////////////////////
+    
+    #READY_enter()
     {
-        // PLAYING behavior
-        // uml: REPLAY / { this.tracer?.log("⚡ FSM would execute action: " + "startSpeech(); startMusic(); syncAll();"); }
+        this.stateId = AudioSm.StateId.READY;
+        
+        // READY behavior
+        // uml: enter / { this.tracer?.enterState('READY'); }
         {
-            // Step 1: execute action `this.tracer?.log("⚡ FSM would execute action: " + "startSpeech(); startMusic(); syncAll();");`
-            this.tracer?.log("⚡ FSM would execute action: " + "startSpeech(); startMusic(); syncAll();");
-        } // end of behavior for PLAYING
+            // Step 1: execute action `this.tracer?.enterState('READY');`
+            this.tracer?.enterState('READY');
+        } // end of behavior for READY
+    }
+    
+    #READY_exit()
+    {
+        // READY behavior
+        // uml: exit / { this.tracer?.exitState('READY'); }
+        {
+            // Step 1: execute action `this.tracer?.exitState('READY');`
+            this.tracer?.exitState('READY');
+        } // end of behavior for READY
+        
+        this.stateId = AudioSm.StateId.PLAYER;
+    }
+    
+    #READY_play_btn_clicked()
+    {
+        // READY behavior
+        // uml: PLAY_BTN_CLICKED / { this.tracer?.edgeTransition("edge3"); } TransitionTo(LOADING)
+        {
+            // Step 1: Exit states until we reach `PLAYER` state (Least Common Ancestor for transition).
+            this.#READY_exit();
+            
+            // Step 2: Transition action: `this.tracer?.edgeTransition("edge3");`.
+            this.tracer?.edgeTransition("edge3");
+            
+            // Step 3: Enter/move towards transition target `LOADING`.
+            this.#LOADING_enter();
+            
+            // Step 4: complete transition. Ends event dispatch. No other behaviors are checked.
+            return;
+        } // end of behavior for READY
         
         // No ancestor handles this event.
     }
@@ -870,6 +919,7 @@ evaluateGuard = null;
             case AudioSm.StateId.LOADING: return "LOADING";
             case AudioSm.StateId.PAUSED: return "PAUSED";
             case AudioSm.StateId.PLAYING: return "PLAYING";
+            case AudioSm.StateId.READY: return "READY";
             default: return "?";
         }
     }
@@ -880,8 +930,8 @@ evaluateGuard = null;
         switch (id)
         {
             case AudioSm.EventId.CANCEL: return "CANCEL";
+            case AudioSm.EventId.FORM_NOT_EMPTY: return "FORM_NOT_EMPTY";
             case AudioSm.EventId.PLAY_BTN_CLICKED: return "PLAY_BTN_CLICKED";
-            case AudioSm.EventId.REPLAY: return "REPLAY";
             case AudioSm.EventId.SPEECH_READY: return "SPEECH_READY";
             default: return "?";
         }
@@ -921,12 +971,15 @@ evaluateGuard = null;
             center: true
         });
 
-        const diagramEventNamesArray = ['CANCEL', 'PLAY_BTN_CLICKED', 'REPLAY', 'SPEECH_READY', ];
+        const diagramEventNamesArray = ['CANCEL', 'FORM_NOT_EMPTY', 'PLAY_BTN_CLICKED', 'SPEECH_READY', ];
 
         // Mapping from state to available events
         const stateEventsMapping = {
   "PLAYER": [],
   "IDLE": [
+    "FORM_NOT_EMPTY"
+  ],
+  "READY": [
     "PLAY_BTN_CLICKED"
   ],
   "LOADING": [
@@ -935,13 +988,13 @@ evaluateGuard = null;
   ],
   "PLAYING": [
     "CANCEL",
-    "PLAY_BTN_CLICKED",
-    "REPLAY"
+    "FORM_NOT_EMPTY",
+    "PLAY_BTN_CLICKED"
   ],
   "PAUSED": [
     "CANCEL",
-    "PLAY_BTN_CLICKED",
-    "REPLAY"
+    "FORM_NOT_EMPTY",
+    "PLAY_BTN_CLICKED"
   ]
 };
 

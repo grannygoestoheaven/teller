@@ -7,8 +7,8 @@ class AudioSm
     static EventId = 
     {
         CANCEL : 0,
-        PLAY_BTN_CLICKED : 1,
-        REPLAY : 2,
+        FORM_NOT_EMPTY : 1,
+        PLAY_BTN_CLICKED : 2,
         SPEECH_READY : 3,
     }
     static { Object.freeze(this.EventId); }
@@ -24,10 +24,11 @@ class AudioSm
         LOADING : 3,
         PAUSED : 4,
         PLAYING : 5,
+        READY : 6,
     }
     static { Object.freeze(this.StateId); }
     
-    static StateIdCount = 6;
+    static StateIdCount = 7;
     static { Object.freeze(this.StateIdCount); }
     
     // Used internally by state machine. Feel free to inspect, but don't modify.
@@ -94,7 +95,7 @@ class AudioSm
             case AudioSm.StateId.IDLE:
                 switch (eventId)
                 {
-                    case AudioSm.EventId.PLAY_BTN_CLICKED: this.#IDLE_play_btn_clicked(); break;
+                    case AudioSm.EventId.FORM_NOT_EMPTY: this.#IDLE_form_not_empty(); break;
                 }
                 break;
             
@@ -111,8 +112,8 @@ class AudioSm
             case AudioSm.StateId.PAUSED:
                 switch (eventId)
                 {
-                    case AudioSm.EventId.REPLAY: this.#PAUSED_replay(); break;
                     case AudioSm.EventId.PLAY_BTN_CLICKED: this.#PAUSED_play_btn_clicked(); break;
+                    case AudioSm.EventId.FORM_NOT_EMPTY: this.#PAUSED_form_not_empty(); break;
                     case AudioSm.EventId.CANCEL: this.#PAUSED_cancel(); break;
                 }
                 break;
@@ -121,9 +122,17 @@ class AudioSm
             case AudioSm.StateId.PLAYING:
                 switch (eventId)
                 {
-                    case AudioSm.EventId.REPLAY: this.#PLAYING_replay(); break;
                     case AudioSm.EventId.PLAY_BTN_CLICKED: this.#PLAYING_play_btn_clicked(); break;
+                    case AudioSm.EventId.FORM_NOT_EMPTY: this.#PLAYING_form_not_empty(); break;
                     case AudioSm.EventId.CANCEL: this.#PLAYING_cancel(); break;
+                }
+                break;
+            
+            // STATE: READY
+            case AudioSm.StateId.READY:
+                switch (eventId)
+                {
+                    case AudioSm.EventId.PLAY_BTN_CLICKED: this.#READY_play_btn_clicked(); break;
                 }
                 break;
         }
@@ -147,6 +156,8 @@ class AudioSm
                 case AudioSm.StateId.PAUSED: this.#PAUSED_exit(); break;
                 
                 case AudioSm.StateId.PLAYING: this.#PLAYING_exit(); break;
+                
+                case AudioSm.StateId.READY: this.#READY_exit(); break;
                 
                 default: return;  // Just to be safe. Prevents infinite loop if state ID memory is somehow corrupted.
             }
@@ -186,13 +197,6 @@ class AudioSm
     #IDLE_enter()
     {
         this.stateId = AudioSm.StateId.IDLE;
-        
-        // IDLE behavior
-        // uml: enter / { stopAll(); uiIdle(); }
-        {
-            // Step 1: execute action `stopAll(); uiIdle();`
-            stopAll(); uiIdle();
-        } // end of behavior for IDLE
     }
     
     #IDLE_exit()
@@ -200,18 +204,18 @@ class AudioSm
         this.stateId = AudioSm.StateId.PLAYER;
     }
     
-    #IDLE_play_btn_clicked()
+    #IDLE_form_not_empty()
     {
         // IDLE behavior
-        // uml: PLAY_BTN_CLICKED TransitionTo(LOADING)
+        // uml: FORM_NOT_EMPTY TransitionTo(READY)
         {
             // Step 1: Exit states until we reach `PLAYER` state (Least Common Ancestor for transition).
             this.#IDLE_exit();
             
             // Step 2: Transition action: ``.
             
-            // Step 3: Enter/move towards transition target `LOADING`.
-            this.#LOADING_enter();
+            // Step 3: Enter/move towards transition target `READY`.
+            this.#READY_enter();
             
             // Step 4: complete transition. Ends event dispatch. No other behaviors are checked.
             return;
@@ -228,13 +232,6 @@ class AudioSm
     #LOADING_enter()
     {
         this.stateId = AudioSm.StateId.LOADING;
-        
-        // LOADING behavior
-        // uml: enter / { loadingSpeech(); loadingUi(); loadingDots(); }
-        {
-            // Step 1: execute action `loadingSpeech(); loadingUi(); loadingDots();`
-            loadingSpeech(); loadingUi(); loadingDots();
-        } // end of behavior for LOADING
     }
     
     #LOADING_exit()
@@ -290,13 +287,6 @@ class AudioSm
     #PAUSED_enter()
     {
         this.stateId = AudioSm.StateId.PAUSED;
-        
-        // PAUSED behavior
-        // uml: enter / { pauseAll(); blurPlayingDots(); uiPaused(); }
-        {
-            // Step 1: execute action `pauseAll(); blurPlayingDots(); uiPaused();`
-            pauseAll(); blurPlayingDots(); uiPaused();
-        } // end of behavior for PAUSED
     }
     
     #PAUSED_exit()
@@ -324,19 +314,18 @@ class AudioSm
         // No ancestor handles this event.
     }
     
-    #PAUSED_play_btn_clicked()
+    #PAUSED_form_not_empty()
     {
         // PAUSED behavior
-        // uml: PLAY_BTN_CLICKED / { resumeAll(); playingDots(); uiPlaying(); } TransitionTo(PLAYING)
+        // uml: FORM_NOT_EMPTY TransitionTo(READY)
         {
             // Step 1: Exit states until we reach `PLAYER` state (Least Common Ancestor for transition).
             this.#PAUSED_exit();
             
-            // Step 2: Transition action: `resumeAll(); playingDots(); uiPlaying();`.
-            resumeAll(); playingDots(); uiPlaying();
+            // Step 2: Transition action: ``.
             
-            // Step 3: Enter/move towards transition target `PLAYING`.
-            this.#PLAYING_enter();
+            // Step 3: Enter/move towards transition target `READY`.
+            this.#READY_enter();
             
             // Step 4: complete transition. Ends event dispatch. No other behaviors are checked.
             return;
@@ -345,13 +334,21 @@ class AudioSm
         // No ancestor handles this event.
     }
     
-    #PAUSED_replay()
+    #PAUSED_play_btn_clicked()
     {
         // PAUSED behavior
-        // uml: REPLAY / { startSpeech(); startMusic(); syncAll(); }
+        // uml: PLAY_BTN_CLICKED TransitionTo(PLAYING)
         {
-            // Step 1: execute action `startSpeech(); startMusic(); syncAll();`
-            startSpeech(); startMusic(); syncAll();
+            // Step 1: Exit states until we reach `PLAYER` state (Least Common Ancestor for transition).
+            this.#PAUSED_exit();
+            
+            // Step 2: Transition action: ``.
+            
+            // Step 3: Enter/move towards transition target `PLAYING`.
+            this.#PLAYING_enter();
+            
+            // Step 4: complete transition. Ends event dispatch. No other behaviors are checked.
+            return;
         } // end of behavior for PAUSED
         
         // No ancestor handles this event.
@@ -365,13 +362,6 @@ class AudioSm
     #PLAYING_enter()
     {
         this.stateId = AudioSm.StateId.PLAYING;
-        
-        // PLAYING behavior
-        // uml: enter / { startSpeech(); startMusic(); syncAll(); playingDots(); uiPlaying(); }
-        {
-            // Step 1: execute action `startSpeech(); startMusic(); syncAll(); playingDots(); uiPlaying();`
-            startSpeech(); startMusic(); syncAll(); playingDots(); uiPlaying();
-        } // end of behavior for PLAYING
     }
     
     #PLAYING_exit()
@@ -391,6 +381,26 @@ class AudioSm
             
             // Step 3: Enter/move towards transition target `IDLE`.
             this.#IDLE_enter();
+            
+            // Step 4: complete transition. Ends event dispatch. No other behaviors are checked.
+            return;
+        } // end of behavior for PLAYING
+        
+        // No ancestor handles this event.
+    }
+    
+    #PLAYING_form_not_empty()
+    {
+        // PLAYING behavior
+        // uml: FORM_NOT_EMPTY TransitionTo(READY)
+        {
+            // Step 1: Exit states until we reach `PLAYER` state (Least Common Ancestor for transition).
+            this.#PLAYING_exit();
+            
+            // Step 2: Transition action: ``.
+            
+            // Step 3: Enter/move towards transition target `READY`.
+            this.#READY_enter();
             
             // Step 4: complete transition. Ends event dispatch. No other behaviors are checked.
             return;
@@ -419,14 +429,37 @@ class AudioSm
         // No ancestor handles this event.
     }
     
-    #PLAYING_replay()
+    
+    ////////////////////////////////////////////////////////////////////////////////
+    // event handlers for state READY
+    ////////////////////////////////////////////////////////////////////////////////
+    
+    #READY_enter()
     {
-        // PLAYING behavior
-        // uml: REPLAY / { startSpeech(); startMusic(); syncAll(); }
+        this.stateId = AudioSm.StateId.READY;
+    }
+    
+    #READY_exit()
+    {
+        this.stateId = AudioSm.StateId.PLAYER;
+    }
+    
+    #READY_play_btn_clicked()
+    {
+        // READY behavior
+        // uml: PLAY_BTN_CLICKED TransitionTo(LOADING)
         {
-            // Step 1: execute action `startSpeech(); startMusic(); syncAll();`
-            startSpeech(); startMusic(); syncAll();
-        } // end of behavior for PLAYING
+            // Step 1: Exit states until we reach `PLAYER` state (Least Common Ancestor for transition).
+            this.#READY_exit();
+            
+            // Step 2: Transition action: ``.
+            
+            // Step 3: Enter/move towards transition target `LOADING`.
+            this.#LOADING_enter();
+            
+            // Step 4: complete transition. Ends event dispatch. No other behaviors are checked.
+            return;
+        } // end of behavior for READY
         
         // No ancestor handles this event.
     }
@@ -442,6 +475,7 @@ class AudioSm
             case AudioSm.StateId.LOADING: return "LOADING";
             case AudioSm.StateId.PAUSED: return "PAUSED";
             case AudioSm.StateId.PLAYING: return "PLAYING";
+            case AudioSm.StateId.READY: return "READY";
             default: return "?";
         }
     }
@@ -452,8 +486,8 @@ class AudioSm
         switch (id)
         {
             case AudioSm.EventId.CANCEL: return "CANCEL";
+            case AudioSm.EventId.FORM_NOT_EMPTY: return "FORM_NOT_EMPTY";
             case AudioSm.EventId.PLAY_BTN_CLICKED: return "PLAY_BTN_CLICKED";
-            case AudioSm.EventId.REPLAY: return "REPLAY";
             case AudioSm.EventId.SPEECH_READY: return "SPEECH_READY";
             default: return "?";
         }

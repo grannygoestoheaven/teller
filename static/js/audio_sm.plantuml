@@ -9,9 +9,10 @@ state PLAYER {
     state LOADING <<dark>>
     state PLAYING <<red>>
     state PAUSED <<blue>>
+    state TEXT_DISPLAYED
 
     '############################ transitions ############################
-    
+
     IDLE --> READY : FORM_NOT_EMPTY
 
     READY --> LOADING : PLAY_BTN_CLICKED
@@ -22,6 +23,7 @@ state PLAYER {
     PLAYING --> PAUSED : PLAY_BTN_CLICKED
     PLAYING --> READY : FORM_NOT_EMPTY
     PLAYING --> IDLE : CANCEL
+    PLAYING --> TEXT_DISPLAYED : SPEECH_OVER
 
     PAUSED --> PLAYING : PLAY_BTN_CLICKED
     PAUSED --> READY : FORM_NOT_EMPTY

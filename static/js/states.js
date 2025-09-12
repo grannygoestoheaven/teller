@@ -9,24 +9,43 @@ export function handleStateChange(sm, newState) {
         sm.actions.formNotEmpty?.();
   
       case AudioSm.StateId.LOADING:
-        sm.actions.loadingSpeech?.();
-        sm.actions.loadingUi?.();
-        sm.actions.loadingDots?.();
+        sm.actions.startNewStoryProcess?.();
+        sm.actions.showLoadingAnimation?.();
         break;
   
+      // case AudioSm.StateId.PLAYING:
+      //   sm.actions.startSpeech?.();
+      //   sm.actions.startMusic?.();
+      //   sm.actions.syncAll?.();
+      //   sm.actions.removeBlur?.()
+      //   sm.actions.redDots?.();
+      //   break;
+
       case AudioSm.StateId.PLAYING:
-        sm.actions.startSpeech?.();
-        sm.actions.startMusic?.();
+        if (sm.previousState === AudioSm.StateId.PAUSED) {
+            sm.actions.resumeAllAudio?.();
+        } else {
+            sm.actions.startSpeech?.();
+            sm.actions.startMusic?.();
+        }
         sm.actions.syncAll?.();
-        sm.actions.playingDots?.();
-        sm.actions.uiPlaying?.();
+        sm.actions.removeBlur?.();
+        sm.actions.redDots?.();
         break;
   
       case AudioSm.StateId.PAUSED:
-        sm.actions.pauseAll?.();
-        sm.actions.blurPlayingDots?.();
-        sm.actions.uiPaused?.();
+        sm.actions.pauseAllAudio?.();
+        sm.actions.addBlurr?.();
         break;
+
+      case AudioSm.StateId.TEXT_DISPLAYED:
+        sm.actions.hideLoadingAnimation?.();
+        sm.actions.streamText?.();
+        sm.actions.handleWordClick?.();
+        sm.actions.handleMouseMove?.();
+        sm.actions.handleMouseOut?.();
+        sm.actions.findNextWordSpan?.();
+        sm.actions.clearHighlights?.();
     }
   }
   

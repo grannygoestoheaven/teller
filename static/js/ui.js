@@ -5,7 +5,7 @@ export function uiIdle(chatHistory, playPauseBtn, replayBtn) {
   // Reset buttons
   replayBtn.disabled = true;
   playPauseBtn.disabled = true;
-  playPauseBtn.textContent = 'Start Story';
+  playPauseBtn.textContent = 'Start new Story';
 }
 
 export function initInputAdjustments(subjectInput, subjectPlaceholder, minHeight = subjectInput.clientHeight) {
@@ -21,15 +21,13 @@ export function initInputAdjustments(subjectInput, subjectPlaceholder, minHeight
   adjustInput(); // initialize on load
 }
 
-// Update UI based on the form's input state
-export function formInputState(isInputEmpty) {
-  if (!isInputEmpty) {
+// Update UI state based on the form's input
+export function isInputEmpty(formInput) {
+  let inputNotEmpty = formInput.value.length() > 0;
+  if (inputNotEmpty) {
     playPauseButton.textContent = 'Play new story';
     playPauseButton.disabled = false;
     replayButton.disabled = true;
     stopButton.disabled = false;
-  } else {
-    // This will be handled by the updatePlayerUI function
-    // that depends on playerState, not the form's content.
   }
 }

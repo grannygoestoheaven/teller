@@ -1,3 +1,5 @@
+import { streamText } from "./textStreamer";
+
 // uiEvents.js
 export function Events(sm, {form, formInput, speechAudio, replayBtn, playPauseBtn, stopBtn}) {
 
@@ -22,18 +24,22 @@ export function Events(sm, {form, formInput, speechAudio, replayBtn, playPauseBt
     speechAudio?.addEventListener('canplaythrough', () => {
       sm.dispatchEvent(AudioSm.EventId.SPEECH_READY); // leads to LOADING state
     });
+
+    speechAudio?.addEventListener('onended', () => {
+      sm.dispatchEvent(AudioSm.EventId.SPEECH_OVER); // leads to TEXT_DISPLAYED state
+    })
     
     playPauseBtn?.addEventListener("click", () => {
       // sm.dispatchEvent(AudioSm.EventId.PLAY_BTN_CLICKED);
       startOrRestartNewStory(sm, formInput);
     });
     
-    replayBtn?.addEventListener("click", () => {
-      sm.dispatchEvent(AudioSm.EventId.REPLAY); // leads to PLAYING state
-    });
-    
     stopBtn?.addEventListener("click", () => {
       sm.dispatchEvent(AudioSm.EventId.CANCEL); // leads to IDLE state
+    });
+
+    replayBtn?.addEventListener("click", () => {
+      sm.dispatchEvent(AudioSm.EventId.REPLAY); // leads to PLAYING state
     });
   }
   
@@ -42,10 +48,11 @@ export function Events(sm, {form, formInput, speechAudio, replayBtn, playPauseBt
     if (!ready) return;
   
     if (sm.isInState(AudioSm.StateId.IDLE)) {
-      sm.dispatchEvent(AudioSm.EventId.PLAY_BTN_CLICKED);
+      sm.dispatchEvent(AudioSm.EventId.PLAY_BTN_CLICKED); // lead to PLAYING state
     } else {
       sm.dispatchEvent(AudioSm.EventId.CANCEL);
       sm.dispatchEvent(AudioSm.EventId.PLAY_BTN_CLICKED);
     }
   }
+
   

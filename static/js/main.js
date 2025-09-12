@@ -1,5 +1,5 @@
 import { createSm } from "./smStore.js"
-import { initPlayer, startSpeech, startMusic, syncAll } from "./player.js"
+import { initPlayer, startSpeech, startMusic, syncAll, pauseAllAudio, resumeAllAudio } from "./player.js"
 import { uiIdle, initInputAdjustments } from "./ui.js";
 import { startNewStoryProcess } from "./storyService.js";
 import { 
@@ -57,6 +57,8 @@ document.addEventListener('DOMContentLoaded', () => {
     startSpeech,
     startMusic,
     syncAll,
+    pauseAllAudio,
+    resumeAllAudio,
     showLoadingAnimation, 
     hideLoadingAnimation, 
     getRedColor, 

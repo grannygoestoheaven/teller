@@ -27,3 +27,13 @@ export function syncAll() {
     backgroundAudio.currentTime = speechAudio.currentTime;
   }
 }
+
+export function pauseAllAudio() {
+  speechAudio.pause();
+  backgroundAudio.pause();
+}
+
+export function resumeAllAudio() {
+  speechAudio.play()
+  backgroundAudio.play();
+};

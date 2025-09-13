@@ -1,7 +1,7 @@
 import { streamText } from "./textStreamer";
 
 // uiEvents.js
-export function Events(sm, {form, formInput, speechAudio, replayBtn, playPauseBtn, stopBtn}) {
+export function events(sm, {form, formInput, speechAudio, replayBtn, playPauseBtn, stopBtn}) {
 
     window.addEventListener('keydown', (event) => {
       if (event.code === 'Space') {
@@ -39,7 +39,7 @@ export function Events(sm, {form, formInput, speechAudio, replayBtn, playPauseBt
     });
 
     replayBtn?.addEventListener("click", () => {
-      sm.dispatchEvent(AudioSm.EventId.REPLAY); // leads to PLAYING state
+      sm.dispatchEvent(AudioSm.EventId.REPLAY_BTN_CLICKED); // leads to PLAYING state
     });
   }
   

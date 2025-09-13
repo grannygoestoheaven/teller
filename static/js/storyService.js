@@ -1,6 +1,9 @@
 // storyService.js
 
+let abortController;
+
 export async function startNewStoryProcess(form) {
+    abortController = new AbortController();
     // Clear any previous playback timers
     clearPlaybackTimers();
   
@@ -10,7 +13,7 @@ export async function startNewStoryProcess(form) {
     formData.set('subject', subject);
   
     // Fetch story from backend
-    const res = await fetch('/generate_story', { method: 'POST', body: formData });
+    const res = await fetch('/generate_story', { method: 'POST', body: formData, signal:abortController.signal });
     if (!res.ok) throw new Error((await res.json()).error || `Error ${res.status}`);
     const data = await res.json();
   

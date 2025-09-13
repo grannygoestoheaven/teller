@@ -22,10 +22,16 @@ export function startMusic() {
 export function syncAll() {
   // Keep speech as master
   const drift = backgroundAudio.currentTime - speechAudio.currentTime;
-
+  
   if (Math.abs(drift) > 0.2) {  // >200ms noticeable
     backgroundAudio.currentTime = speechAudio.currentTime;
   }
+}
+
+export function stopAll(){
+  speechAudio.currentTime = 0;
+  backgroundAudio.currentTime = 0;
+  abortController?.abort(); // cancels the fetch if still pending
 }
 
 export function pauseAllAudio() {

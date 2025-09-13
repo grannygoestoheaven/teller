@@ -27,11 +27,15 @@ export function handleStateChange(sm, newState) {
         } else {
             sm.actions.startSpeech?.();
             sm.actions.startMusic?.();
-        }
-        sm.actions.syncAll?.();
-        sm.actions.removeBlur?.();
-        sm.actions.redDots?.();
-        break;
+          }
+          sm.actions.syncAll?.();
+          sm.actions.removeBlur?.();
+          sm.actions.redDots?.();
+          break;
+          
+      case AudioSm.StateId.REPLAYING:
+        sm.actions.startSpeech?.();
+        sm.actions.startMusic?.();
   
       case AudioSm.StateId.PAUSED:
         sm.actions.pauseAllAudio?.();

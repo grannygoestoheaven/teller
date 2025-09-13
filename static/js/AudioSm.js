@@ -9,12 +9,13 @@ class AudioSm
         CANCEL : 0,
         FORM_NOT_EMPTY : 1,
         PLAY_BTN_CLICKED : 2,
-        SPEECH_OVER : 3,
-        SPEECH_READY : 4,
+        REPLAY_BTN_CLICKED : 3,
+        SPEECH_OVER : 4,
+        SPEECH_READY : 5,
     }
     static { Object.freeze(this.EventId); }
     
-    static EventIdCount = 5;
+    static EventIdCount = 6;
     static { Object.freeze(this.EventIdCount); }
     
     static StateId = 
@@ -26,11 +27,12 @@ class AudioSm
         PAUSED : 4,
         PLAYING : 5,
         READY : 6,
-        TEXT_DISPLAYED : 7,
+        REPLAYING : 7,
+        TEXT_DISPLAYED : 8,
     }
     static { Object.freeze(this.StateId); }
     
-    static StateIdCount = 8;
+    static StateIdCount = 9;
     static { Object.freeze(this.StateIdCount); }
     
     // Used internally by state machine. Feel free to inspect, but don't modify.
@@ -115,6 +117,7 @@ class AudioSm
                 switch (eventId)
                 {
                     case AudioSm.EventId.PLAY_BTN_CLICKED: this.#PAUSED_play_btn_clicked(); break;
+                    case AudioSm.EventId.REPLAY_BTN_CLICKED: this.#PAUSED_replay_btn_clicked(); break;
                     case AudioSm.EventId.FORM_NOT_EMPTY: this.#PAUSED_form_not_empty(); break;
                     case AudioSm.EventId.CANCEL: this.#PAUSED_cancel(); break;
                 }
@@ -137,6 +140,11 @@ class AudioSm
                 {
                     case AudioSm.EventId.PLAY_BTN_CLICKED: this.#READY_play_btn_clicked(); break;
                 }
+                break;
+            
+            // STATE: REPLAYING
+            case AudioSm.StateId.REPLAYING:
+                // No events handled by this state (or its ancestors).
                 break;
             
             // STATE: TEXT_DISPLAYED
@@ -166,6 +174,8 @@ class AudioSm
                 case AudioSm.StateId.PLAYING: this.#PLAYING_exit(); break;
                 
                 case AudioSm.StateId.READY: this.#READY_exit(); break;
+                
+                case AudioSm.StateId.REPLAYING: this.#REPLAYING_exit(); break;
                 
                 case AudioSm.StateId.TEXT_DISPLAYED: this.#TEXT_DISPLAYED_exit(); break;
                 
@@ -364,6 +374,26 @@ class AudioSm
         // No ancestor handles this event.
     }
     
+    #PAUSED_replay_btn_clicked()
+    {
+        // PAUSED behavior
+        // uml: REPLAY_BTN_CLICKED TransitionTo(REPLAYING)
+        {
+            // Step 1: Exit states until we reach `PLAYER` state (Least Common Ancestor for transition).
+            this.#PAUSED_exit();
+            
+            // Step 2: Transition action: ``.
+            
+            // Step 3: Enter/move towards transition target `REPLAYING`.
+            this.#REPLAYING_enter();
+            
+            // Step 4: complete transition. Ends event dispatch. No other behaviors are checked.
+            return;
+        } // end of behavior for PAUSED
+        
+        // No ancestor handles this event.
+    }
+    
     
     ////////////////////////////////////////////////////////////////////////////////
     // event handlers for state PLAYING
@@ -496,6 +526,21 @@ class AudioSm
     
     
     ////////////////////////////////////////////////////////////////////////////////
+    // event handlers for state REPLAYING
+    ////////////////////////////////////////////////////////////////////////////////
+    
+    #REPLAYING_enter()
+    {
+        this.stateId = AudioSm.StateId.REPLAYING;
+    }
+    
+    #REPLAYING_exit()
+    {
+        this.stateId = AudioSm.StateId.PLAYER;
+    }
+    
+    
+    ////////////////////////////////////////////////////////////////////////////////
     // event handlers for state TEXT_DISPLAYED
     ////////////////////////////////////////////////////////////////////////////////
     
@@ -521,6 +566,7 @@ class AudioSm
             case AudioSm.StateId.PAUSED: return "PAUSED";
             case AudioSm.StateId.PLAYING: return "PLAYING";
             case AudioSm.StateId.READY: return "READY";
+            case AudioSm.StateId.REPLAYING: return "REPLAYING";
             case AudioSm.StateId.TEXT_DISPLAYED: return "TEXT_DISPLAYED";
             default: return "?";
         }
@@ -534,6 +580,7 @@ class AudioSm
             case AudioSm.EventId.CANCEL: return "CANCEL";
             case AudioSm.EventId.FORM_NOT_EMPTY: return "FORM_NOT_EMPTY";
             case AudioSm.EventId.PLAY_BTN_CLICKED: return "PLAY_BTN_CLICKED";
+            case AudioSm.EventId.REPLAY_BTN_CLICKED: return "REPLAY_BTN_CLICKED";
             case AudioSm.EventId.SPEECH_OVER: return "SPEECH_OVER";
             case AudioSm.EventId.SPEECH_READY: return "SPEECH_READY";
             default: return "?";

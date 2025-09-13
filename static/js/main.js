@@ -1,6 +1,8 @@
 import { createSm } from "./smStore.js"
+import { events } from "./listeners.js";
+import { handleStateChange } from "./states.js";
 import { initPlayer, startSpeech, startMusic, syncAll, pauseAllAudio, resumeAllAudio } from "./player.js"
-import { uiIdle, initInputAdjustments } from "./ui.js";
+import { uiIdle, initInputAdjustments, isInputEmpty, } from "./ui.js";
 import { startNewStoryProcess } from "./storyService.js";
 import { 
   initLoadingElements, 
@@ -48,11 +50,13 @@ document.addEventListener('DOMContentLoaded', () => {
   // ----- Init functions -----
   initPlayer({ speech: speechAudio, background: backgroundAudio });
   initLoadingElements(chatHistory, loadingAnimationContainer, loadingAnimation, period1, period2, period3);
-  initTextStreamer(chatHistory, subjectInput);
-  initInputAdjustments(subjectInput, subjectPlaceholder)
+  initTextStreamer(chatHistory, formInput);
+  initInputAdjustments(formInput)
 
   const actions = {
+    handleStateChange,
     uiIdle,
+    isInputEmpty,
     startNewStoryProcess,
     startSpeech,
     startMusic,
@@ -73,9 +77,9 @@ document.addEventListener('DOMContentLoaded', () => {
     clearHighlights
   }
 
-  createSm(actions);
+  const sm = createSm(actions);
   
-  initControlEvents(sm, {form, formInput, replayBtn, playPauseBtn, stopBtn}); // wire UI events to State Machine
+  events(sm, {form, formInput, replayBtn, playPauseBtn, stopBtn}); // wire UI events to State Machine
 
   // starting the state machine
   sm.start();

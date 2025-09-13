@@ -8,13 +8,12 @@ export function uiIdle(chatHistory, playPauseBtn, replayBtn) {
   playPauseBtn.textContent = 'Start new Story';
 }
 
-export function initInputAdjustments(subjectInput, subjectPlaceholder, minHeight = subjectInput.clientHeight) {
+export function initInputAdjustments(subjectInput, minHeight = subjectInput.clientHeight) {
   const adjustInput = () => {
     subjectInput.style.overflow = 'hidden'
     subjectInput.style.height = 'auto';
     const h = Math.max(subjectInput.scrollHeight, minHeight);
     subjectInput.style.height = h + 'px';
-    subjectPlaceholder.style.display = subjectInput.value ? 'none' : 'block';
   };
   
   subjectInput.addEventListener('input', adjustInput);

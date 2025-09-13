@@ -2,7 +2,7 @@ import { createSm } from "./smStore.js"
 import { events } from "./listeners.js";
 import { handleStateChange } from "./states.js";
 import { initPlayer, startSpeech, startMusic, syncAll, pauseAllAudio, resumeAllAudio } from "./player.js"
-import { uiIdle, initInputAdjustments, isInputEmpty, } from "./ui.js";
+import { uiIdle, initInputAdjustments, inputNotEmpty } from "./ui.js";
 import { startNewStoryProcess } from "./storyService.js";
 import { 
   initLoadingElements, 
@@ -49,6 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ----- Init functions -----
   initPlayer({ speech: speechAudio, background: backgroundAudio });
+  // uiIdle(chatHistory, replayBtn, playPauseBtn);
   initLoadingElements(chatHistory, loadingAnimationContainer, loadingAnimation, period1, period2, period3);
   initTextStreamer(chatHistory, formInput);
   initInputAdjustments(formInput)
@@ -56,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const actions = {
     handleStateChange,
     uiIdle,
-    isInputEmpty,
+    inputNotEmpty,
     startNewStoryProcess,
     startSpeech,
     startMusic,

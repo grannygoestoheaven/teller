@@ -29,7 +29,7 @@ export async function startNewStoryProcess(form) {
   }
   
   // You can still keep these helpers if needed
-  function clearPlaybackTimers() {
+  function clearPlaybackTimers(speechAudio, backgroundAudio) {
     // Implementation to clear any active timers
     clearInterval(speechAudio._fadeInterval);
     clearInterval(backgroundAudio._fadeInterval);

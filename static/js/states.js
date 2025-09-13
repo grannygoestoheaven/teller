@@ -6,7 +6,8 @@ export function handleStateChange(sm, newState) {
         break;
 
       case AudioSm.StateId.READY:
-        sm.actions.formNotEmpty?.();
+        sm.actions.inputNotEmpty?.();
+        break;
   
       case AudioSm.StateId.LOADING:
         sm.actions.startNewStoryProcess?.();

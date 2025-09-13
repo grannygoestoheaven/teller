@@ -21,7 +21,7 @@
     <div class="chat-history">
         <div class="chat-inner" id="chatHistory"><!-- JS keeps filling spans here -->
             <div class="chat-inner">
-                Memory. Perception. Reliability. Eyewitness testimony is a pivotal element in legal proceedings, often influencing the outcome of trials. It involves individuals recounting their observations of events, typically in a courtroom setting. The accuracy of such testimony is frequently scrutinized due to the complex nature of human memory and perception. Research indicates that factors such as stress, lighting conditions, and the presence of a weapon can significantly affect an eyewitness's ability to accurately recall events. The reliability of eyewitness accounts is further complicated by cognitive biases. These biases can lead to errors in identification and recollection. For instance, the misinformation effect occurs when witnesses are exposed to incorrect information post-event, which can alter their memory. Additionally, the confidence of a witness does not necessarily correlate with the accuracy of their testimony. This discrepancy poses challenges in assessing the validity of eyewitness accounts. Legal systems have implemented various measures to mitigate the potential inaccuracies of eyewitness testimony. These include the use of double-blind lineups, where the administrator does not know the suspect, and providing juries with instructions on the potential fallibility of eyewitness accounts. Expert testimony on the limitations of human memory is also increasingly utilized to provide context to jurors. Such measures aim to enhance the fairness and accuracy of judicial outcomes. Three related subjects are the psychology of memory, the role of expert witnesses, and the impact of stress on perception.
+                
               </div>
         </div>
      </div>
@@ -53,13 +53,15 @@
             <div class="controls">
                 <button type="button" class="send-button pixel-play" id="replayBtn" disabled>Replay</button>
                 <!-- <button type="button" class="send-button" class="pixel-play" id="stopButton">Stop</button> -->
-                <button type="button" class="send-button pixel-play" id="playPauseBtn">Play</button>
+                <button type="button" class="send-button pixel-play" id="playPauseBtn">Start New Story</button>
                   <!-- <span class="pixel-play">PLAY</span> -->
                 </button>
               </div>
         </form>
     </footer>
 
+    <script src="{{ url_for('static', filename='js/AudioSm.js') }}"></script>
+    <script type="module" src="{{ url_for('static', filename='js/smStore.js') }}"></script>
     <script type="module" src="{{ url_for('static', filename='js/main.js') }}"></script>
 
 </body>

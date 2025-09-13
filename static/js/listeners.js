@@ -1,5 +1,3 @@
-import { streamText } from "./textStreamer";
-
 // uiEvents.js
 export function events(sm, {form, formInput, speechAudio, replayBtn, playPauseBtn, stopBtn}) {
 
@@ -9,14 +7,18 @@ export function events(sm, {form, formInput, speechAudio, replayBtn, playPauseBt
       }
     });
   
-    form?.addEventListener('keydown', (event) => {
+    formInput?.addEventListener('keydown', (event) => {
       if (event.code === 'Enter' && !event.shiftKey) {
         event.preventDefault(); // Prevent default form submission
         sm.dispatchEvent(AudioSm.EventId.PLAY_BTN_CLICKED);
       }
     });
+
+    formInput?.addEventListener('input', () => {
+      sm.dispatchEvent(AudioSm.EventId.FORM_NOT_EMPTY)
+    })
   
-    form.addEventListener("submit", (e) => {
+    form?.addEventListener("submit", (e) => {
       e.preventDefault();
       startOrRestartNewStory(sm, formInput);
     });
@@ -47,7 +49,7 @@ export function events(sm, {form, formInput, speechAudio, replayBtn, playPauseBt
     const ready = formInput.value.trim().length >= 1;
     if (!ready) return;
   
-    if (sm.isInState(AudioSm.StateId.IDLE)) {
+    if (sm._stateId === AudioSm.StateId.IDLE) {
       sm.dispatchEvent(AudioSm.EventId.PLAY_BTN_CLICKED); // lead to PLAYING state
     } else {
       sm.dispatchEvent(AudioSm.EventId.CANCEL);

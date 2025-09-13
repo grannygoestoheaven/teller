@@ -21,12 +21,12 @@ export function initInputAdjustments(subjectInput, minHeight = subjectInput.clie
 }
 
 // Update UI state based on the form's input
-export function isInputEmpty(formInput) {
-  let inputNotEmpty = formInput.value.length() > 0;
+export function inputNotEmpty(playPauseBtn, replayBtn, stopBtn, formInput) {
+  let inputNotEmpty = formInput.value.length > 0;
   if (inputNotEmpty) {
-    playPauseButton.textContent = 'Play new story';
-    playPauseButton.disabled = false;
-    replayButton.disabled = true;
-    stopButton.disabled = false;
+    playPauseBtn.textContent = 'Play new story';
+    playPauseBtn.disabled = false;
+    replayBtn.disabled = true;
+    stopBtn.disabled = false;
   }
 }

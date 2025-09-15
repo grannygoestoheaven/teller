@@ -5,7 +5,7 @@ let abortController;
 export async function startNewStoryProcess(form) {
     abortController = new AbortController();
     // Clear any previous playback timers
-    clearPlaybackTimers();
+    clearPlaybackTimers(speechAudio, backgroundAudio);
   
     // Get subject
     const formData = new FormData(form);

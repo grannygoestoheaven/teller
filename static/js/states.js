@@ -1,4 +1,5 @@
-export function handleStateChange(sm, newState) {
+export function handleStateChange(sm, newState, actions) {
+    actions = actions || sm.actions; // in case actions are passed directly
     switch (newState) {
       case AudioSm.StateId.IDLE:
         sm.actions.stopAll?.();
@@ -10,19 +11,20 @@ export function handleStateChange(sm, newState) {
         break;
   
       case AudioSm.StateId.LOADING:
-        sm.actions.startNewStoryProcess?.();
         sm.actions.showLoadingAnimation?.();
+        sm.actions.startNewStoryProcess?.().then((data) => {
+            // This is where you get the audio data
+            // We pass it to loadPlayer to set the audio sources
+            sm.actions.loadPlayer?.({
+                speech: sm.actions.speechAudio,
+                background: sm.actions.backgroundAudio,
+                dt: data
+            });
+        });
         break;
-  
-      // case AudioSm.StateId.PLAYING:
-      //   sm.actions.startSpeech?.();
-      //   sm.actions.startMusic?.();
-      //   sm.actions.syncAll?.();
-      //   sm.actions.removeBlur?.()
-      //   sm.actions.redDots?.();
-      //   break;
 
       case AudioSm.StateId.PLAYING:
+          sm.actions.loadPlayer?.();
         if (sm.previousState === AudioSm.StateId.PAUSED) {
             sm.actions.resumeAllAudio?.();
         } else {

@@ -4,8 +4,6 @@ let abortController;
 
 export async function startNewStoryProcess(form) {
     abortController = new AbortController();
-    // Clear any previous playback timers
-    clearPlaybackTimers(speechAudio, backgroundAudio);
   
     // Get subject
     const formData = new FormData(form);
@@ -18,26 +16,26 @@ export async function startNewStoryProcess(form) {
     const data = await res.json();
   
     // Save to local storage
-    saveStoryToStorage({
-      subject,
-      tagged: data.tagged_story,
-      human: data.story,
-      timestamp: Date.now()
-    });
+    // saveStoryToStorage({
+    //   subject,
+    //   tagged: data.tagged_story,
+    //   human: data.story,
+    //   timestamp: Date.now()
+    // });
 
     return data;
   }
   
   // You can still keep these helpers if needed
-  function clearPlaybackTimers(speechAudio, backgroundAudio) {
-    // Implementation to clear any active timers
-    clearInterval(speechAudio._fadeInterval);
-    clearInterval(backgroundAudio._fadeInterval);
-    clearTimeout(bgFadeTimeout);
-    clearTimeout(bgFadeOutTimeout);
-  }
+  // function clearPlaybackTimers(speechAudio, backgroundAudio) {
+  //   // Implementation to clear any active timers
+  //   clearInterval(speechAudio._fadeInterval);
+  //   clearInterval(backgroundAudio._fadeInterval);
+  //   clearTimeout(bgFadeTimeout);
+  //   clearTimeout(bgFadeOutTimeout);
+  // }
   
-  function saveStoryToStorage(storyObj) {
-    localStorage.setItem('lastStory', JSON.stringify(storyObj));
-  }
+  // function saveStoryToStorage(storyObj) {
+  //   localStorage.setItem('lastStory', JSON.stringify(storyObj));
+  // }
   

@@ -1,9 +1,14 @@
 let speechAudio;
 let backgroundAudio;
+let data;
 
-export function initPlayer({ speech, background }) {
+export function loadPlayer({ speech, background, dt }) {
   speechAudio = speech;
   backgroundAudio = background;
+  data = dt;
+  speechAudio.src = data.audio_url;
+  backgroundAudio.src = data.background_audio_url;
+  // clearPlaybackTimers(speechAudio, backgroundAudio);
 }
 
 export function startSpeech() {

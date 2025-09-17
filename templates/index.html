@@ -28,9 +28,9 @@
   
     <div class="loading-animation-container" id="loadingAnimationContainer">
         <div class="loading-animation" id="loadingAnimation">
-            <span id ="period" class="period period-1">.</span>
-            <span id ="period" class="period period-2">.</span>
-            <span id ="period" class="period period-3">.</span>
+            <span id ="period1" class="period period-1">.</span>
+            <span id ="period2" class="period period-2">.</span>
+            <span id ="period3" class="period period-3">.</span>
         </div>
     </div>
 
@@ -38,7 +38,6 @@
         <audio id="speechAudio" preload="auto"></audio>
         <audio id="backgroundAudio" preload="auto" loop></audio>
         <div id="story-title-display" class="story-title-display"></div>
-
     </div>
 
     <footer class="chat-input-area">
@@ -46,14 +45,15 @@
             <div class="form-fields-container">
                 <div class="form-group subject-input-group">
                     <!-- <input type="text" id="subject" name="subject" placeholder="What do you want to hear ?" required> -->
-                    <textarea id="subject" name="subject" placeholder="What do you want to hear ?" required rows="1"></textarea>
+                    <textarea id="subject" name="subject" placeholder="What do you want to hear ?" required rows="1">
+                    </textarea>
                 </div>
-                <button id="stop-button">stop</button>
+                <!-- <button id="stopBtn">stop</button> -->
             </div>
             <div class="controls">
                 <button type="button" class="send-button pixel-play" id="replayBtn" disabled>Replay</button>
                 <!-- <button type="button" class="send-button" class="pixel-play" id="stopButton">Stop</button> -->
-                <button type="button" class="send-button pixel-play" id="playPauseBtn">Start New Story</button>
+                <button type="button" class="send-button pixel-play" id="playPauseBtn" disabled>Start New Story</button>
                   <!-- <span class="pixel-play">PLAY</span> -->
                 </button>
               </div>

@@ -15,6 +15,7 @@ export function events(sm, {form, formInput, speechAudio, replayBtn, playPauseBt
     });
 
     formInput?.addEventListener('input', () => {
+      console.log('Input event fired!');
       sm.dispatchEvent(AudioSm.EventId.FORM_NOT_EMPTY)
     })
   
@@ -56,5 +57,3 @@ export function events(sm, {form, formInput, speechAudio, replayBtn, playPauseBt
       sm.dispatchEvent(AudioSm.EventId.PLAY_BTN_CLICKED);
     }
   }
-
-  

@@ -1,4 +1,4 @@
-export function uiIdle(chatHistory, playPauseBtn, replayBtn) {
+export function uiIdle(chatHistory, replayBtn, playPauseBtn) {
   // Clear past story
   chatHistory.innerHTML = '';
   // Reset buttons

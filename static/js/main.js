@@ -2,7 +2,7 @@ import { AudioController } from "./AudioController.js";
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  // A single object to hold all your HTML elements.
+  // A single object to hold all HTML elements.
   const elements = {
     speechAudio: document.getElementById('speechAudio'),
     backgroundAudio: document.getElementById('backgroundAudio'),
@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
     stopBtn: document.getElementById('stopBtn'),
   };
 
-  // Create an instance of your new controller.
+  // Create an instance of the controller.
   const controller = new AudioController(elements);
 
   // Tell it to start!

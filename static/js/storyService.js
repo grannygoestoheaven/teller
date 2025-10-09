@@ -2,11 +2,11 @@
 
 let abortController;
 
-export async function startNewStoryProcess(form) {
+export async function startNewStoryProcess(formInput) {
     abortController = new AbortController();
   
     // Get subject
-    const formData = new FormData(form);
+    const formData = new FormData(formInput);
     const subject = formData.get('subject').trim();
     formData.set('subject', subject);
   

@@ -113,8 +113,8 @@ export function events(sm, {form, formInput, speechAudio, replayBtn, playPauseBt
   });
 }
 
-function startOrRestartNewStory(sm, formInput) {
-  const ready = formInput.value.trim().length >= 1;
+export function startOrRestartNewStory(sm, newInput) {
+  const ready = newInput.value.trim().length >= 1;
   if (!ready) {
     console.log('Form input empty, abort');
     return;

@@ -1,4 +1,4 @@
-import { events } from "./listeners.js";
+import { events, startOrRestartNewStory } from "./listeners.js";
 import { handleStateChange as states_handleStateChange } from "./states.js";
 
 import { startNewStoryProcess } from "./storyService.js";
@@ -50,6 +50,7 @@ export class AudioController {
       this.#actions = {
         ...elements,
         startNewStoryProcess,
+        startOrRestartNewStory,
         loadPlayer,
         startSpeech,
         startMusic,

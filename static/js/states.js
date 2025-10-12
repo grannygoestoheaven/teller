@@ -12,8 +12,12 @@ export function handleStateChange(sm, newState, actions) {
   
       case AudioSm.StateId.LOADING:
         sm.actions.showLoadingAnimation?.();
-        sm.actions.startNewStoryProcess?.().then((data) => {
-            // This is where you get the audio data
+        
+        const formObject = sm.actions.form;
+        if (!formObject) return; // stop if empty
+
+        sm.actions.startNewStoryProcess?.(formObject).then((data) => {
+            // This is where we get the audio data
             // We pass it to loadPlayer to set the audio sources
             sm.actions.loadPlayer?.({
                 speech: sm.actions.speechAudio,

@@ -188,7 +188,7 @@ def _generate_story_and_speech(subject, estimated_chars, pattern_path, base_dir,
     Also selects an ambient track URL.
     """
     if subject == "test":
-        with open("src/server_data/stories/20250805T233810Z_eyewitness_testimony.json") as f:
+        with open("src/server_data/stories/20250902T003701Z_ultrasonic_transducers.json") as f:
             story_data = json.load(f)
             story_raw = story_data["raw"]
             story_cleaned = story_data["clean"]
@@ -215,7 +215,7 @@ def _generate_story_and_speech(subject, estimated_chars, pattern_path, base_dir,
                 error_msg += f"Got story: {story[:100]}..." if story and isinstance(story, str) else "No story was generated"
                 logger.error(error_msg)
                 return None, None, None, None # Return None for all on story failure
-        
+        track_url_for_client = None
         try:
             _cleanup_old_audio_files(logger)
             

@@ -43,7 +43,7 @@ export function getRedColor() {
 
 export function redDots() {
   const color = getRedColor(); // generate a color
-  loadingAnimation.setProperty("--period-color", color);
+  loadingAnimation.style.setProperty("--period-color", color);
 }
 
 export function addBlurr() {

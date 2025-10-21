@@ -22,7 +22,7 @@ export async function startNewStoryProcess(form) {
     //   human: data.story,
     //   timestamp: Date.now()
     // });
-
+    console.log(data);
     return data;
   }
   
@@ -38,4 +38,3 @@ export async function startNewStoryProcess(form) {
   // function saveStoryToStorage(storyObj) {
   //   localStorage.setItem('lastStory', JSON.stringify(storyObj));
   // }
-  

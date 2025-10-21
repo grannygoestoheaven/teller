@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     period1: loadingAnimation.querySelector('.period-1'),
     period2: loadingAnimation.querySelector('.period-2'),
     period3: loadingAnimation.querySelector('.period-3'),
-    form: document.getElementById('storyForm'),
+    form: document.getElementById('story-form'),
     formInput: document.getElementById('subject'),
     replayBtn: document.getElementById('replayBtn'),
     playPauseBtn: document.getElementById('playPauseBtn'),

@@ -1,13 +1,6 @@
-let speechAudio;
-let backgroundAudio;
-let data;
-
-export function loadPlayer({ speech, background, dt }) {
-  speechAudio = speech;
-  backgroundAudio = background;
-  data = dt;
+export function loadPlayer(data) {
   speechAudio.src = data.audio_url;
-  backgroundAudio.src = data.background_audio_url;
+  backgroundAudio.src = data.track_url;
   // clearPlaybackTimers(speechAudio, backgroundAudio);
 }
 
@@ -19,7 +12,7 @@ export function startSpeech() {
   }, 5000);
 }
 
-export function startMusic() {
+export function startMusic() {  
   backgroundAudio.currentTime = 0;
   backgroundAudio.play();
 }

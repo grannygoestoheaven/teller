@@ -1,6 +1,5 @@
 import { events, startOrRestartNewStory } from "./listeners.js";
-import { handleStateChange as states_handleStateChange } from "./states.js";
-
+import { handleStateChange } from "./states.js";
 import { startNewStoryProcess } from "./storyService.js";
 
 import {
@@ -74,7 +73,7 @@ export class AudioController {
       };
   
       // ... (rest of the constructor code remains the same)
-      this.#sm = new AudioSm();
+      this.#sm = new AudioSm(); // the class is included in the html file, so we can call it here.
       this.#sm.actions = this.#actions;
   
       const originalDispatch = this.#sm.dispatchEvent.bind(this.#sm);
@@ -82,8 +81,13 @@ export class AudioController {
         const prevStateId = this.#sm.stateId;
         originalDispatch(eventId);
         const newStateId = this.#sm.stateId;
+
+        console.log('Event:', AudioSm.eventIdToString(eventId));
+        console.log('Prev State:', AudioSm.stateIdToString(prevStateId));
+        console.log('New State:', AudioSm.stateIdToString(newStateId));
+
         if (prevStateId !== newStateId) {
-          states_handleStateChange(this.#sm, newStateId);
+          handleStateChange(this.#sm, newStateId);
         }
       };
   
@@ -94,4 +98,4 @@ export class AudioController {
       this.#sm.start();
     }
   }
-  
+

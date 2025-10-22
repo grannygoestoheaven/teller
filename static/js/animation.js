@@ -15,17 +15,17 @@ export function initLoadingElements(container, animation, p1, p2, p3, ch) {
 }
 
 // Function to show the loading animation
-export function showLoadingAnimation() {
-  loadingAnimationContainer.style.display = 'flex'; // Show the container
-  loadingAnimation.style.display = 'flex'; // Show the animation dots themselves
+export function showLoadingAnimation(sm) {
+  sm.actions.loadingAnimationContainer.style.display = 'flex'; // Show the container
+  sm.actions.loadingAnimation.style.display = 'flex'; // Show the animation dots themselves
   // Reset dot classes to ensure animation plays again
-  period1.className = 'period period-1';
-  period2.className = 'period period-2';
-  period3.className = 'period period-3';
+  sm.actions.period1.className = 'period period-1';
+  sm.actions.period2.className = 'period period-2';
+  sm.actions.period3.className = 'period period-3';
   // Remove any interactive listeners that might be lingering
-  period1.onclick = null;
-  period2.onclick = null;
-  period3.onclick = null;
+  sm.actions.period1.onclick = null;
+  sm.actions.period2.onclick = null;
+  sm.actions.period3.onclick = null;
 }
 
 // Function to hide the loading animation

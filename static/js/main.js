@@ -19,6 +19,12 @@ document.addEventListener('DOMContentLoaded', () => {
     stopBtn: document.getElementById('stopBtn'),
   };
 
+  if (elements.loadingAnimation) {
+    elements.period1 = elements.loadingAnimation.querySelector('.period-1');
+    elements.period2 = elements.loadingAnimation.querySelector('.period-2');
+    elements.period3 = elements.loadingAnimation.querySelector('.period-3');
+  }
+
   // Create an instance of the controller.
   const controller = new AudioController(elements);
 

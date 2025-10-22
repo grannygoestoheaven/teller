@@ -11,7 +11,7 @@ export function handleStateChange(sm, newState, actions) {
         break;
   
       case AudioSm.StateId.LOADING:
-        sm.actions.showLoadingAnimation?.();
+        sm.actions.showLoadingAnimation?.(sm);
         
         const formObject = sm.actions.form;
         if (!formObject) return; // stop if empty

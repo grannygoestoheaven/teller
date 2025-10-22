@@ -62,7 +62,7 @@
 export function events(sm, {form, formInput, speechAudio, replayBtn, playPauseBtn, stopBtn}) {
 
   window.addEventListener('keydown', (event) => {
-    if (event.code === 'Space') {
+    if (event.code === 'Space' && document.activeElement !== formInput) {
       console.log('Space pressed');
       sm.dispatchEvent(AudioSm.EventId.PLAY_BTN_CLICKED);
     }

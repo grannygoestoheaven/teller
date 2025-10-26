@@ -11,7 +11,7 @@ import {
   resumeAllAudio,
 } from "./player.js";
 
-import { uiIdle, initInputAdjustments, inputNotEmpty } from "./ui.js";
+import { uiIdle, initInputAdjustments, inputNotEmpty, uiLoadingButtons, uiPlayingButtons, uiLoadingButtons, uiPlayingButtons } from "./ui.js";
 
 import {
   initLoadingElements,
@@ -58,6 +58,8 @@ export class AudioController {
         resumeAllAudio,
         uiIdle: () => uiIdle(elements.chatHistory, elements.replayBtn, elements.playPauseBtn),
         inputNotEmpty: () => inputNotEmpty(elements.playPauseBtn, elements.replayBtn, elements.stopBtn, elements.formInput),
+        uiLoadingButtons: () => uiLoadingButtons(elements.playPauseBtn),
+        uiPlayingButtons: () => uiPlayingButtons(elements.speechAudio, elements.backgroundAudio),
         showLoadingAnimation,
         hideLoadingAnimation,
         getRedColor,

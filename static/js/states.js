@@ -7,11 +7,12 @@ export function handleStateChange(sm, newState, actions) {
         break;
 
       case AudioSm.StateId.READY:
-        sm.actions.inputNotEmpty?.();
+        sm.actions.inputNotEmpty?.(); // buttons turn to enabled and their text changes
         break;
   
       case AudioSm.StateId.LOADING:
         sm.actions.showLoadingAnimation?.(sm);
+        sm.actions.uiLoading?.();
         
         const formObject = sm.actions.form;
         if (!formObject) return; // stop if empty
@@ -32,7 +33,8 @@ export function handleStateChange(sm, newState, actions) {
           }
           sm.actions.syncAll?.();
           sm.actions.removeBlur?.();
-          sm.actions.redDots?.();
+          sm.action.uiPlaying?.();
+          // sm.actions.redDots?.();
           break;
           
       case AudioSm.StateId.REPLAYING:

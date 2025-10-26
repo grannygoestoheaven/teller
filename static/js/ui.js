@@ -14,7 +14,7 @@ export function initInputAdjustments(subjectInput, minHeight = subjectInput.clie
     const h = Math.max(subjectInput.scrollHeight, minHeight);
     subjectInput.style.height = h + 'px';
   };
-  
+ 
   subjectInput.addEventListener('input', adjustInput);
   adjustInput(); // initialize on load
 }
@@ -39,4 +39,13 @@ export function inputNotEmpty(playPauseBtn, replayBtn, stopBtn, formInput) {
   if (playPauseBtn) {
       playPauseBtn.disabled = !isNotEmpty;
   }
+}
+
+export function uiLoadingButtons() {
+  playPauseBtn.textContent = 'Pause';
+  playPauseBtn.disabled = true;
+}
+
+export function uiPlayingButtons() {
+  playPauseBtn.disabled = false;
 }

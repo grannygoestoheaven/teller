@@ -99,9 +99,9 @@ document.addEventListener('DOMContentLoaded', () => {
     clearHighlights: clearHighlights,
   });
 
-  initLoadingElements(elements.chatHistory, elements.loadingAnimationContainer, elements.loadingAnimation, elements.period1, elements.period2, elements.period3);
-  initTextStreamer(elements.chatHistory, elements.formInput);
-  initInputAdjustments(elements.formInput);
+  initLoadingElements();
+  initTextStreamer();
+  initInputAdjustments();
 
   // start the state machine
   startStateMachine();

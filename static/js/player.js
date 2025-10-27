@@ -1,3 +1,5 @@
+import { elements } from "./config.js"; 
+
 export function loadPlayer(data) {
   speechAudio.src = data.audio_url;
   backgroundAudio.src = data.track_url;

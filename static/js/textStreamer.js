@@ -1,14 +1,10 @@
-let chatHistoryElement;
-let subjectInputElement;
-let currentlyHighlightedWords = [];
+import { elements } from "./config.js";
 
-export function initTextStreamer(chatHistoryEl, subjectInputEl) {
-    chatHistoryElement = chatHistoryEl;
-    subjectInputElement = subjectInputEl;
-}
+let currentlyHighlightedWords = [];
 
 // Function to stream text with typing effect and add interactivity
 export async function streamText(text) {
+    const chatHistoryElement = elements.chatHistory;
     chatHistoryElement.innerHTML = ''; // Clear container before streaming
 
     const delay = 5; // Base delay in milliseconds

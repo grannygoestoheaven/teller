@@ -33,8 +33,8 @@ export function handleStateChange(sm, newState, actions) {
           }
           sm.actions.syncAll?.();
           sm.actions.removeBlur?.();
-          sm.action.uiPlaying?.();
-          // sm.actions.redDots?.();
+          sm.actions.uiPlaying?.();
+          sm.actions.redDots?.();
           break;
           
       case AudioSm.StateId.REPLAYING:

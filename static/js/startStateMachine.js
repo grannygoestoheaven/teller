@@ -4,7 +4,7 @@ import { handleStateChange } from "./states.js";
 
 export function startStateMachine() {
 
-    const sm = new AudioSm(); // the class is included in the html file, so we can call it here.
+    const sm = new AudioSm(); // the class is included in the html file, so we can call it here. It's the StateSmith approach. You don't edit the generated class.
     sm.actions = actions;
 
     const originalDispatch = sm.dispatchEvent.bind(sm);
@@ -19,6 +19,6 @@ export function startStateMachine() {
     };
 
     events(sm, elements);
+
     sm.start();
 };
-    

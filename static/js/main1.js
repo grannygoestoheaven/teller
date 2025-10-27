@@ -1,5 +1,6 @@
 import { startStateMachine } from "./startStateMachine.js";
 import { elements, actions } from "./config.js";
+
 import { startOrRestartNewStory } from "./listeners.js";
 import { startNewStoryProcess } from "./storyService.js";
 
@@ -20,7 +21,6 @@ import { uiIdle,
 } from "./ui.js";
 
 import {
-  initLoadingElements,
   showLoadingAnimation,
   hideLoadingAnimation,
   getRedColor,
@@ -30,7 +30,6 @@ import {
 } from "./animation.js";
 
 import {
-  initTextStreamer,
   streamText,
   handleWordClick,
   handleMouseMove,
@@ -43,22 +42,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // A single object to hold all HTML elements.
   const domElements = {
-    speechAudio: document.getElementById('speechAudio'),
-    backgroundAudio: document.getElementById('backgroundAudio'),
-    chatHistory: document.getElementById('chatHistory'),
-    loadingAnimationContainer: document.getElementById('loadingAnimationContainer'),
-    loadingAnimation: document.getElementById('loadingAnimation'),
+    speech: document.getElementById('speechAudio'),
+    backgroundTrack: document.getElementById('backgroundAudio'),
+    storyText: document.getElementById('chatHistory'),
+    dotsContainer: document.getElementById('loadingAnimationContainer'),
+    dots: document.getElementById('loadingAnimation'),
     form: document.getElementById('story-form'),
     formInput: document.getElementById('subject'),
-    replayBtn: document.getElementById('replayBtn'),
-    playPauseBtn: document.getElementById('playPauseBtn'),
-    stopBtn: document.getElementById('stopBtn'),
+    replayButton: document.getElementById('replayBtn'),
+    playPauseButton: document.getElementById('playPauseBtn'),
+    stopButton: document.getElementById('stopBtn'),
   };
 
-  if (elements.loadingAnimation) {
-    elements.period1 = elements.loadingAnimation.querySelector('.period-1');
-    elements.period2 = elements.loadingAnimation.querySelector('.period-2');
-    elements.period3 = elements.loadingAnimation.querySelector('.period-3');
+  if (elements.dots) {
+    elements.period1 = domElements.dots.querySelector('.period-1');
+    elements.period2 = domElements.dots.querySelector('.period-2');
+    elements.period3 = domElements.dots.querySelector('.period-3');
   }
 
   Object.assign(elements, domElements);
@@ -98,9 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
     findNextWordSpan: findNextWordSpan,
     clearHighlights: clearHighlights,
   });
-
-  initLoadingElements();
-  initTextStreamer();
+  // Adjusting input field
   initInputAdjustments();
 
   // start the state machine

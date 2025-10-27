@@ -11,7 +11,7 @@ import {
   resumeAllAudio,
 } from "./player.js";
 
-import { uiIdle, initInputAdjustments, inputNotEmpty, uiLoadingButtons, uiPlayingButtons, uiLoadingButtons, uiPlayingButtons } from "./ui.js";
+import { uiIdle, initInputAdjustments, inputNotEmpty, uiLoadingButtons, uiPlayingButtons } from "./ui.js";
 
 import {
   initLoadingElements,

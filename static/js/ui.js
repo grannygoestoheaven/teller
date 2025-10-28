@@ -1,51 +1,64 @@
-export function uiIdle(chatHistory, replayBtn, playPauseBtn) {
+import { elements } from config.js;
+
+export function uiIdle() {
   // Clear past story
-  chatHistory.innerHTML = '';
+  elements.chatHistory.innerHTML = '';
   // Reset buttons
-  replayBtn.disabled = true;
-  playPauseBtn.disabled = true;
-  playPauseBtn.textContent = 'Play new Story';
+  elements.replayBtn.disabled = true;
+  elements.playPauseBtn.disabled = true;
+  elements.playPauseBtn.textContent = 'Play new Story';
 }
 
-export function initInputAdjustments(subjectInput, minHeight = subjectInput.clientHeight) {
+export function initInputAdjustments() {
+  const subjectInput = elements.formInput; // Get input from store
+  const minHeight = subjectInput.clientHeight;
   const adjustInput = () => {
     subjectInput.style.overflow = 'hidden'
     subjectInput.style.height = 'auto';
     const h = Math.max(subjectInput.scrollHeight, minHeight);
     subjectInput.style.height = h + 'px';
   };
- 
+  
   subjectInput.addEventListener('input', adjustInput);
   adjustInput(); // initialize on load
 }
 
-// // Update UI state based on the form's input
-// export function inputNotEmpty(playPauseBtn, replayBtn, stopBtn, formInput) {
-//   let inputNotEmpty = formInput.value.length > 0;
-//   if (inputNotEmpty) {
-//     playPauseBtn.textContent = 'Start new story';
-//     playPauseBtn.disabled = false;
-//     replayBtn.disabled = true;
-//     stopBtn.disabled = false;
-//   }
-// }
+export function inputNotEmpty() {
+  // Access elements from the global store
+  const formInput = elements.formInput;
+  const replayBtn = elements.replayBtn;
+  const playPauseBtn = elements.playPauseBtn;
 
-export function inputNotEmpty(playPauseBtn, replayBtn, stopBtn, formInput) {
+  // The logic is now cleaner
   const isNotEmpty = formInput.value.trim().length > 0;
+  
   if (replayBtn) {
       replayBtn.disabled = !isNotEmpty;
   }
-  // Now, also handle the playPauseBtn
+  
   if (playPauseBtn) {
       playPauseBtn.disabled = !isNotEmpty;
+      // Optional: Set text only when it becomes startable
+      if (isNotEmpty) {
+          playPauseBtn.textContent = 'Start new story';
+      }
   }
 }
 
 export function uiLoadingButtons() {
-  playPauseBtn.textContent = 'Pause';
-  playPauseBtn.disabled = true;
+  elements.replayBtn.disabled = true;
+  elements.playPauseBtn.disabled = true;
+  elements.playPauseBtn.textContent = 'Loading';
 }
 
 export function uiPlayingButtons() {
-  playPauseBtn.disabled = false;
+  elements.replayBtn.disabled = false;
+  elements.playPauseBtn.disabled = false;
+  elements.playPauseBtn.textContent = 'Pause';
+}
+
+export function uiPausedButtons() {
+  elements.replayBtn.disabled = false;
+  elements.playPauseBtn.disabled = false;
+  elements.playPauseBtn.textContent = 'Resume';
 }

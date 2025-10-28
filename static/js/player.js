@@ -1,8 +1,8 @@
 import { elements } from "./config.js"; 
 
 export function loadPlayer(data) {
-  speechAudio.src = data.audio_url;
-  backgroundAudio.src = data.track_url;
+  elements.speech.src = data.speechUrl;
+  elements.backgroundTrack.src = data.trackUrl;
   // clearPlaybackTimers(speechAudio, backgroundAudio);
 }
 
@@ -40,6 +40,6 @@ export function pauseAllAudio() {
 }
 
 export function resumeAllAudio() {
-  speechAudio.play()
-  backgroundAudio.play();
+  speechAudio.currentTime.play()
+  backgroundAudio.currentTime.play();
 };

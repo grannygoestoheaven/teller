@@ -1,6 +1,7 @@
-export function handleStateChange(sm, newState, actions) {
-    actions = actions || sm.actions; // in case actions are passed directly
-    switch (newState) {
+import { sm } from "./config.js";
+
+export function handleStateChange() {
+    switch (newStateId) {
       case AudioSm.StateId.IDLE:
         sm.actions.stopAll?.();
         sm.actions.uiIdle?.();
@@ -11,8 +12,8 @@ export function handleStateChange(sm, newState, actions) {
         break;
   
       case AudioSm.StateId.LOADING:
-        sm.actions.showLoadingAnimation?.(sm);
-        sm.actions.uiLoading?.();
+        sm.actions.showLoadingAnimation?.();
+        sm.actions.uiLoadingButtons?.();
         
         const formObject = sm.actions.form;
         if (!formObject) return; // stop if empty
@@ -25,7 +26,7 @@ export function handleStateChange(sm, newState, actions) {
         break;
 
       case AudioSm.StateId.PLAYING:
-        if (sm.previousState === AudioSm.StateId.PAUSED) {
+        if (sm.prevStateId === AudioSm.StateId.PAUSED) {
             sm.actions.resumeAllAudio?.();
         } else {
             sm.actions.startSpeech?.();
@@ -44,6 +45,7 @@ export function handleStateChange(sm, newState, actions) {
       case AudioSm.StateId.PAUSED:
         sm.actions.pauseAllAudio?.();
         sm.actions.addBlurr?.();
+        sm.actions.
         break;
 
       case AudioSm.StateId.TEXT_DISPLAYED:

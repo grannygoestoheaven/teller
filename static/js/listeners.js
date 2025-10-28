@@ -1,4 +1,5 @@
-// uiEvents.js
+import { sm, elements } from './config.js';
+
 // export function events(sm, {form, formInput, speechAudio, replayBtn, playPauseBtn, stopBtn}) {
 
 //     window.addEventListener('keydown', (event) => {
@@ -59,55 +60,55 @@
   // }
 
   // uiEvents.js
-export function events(sm, {form, formInput, speechAudio, replayBtn, playPauseBtn, stopBtn}) {
+export function events() {
 
   window.addEventListener('keydown', (event) => {
-    if (event.code === 'Space' && document.activeElement !== formInput) {
-      console.log('Space pressed');
-      sm.dispatchEvent(AudioSm.EventId.PLAY_BTN_CLICKED);
+    if (event.code === 'Space' 
+      && document.activeElement.tagName !== 'INPUT' 
+      && document.activeElement.tagName !== 'TEXTAREA') {
+        event.preventDefault();
+        sm.dispatchEvent(AudioSm.EventId.PLAY_BTN_CLICKED);
     }
   });
 
-  form?.addEventListener('keydown', (event) => {
+  elements.form?.addEventListener('keydown', (event) => {
     if (event.code === 'Enter' && !event.shiftKey) {
       event.preventDefault();
-      console.log('Enter pressed in form');
       sm.dispatchEvent(AudioSm.EventId.PLAY_BTN_CLICKED);
     }
   });
 
-  formInput?.addEventListener('input', () => {
-    console.log('Input event fired!');
+  elements.formInput?.addEventListener('input', () => {
     sm.dispatchEvent(AudioSm.EventId.FORM_NOT_EMPTY);
   });
 
-  form?.addEventListener("submit", (e) => {
+  elements.form?.addEventListener("submit", (e) => {
     e.preventDefault();
     console.log('Form submitted');
     startOrRestartNewStory(sm, formInput);
   });
 
-  speechAudio?.addEventListener('canplaythrough', () => {
+  elements.speech?.addEventListener('canplaythrough', () => {
     console.log('Audio ready to play');
     sm.dispatchEvent(AudioSm.EventId.SPEECH_READY);
   });
 
-  speechAudio?.addEventListener('ended', () => {
+  elements.speech?.addEventListener('ended', () => {
     console.log('Audio ended');
     sm.dispatchEvent(AudioSm.EventId.SPEECH_OVER);
   });
 
-  playPauseBtn?.addEventListener("click", () => {
+  elements.playPauseButton?.addEventListener("click", () => {
     console.log('Play/Pause clicked');
     startOrRestartNewStory(sm, formInput);
   });
 
-  stopBtn?.addEventListener("click", () => {
+  elements.stopButton?.addEventListener("click", () => {
     console.log('Stop clicked');
     sm.dispatchEvent(AudioSm.EventId.CANCEL);
   });
 
-  replayBtn?.addEventListener("click", () => {
+  elements.replayButton?.addEventListener("click", () => {
     console.log('Replay clicked');
     sm.dispatchEvent(AudioSm.EventId.REPLAY_BTN_CLICKED);
   });

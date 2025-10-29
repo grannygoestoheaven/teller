@@ -67,66 +67,66 @@ export function events() {
       && document.activeElement.tagName !== 'INPUT' 
       && document.activeElement.tagName !== 'TEXTAREA') {
         event.preventDefault();
-        sm.dispatchEvent(AudioSm.EventId.PLAY_BTN_CLICKED);
+        sm.dispatchEvent(AudioSm.EventId.PLAY_BTN_CLICKED); // leads to PLAYING state or PAUSED state
     }
   });
 
-  elements.form?.addEventListener('keydown', (event) => {
-    if (event.code === 'Enter' && !event.shiftKey) {
-      event.preventDefault();
-      sm.dispatchEvent(AudioSm.EventId.PLAY_BTN_CLICKED);
-    }
-  });
+  // elements.form?.addEventListener('keydown', (event) => {
+  //   if (event.code === 'Enter' && !event.shiftKey) {
+  //     event.preventDefault();
+  //     sm.dispatchEvent(AudioSm.EventId.PLAY_BTN_CLICKED); // leads to PLAYING state
+  //   }
+  // });
 
   elements.formInput?.addEventListener('input', () => {
-    sm.dispatchEvent(AudioSm.EventId.FORM_NOT_EMPTY);
+    sm.dispatchEvent(AudioSm.EventId.FORM_NOT_EMPTY); // leads to READY state
   });
 
   elements.form?.addEventListener("submit", (e) => {
     e.preventDefault();
     console.log('Form submitted');
-    startOrRestartNewStory(sm, formInput);
+    startOrRestartNewStory(sm, elements.formInput); // leads to LOADING state
   });
 
   elements.speech?.addEventListener('canplaythrough', () => {
     console.log('Audio ready to play');
-    sm.dispatchEvent(AudioSm.EventId.SPEECH_READY);
+    sm.dispatchEvent(AudioSm.EventId.SPEECH_READY); // leads to PLAYING state
   });
 
   elements.speech?.addEventListener('ended', () => {
     console.log('Audio ended');
-    sm.dispatchEvent(AudioSm.EventId.SPEECH_OVER);
+    sm.dispatchEvent(AudioSm.EventId.SPEECH_OVER); // leads to TEXT_DISPLAYED state
   });
 
   elements.playPauseButton?.addEventListener("click", () => {
     console.log('Play/Pause clicked');
-    startOrRestartNewStory(sm, formInput);
+    startOrRestartNewStory(elements.formInput); // leads to PLAYING state
   });
 
   elements.stopButton?.addEventListener("click", () => {
     console.log('Stop clicked');
-    sm.dispatchEvent(AudioSm.EventId.CANCEL);
+    sm.dispatchEvent(AudioSm.EventId.CANCEL); // leads to IDLE state
   });
 
   elements.replayButton?.addEventListener("click", () => {
     console.log('Replay clicked');
-    sm.dispatchEvent(AudioSm.EventId.REPLAY_BTN_CLICKED);
+    sm.dispatchEvent(AudioSm.EventId.REPLAY_BTN_CLICKED); // leads to REPLAYING state
   });
 }
 
-export function startOrRestartNewStory(sm, newInput) {
+export function startOrRestartNewStory (newInput) {
   const ready = newInput.value.trim().length >= 1;
   if (!ready) {
     console.log('Form input empty, abort');
     return;
   }
 
-  if (sm._stateId === AudioSm.StateId.IDLE) {
+  if (sm.stateId === AudioSm.StateId.IDLE) {
     console.log('Starting new story');
     sm.dispatchEvent(AudioSm.EventId.PLAY_BTN_CLICKED);
   } else {
     console.log('Restarting story');
-    sm.dispatchEvent(AudioSm.EventId.CANCEL);
-    sm.dispatchEvent(AudioSm.EventId.PLAY_BTN_CLICKED);
+    sm.dispatchEvent(AudioSm.EventId.CANCEL); // leads to IDLE state
+    sm.dispatchEvent(AudioSm.EventId.PLAY_BTN_CLICKED); // leads to PLAYING state with a new story
   }
 }

@@ -4,3 +4,4 @@ export function clearPlaybackTimers() {
     clearTimeout(bgFadeTimeout);
     clearTimeout(bgFadeOutTimeout);
   }
+  

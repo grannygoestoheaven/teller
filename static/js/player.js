@@ -19,6 +19,13 @@ export function startMusic() {
   backgroundAudio.play();
 }
 
+export function replay() {
+  speechAudio.currentTime = 0;
+  backgroundAudio.currentTime = 0;
+  speechAudio.play();
+  backgroundAudio.play();
+}
+
 export function syncAll() {
   // Keep speech as master
   const drift = backgroundAudio.currentTime - speechAudio.currentTime;
@@ -40,6 +47,6 @@ export function pauseAllAudio() {
 }
 
 export function resumeAllAudio() {
-  speechAudio.currentTime.play()
-  backgroundAudio.currentTime.play();
+  speechAudio.play()
+  backgroundAudio.play();
 };

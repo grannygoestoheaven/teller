@@ -9,4 +9,4 @@ export let lastStoryData = {
     hasAudio: Boolean,
     trackUrl: "",
     timestamp: 0
-}
+};

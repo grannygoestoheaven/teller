@@ -18,23 +18,19 @@ export function handleStateChange() {
         const formObject = sm.actions.form;
         if (!formObject) return; // stop if empty
 
-        sm.actions.startNewStoryProcess?.(formObject).then((data) => {
-            // This is where we get the audio data
-            // We pass it to loadPlayer to set the audio sources
-            sm.actions.loadPlayer?.(data);
-        });
+        sm.actions.startNewStoryProcess?.()
         break;
 
       case AudioSm.StateId.PLAYING:
-        if (sm.prevStateId === AudioSm.StateId.PAUSED) {
+        if (sm.StateId === AudioSm.StateId.PAUSED) {
             sm.actions.resumeAllAudio?.();
         } else {
-            sm.actions.startSpeech?.();
             sm.actions.startMusic?.();
+            sm.actions.startSpeech?.();
           }
           sm.actions.syncAll?.();
           sm.actions.removeBlur?.();
-          sm.actions.uiPlaying?.();
+          sm.actions.uiPlayingButtons?.();
           sm.actions.redDots?.();
           break;
           
@@ -45,7 +41,6 @@ export function handleStateChange() {
       case AudioSm.StateId.PAUSED:
         sm.actions.pauseAllAudio?.();
         sm.actions.addBlurr?.();
-        sm.actions.
         break;
 
       case AudioSm.StateId.TEXT_DISPLAYED:

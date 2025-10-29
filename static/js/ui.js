@@ -26,39 +26,41 @@ export function initInputAdjustments() {
 export function inputNotEmpty() {
   // Access elements from the global store
   const formInput = elements.formInput;
-  const replayBtn = elements.replayBtn;
-  const playPauseBtn = elements.playPauseBtn;
+  const replayButton = elements.replayButton;
+  const playPauseButton = elements.playPauseButton;
 
   // The logic is now cleaner
   const isNotEmpty = formInput.value.trim().length > 0;
   
-  if (replayBtn) {
-      replayBtn.disabled = !isNotEmpty;
+  if (replayButton) {
+      replayButton.disabled = !isNotEmpty;
   }
   
-  if (playPauseBtn) {
-      playPauseBtn.disabled = !isNotEmpty;
+  if (playPauseButton) {
+      playPauseButton.disabled = !isNotEmpty;
       // Optional: Set text only when it becomes startable
       if (isNotEmpty) {
-          playPauseBtn.textContent = 'Start new story';
+          playPauseButton.textContent = 'Start new story';
       }
   }
 }
 
 export function uiLoadingButtons() {
-  elements.replayBtn.disabled = true;
-  elements.playPauseBtn.disabled = true;
-  elements.playPauseBtn.textContent = 'Loading';
+  elements.replayButton.disabled = true;
+  elements.playPauseButton.disabled = true;
+  elements.playPauseButton.textContent = 'Loading';
+  elements.formInput.value = '';
+  elements.style.display = 'none';
 }
 
 export function uiPlayingButtons() {
-  elements.replayBtn.disabled = false;
-  elements.playPauseBtn.disabled = false;
-  elements.playPauseBtn.textContent = 'Pause';
+  elements.replayButton.disabled = false;
+  elements.playPauseButton.disabled = false;
+  elements.playPauseButton.textContent = 'Pause';
 }
 
 export function uiPausedButtons() {
-  elements.replayBtn.disabled = false;
-  elements.playPauseBtn.disabled = false;
-  elements.playPauseBtn.textContent = 'Resume';
+  elements.replayButton.disabled = false;
+  elements.playPauseButton.disabled = false;
+  elements.playPauseButton.textContent = 'Resume';
 }

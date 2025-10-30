@@ -1,6 +1,4 @@
-import { sm } from "./config.js";
-
-export function handleStateChange() {
+export function handleStateChange(sm, newStateId) {
     switch (newStateId) {
       case AudioSm.StateId.IDLE:
         sm.actions.stopAll?.();

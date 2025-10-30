@@ -1,9 +1,9 @@
 // storyService.js
-import { elements, sm, lastStoryData } from "./config.js";
+import { elements } from "./config.js";
 
 let abortController;
 
-export async function startNewStoryProcess() {
+export async function startNewStoryProcess(sm) {
     abortController = new AbortController();
   
     // Get subject

@@ -1,4 +1,4 @@
-import { elements, lastStoryText } from "./config.js";
+import { elements } from "./config.js";
 
 let currentlyHighlightedWords = [];
 

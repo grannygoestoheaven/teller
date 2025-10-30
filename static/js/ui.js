@@ -1,4 +1,4 @@
-import { elements } from config.js;
+import { elements } from "./config.js";
 
 export function uiIdle() {
   // Clear past story
@@ -50,7 +50,7 @@ export function uiLoadingButtons() {
   elements.playPauseButton.disabled = true;
   elements.playPauseButton.textContent = 'Loading';
   elements.formInput.value = '';
-  elements.style.display = 'none';
+  elements.formInput.style.display = 'none';
 }
 
 export function uiPlayingButtons() {

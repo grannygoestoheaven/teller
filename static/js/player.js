@@ -4,6 +4,9 @@ export function loadPlayer(data) {
   elements.speech.src = data.speechUrl;
   elements.backgroundTrack.src = data.trackUrl;
   // clearPlaybackTimers(speechAudio, backgroundAudio);
+  if (elements.speech.src) {
+  console.log("Audio sources set:")
+  }
 }
 
 export function startSpeech() {

@@ -1,7 +1,7 @@
 import { startStateMachine } from "./startStateMachine.js";
-import { elements, actions } from "./config.js";
+import { elements } from "./config.js";
 
-import { startOrRestartNewStory } from "./listeners.js";
+import { events, startOrRestartNewStory } from "./listeners.js";
 import { startNewStoryProcess } from "./storyService.js";
 
 import {
@@ -54,52 +54,58 @@ document.addEventListener('DOMContentLoaded', () => {
     stopButton: document.getElementById('stopBtn'),
   };
 
+  Object.assign(elements, domElements);
+
   if (elements.dots) {
     elements.period1 = domElements.dots.querySelector('.period-1');
     elements.period2 = domElements.dots.querySelector('.period-2');
     elements.period3 = domElements.dots.querySelector('.period-3');
   }
 
-  Object.assign(elements, domElements);
-
-  Object.assign(actions, {
+  const localActions = {
     // Story and Process Actions
-    startNewStoryProcess: startNewStoryProcess,
-    startOrRestartNewStory: startOrRestartNewStory,
+    startNewStoryProcess,
+    startOrRestartNewStory,
 
     // Player Actions
-    loadPlayer: loadPlayer,
-    startSpeech: startSpeech,
-    startMusic: startMusic,
-    syncAll: syncAll,
-    pauseAllAudio: pauseAllAudio,
-    resumeAllAudio: resumeAllAudio,
+    loadPlayer,
+    startSpeech,
+    startMusic,
+    syncAll,
+    pauseAllAudio,
+    resumeAllAudio,
 
     // UI Actions
-    uiIdle: uiIdle,
-    inputNotEmpty: inputNotEmpty,
-    uiLoadingButtons: uiLoadingButtons,
-    uiPlayingButtons: uiPlayingButtons,
+    uiIdle,
+    inputNotEmpty,
+    uiLoadingButtons,
+    uiPlayingButtons,
 
     // Animation Actions
-    showLoadingAnimation: showLoadingAnimation,
-    hideLoadingAnimation: hideLoadingAnimation,
-    getRedColor: getRedColor,
-    redDots: redDots,
-    addBlurr: addBlurr,
-    removeBlurr: removeBlurr,
+    showLoadingAnimation,
+    hideLoadingAnimation,
+    getRedColor,
+    redDots,
+    addBlurr,
+    removeBlurr,
 
     // Text Streamer Actions
-    streamText: streamText,
-    handleWordClick: handleWordClick,
-    handleMouseMove: handleMouseMove,
-    handleMouseOut: handleMouseOut,
-    findNextWordSpan: findNextWordSpan,
-    clearHighlights: clearHighlights,
-  });
+    streamText,
+    handleWordClick,
+    handleMouseMove,
+    handleMouseOut,
+    findNextWordSpan,
+    clearHighlights,
+  };
+
+  const sm = new AudioSm();
+  sm.actions = localActions;
+
+  events(sm);
+
   // Adjusting input field
   initInputAdjustments();
 
   // start the state machine
-  startStateMachine();
+  startStateMachine(sm);
 });

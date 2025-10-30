@@ -1,4 +1,4 @@
-import { sm, elements } from './config.js';
+import { elements } from './config.js';
 
 // export function events(sm, {form, formInput, speechAudio, replayBtn, playPauseBtn, stopBtn}) {
 
@@ -60,7 +60,7 @@ import { sm, elements } from './config.js';
   // }
 
   // uiEvents.js
-export function events() {
+export function events(sm) {
 
   window.addEventListener('keydown', (event) => {
     if (event.code === 'Space' 
@@ -100,7 +100,7 @@ export function events() {
 
   elements.playPauseButton?.addEventListener("click", () => {
     console.log('Play/Pause clicked');
-    startOrRestartNewStory(elements.formInput); // leads to PLAYING state
+    startOrRestartNewStory(sm, elements.formInput); // leads to PLAYING state
   });
 
   elements.stopButton?.addEventListener("click", () => {
@@ -114,7 +114,7 @@ export function events() {
   });
 }
 
-export function startOrRestartNewStory (newInput) {
+export function startOrRestartNewStory (sm, newInput) {
   const ready = newInput.value.trim().length >= 1;
   if (!ready) {
     console.log('Form input empty, abort');

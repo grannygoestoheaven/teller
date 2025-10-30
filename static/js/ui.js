@@ -50,7 +50,7 @@ export function uiLoadingButtons() {
   elements.playPauseButton.disabled = true;
   elements.playPauseButton.textContent = 'Loading';
   elements.formInput.value = '';
-  elements.formInput.style.display = 'none';
+  // elements.formInput.style.display = 'none';
 }
 
 export function uiPlayingButtons() {

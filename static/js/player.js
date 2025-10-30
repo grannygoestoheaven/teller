@@ -3,10 +3,8 @@ import { elements } from "./config.js";
 export function loadPlayer(data) {
   elements.speech.src = data.speechUrl;
   elements.backgroundTrack.src = data.trackUrl;
+  console.log("DIAGNOSTIC: Audio sources were successfully set.");
   // clearPlaybackTimers(speechAudio, backgroundAudio);
-  if (elements.speech.src) {
-  console.log("Audio sources set:")
-  }
 }
 
 export function startSpeech() {

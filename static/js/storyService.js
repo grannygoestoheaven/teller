@@ -3,7 +3,8 @@ import { elements } from "./config.js";
 
 let abortController;
 
-export async function startNewStoryProcess(sm) {
+export async function startNewStoryProcess() {
+    console.log("hello");
     abortController = new AbortController();
   
     // Get subject
@@ -22,11 +23,6 @@ export async function startNewStoryProcess(sm) {
     lastStoryData.fileName = data.display_filename;
     lastStoryData.hasAudio = data.has_audio;
     lastStoryData.timestamp = Date.now(); // Or use a timestamp from 'data' if the backend provides one
-
-    sm.actions.loadPlayer({
-      speechUrl: data.speech_url,
-      trackUrl: data.bg_track_url
-  });
 
     return data;
   }

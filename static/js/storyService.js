@@ -9,6 +9,7 @@ export async function startNewStoryProcess() {
   
     // Get subject
     const formData = new FormData(elements.form);
+    console.log("Form Data:", Array.from(formData.entries()));
     const subject = formData.get('subject').trim();
     formData.set('subject', subject);
 

@@ -16,6 +16,8 @@ export function handleStateChange(sm, newStateId) {
 
         // sm.actions.AudioReadinessListener?.(sm);
         // console.log('still here')
+        // const formObject = elements.form;
+        // if (!formObject) return; // stop if empty
 
         sm.actions.startNewStoryProcess?.().then((data) => {
           console.log("DIAGNOSTIC: Network fetch succeeded. Data received:", data);

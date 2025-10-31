@@ -45,10 +45,10 @@ export function events(sm) {
     startOrRestartNewStory(sm, elements.formInput); // leads to LOADING state
   });
 
-  // elements.speech?.addEventListener('canplaythrough', () => {
-  //   console.log('Audio ready to play');
-  //   sm.dispatchEvent(AudioSm.EventId.SPEECH_READY); // leads to PLAYING state
-  // });
+  elements.speech?.addEventListener('canplaythrough', () => {
+    console.log('Audio ready to play');
+    sm.dispatchEvent(AudioSm.EventId.SPEECH_READY); // leads to PLAYING state
+  });
 
   elements.speech?.addEventListener('ended', () => {
     console.log('Audio ended');

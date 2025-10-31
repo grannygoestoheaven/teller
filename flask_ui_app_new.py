@@ -285,8 +285,8 @@ def teller_ui():
             'tagged_story': raw_story,
             'display_filename': display_filename,
             'has_audio': bool(audio_url_for_client),
-            'speech_url': audio_url_for_client, # Will be None if not generated
-            'bg_track_url': track_url_for_client # Will be None if not found
+            'speechUrl': audio_url_for_client, # Will be None if not generated
+            'trackUrl': track_url_for_client # Will be None if not found
         }
         if story:
             saved_fname = save_story_to_server(subject, raw_story, story)

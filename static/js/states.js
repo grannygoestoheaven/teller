@@ -13,11 +13,9 @@ export function handleStateChange(sm, newStateId) {
       case AudioSm.StateId.LOADING:
         sm.actions.showLoadingAnimation?.();
         sm.actions.uiLoadingButtons?.();
-        
-        const formObject = sm.actions.form;
-        if (!formObject) return; // stop if empty
 
-        sm.actions.AudioReadinessListener?.(sm);
+        // sm.actions.AudioReadinessListener?.(sm);
+        // console.log('still here')
 
         sm.actions.startNewStoryProcess?.().then((data) => {
           console.log("DIAGNOSTIC: Network fetch succeeded. Data received:", data);

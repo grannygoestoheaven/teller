@@ -4,7 +4,7 @@ import { elements } from "./config.js";
 let abortController;
 
 export async function startNewStoryProcess() {
-    console.log("hello");
+    console.log("new story process started");
     abortController = new AbortController();
   
     // Get subject
@@ -18,12 +18,12 @@ export async function startNewStoryProcess() {
     const data = await res.json();
 
     // Set all relevant keys from the backend response
-    lastStoryData.cleanStory = data.story;
-    lastStoryData.taggedStory = data.tagged_story;
-    lastStoryData.fileName = data.display_filename;
-    lastStoryData.hasAudio = data.has_audio;
-    lastStoryData.timestamp = Date.now(); // Or use a timestamp from 'data' if the backend provides one
-
+    // lastStoryData.cleanStory = data.story;
+    // lastStoryData.taggedStory = data.tagged_story;
+    // lastStoryData.fileName = data.display_filename;
+    // lastStoryData.hasAudio = data.has_audio;
+    // lastStoryData.timestamp = Date.now(); // Or use a timestamp from 'data' if the backend provides one
+    console.log(data);
     return data;
   }
 

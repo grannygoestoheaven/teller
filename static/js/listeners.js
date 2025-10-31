@@ -73,6 +73,8 @@ export function events(sm) {
 
 export function startOrRestartNewStory (sm, newInput) {
   const ready = newInput.value.trim().length >= 1;
+  console.log(ready);
+  console.log(newInput.value);
   if (!ready) {
     console.log('Form input empty, abort');
     return;

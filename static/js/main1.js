@@ -55,6 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   Object.assign(elements, domElements);
+  console.log("MAIN1 ASSIGNMENT: elements.formInput is now:", elements.formInput);
 
   if (elements.dots) {
     elements.period1 = domElements.dots.querySelector('.period-1');

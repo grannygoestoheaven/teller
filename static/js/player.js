@@ -4,50 +4,52 @@ export function loadPlayer(data) {
   elements.speech.src = data.speechUrl;
   elements.backgroundTrack.src = data.trackUrl;
   console.log("DIAGNOSTIC: Audio sources were successfully set.");
-  // clearPlaybackTimers(speechAudio, backgroundAudio);
+  // clearPlaybackTimers(elements.speech, b);
 }
 
 export function startSpeech() {
   // delay speech start by 3s
   setTimeout(() => {
-    speechAudio.currentTime = 0;
-    speechAudio.play();
+    elements.speech.currentTime = 0;
+    elements.speech.play();
   }, 5000);
 }
 
 export function startMusic() {  
-  backgroundAudio.currentTime = 0;
-  backgroundAudio.play();
+  elements.backgroundTrack.currentTime = 0;
+  elements.backgroundTrack.volume = 0.2;
+  elements.backgroundTrack.play();
 }
 
 export function replay() {
-  speechAudio.currentTime = 0;
-  backgroundAudio.currentTime = 0;
-  speechAudio.play();
-  backgroundAudio.play();
+  elements.speech.currentTime = 0;
+  elements.backgroundTrack.currentTime = 0;
+  elements.speech.play();
+  elements.backgroundTrack.play();
 }
 
 export function syncAll() {
   // Keep speech as master
-  const drift = backgroundAudio.currentTime - speechAudio.currentTime;
+  const drift = elements.backgroundTrack.currentTime - elements.speech.currentTime;
   
   if (Math.abs(drift) > 0.2) {  // >200ms noticeable
-    backgroundAudio.currentTime = speechAudio.currentTime;
+    elements.backgroundTrack.currentTime = elements.speech.currentTime;
   }
 }
 
 export function stopAll(){
-  speechAudio.currentTime = 0;
-  backgroundAudio.currentTime = 0;
+  elements.speech.currentTime = 0;
+  elements.backgroundTrack.currentTime = 0;
   abortController?.abort(); // cancels the fetch if still pending
 }
 
 export function pauseAllAudio() {
-  speechAudio.pause();
-  backgroundAudio.pause();
+  elements.speech.pause();
+  elements.backgroundTrack.pause();
 }
 
 export function resumeAllAudio() {
-  speechAudio.play()
-  backgroundAudio.play();
+  elements.speech.play()
+  elements.backgroundTrack.volume = 0.3;
+  elements.backgroundTrack.play();
 };

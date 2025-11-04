@@ -1,0 +1,50 @@
+@startuml AudioSm
+[*] --> PLAYER
+
+state PLAYER {
+    [*] --> IDLE
+
+    state IDLE {
+        entry / uiIdle(), initInputAdjustments();
+    }
+    state READY {
+        entry / uiReadyButtons();
+    }
+    state LOADING {
+        entry / startNewStoryProcess(), uiLoadingButtons(), showLoadingAnimation(), uiLoadingButtons();
+    }
+    state PLAYING {
+        entry / removeBlurr(), uiPlayingButtons();
+    }
+    state REPLAYING {
+        entry / replay()
+    }
+    state PAUSED {
+        entry / addBlur(), uiPausedButtons();
+    }
+    state TEXT_DISPLAYED
+
+    '############################ transitions ############################
+
+    IDLE --> READY : FORM_NOT_EMPTY / inputNotEmpty()
+
+    READY --> LOADING : PLAY_BTN_CLICKED / 
+
+    LOADING --> PLAYING : SPEECH_READY
+    LOADING --> IDLE : CANCEL
+
+    PLAYING --> PAUSED : PLAY_BTN_CLICKED
+    PLAYING --> READY : FORM_NOT_EMPTY
+    PLAYING --> IDLE : CANCEL
+    PLAYING --> TEXT_DISPLAYED : SPEECH_OVER
+
+    PAUSED --> PLAYING : PLAY_BTN_CLICKED
+    PAUSED --> REPLAYING : REPLAY_BTN_CLICKED
+    PAUSED --> READY : FORM_NOT_EMPTY
+    PAUSED --> IDLE : CANCEL
+}
+
+/'! $CONFIG : toml
+SmRunnerSettings.transpilerId = "JavaScript"
+'/
+@enduml

@@ -1,7 +1,7 @@
 import { startStateMachine } from "./startStateMachine.js";
 import { elements } from "./config.js";
 
-import { events, startOrRestartNewStory, AudioReadinessListener } from "./listeners.js";
+import { events, startOrRestartNewStory } from "./listeners.js";
 import { startNewStoryProcess } from "./storyService.js";
 
 import {
@@ -18,6 +18,7 @@ import { uiIdle,
   inputNotEmpty,
   uiLoadingButtons,
   uiPlayingButtons,
+  uiClearInput,
 } from "./ui.js";
 
 import {
@@ -67,7 +68,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Story and Process Actions
     startNewStoryProcess,
     startOrRestartNewStory,
-    AudioReadinessListener,
 
     // Player Actions
     loadPlayer,
@@ -80,6 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // UI Actions
     uiIdle,
     inputNotEmpty,
+    uiClearInput,
     uiLoadingButtons,
     uiPlayingButtons,
 

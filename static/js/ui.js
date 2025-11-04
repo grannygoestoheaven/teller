@@ -45,11 +45,21 @@ export function inputNotEmpty() {
   }
 }
 
+export function  uiReadyButtons() {
+  // Enable buttons when input is at least one character long
+  elements.replayButton.disabled = false;
+  elements.playPauseButton.disabled = false;
+}
+
+export function uiClearInput() {
+  // This function only handles the UI change
+  elements.formInput.value = ''; 
+}
+
 export function uiLoadingButtons() {
   elements.replayButton.disabled = true;
   elements.playPauseButton.disabled = true;
   elements.playPauseButton.textContent = 'Loading';
-  elements.formInput.value = '';
   // elements.formInput.style.display = 'none';
 }
 

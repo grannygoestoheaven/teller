@@ -1,48 +1,35 @@
 @startuml AudioSm
-[*] --> PLAYER
 
-state PLAYER {
+    '############################ States ############################
+
     [*] --> IDLE
 
-    state IDLE {
-        entry / uiIdle(), initInputAdjustments();
-    }
-    state READY {
-        entry / uiReadyButtons();
-    }
-    state LOADING {
-        entry / startNewStoryProcess(), uiLoadingButtons(), showLoadingAnimation(), uiLoadingButtons();
-    }
-    state PLAYING {
-        entry / removeBlurr(), uiPlayingButtons();
-    }
-    state REPLAYING {
-        entry / replay()
-    }
-    state PAUSED {
-        entry / addBlur(), uiPausedButtons();
-    }
+    state IDLE
+    state LOADING
+    state PLAYING
+    state PAUSED
     state TEXT_DISPLAYED
 
-    '############################ transitions ############################
+    '############################ Handlers ############################
 
-    IDLE --> READY : FORM_NOT_EMPTY / inputNotEmpty()
+    IDLE: enter / resetAllAudio(); uiIdle(); hideLoadingAnimation();
+    IDLE --> LOADING : FORM_SUBMITTED [inputNotEmpty()] / startNewStoryProcess();
+    IDLE --> LOADING : PLAY_BTN_CLICKED [inputNotEmpty()] / startNewStoryProcess();
 
-    READY --> LOADING : PLAY_BTN_CLICKED / 
-
+    LOADING: enter / showLoadingAnimation(); uiPlayingButtons();
     LOADING --> PLAYING : SPEECH_READY
-    LOADING --> IDLE : CANCEL
+    LOADING --> IDLE : CANCEL / abortProcess(); pauseAllAudio(); resetAllAudio();
 
-    PLAYING --> PAUSED : PLAY_BTN_CLICKED
-    PLAYING --> READY : FORM_NOT_EMPTY
-    PLAYING --> IDLE : CANCEL
-    PLAYING --> TEXT_DISPLAYED : SPEECH_OVER
+    PLAYING: enter / uiPlayingButtons(); redDots(); resetAllAudio(); setupAndStartAllAudio();
+    PLAYING --> PAUSED : PLAY_BTN_CLICKED / pauseAllAudio();
+    PLAYING --> LOADING : [inputNotEmpty()] / startNewStoryProcess();
+    PLAYING --> IDLE : CANCEL / abortProcess(); pauseAllAudio(); resetAllAudio();
+    PLAYING --> PLAYING : REPLAY_BTN_CLICKED / resumeAudioPosition(); resumeAllAudio();
 
-    PAUSED --> PLAYING : PLAY_BTN_CLICKED
-    PAUSED --> REPLAYING : REPLAY_BTN_CLICKED
-    PAUSED --> READY : FORM_NOT_EMPTY
+    PAUSED: enter / uiPausedButtons(); addBlur();
+    PAUSED --> PLAYING : PLAY_BTN_CLICKED / resumeAllAudio();
+    PAUSED --> PLAYING : REPLAY_BTN_CLICKED / replay();
     PAUSED --> IDLE : CANCEL
-}
 
 /'! $CONFIG : toml
 SmRunnerSettings.transpilerId = "JavaScript"

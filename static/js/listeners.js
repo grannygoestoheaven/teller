@@ -1,37 +1,15 @@
 import { elements } from './config.js';
 
-// export function AudioReadinessListener(sm) {
-//   if (elements.speech) { 
-//     const speechElement = elements.speech;
-
-//     // Remove old handler (even if it doesn't exist yet, it's safe).
-//     speechElement.removeEventListener('canplaythrough', speechElement.readyHandler);
-//     // Define the handler and store it.
-//     speechElement.readyHandler = () => {
-//       console.log("DIAGNOSTIC: canplaythrough event FIRED. Dispatching SPEECH_READY.");
-//       sm.dispatchEvent(AudioSm.EventId.SPEECH_READY);
-//       // Remove itself after firing.
-//       speechElement.removeEventListener('canplaythrough', speechElement.readyHandler);
-//     };
-//     // Set the new listener.
-//     speechElement.addEventListener('canplaythrough', speechElement.readyHandler);
-//   }
-// }
-
 export function events(sm) {
   window.addEventListener('keydown', (event) => {
-    if (event.code === 'Space' && document.activeElement.tagName !== 'INPUT') {
         event.preventDefault();
         sm.dispatchEvent(AudioSm.EventId.PLAY_BTN_CLICKED); // leads to PLAYING state or PAUSED state
-    }
   });
 
-  // elements.form?.addEventListener('keydown', (event) => {
-  //   if (event.code === 'Enter' && !event.shiftKey) {
-  //     event.preventDefault();
-  //     sm.dispatchEvent(AudioSm.EventId.PLAY_BTN_CLICKED); // leads to PLAYING state
-  //   }
-  // });
+  elements.form?.addEventListener('keydown', (event) => {
+      event.preventDefault();
+      sm.dispatchEvent(AudioSm.EventId.PLAY_BTN_CLICKED); // leads to PLAYING state
+  });
 
   elements.formInput?.addEventListener('input', () => {
     sm.dispatchEvent(AudioSm.EventId.FORM_NOT_EMPTY); // leads to READY state

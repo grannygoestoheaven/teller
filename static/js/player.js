@@ -8,23 +8,12 @@ export function loadPlayer(data) {
 }
 
 export function startSpeech() {
-  // delay speech start by 3s
-  setTimeout(() => {
-    elements.speech.currentTime = 0;
-    elements.speech.play();
-  }, 5000);
+  elements.speech.currentTime = 0;
+  elements.speech.play();
 }
 
 export function startMusic() {  
   elements.backgroundTrack.currentTime = 0;
-  elements.backgroundTrack.volume = 0.2;
-  elements.backgroundTrack.play();
-}
-
-export function replay() {
-  elements.speech.currentTime = 0;
-  elements.backgroundTrack.currentTime = 0;
-  elements.speech.play();
   elements.backgroundTrack.play();
 }
 
@@ -37,10 +26,22 @@ export function syncAll() {
   }
 }
 
-export function stopAll(){
-  elements.speech.currentTime = 0;
-  elements.backgroundTrack.currentTime = 0;
+export function abortProcess() {
   abortController?.abort(); // cancels the fetch if still pending
+}
+
+// Helper functions to pause/resume speech and background audio separately
+export function pauseSpeechOnly() {
+  elements.speech.pause();
+}
+export function resumeSpeechOnly() {
+  elements.speech.play();
+}
+export function pauseBackgroundOnly() {
+  elements.backgroundTrack.pause();
+}
+export function resumeBackgroundOnly() {
+  elements.backgroundTrack.play();
 }
 
 export function pauseAllAudio() {
@@ -50,6 +51,31 @@ export function pauseAllAudio() {
 
 export function resumeAllAudio() {
   elements.speech.play()
-  elements.backgroundTrack.volume = 0.3;
   elements.backgroundTrack.play();
-};
+}
+
+export function resetAllAudio(){
+  elements.speech.currentTime = 0;
+  elements.backgroundTrack.currentTime = 0;
+}
+
+export function stopAndResetAllAudio() {
+  pauseAllAudio();
+  resetAllAudio();
+}
+
+export function setUpAndStartAllAudio() {
+  setBgVolume();
+  resumeBackgroundOnly();
+  delaySpeechStart();
+}
+
+export function setBgVolume(volume = 0.2) {
+  elements.backgroundTrack.volume = volume;
+}
+
+export function delaySpeechStart(ms = 5000) {
+  setTimeout(() => {
+    elements.speech.play();
+  }, ms);
+}

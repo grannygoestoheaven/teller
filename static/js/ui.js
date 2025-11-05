@@ -45,7 +45,7 @@ export function inputNotEmpty() {
   }
 }
 
-export function  uiReadyButtons() {
+export function uiReadyButtons() {
   // Enable buttons when input is at least one character long
   elements.replayButton.disabled = false;
   elements.playPauseButton.disabled = false;

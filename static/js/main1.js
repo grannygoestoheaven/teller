@@ -1,4 +1,3 @@
-import { startStateMachine } from "./startStateMachine.js";
 import { elements } from "./config.js";
 
 import { events, startOrRestartNewStory } from "./listeners.js";
@@ -110,5 +109,5 @@ document.addEventListener('DOMContentLoaded', () => {
   initInputAdjustments();
 
   // start the state machine
-  startStateMachine(sm);
+  sm.start();
 });

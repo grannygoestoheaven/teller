@@ -1,42 +1,7 @@
 import { elements } from "./config.js";
+import { events } from "./listeners.js";
 
-import { events, startOrRestartNewStory } from "./listeners.js";
-import { startNewStoryProcess } from "./storyService.js";
-
-import {
-  loadPlayer,
-  startSpeech,
-  startMusic,
-  syncAll,
-  pauseAllAudio,
-  resumeAllAudio,
-} from "./player.js";
-
-import { uiIdle,
-  initInputAdjustments,
-  inputNotEmpty,
-  uiLoadingButtons,
-  uiPlayingButtons,
-  uiClearInput,
-} from "./ui.js";
-
-import {
-  showLoadingAnimation,
-  hideLoadingAnimation,
-  getRedColor,
-  redDots,
-  addBlurr,
-  removeBlurr,
-} from "./animation.js";
-
-import {
-  streamText,
-  handleWordClick,
-  handleMouseMove,
-  handleMouseOut,
-  findNextWordSpan,
-  clearHighlights,
-} from "./textStreamer.js";
+import { localActions } from "./actions.js";
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -49,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     dots: document.getElementById('loadingAnimation'),
     form: document.getElementById('story-form'),
     formInput: document.getElementById('subject'),
-    replayButton: document.getElementById('replayBtn'),
+    fromStartButton: document.getElementById('replayBtn'),
     playPauseButton: document.getElementById('playPauseBtn'),
     stopButton: document.getElementById('stopBtn'),
   };
@@ -62,43 +27,6 @@ document.addEventListener('DOMContentLoaded', () => {
     elements.period2 = domElements.dots.querySelector('.period-2');
     elements.period3 = domElements.dots.querySelector('.period-3');
   }
-
-  const localActions = {
-    // Story and Process Actions
-    startNewStoryProcess,
-    startOrRestartNewStory,
-
-    // Player Actions
-    loadPlayer,
-    startSpeech,
-    startMusic,
-    syncAll,
-    pauseAllAudio,
-    resumeAllAudio,
-
-    // UI Actions
-    uiIdle,
-    inputNotEmpty,
-    uiClearInput,
-    uiLoadingButtons,
-    uiPlayingButtons,
-
-    // Animation Actions
-    showLoadingAnimation,
-    hideLoadingAnimation,
-    getRedColor,
-    redDots,
-    addBlurr,
-    removeBlurr,
-
-    // Text Streamer Actions
-    streamText,
-    handleWordClick,
-    handleMouseMove,
-    handleMouseOut,
-    findNextWordSpan,
-    clearHighlights,
-  };
 
   const sm = new AudioSm();
   sm.actions = localActions;

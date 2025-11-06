@@ -39,7 +39,7 @@ export function events(sm) {
   //   sm.dispatchEvent(AudioSm.EventId.CANCEL); // leads to IDLE state
   // });
 
-  elements.replayButton?.addEventListener("click", () => {
+  elements.fromStartButton?.addEventListener("click", () => {
     console.log('Replay clicked');
     sm.dispatchEvent(AudioSm.EventId.FROM_START_CLICKED); // leads to REPLAYING state
   });

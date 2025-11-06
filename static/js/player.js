@@ -26,10 +26,6 @@ export function syncAll() {
   }
 }
 
-export function abortProcess() {
-  abortController?.abort(); // cancels the fetch if still pending
-}
-
 // Helper functions to pause/resume speech and background audio separately
 export function pauseSpeechOnly() {
   elements.speech.pause();

@@ -2,13 +2,11 @@ import { elements } from './config.js';
 
 export function events(sm) {
   window.addEventListener('keydown', (event) => {
-        event.preventDefault();
-        sm.dispatchEvent(AudioSm.EventId.PLAY_BTN_CLICKED); // leads to PLAYING state or PAUSED state
-  });
-
-  elements.form?.addEventListener('keydown', (event) => {
+    event.preventDefault();
+    if (event.code === 'Space' && document.activeElement.tagName !== 'INPUT') {
       event.preventDefault();
-      sm.dispatchEvent(AudioSm.EventId.PLAY_BTN_CLICKED); // leads to PLAYING state
+      sm.dispatchEvent(AudioSm.EventId.PLAY_PAUSE_CLICKED); // leads to PLAYING state or PAUSED state
+    }
   });
 
   elements.formInput?.addEventListener('input', () => {
@@ -18,7 +16,7 @@ export function events(sm) {
   elements.form?.addEventListener("submit", (e) => {
     e.preventDefault();
     console.log('Form submitted');
-    startOrRestartNewStory(sm, elements.formInput); // leads to LOADING state
+    sm.dispatchEvent(AudioSm.EventId.FORM_SUBMITTED) // leads to LOADING state
   });
 
   elements.speech?.addEventListener('canplaythrough', () => {
@@ -31,37 +29,23 @@ export function events(sm) {
     sm.dispatchEvent(AudioSm.EventId.SPEECH_OVER); // leads to TEXT_DISPLAYED state
   });
 
-  elements.playPauseButton?.addEventListener("click", () => {
-    console.log('Play/Pause clicked');
-    startOrRestartNewStory(sm, elements.formInput); // leads to LOADING state
+  elements.backgroundTrack?.addEventListener('ended', () => {
+    console.log('Background track ended');
+    sm.dispatchEvent(AudioSm.EventId.MUSIC_OVER); // leads to MUSIC_ENDED state
   });
 
-  elements.stopButton?.addEventListener("click", () => {
-    console.log('Stop clicked');
-    sm.dispatchEvent(AudioSm.EventId.CANCEL); // leads to IDLE state
-  });
+  // elements.stopButton?.addEventListener("click", () => {
+  //   console.log('Stop clicked');
+  //   sm.dispatchEvent(AudioSm.EventId.CANCEL); // leads to IDLE state
+  // });
 
   elements.replayButton?.addEventListener("click", () => {
     console.log('Replay clicked');
-    sm.dispatchEvent(AudioSm.EventId.REPLAY_BTN_CLICKED); // leads to REPLAYING state
+    sm.dispatchEvent(AudioSm.EventId.FROM_START_CLICKED); // leads to REPLAYING state
+  });
+
+  elements.backgroundTrack?.addEventListener('ended', () => {
+    sm.dispatchEvent(AudioSm.EventId.MUSIC_OVER);
   });
 }
 
-export function startOrRestartNewStory (sm) {
-  const ready = newInput.value.trim().length >= 1;
-  console.log(ready);
-  console.log(newInput.value);
-  if (!ready) {
-    console.log('Form input empty, abort');
-    return;
-  }
-
-  if (sm.prevStateId === AudioSm.StateId.IDLE) {
-    console.log('Starting new story');
-    sm.dispatchEvent(AudioSm.EventId.PLAY_BTN_CLICKED);
-  } else {
-    console.log('Restarting story');
-    sm.dispatchEvent(AudioSm.EventId.CANCEL); // leads to IDLE state
-    sm.dispatchEvent(AudioSm.EventId.PLAY_BTN_CLICKED); // leads to PLAYING state with a new story
-  }
-}

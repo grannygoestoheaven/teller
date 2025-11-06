@@ -30,15 +30,18 @@ export async function startNewStoryProcess() {
   return data;
   }
 
-  // You can still keep these helpers if needed
-  // function clearPlaybackTimers(speechAudio, backgroundAudio) {
-  //   // Implementation to clear any active timers
-  //   clearInterval(speechAudio._fadeInterval);
-  //   clearInterval(backgroundAudio._fadeInterval);
-  //   clearTimeout(bgFadeTimeout);
-  //   clearTimeout(bgFadeOutTimeout);
-  // }
+  export function clearPlaybackTimers() {
+    // Implementation to clear any active timers
+    // clearInterval(speech._fadeInterval);
+    clearInterval(backgrounTrack._fadeInterval);
+    // clearTimeout(bgFadeTimeout);
+    clearTimeout(bgFadeOutTimeout);
+  }
   
-  // function saveStoryToStorage(storyObj) {
-  //   localStorage.setItem('lastStory', JSON.stringify(storyObj));
-  // }
+  export function saveStoryToStorage(storyObj) {
+    localStorage.setItem('lastStory', JSON.stringify(storyObj));
+  }
+
+  export function abortProcess() {
+    abortController?.abort(); // cancels the fetch if still pending
+  }

@@ -1,5 +1,9 @@
 import { elements } from "./config.js";
 
+export function displayRelatedSubjects() {
+
+}
+
 export function uiIdle() {
   // Clear past story
   elements.chatHistory.innerHTML = '';

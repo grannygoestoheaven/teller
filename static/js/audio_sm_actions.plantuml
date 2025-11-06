@@ -5,6 +5,7 @@
     [*] --> IDLE
 
     state IDLE
+    state READY
     state LOADING
     state PLAYING
     state PAUSED
@@ -13,23 +14,29 @@
     '############################ Handlers ############################
 
     IDLE: enter / resetAllAudio(); uiIdle(); hideLoadingAnimation();
+    IDLE --> READY : FORM_NOT_EMPTY [inputNotEmpty()]
     IDLE --> LOADING : FORM_SUBMITTED [inputNotEmpty()] / startNewStoryProcess();
-    IDLE --> LOADING : PLAY_BTN_CLICKED [inputNotEmpty()] / startNewStoryProcess();
+    IDLE --> LOADING : PLAY_PAUSE_CLICKED [inputNotEmpty()] / startNewStoryProcess();
 
-    LOADING: enter / showLoadingAnimation(); uiPlayingButtons();
+    READY: enter / uiReadyButtons();
+
+    LOADING: enter / showLoadingAnimation(); uiLoadingButtons();
     LOADING --> PLAYING : SPEECH_READY
+    LOADING --> PAUSED : PLAY_PAUSE_CLICKED / pauseAllAudio();
     LOADING --> IDLE : CANCEL / abortProcess(); pauseAllAudio(); resetAllAudio();
 
-    PLAYING: enter / uiPlayingButtons(); redDots(); resetAllAudio(); setupAndStartAllAudio();
-    PLAYING --> PAUSED : PLAY_BTN_CLICKED / pauseAllAudio();
+    PLAYING: enter / uiPlayingButtons(); removeBlurr(); redDots();
+    PLAYING --> PAUSED : PLAY_PAUSE_CLICKED / pauseAllAudio();
     PLAYING --> LOADING : [inputNotEmpty()] / startNewStoryProcess();
-    PLAYING --> IDLE : CANCEL / abortProcess(); pauseAllAudio(); resetAllAudio();
-    PLAYING --> PLAYING : REPLAY_BTN_CLICKED / resumeAudioPosition(); resumeAllAudio();
+    PLAYING --> IDLE : MUSIC_OVER
+    PLAYING --> PLAYING : FROM_START_CLICKED / resetAllAudio; setupAndStartAllAudio;
 
     PAUSED: enter / uiPausedButtons(); addBlur();
-    PAUSED --> PLAYING : PLAY_BTN_CLICKED / resumeAllAudio();
-    PAUSED --> PLAYING : REPLAY_BTN_CLICKED / replay();
-    PAUSED --> IDLE : CANCEL
+    PAUSED --> PLAYING : PLAY_PAUSE_CLICKED / resumeAllAudio();
+    PAUSED --> PLAYING : FROM_START_CLICKED / resetAllAudio(); setupAndStartAllAudio();
+    PAUSED --> PAUSED : FROM_START_CLICKED / resetAllAudio();
+
+    TEXT_DISPLAYED: enter / SPEECH_OVER / displayRelatedSubjects();
 
 /'! $CONFIG : toml
 SmRunnerSettings.transpilerId = "JavaScript"

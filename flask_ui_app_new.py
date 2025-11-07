@@ -287,9 +287,7 @@ def teller_ui():
             'has_audio': bool(audio_url_for_client),
             'speechUrl': audio_url_for_client, # Will be None if not generated
             'trackUrl': track_url_for_client # Will be None if not found
-            'relatedSubjects': {
-                
-            }
+            #related subjects could be added here later
         }
         if story:
             saved_fname = save_story_to_server(subject, raw_story, story)

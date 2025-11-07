@@ -4,9 +4,14 @@ import {
   loadPlayer,
   startSpeech,
   startMusic,
+  setUpAndStartAllAudio,
   syncAll,
   pauseAllAudio,
   resumeAllAudio,
+  resetAllAudio,
+  setBgVolume,
+  delaySpeechStart,
+  resumeBackgroundOnly,
 } from "./player.js";
 
 import {
@@ -16,7 +21,8 @@ import {
   uiLoadingButtons,
   uiPlayingButtons,
   uiClearInput,
-  displayRelatedSubjects,
+  uiReadyButtons,
+  uiPausedButtons,
 } from "./ui.js";
 
 import {
@@ -45,18 +51,24 @@ export const localActions = {
     loadPlayer,
     startSpeech,
     startMusic,
+    setUpAndStartAllAudio,
     syncAll,
     pauseAllAudio,
     resumeAllAudio,
+    resetAllAudio,
+    setBgVolume,
+    delaySpeechStart,
+    resumeBackgroundOnly,
 
     // UI Actions
     uiIdle,
     initInputAdjustments,
     inputNotEmpty,
     uiClearInput,
+    uiReadyButtons,
     uiLoadingButtons,
     uiPlayingButtons,
-    displayRelatedSubjects,
+    uiPausedButtons,
 
     // Animation Actions
     showLoadingAnimation,

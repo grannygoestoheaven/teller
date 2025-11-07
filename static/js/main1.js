@@ -28,13 +28,10 @@ document.addEventListener('DOMContentLoaded', () => {
     elements.period3 = domElements.dots.querySelector('.period-3');
   }
 
-  const sm = new AudioSm();
+  const sm = new AudioStateMachine();
   sm.actions = localActions;
 
   events(sm);
-
-  // Adjusting input field
-  initInputAdjustments();
 
   // start the state machine
   sm.start();

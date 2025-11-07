@@ -1,16 +1,12 @@
 import { elements } from "./config.js";
 
-export function displayRelatedSubjects() {
-
-}
-
 export function uiIdle() {
   // Clear past story
-  elements.chatHistory.innerHTML = '';
+  elements.storyText.innerHTML = '';
   // Reset buttons
-  elements.replayBtn.disabled = true;
-  elements.playPauseBtn.disabled = true;
-  elements.playPauseBtn.textContent = 'Play new Story';
+  elements.fromStartButton.disabled = true;
+  elements.playPauseButton.disabled = true;
+  elements.playPauseButton.textContent = 'Play new Story';
 }
 
 export function initInputAdjustments() {
@@ -30,14 +26,14 @@ export function initInputAdjustments() {
 export function inputNotEmpty() {
   // Access elements from the global store
   const formInput = elements.formInput;
-  const replayButton = elements.replayButton;
+  const fromStartButton = elements.fromStartButton;
   const playPauseButton = elements.playPauseButton;
 
   // The logic is now cleaner
   const isNotEmpty = formInput.value.trim().length > 0;
   
-  if (replayButton) {
-      replayButton.disabled = !isNotEmpty;
+  if (fromStartButton) {
+      fromStartButton.disabled = !isNotEmpty;
   }
   
   if (playPauseButton) {
@@ -51,7 +47,7 @@ export function inputNotEmpty() {
 
 export function uiReadyButtons() {
   // Enable buttons when input is at least one character long
-  elements.replayButton.disabled = false;
+  elements.fromStartButton.disabled = false;
   elements.playPauseButton.disabled = false;
 }
 
@@ -61,20 +57,20 @@ export function uiClearInput() {
 }
 
 export function uiLoadingButtons() {
-  elements.replayButton.disabled = true;
+  elements.fromStartButton.disabled = true;
   elements.playPauseButton.disabled = true;
   elements.playPauseButton.textContent = 'Loading';
   // elements.formInput.style.display = 'none';
 }
 
 export function uiPlayingButtons() {
-  elements.replayButton.disabled = false;
+  elements.fromStartButton.disabled = false;
   elements.playPauseButton.disabled = false;
   elements.playPauseButton.textContent = 'Pause';
 }
 
 export function uiPausedButtons() {
-  elements.replayButton.disabled = false;
+  elements.fromStartButton.disabled = false;
   elements.playPauseButton.disabled = false;
   elements.playPauseButton.textContent = 'Resume';
 }

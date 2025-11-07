@@ -2,6 +2,7 @@
 import { elements } from "./config.js";
 
 let abortController;
+let lastStoryData = {};
 
 export async function startNewStoryProcess() {
 
@@ -11,6 +12,8 @@ export async function startNewStoryProcess() {
 
   const subject = formData.get('subject').trim();
   formData.set('subject', subject);
+
+  lastStoryData = data
 
   // elements.formInput.value = ''; // Clear input field immediately
 
@@ -28,6 +31,10 @@ export async function startNewStoryProcess() {
 
   console.log(data);
   return data;
+  }
+
+  export function getLastStoryData() {
+    return lastStoryData;
   }
 
   export function clearPlaybackTimers() {

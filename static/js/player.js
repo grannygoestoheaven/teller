@@ -1,10 +1,15 @@
-import { elements } from "./config.js"; 
+import { elements } from "./config.js";
+import { getLastStoryData } from "./storyService.js";
 
 export function loadPlayer(data) {
-  elements.speech.src = data.speechUrl;
-  elements.backgroundTrack.src = data.trackUrl;
-  console.log("DIAGNOSTIC: Audio sources were successfully set.");
-  // clearPlaybackTimers(elements.speech, b);
+  const data = getLastStoryData();
+
+  if (data.speechUrl) {
+    elements.speech.src = data.speechUrl;
+    elements.backgroundTrack.src = data.trackUrl;
+    console.log("DIAGNOSTIC: Audio sources were successfully set.");
+    // clearPlaybackTimers(elements.speech, b);
+  }
 }
 
 export function startSpeech() {

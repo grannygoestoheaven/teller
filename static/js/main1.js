@@ -1,6 +1,8 @@
+// import the elements object that will point to all HTML elements
 import { elements } from "./config.js";
+// import the listeners function to load the state machine events
 import { events } from "./listeners.js";
-
+// import the actions object that will be assigned to the state machine
 import { localActions } from "./actions.js";
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -19,18 +21,22 @@ document.addEventListener('DOMContentLoaded', () => {
     stopButton: document.getElementById('stopBtn'),
   };
 
+  // Assign all DOM elements to the 'elements' object
   Object.assign(elements, domElements);
   console.log("MAIN1 ASSIGNMENT: elements.formInput is now:", elements.formInput);
 
+  // Assign loading animation dots if they exist
   if (elements.dots) {
     elements.period1 = domElements.dots.querySelector('.period-1');
     elements.period2 = domElements.dots.querySelector('.period-2');
     elements.period3 = domElements.dots.querySelector('.period-3');
   }
 
+  // Create an instance of the state machine and attach the actions object to it
   const sm = new AudioStateMachine();
   sm.actions = localActions;
 
+  // call the event function to set up event listeners for the state machine
   events(sm);
 
   // start the state machine

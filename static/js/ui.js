@@ -23,26 +23,34 @@ export function initInputAdjustments() {
   adjustInput(); // initialize on load
 }
 
-export function inputNotEmpty() {
-  // Access elements from the global store
-  const formInput = elements.formInput;
-  const fromStartButton = elements.fromStartButton;
-  const playPauseButton = elements.playPauseButton;
+// export function inputNotEmpty() {
+//   // Access elements from the global store
+//   const formInput = elements.formInput;
+//   const fromStartButton = elements.fromStartButton;
+//   const playPauseButton = elements.playPauseButton;
 
-  // The logic is now cleaner
-  const isNotEmpty = formInput.value.trim().length > 0;
+//   // The logic is now cleaner
+//   const isNotEmpty = formInput.value.trim().length > 0;
   
-  if (fromStartButton) {
-      fromStartButton.disabled = !isNotEmpty;
-  }
+//   if (fromStartButton) {
+//       fromStartButton.disabled = !isNotEmpty;
+//   }
   
-  if (playPauseButton) {
-      playPauseButton.disabled = !isNotEmpty;
-      // Optional: Set text only when it becomes startable
-      if (isNotEmpty) {
-          playPauseButton.textContent = 'Start new story';
-      }
-  }
+//   if (playPauseButton) {
+//       playPauseButton.disabled = !isNotEmpty;
+//       // Optional: Set text only when it becomes startable
+//       if (isNotEmpty) {
+//           playPauseButton.textContent = 'Start new story';
+//       }
+//   }
+// }
+
+export function inputIsValid() {
+  return elements.formInput.value.trim().length > 0;
+}
+
+export function inputIsEmpty() {
+  return elements.formInput.value.trim().length === 0;
 }
 
 export function uiReadyButtons() {
@@ -54,6 +62,12 @@ export function uiReadyButtons() {
 export function uiClearInput() {
   // This function only handles the UI change
   elements.formInput.value = ''; 
+}
+
+export function uiIdleButtons() {
+  elements.fromStartButton.disabled = true;
+  elements.playPauseButton.disabled = true;
+  elements.playPauseButton.textContent = 'Play new Story';
 }
 
 export function uiLoadingButtons() {

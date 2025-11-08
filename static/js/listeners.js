@@ -53,4 +53,3 @@ export function events(sm) {
     sm.dispatchEvent(AudioStateMachine.EventId.MUSIC_OVER);
   });
 }
-

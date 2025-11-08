@@ -1,16 +1,21 @@
 // storyService.js
 import { elements } from "./config.js";
+import { loadPlayer } from "./player.js";
 
 let abortController;
 let lastStoryData = {};
 
 export async function startNewStoryProcess() {
+  // Diagnostic log
+  console.log("new story process started");
 
-  console.log("new story process started"); // Diagnostic log
-
+  // Abort any ongoing fetch
   abortController = new AbortController();
+
+  // Collect form data
   const formData = new FormData(elements.form);
 
+  // Trim whitespace from subject input
   const subject = formData.get('subject').trim();
   formData.set('subject', subject);
 
@@ -18,18 +23,21 @@ export async function startNewStoryProcess() {
 
   // Fetch story and corresponding TTS from backend
   const response = await fetch('/generate_story', { method: 'POST', body: formData, signal:abortController.signal });
+  
+  // Handle non-OK responses
   if (!response.ok) throw new Error((await response.json()).error || `Error ${response.status}`);
   const data = await response.json();
 
-  lastStoryData = data // contains the story text, the corresponding audio URL (TTS file) and the background track
+  // Store the last story data for playback - contains story text, audio URLs for TTS file and background track
+  lastStoryData = data
 
-  console.log(data);
+  // Diagnostic log
+  console.log(lastStoryData);
 
-  return data;
-  }
+  // Load the player with new story data
+  loadPlayer(lastStoryData);
 
-  export function getLastStoryData() {
-    return lastStoryData;
+  return lastStoryData ;
   }
 
   export function clearPlaybackTimers() {

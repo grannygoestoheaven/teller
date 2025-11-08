@@ -17,7 +17,8 @@ import {
 import {
   uiIdle,
   initInputAdjustments,
-  inputNotEmpty,
+  inputIsValid,
+  inputIsEmpty,
   uiLoadingButtons,
   uiPlayingButtons,
   uiClearInput,
@@ -63,7 +64,8 @@ export const localActions = {
     // UI Actions
     uiIdle,
     initInputAdjustments,
-    inputNotEmpty,
+    inputIsValid,
+    inputIsEmpty,
     uiClearInput,
     uiReadyButtons,
     uiLoadingButtons,

@@ -10,7 +10,7 @@ export function events(sm) {
 
   elements.formInput?.addEventListener('input', () => {
     console.log('Form input changed');
-    sm.dispatchEvent(AudioStateMachine.EventId.FORM_NOT_EMPTY); // leads to READY state
+    sm.dispatchEvent(AudioStateMachine.EventId.INPUT_CHANGED); // leads to READY state
   });
 
   elements.form?.addEventListener("submit", (e) => {

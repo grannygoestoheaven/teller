@@ -410,13 +410,13 @@ class AudioStateMachine
     #PLAYING_from_start_clicked()
     {
         // PLAYING behavior
-        // uml: FROM_START_CLICKED / { resetAllAudio; setupAndStartAllAudio; } TransitionTo(PLAYING)
+        // uml: FROM_START_CLICKED / { this.actions.resetAllAudio; this.actions.setupAndStartAllAudio; } TransitionTo(PLAYING)
         {
             // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
             this.#PLAYING_exit();
             
-            // Step 2: Transition action: `resetAllAudio; setupAndStartAllAudio;`.
-            resetAllAudio; setupAndStartAllAudio;
+            // Step 2: Transition action: `this.actions.resetAllAudio; this.actions.setupAndStartAllAudio;`.
+            this.actions.resetAllAudio; this.actions.setupAndStartAllAudio;
             
             // Step 3: Enter/move towards transition target `PLAYING`.
             this.#PLAYING_enter();
@@ -494,13 +494,13 @@ class AudioStateMachine
     #READY_form_submitted()
     {
         // READY behavior
-        // uml: FORM_SUBMITTED / { this.actions.startNewStoryProcess(); } TransitionTo(LOADING)
+        // uml: FORM_SUBMITTED / { this.actions.startNewStoryProcess(); this.actions.loadPlayer(); } TransitionTo(LOADING)
         {
             // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
             this.#READY_exit();
             
-            // Step 2: Transition action: `this.actions.startNewStoryProcess();`.
-            this.actions.startNewStoryProcess();
+            // Step 2: Transition action: `this.actions.startNewStoryProcess(); this.actions.loadPlayer();`.
+            this.actions.startNewStoryProcess(); this.actions.loadPlayer();
             
             // Step 3: Enter/move towards transition target `LOADING`.
             this.#LOADING_enter();
@@ -535,13 +535,13 @@ class AudioStateMachine
     #READY_play_pause_clicked()
     {
         // READY behavior
-        // uml: PLAY_PAUSE_CLICKED / { this.actions.startNewStoryProcess(); } TransitionTo(LOADING)
+        // uml: PLAY_PAUSE_CLICKED / { this.actions.startNewStoryProcess(); this.actions.loadPlayer(); } TransitionTo(LOADING)
         {
             // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
             this.#READY_exit();
             
-            // Step 2: Transition action: `this.actions.startNewStoryProcess();`.
-            this.actions.startNewStoryProcess();
+            // Step 2: Transition action: `this.actions.startNewStoryProcess(); this.actions.loadPlayer();`.
+            this.actions.startNewStoryProcess(); this.actions.loadPlayer();
             
             // Step 3: Enter/move towards transition target `LOADING`.
             this.#LOADING_enter();

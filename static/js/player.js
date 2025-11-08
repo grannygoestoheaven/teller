@@ -1,7 +1,7 @@
 import { elements } from "./config.js";
 import { getLastStoryData } from "./storyService.js";
 
-export function loadPlayer(data) {
+export function loadPlayer() {
   const data = getLastStoryData();
 
   if (data.speechUrl) {

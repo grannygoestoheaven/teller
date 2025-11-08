@@ -14,12 +14,12 @@
     '############################ Handlers ############################
 
     IDLE: enter / this.actions.resetAllAudio(); this.actions.uiIdle(); this.actions.hideLoadingAnimation(); this.actions.initInputAdjustments()
-    IDLE --> READY : FORM_NOT_EMPTY / this.actions.inputNotEmpty();
+    IDLE --> READY : INPUT_CHANGED [this.actions.inputNotEmpty()];
 
     READY: enter / this.actions.uiReadyButtons();
     READY --> LOADING : FORM_SUBMITTED / this.actions.startNewStoryProcess(); this.actions.loadPlayer();
     READY --> LOADING : PLAY_PAUSE_CLICKED / this.actions.startNewStoryProcess(); this.actions.loadPlayer();
-    READY --> IDLE : INPUT_CLEARED
+    READY --> IDLE : INPUT_CHANGED [!this.actions.inputNotEmpty()];
 
     LOADING: enter / this.actions.showLoadingAnimation(); this.actions.uiLoadingButtons();
     LOADING --> PLAYING : SPEECH_READY / this.actions.setupAndStartAllAudio();
@@ -27,15 +27,17 @@
     LOADING --> IDLE : CANCEL / this.actions.abortProcess(); this.actions.pauseAllAudio(); this.actions.resetAllAudio();
 
     PLAYING: enter / this.actions.uiPlayingButtons(); this.actions.removeBlurr(); this.actions.redDots();
+    PLAYING: exit / this.actions.pauseAllAudio(); this.actions.resetAllAudio();
     PLAYING --> PAUSED : PLAY_PAUSE_CLICKED / this.actions.pauseAllAudio();
-    PLAYING --> READY : FORM_NOT_EMPTY / this.actions.inputNotEmpty();
     PLAYING --> IDLE : MUSIC_OVER
-    PLAYING --> PLAYING : FROM_START_CLICKED / this.actions.resetAllAudio; this.actions.setupAndStartAllAudio;
+    PLAYING --> LOADING : FORM_SUBMITTED [this.actions.inputNotEmpty()] / this.actions.startNewStoryProcess(); this.actions.loadPlayer();
+    PLAYING : FROM_START_CLICKED / this.actions.resetAllAudio(); this.actions.setupAndStartAllAudio();
+    PLAYING : INPUT_CHANGED [this.actions.inputNotEmpty()] / this.actions.uiReadyButtons();
 
     PAUSED: enter / this.actions.uiPausedButtons(); this.actions.addBlurr();
     PAUSED --> PLAYING : PLAY_PAUSE_CLICKED / this.actions.resumeAllAudio();
     PAUSED --> PLAYING : FROM_START_CLICKED / this.actions.resetAllAudio(); this.actions.setupAndStartAllAudio();
-    PAUSED --> PAUSED : FROM_START_CLICKED / this.actions.resetAllAudio();
+    PAUSED : FROM_START_CLICKED / this.actions.resetAllAudio();
 
 /'! $CONFIG : toml
 SmRunnerSettings.transpilerId = "JavaScript"

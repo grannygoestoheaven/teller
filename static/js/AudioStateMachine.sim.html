@@ -277,8 +277,6 @@ PLAYING : PLAYING
 
 PLAYING : enter / #123; this.actions.uiPlayingButtons()#59; this.actions.removeBlurr()#59; this.actions.redDots()#59; #125;
 
-PLAYING : exit / #123; this.actions.pauseAllAudio()#59; this.actions.resetAllAudio()#59; #125;
-
 PLAYING : FROM_START_CLICKED / #123; this.actions.pauseAllAudio()#59; this.actions.resetAllAudio()#59; this.actions.setUpAndStartAllAudio()#59; #125;
 
 PAUSED
@@ -797,13 +795,6 @@ evaluateGuard = null;
     
     #PLAYING_exit()
     {
-        // PLAYING behavior
-        // uml: exit / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.pauseAllAudio(); this.actions.resetAllAudio();"); }
-        {
-            // Step 1: execute action `this.tracer?.log("⚡ FSM would execute action: " + "this.actions.pauseAllAudio(); this.actions.resetAllAudio();");`
-            this.tracer?.log("⚡ FSM would execute action: " + "this.actions.pauseAllAudio(); this.actions.resetAllAudio();");
-        } // end of behavior for PLAYING
-        
         // PLAYING behavior
         // uml: exit / { this.tracer?.exitState('PLAYING'); }
         {

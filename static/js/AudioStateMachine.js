@@ -386,13 +386,6 @@ class AudioStateMachine
     
     #PLAYING_exit()
     {
-        // PLAYING behavior
-        // uml: exit / { this.actions.pauseAllAudio(); this.actions.resetAllAudio(); }
-        {
-            // Step 1: execute action `this.actions.pauseAllAudio(); this.actions.resetAllAudio();`
-            this.actions.pauseAllAudio(); this.actions.resetAllAudio();
-        } // end of behavior for PLAYING
-        
         this.stateId = AudioStateMachine.StateId.ROOT;
     }
     

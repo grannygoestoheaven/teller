@@ -188,12 +188,12 @@ def _generate_story_and_speech(subject, estimated_chars, pattern_path, base_dir,
     Also selects an ambient track URL.
     """
     if subject == "test":
-        with open("src/server_data/stories/20250902T003701Z_ultrasonic_transducers.json") as f:
+        with open("src/server_data/stories/20251108T225411Z_the_deja-vu_effect.json") as f:
             story_data = json.load(f)
             story_raw = story_data["raw"]
             story_cleaned = story_data["clean"]
         filename_from_story_gen = "eyewitness_testimony.mp3"
-        speech_file_path_relative_to_static = "audio/generated_stories/pseudo_hologram_discovery.mp3"
+        speech_file_path_relative_to_static = "audio/generated_stories/the_dejavu_effect.mp3"
         # track_url_for_client = ""
         track_url_for_client = "static/audio/local_ambient_tracks/abstract_aprils_hold.mp3"
         return story_raw, story_cleaned, filename_from_story_gen, speech_file_path_relative_to_static, track_url_for_client

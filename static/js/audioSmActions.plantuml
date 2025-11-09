@@ -27,13 +27,15 @@
     LOADING --> IDLE : CANCEL / this.actions.abortProcess();
 
     PLAYING: enter / this.actions.uiPlayingButtons(); this.actions.removeBlurr(); this.actions.redDots();
-    PLAYING --> PAUSED : PLAY_PAUSE_CLICKED / this.actions.pauseAllAudio();
+    PLAYING --> PAUSED : SPACEBAR_TOGGLE_PAUSE_RESUME / this.actions.pauseAllAudio();
     PLAYING --> IDLE : MUSIC_OVER
+    PLAYING --> READY : INPUT_CHANGED [this.actions.inputIsValid()]
     PLAYING : FROM_START_CLICKED / this.actions.pauseAllAudio(); this.actions.resetAllAudio(); this.actions.setUpAndStartAllAudio();
 
     PAUSED: enter / this.actions.uiPausedButtons(); this.actions.addBlurr();
-    PAUSED --> PLAYING : PLAY_PAUSE_CLICKED / this.actions.resumeAllAudio();
+    PAUSED --> PLAYING : SPACEBAR_TOGGLE_PAUSE_RESUME / this.actions.resumeAllAudio();
     PAUSED --> PLAYING : FROM_START_CLICKED / this.actions.resetAllAudio(); this.actions.setUpAndStartAllAudio();
+    PAUSED --> READY : INPUT_CHANGED [this.actions.inputIsValid()]
     PAUSED : FROM_START_CLICKED / this.actions.resetAllAudio();
 
 /'! $CONFIG : toml

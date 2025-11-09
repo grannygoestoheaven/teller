@@ -60,8 +60,8 @@ def openai_text_to_speech(story: str, filename: str, pause_between_sentences_ms:
             
         response = client.audio.speech.create(
             # model="tts-1-hd-1106",
-            model="tts-1-hd",
-            # model="gpt-4o-mini-tts",
+            # model="tts-1-hd",
+            model="tts-1",
             # voice= random.choice(["onyx", "nova", "fable", "alloy", "echo", "verse", "shimmer"]),
             voice="onyx",
             input=story.strip(),  # Ensure we're passing a clean string
@@ -72,7 +72,7 @@ def openai_text_to_speech(story: str, filename: str, pause_between_sentences_ms:
                         Tone : discreet, tired.
                         Pacing : fast, with controlled, double silences between sentences.
                         Emotional Range : peaceful''',
-            speed=1.0,
+            # speed=1.0,
         )
 
         # Determine the absolute path to the static directory

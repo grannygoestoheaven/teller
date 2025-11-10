@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>teller - AI storytelling, Knowledge drifting</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style_gemini_highlighted.css') }}">
-    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='style_gpt.css') }}"> -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans&family=Silkscreen&display=swap" rel="stylesheet">
@@ -17,9 +16,8 @@
         </h1>
       </header>
       
-    <!-- chat history box -->
     <div class="chat-history">
-        <div class="chat-inner" id="chatHistory"><!-- JS keeps filling spans here -->
+        <div class="chat-inner" id="chatHistory">
             <div class="chat-inner">
                 
               </div>
@@ -44,16 +42,13 @@
         <form action="/generate_story" method="POST" id="story-form" enctype="multipart/form-data">
             <div class="form-fields-container">
                 <div class="form-group subject-input-group">
-                    <!-- <input type="text" id="subject" name="subject" placeholder="What do you want to hear ?" required> -->
                     <input id="subject" name="subject" placeholder="What do you want to hear ?" required></input>
                 </div>
                 <!-- <button id="stopBtn">stop</button> -->
             </div>
             <div class="controls">
                 <button type="button" class="send-button pixel-play" id="replayBtn" disabled>Replay</button>
-                <!-- <button type="button" class="send-button" class="pixel-play" id="stopButton">Stop</button> -->
                 <button type="button" class="send-button pixel-play" id="playPauseBtn" disabled>Play New Story</button>
-                  <!-- <span class="pixel-play">PLAY</span> -->
                 </button>
               </div>
         </form>

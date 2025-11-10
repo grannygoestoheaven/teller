@@ -25,6 +25,10 @@ import {
   uiReadyButtons,
   uiPausedButtons,
   uiLoadingEnablePause,
+  showStoryText,
+  hideStoryText,
+  toggleTextVisibility,
+
 } from "./ui.js";
 
 import {
@@ -73,6 +77,9 @@ export const localActions = {
     uiPlayingButtons,
     uiPausedButtons,
     uiLoadingEnablePause,
+    showStoryText,
+    hideStoryText,
+    toggleTextVisibility,
     
     // Animation Actions
     showLoadingAnimation,

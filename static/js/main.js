@@ -11,7 +11,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const domElements = {
     speech: document.getElementById('speechAudio'),
     backgroundTrack: document.getElementById('backgroundAudio'),
-    storyText: document.getElementById('chatHistory'),
+    chatHistoryContainer: document.querySelector('.chat-history'),
+    storyText: document.getElementById('story'),
     dotsContainer: document.getElementById('loadingAnimationContainer'),
     dots: document.getElementById('loadingAnimation'),
     form: document.getElementById('story-form'),

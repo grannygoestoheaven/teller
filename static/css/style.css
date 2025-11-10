@@ -98,6 +98,15 @@ body {
     /* pointer-events: auto; Still clickable for highlighting */
 /* } */
 
+#chatHistory { 
+    /* position: absolute; */
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%; 
+    opacity: 0; /* Hidden by default */
+}
+
 /* New: For text fully visible (e.g., when toggled) */
 #chatHistory.text-full {
     opacity: 1 !important;/* Full opacity */
@@ -106,13 +115,14 @@ body {
 }
 
 .chat-history {
+    position: relative;
     color: rgb(199, 191, 191); /* Text color */
     flex: 1;
     display: flex;
     max-width: 60ch;
     justify-content: center;
     align-items: center;
-    overflow: hidden;
+    /* overflow: hidden; */
     border-radius: 5px;
     /* border: 2px solid rgba(201, 200, 200, 0.691); */
 }
@@ -188,7 +198,7 @@ body {
 
 /* --- NEW LOADING ANIMATION & CONTROLS STYLES --- */
 #loadingAnimationContainer {
-    display: none; /* Hidden by default, JS will toggle to 'flex' */
+    display: none;
     justify-content: center;
     align-items: center;
     position: absolute; /* Position it on top of chat-history */
@@ -365,8 +375,8 @@ footer.chat-input-area {
     display: flex;
     justify-content: center;  /* or space-between, as you like */
     gap: 0.7rem;              /* spacing between buttons */
-    /* margin-top: 1rem;
-    margin-bottom: 1rem; */
+    margin-top: 0.5rem;
+    /* margin-bottom: 1rem; */
   }
 
 /* Pixel PLAY style */

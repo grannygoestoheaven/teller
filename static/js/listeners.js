@@ -24,6 +24,11 @@ export function events(sm) {
     sm.dispatchEvent(AudioStateMachine.EventId.PLAY_PAUSE_CLICKED); // leads to PLAYING state or PAUSED state
   });
 
+  elements.chatHistoryContainer?.addEventListener('click', () => {
+    console.log('Chat history clicked');
+    sm.dispatchEvent(AudioStateMachine.EventId.CHAT_HISTORY_CLICKED); // leads to TEXT_DISPLAYED internal event
+  });
+
   elements.speech?.addEventListener('canplaythrough', () => {
     console.log('Audio ready to play');
     sm.dispatchEvent(AudioStateMachine.EventId.SPEECH_READY); // leads to PLAYING state

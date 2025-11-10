@@ -7,17 +7,18 @@ class AudioStateMachine
     static EventId = 
     {
         CANCEL : 0,
-        FORM_SUBMITTED : 1,
-        FROM_START_CLICKED : 2,
-        INPUT_CHANGED : 3,
-        MUSIC_OVER : 4,
-        PLAY_PAUSE_CLICKED : 5,
-        SPACEBAR_TOGGLE_PAUSE_RESUME : 6,
-        SPEECH_READY : 7,
+        CHAT_HISTORY_CLICKED : 1,
+        FORM_SUBMITTED : 2,
+        FROM_START_CLICKED : 3,
+        INPUT_CHANGED : 4,
+        MUSIC_OVER : 5,
+        PLAY_PAUSE_CLICKED : 6,
+        SPACEBAR_TOGGLE_PAUSE_RESUME : 7,
+        SPEECH_READY : 8,
     }
     static { Object.freeze(this.EventId); }
     
-    static EventIdCount = 8;
+    static EventIdCount = 9;
     static { Object.freeze(this.EventIdCount); }
     
     static StateId = 
@@ -103,6 +104,7 @@ class AudioStateMachine
                 {
                     case AudioStateMachine.EventId.FROM_START_CLICKED: this.#PAUSED_from_start_clicked(); break;
                     case AudioStateMachine.EventId.SPACEBAR_TOGGLE_PAUSE_RESUME: this.#PAUSED_spacebar_toggle_pause_resume(); break;
+                    case AudioStateMachine.EventId.PLAY_PAUSE_CLICKED: this.#PAUSED_play_pause_clicked(); break;
                     case AudioStateMachine.EventId.INPUT_CHANGED: this.#PAUSED_input_changed(); break;
                 }
                 break;
@@ -111,8 +113,10 @@ class AudioStateMachine
             case AudioStateMachine.StateId.PLAYING:
                 switch (eventId)
                 {
+                    case AudioStateMachine.EventId.CHAT_HISTORY_CLICKED: this.#PLAYING_chat_history_clicked(); break;
                     case AudioStateMachine.EventId.FROM_START_CLICKED: this.#PLAYING_from_start_clicked(); break;
                     case AudioStateMachine.EventId.SPACEBAR_TOGGLE_PAUSE_RESUME: this.#PLAYING_spacebar_toggle_pause_resume(); break;
+                    case AudioStateMachine.EventId.PLAY_PAUSE_CLICKED: this.#PLAYING_play_pause_clicked(); break;
                     case AudioStateMachine.EventId.MUSIC_OVER: this.#PLAYING_music_over(); break;
                     case AudioStateMachine.EventId.INPUT_CHANGED: this.#PLAYING_input_changed(); break;
                 }
@@ -370,6 +374,27 @@ class AudioStateMachine
         // No ancestor handles this event.
     }
     
+    #PAUSED_play_pause_clicked()
+    {
+        // PAUSED behavior
+        // uml: PLAY_PAUSE_CLICKED / { this.actions.resumeAllAudio(); } TransitionTo(PLAYING)
+        {
+            // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
+            this.#PAUSED_exit();
+            
+            // Step 2: Transition action: `this.actions.resumeAllAudio();`.
+            this.actions.resumeAllAudio();
+            
+            // Step 3: Enter/move towards transition target `PLAYING`.
+            this.#PLAYING_enter();
+            
+            // Step 4: complete transition. Ends event dispatch. No other behaviors are checked.
+            return;
+        } // end of behavior for PAUSED
+        
+        // No ancestor handles this event.
+    }
+    
     #PAUSED_spacebar_toggle_pause_resume()
     {
         // PAUSED behavior
@@ -411,6 +436,18 @@ class AudioStateMachine
     #PLAYING_exit()
     {
         this.stateId = AudioStateMachine.StateId.ROOT;
+    }
+    
+    #PLAYING_chat_history_clicked()
+    {
+        // PLAYING behavior
+        // uml: CHAT_HISTORY_CLICKED / { this.actions.toggleTextVisibility(); }
+        {
+            // Step 1: execute action `this.actions.toggleTextVisibility();`
+            this.actions.toggleTextVisibility();
+        } // end of behavior for PLAYING
+        
+        // No ancestor handles this event.
     }
     
     #PLAYING_from_start_clicked()
@@ -458,6 +495,27 @@ class AudioStateMachine
             
             // Step 3: Enter/move towards transition target `IDLE`.
             this.#IDLE_enter();
+            
+            // Step 4: complete transition. Ends event dispatch. No other behaviors are checked.
+            return;
+        } // end of behavior for PLAYING
+        
+        // No ancestor handles this event.
+    }
+    
+    #PLAYING_play_pause_clicked()
+    {
+        // PLAYING behavior
+        // uml: PLAY_PAUSE_CLICKED / { this.actions.pauseAllAudio(); } TransitionTo(PAUSED)
+        {
+            // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
+            this.#PLAYING_exit();
+            
+            // Step 2: Transition action: `this.actions.pauseAllAudio();`.
+            this.actions.pauseAllAudio();
+            
+            // Step 3: Enter/move towards transition target `PAUSED`.
+            this.#PAUSED_enter();
             
             // Step 4: complete transition. Ends event dispatch. No other behaviors are checked.
             return;
@@ -580,6 +638,13 @@ class AudioStateMachine
     #TEXT_DISPLAYED_enter()
     {
         this.stateId = AudioStateMachine.StateId.TEXT_DISPLAYED;
+        
+        // TEXT_DISPLAYED behavior
+        // uml: enter / { this.actions.textStreamer }
+        {
+            // Step 1: execute action `this.actions.textStreamer`
+            this.actions.textStreamer
+        } // end of behavior for TEXT_DISPLAYED
     }
     
     #TEXT_DISPLAYED_exit()
@@ -609,6 +674,7 @@ class AudioStateMachine
         switch (id)
         {
             case AudioStateMachine.EventId.CANCEL: return "CANCEL";
+            case AudioStateMachine.EventId.CHAT_HISTORY_CLICKED: return "CHAT_HISTORY_CLICKED";
             case AudioStateMachine.EventId.FORM_SUBMITTED: return "FORM_SUBMITTED";
             case AudioStateMachine.EventId.FROM_START_CLICKED: return "FROM_START_CLICKED";
             case AudioStateMachine.EventId.INPUT_CHANGED: return "INPUT_CHANGED";

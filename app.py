@@ -248,7 +248,7 @@ def _generate_story_and_speech(subject, estimated_chars, pattern_path, base_dir,
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('index_2.html')
 
 @app.route('/generate_story', methods=['POST'])
 def teller_ui():

@@ -93,3 +93,29 @@ export function uiPausedButtons() {
   elements.playPauseButton.disabled = false;
   elements.playPauseButton.textContent = 'Resume';
 }
+
+export function showStoryText() {
+  // Show text by setting opacity to 1
+  elements.chatHistory.style.opacity = 1;
+  elements.dotsContainer.style.display = 'none'; 
+}
+
+export function hideStoryText() {
+  // Hide text by setting opacity to 0 (matches your default CSS)
+  elements.chatHistory.style.opacity = 0;
+  elements.dotsContainer.style.display = 'flex'; 
+}
+
+export function toggleTextVisibility() {
+  const isTextVisible = elements.storyText.style.opacity === '1';
+
+  if (isTextVisible) {
+      // Hide Text (set opacity to 0) and Show Dots (set display to flex)
+      elements.storyText.style.opacity = '0';
+      elements.dotsContainer.style.display = 'flex';
+  } else {
+      // Show Text (set opacity to 1) and Hide Dots (set display to none)
+      elements.storyText.style.opacity = '1';
+      elements.dotsContainer.style.display = 'none';
+  }
+}

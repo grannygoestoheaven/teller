@@ -17,19 +17,17 @@
       </header>
       
     <div class="chat-history">
-        <div class="chat-inner" id="chatHistory">
-            <div class="chat-inner"></div>
+        <div class="loading-animation-container" id="loadingAnimationContainer">
+            <div class="loading-animation" id="loadingAnimation">
+                <span id ="period1" class="period period-1">.</span>
+                <span id ="period2" class="period period-2">.</span>
+                <span id ="period3" class="period period-3">.</span>
+            </div>
+        </div>
+        <div class="chat-inner" id="story">
         </div>
      </div>
   
-    <div class="loading-animation-container" id="loadingAnimationContainer">
-        <div class="loading-animation" id="loadingAnimation">
-            <span id ="period1" class="period period-1">.</span>
-            <span id ="period2" class="period period-2">.</span>
-            <span id ="period3" class="period period-3">.</span>
-        </div>
-    </div>
-
     <div class="audio-player-container" id="audioPlayerContainer">
         <audio id="speechAudio" preload="auto"></audio>
         <audio id="backgroundAudio" preload="auto" loop></audio>

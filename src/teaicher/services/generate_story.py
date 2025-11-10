@@ -9,19 +9,19 @@ from mistralai import Mistral, UserMessage  # Import the correct class
 
 load_dotenv()
 
-def _sanitize_filename(text: str) -> str:
-    """
-    Sanitizes a string to be used as a safe filename.
-    Replaces non-alphanumeric characters (except dashes and underscores) with underscores,
-    and limits the length.
-    """
-    # Replace any non-alphanumeric, non-space characters with an empty string
-    # This also removes the '/' character
-    sanitized = re.sub(r'[^\w\s-]', '', text).strip()
-    # Replace spaces and multiple dashes/underscores with a single underscore
-    sanitized = re.sub(r'[\s_-]+', '_', sanitized)
-    # Ensure it's not too long and is lowercase
-    return sanitized[:100].lower() # Limit length to 100 characters, convert to lowercase
+# def _sanitize_filename(text: str) -> str:
+#     """
+#     Sanitizes a string to be used as a safe filename.
+#     Replaces non-alphanumeric characters (except dashes and underscores) with underscores,
+#     and limits the length.
+#     """
+#     # Replace any non-alphanumeric, non-space characters with an empty string
+#     # This also removes the '/' character
+#     sanitized = re.sub(r'[^\w\s-]', '', text).strip()
+#     # Replace spaces and multiple dashes/underscores with a single underscore
+#     sanitized = re.sub(r'[\s_-]+', '_', sanitized)
+#     # Ensure it's not too long and is lowercase
+#     return sanitized[:100].lower() # Limit length to 100 characters, convert to lowercase
 
 def generate_story(subject, pattern, estimated_chars: int) -> tuple[str, str]:
     client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
@@ -36,9 +36,8 @@ def generate_story(subject, pattern, estimated_chars: int) -> tuple[str, str]:
     - Focus specifically on: {subject}
     - keep it around {estimated_chars} characters long
     - Be factual, clear and precise. No generalities.
-    - Initiate the text with a soft, quiet opening (e.g. with the etymology of {subject} if {subject} is just one word,
-    or origin of {subject} if {subject} is at least two words long).
-    - write in the following style: {cognitive_style_approach}
+    - Make the text four paragraphs long.
+    - Initiate the text with a soft, quiet opening e.g. with a raw list of a few concepts that will be covered in the story. **always pick concepts slighlty more unexpected than normal**.
     - Always add a new line after the opening.
     - add <[silence]> tags between all sentences and between each new line.
     - Conclude by suggesting three related subjects to the topic, in variations of this kind : "Three related subjects are...". Don't write anything after that.
@@ -47,7 +46,7 @@ def generate_story(subject, pattern, estimated_chars: int) -> tuple[str, str]:
     - Write in an elegant style, not in a grandiose style. Avoid any mystery tone at all cost.
     - Do not use cliches or jargon.
     - Use absolutely ZERO cliches or jargon or journalistic language like "In a world, in the realm", etc.
-    - Use ZERO extreme words like "crucial", "important", "essential", "critical", "fundamental", etc.
+    - Forbidden extreme words = "crucial", "essential", "critical", "fundamental" etc.
     - USE ZERO poetry of any kind.
     - Use ZERO metaphor of any kind.
     - use ZERO common setup language in any sentence, including: in conclusion, in closing, etc.
@@ -64,12 +63,47 @@ def generate_story(subject, pattern, estimated_chars: int) -> tuple[str, str]:
             max_tokens=1150
         )
         
+        print(f"Response from OpenAI: {response}")
         # Get the story content
         # story = response.choices[0].message.content.strip()
         story = response.choices[0].message.content
         
         # Use the original subject for the filename, not the AI-generated title
-        filename = _sanitize_filename(subject) + ".mp3"
+        filename = _sanitize_filename(subject)
+        
+        return story, filename
+        
+    except Exception as e:
+        print(f"Error in generate_story: {str(e)}")
+        # Return a default error response
+        error_title = f"Error generating story about {subject}"
+        error_story = "We encountered an error while generating the story. Please try again."
+        return error_story, _sanitize_filename(error_title) + ".mp3"
+    
+def generate_story_cognitive_boost(subject, pattern) -> tuple[str, str]:
+    client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
+
+    # Format the pattern by replacing placeholders
+    system_message = pattern.replace('{subject}', subject)
+    user_message = f"Write a TTS story about '{subject}' following the system instructions."
+    
+    try:
+        response = client.chat.completions.create(
+            model="gpt-4o",
+            messages=[
+                {"role": "system", "content": system_message},
+                {"role": "user", "content": user_message}
+            ],
+            temperature=0.4,
+            max_tokens=500
+        )
+        
+        # Get the story content
+        # story = response.choices[0].message.content.strip()
+        story = response.choices[0].message.content
+        
+        # Use the original subject for the filename, not the AI-generated title
+        filename = _sanitize_filename(subject)
         
         return story, filename
         

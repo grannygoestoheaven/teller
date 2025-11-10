@@ -4,6 +4,7 @@
 /build/
 /venv_teller/
 /static/generated_stories/
+/static/extra_functions.txt
 /src/teaicher/other_llms_functions/
 /src/config/patterns/*
 /tests/.cache
@@ -18,3 +19,5 @@ package.json
 wrappers.py.envrc
 *.egg-info
 speech_test.py
+/static/audio/main2.js
+/static/audio/webAudioAPI.js

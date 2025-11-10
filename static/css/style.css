@@ -1,0 +1,413 @@
+:root {
+    --period-color: #888; /* Default color for periods */
+}
+
+/* Hide scrollbars for the entire page */
+html, body {
+    overflow: hidden; /* Prevent scrolling on the body, manage inner content scroll */
+    scrollbar-width: none; /* Hide scrollbar for Firefox */
+    -ms-overflow-style: none; /* Hide scrollbar for IE and Edge */
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+/* Add Inika font */
+@font-face {
+    font-family: 'Inika';
+    src: url('./fonts/inika/Inika-Regular.ttf') format('truetype'); /* Ensure path is correct if you have this font */
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Inika';
+    src: url('./fonts/inika/Inika-Bold.ttf') format('truetype'); /* Ensure path is correct if you have this font */
+    font-weight: bold;
+    font-style: normal;
+}
+
+/* Update body and layout */
+body {
+    font-family: 'Inika', serif;
+    background-color: rgb(24, 24, 23); /* Darkened UI background */
+    background-color: rgb(46, 46, 44); /* Darkened UI background */
+    color: #d1caca;
+    margin: 0;
+    padding: 0;
+    height: 100vh; /* Use height: 100vh to fill viewport height */
+    display: flex; /* Use flexbox */
+    flex-direction: column; /* Stack children vertically */
+    align-items: center; /* Center children horizontally */
+    overflow: hidden; /* Hide body scrollbar */
+}
+
+/* Header styles */
+.chat-header {
+    font-size: 2em; /* Base font size for the header container */
+    z-index: 10;
+    background: none;
+    padding: 20px 25px;
+    /* margin-bottom: 20px; */
+    flex-shrink: 0; /* Prevent header from shrinking */
+}
+
+/* header block (keeps previous padding / spacing) */
+/* .chat-header{
+    font-size:2em;         
+    padding:20px 25px 0;
+  } */
+  
+  /* main word */
+  .brand{
+    cursor:pointer;                   /* h1 already sits on one line      */
+    display:inline-block;
+    margin:0 0 0 0px;      /* keep your left indent            */
+    color:rgba(249,245,245);
+    font-weight:700;        /* make it stand out                */
+    /* transition:border 0.2s ease; */
+  }
+  /* .brand:hover{
+    border:1px solid rgba(249,245,245,0.4);
+  } */
+  
+  /* smaller tagline that stays on same line */
+  .tagline{
+    font-size:0.25em;       /* 35 % of the h1 size              */
+    font-weight:500;
+    opacity:0.4;            /* optional subtle fade             */
+  }
+
+/* Hide scrollbar for Webkit browsers (Chrome, Safari, Opera) */
+.chat-history::-webkit-scrollbar {
+    display: none;
+}
+
+/* Styles for the actual text inside chatHistory */
+#chatHistory p {
+    text-align: left; /* Ensure paragraphs align left */
+    margin: 0.8em 0; /* Keep your existing margin for paragraphs */
+    word-wrap: break-word; /* Ensure words break if too long */
+    overflow-wrap: break-word; /* Modern equivalent */
+}
+
+/* New: For text that appears briefly then fades to shadowed state */
+/* #chatHistory.text-shadow {
+    opacity: 0.15; /* Low opacity for shadowed state */
+    /* transition: opacity 1s ease-out; Smooth transition to shadow */
+    /* pointer-events: auto; Still clickable for highlighting */
+/* } */
+
+#chatHistory { 
+    /* position: absolute; */
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%; 
+    opacity: 0; /* Hidden by default */
+}
+
+/* New: For text fully visible (e.g., when toggled) */
+#chatHistory.text-full {
+    opacity: 1 !important;/* Full opacity */
+    /* transition: opacity 0.3s ease-in;  */
+    pointer-events: auto;
+}
+
+.chat-history {
+    position: relative;
+    color: rgb(199, 191, 191); /* Text color */
+    flex: 1;
+    display: flex;
+    max-width: 60ch;
+    justify-content: center;
+    align-items: center;
+    /* overflow: hidden; */
+    border-radius: 5px;
+    /* border: 2px solid rgba(201, 200, 200, 0.691); */
+}
+
+.chat-inner {
+    max-width: 60ch;
+    max-height: 100%;
+    margin: 0 auto;
+    box-sizing: border-box;
+    overflow-y: auto;
+    scrollbar-width: auto;
+    scrollbar-color: rgba(201, 200, 200, 0.691) transparent;
+    /* padding: 1rem; */
+  }
+  
+  .chat-inner::-webkit-scrollbar {
+    width: 16px;
+  }
+  
+  .chat-inner::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  
+  .chat-inner .word {
+    display: inline;
+    margin: 0 .05em;
+  }
+  
+/* Style for interactive words */
+.chat-history .word {
+    display: inline;
+    cursor: pointer;
+    white-space: normal;
+    word-wrap: break-word;
+    -webkit-text-stroke: transparent;
+    text-stroke: transparent;
+    transition: -webkit-text-stroke 0.2s ease-in-out, text-stroke 0.2s ease-in-out;
+    position: relative;
+    z-index: 1;
+    padding: 0 0.1em; /* Reduced horizontal padding */
+    margin: 0 -0.1em; /* Compensate for padding to reduce word spacing */
+}
+
+/* Ensure proper spacing between words (adjusting chat-history directly) */
+/* This is better applied to the #chatHistory itself if you want global word spacing */
+.chat-history {
+    white-space: normal;
+    word-spacing: -0.1em; /* Tighter word spacing */
+    letter-spacing: normal;
+}
+
+/* Hover effect for words */
+.chat-history .word.highlight-word {
+    -webkit-text-stroke: 2px rgba(10, 184, 21, 0.849);
+    text-stroke: 2px rgba(10, 184, 21, 0.849);
+    position: relative;
+    z-index: 1;
+}
+
+/* Cursor animation for end of text */
+.cursor-standby {
+    font-size: 1em;
+    color: #bca18c;
+    margin-left: 0.05em;
+    animation: blink 1s steps(1) infinite;
+    vertical-align: middle;
+}
+
+@keyframes blink {
+    from, to { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* --- NEW LOADING ANIMATION & CONTROLS STYLES --- */
+#loadingAnimationContainer {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    position: absolute; /* Position it on top of chat-history */
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    z-index: 100; /* Ensure it's on top */
+    pointer-events: none; /* Allows clicks to pass through when hidden */
+}
+
+#loadingAnimationContainer.visible {
+    display: flex;
+    pointer-events: auto; /* Re-enable pointer events when visible */
+}
+
+.loading-animation {
+    filter: none;
+    transition: filter .25s ease-in-out;
+}
+
+.loading-animation.blur-overlay{
+    filter: blur(1px); /* Apply blur effect to the entire loading animation */
+}
+
+.loading-animation {
+    display: flex; /* Flex container for the dots */
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    color: var(--period-color); /* Use the dynamically set color, fallback to #888 */
+    border: #0f0f0f;
+    font-size: 4em; /* Overall size of the dots */
+    line-height: 0.5; /* Align dots vertically */
+    gap: 0;
+}
+
+.loading-animation .period {
+    display: inline-block;
+    opacity: 0; /* Start invisible for animation */
+    animation: period-fade 2.2s infinite ease-in-out; /* Main animation */
+    margin: 0 -0.17em;
+    font-size: 5em; /* Larger period size relative to parent .loading-animation */
+    font-weight: bold;
+    color: var(--period-color); /*Slightly darker color for better visibility during animation  */
+    line-height: 0.8; /* Better vertical alignment */
+}
+
+/* Animation delays for each period */
+.loading-animation .period-1 { animation-delay: 0s; }
+.loading-animation .period-2 { animation-delay: 0.2s; }
+.loading-animation .period-3 { animation-delay: 0.4s; }
+
+@keyframes period-fade {
+    0% { opacity: 0.2; transform: translateY(0) scale(0.9); }
+    50% { opacity: 1; transform: translateY(-3px) scale(1.2); text-shadow: 0 0 8px rgba(0,0,0,0.2); }
+    100% { opacity: 0.2; transform: translateY(0) scale(0.9); }
+}
+
+/* Styles for when dots become interactive controls */
+.loading-animation .period.interactive {
+    animation: none; /* Stop loading animation */
+    cursor: pointer;
+    border-radius: 50%; /* Make them round buttons */
+    padding: 10px 15px; /* Adjust padding for better clickable area */
+    background-color: rgba(60, 60, 60, 0.5); /* Subtle background, as in your second picture */
+    font-size: 1em; /* Adjust text size if adding text */
+    color: rgba(255, 255, 255, 0.7); /* Text color, as in your second picture */
+    transition: background-color 0.2s, color 0.2s, transform 0.2s, font-size 0.2s, padding 0.2s;
+    margin: 0 8px; /* Spacing between transformed buttons, slightly wider */
+    min-width: 40px; /* Ensure a minimum width */
+    text-align: center;
+    display: flex; /* Use flexbox for centering content (icon/text) */
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* Add subtle shadow */
+}
+
+.loading-animation .period.interactive:hover {
+    background-color: rgba(80, 80, 80, 0.7);
+    transform: scale(1.1);
+}
+
+/* Specific colors/states for dots */
+.loading-animation .period.interactive.control-restart { color: #88C0D0; } /* Blueish */
+.loading-animation .period.interactive.control-play { color: #A3BE8C; }    /* Greenish */
+.loading-animation .period.interactive.control-pause { color: #EBCB8B; }   /* Yellowish */
+.loading-animation .period.interactive.control-toggle-text { color: #B48EAD; } /* Purplish */
+
+/* Hide the audio player container, as its controls are now dots */
+#audioPlayerContainer {
+    display: none !important;
+}
+
+/* Input area */
+footer.chat-input-area {
+    width: 100%;
+    max-width: 1200px;
+    margin: 20px auto 20px auto;
+    padding: 0 20px;
+    box-sizing: border-box;
+    background: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.form-fields-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#story-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+}
+
+.subject-input-group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto auto auto;
+    padding: 0;
+    box-sizing: border-box;
+    position: relative;
+}
+
+/* Subject input specific styles */
+#subject {
+    overflow: hidden;
+    resize: none;    /* user can’t manually drag it */
+    min-height: 1.5em;
+    line-height: 1.2em;
+    max-width: 650px;
+    flex-grow: 1;
+    padding: 24px 16px;
+    font-size: 1em;
+    border: none !important;
+    border-radius: 20px;
+    background: #0f0f0f; /* As seen in your second picture */
+    color: rgba(245, 245, 245, 0.9);
+    font-family: 'Inika', serif;
+    transition: none;
+    box-sizing: border-box;
+    outline: none !important;
+    box-shadow: none !important;
+    text-align: center;
+}
+
+#subject:focus, #subject:active {
+    outline: none !important;
+    box-shadow: none !important;
+    border: none !important;
+}
+
+#subject::placeholder {
+    color: rgba(157, 155, 155, 0.84); /* As seen in your second picture */
+    font-style: regular;
+    font-weight: lighter;
+}
+
+.controls {
+    display: flex;
+    justify-content: center;  /* or space-between, as you like */
+    gap: 0.7rem;              /* spacing between buttons */
+    margin-top: 0.5rem;
+    /* margin-bottom: 1rem; */
+  }
+
+/* Pixel PLAY style */
+.pixel-play {
+    font-family: 'Pixelify Sans', serif;
+    text-transform: uppercase;
+    font-size: 1em;
+    letter-spacing: 0.12em;
+    display: block;
+    text-align: center;
+    padding: 2px 0;
+    color: inherit;
+    line-height: 1.2;
+}
+
+/* Send button styles */
+.send-button {
+    background-color: #1f1e1e;
+    color: rgb(234,232,232);
+    border: none;
+    padding: 5px 17px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'Pixelify Sans', serif;  /* ← pixel font */
+    text-transform: uppercase;             /* ← uppercase */
+    letter-spacing: 0.12em;                /* ← pixel spacing */
+    font-size: 0.85em;
+    margin: 0 4px;
+}
+
+.send-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}

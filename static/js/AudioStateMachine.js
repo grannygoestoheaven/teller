@@ -285,13 +285,13 @@ class AudioStateMachine
     #LOADING_speech_ready()
     {
         // LOADING behavior
-        // uml: SPEECH_READY / { this.actions.updateStoryText(); this.actions.setUpAndStartAllAudio(); } TransitionTo(PLAYING)
+        // uml: SPEECH_READY / { this.actions.setUpAndStartAllAudio(); } TransitionTo(PLAYING)
         {
             // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
             this.#LOADING_exit();
             
-            // Step 2: Transition action: `this.actions.updateStoryText(); this.actions.setUpAndStartAllAudio();`.
-            this.actions.updateStoryText(); this.actions.setUpAndStartAllAudio();
+            // Step 2: Transition action: `this.actions.setUpAndStartAllAudio();`.
+            this.actions.setUpAndStartAllAudio();
             
             // Step 3: Enter/move towards transition target `PLAYING`.
             this.#PLAYING_enter();

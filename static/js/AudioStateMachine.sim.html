@@ -293,8 +293,6 @@ TEXT_DISPLAYED
 
 TEXT_DISPLAYED : TEXT_DISPLAYED
 
-TEXT_DISPLAYED : enter / #123; this.actions.textStreamer #125;
-
 ROOT.(InitialState) --> IDLE
 
 IDLE --> READY : INPUT_CHANGED [this.actions.inputIsValid()]
@@ -305,7 +303,7 @@ READY --> LOADING : PLAY_PAUSE_CLICKED / #123; this.actions.startNewStoryProcess
 
 READY --> IDLE : INPUT_CHANGED [this.actions.inputIsEmpty()]
 
-LOADING --> PLAYING : SPEECH_READY / #123; this.actions.setUpAndStartAllAudio()#59; #125;
+LOADING --> PLAYING : SPEECH_READY / #123; this.actions.updateStoryText()#59; this.actions.setUpAndStartAllAudio()#59; #125;
 
 LOADING --> PAUSED : PLAY_PAUSE_CLICKED / #123; this.actions.pauseAllAudio()#59; #125;
 
@@ -685,13 +683,13 @@ evaluateGuard = null;
     #LOADING_speech_ready()
     {
         // LOADING behavior
-        // uml: SPEECH_READY / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.setUpAndStartAllAudio();");this.tracer?.edgeTransition("edge5"); } TransitionTo(PLAYING)
+        // uml: SPEECH_READY / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.updateStoryText(); this.actions.setUpAndStartAllAudio();");this.tracer?.edgeTransition("edge5"); } TransitionTo(PLAYING)
         {
             // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
             this.#LOADING_exit();
             
-            // Step 2: Transition action: `this.tracer?.log("⚡ FSM would execute action: " + "this.actions.setUpAndStartAllAudio();");this.tracer?.edgeTransition("edge5");`.
-            this.tracer?.log("⚡ FSM would execute action: " + "this.actions.setUpAndStartAllAudio();");this.tracer?.edgeTransition("edge5");
+            // Step 2: Transition action: `this.tracer?.log("⚡ FSM would execute action: " + "this.actions.updateStoryText(); this.actions.setUpAndStartAllAudio();");this.tracer?.edgeTransition("edge5");`.
+            this.tracer?.log("⚡ FSM would execute action: " + "this.actions.updateStoryText(); this.actions.setUpAndStartAllAudio();");this.tracer?.edgeTransition("edge5");
             
             // Step 3: Enter/move towards transition target `PLAYING`.
             this.#PLAYING_enter();
@@ -1090,13 +1088,6 @@ evaluateGuard = null;
         {
             // Step 1: execute action `this.tracer?.enterState('TEXT_DISPLAYED');`
             this.tracer?.enterState('TEXT_DISPLAYED');
-        } // end of behavior for TEXT_DISPLAYED
-        
-        // TEXT_DISPLAYED behavior
-        // uml: enter / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.textStreamer"); }
-        {
-            // Step 1: execute action `this.tracer?.log("⚡ FSM would execute action: " + "this.actions.textStreamer");`
-            this.tracer?.log("⚡ FSM would execute action: " + "this.actions.textStreamer");
         } // end of behavior for TEXT_DISPLAYED
     }
     

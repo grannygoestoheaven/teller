@@ -22,6 +22,12 @@ document.addEventListener('DOMContentLoaded', () => {
     stopButton: document.getElementById('stopBtn'),
   };
 
+  if (domElements.storyText) {
+    console.log("SUCCESS: Element with ID 'story' was found.");
+  } else {
+      console.error("FAILURE: Element with ID 'story' was NOT found (is null).");
+  }
+
   // Assign all DOM elements to the 'elements' object
   Object.assign(elements, domElements);
   console.log("MAIN1 ASSIGNMENT: elements.formInput is now:", elements.formInput);

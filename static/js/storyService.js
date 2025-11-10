@@ -1,9 +1,9 @@
 // storyService.js
-import { elements } from "./config.js";
+import { elements, lastStoryData } from "./config.js";
 import { loadPlayer } from "./player.js";
 
 let abortController;
-let lastStoryData = {};
+// let lastStoryData = {};
 
 export async function startNewStoryProcess() {
   // Diagnostic log
@@ -22,11 +22,12 @@ export async function startNewStoryProcess() {
   // Handle non-OK responses
   if (!response.ok) throw new Error((await response.json()).error || `Error ${response.status}`);
   const data = await response.json();
+  console.log("Full data from backend:", data);
   // Store the last story data for playback - contains story text, audio URLs for TTS file and background track
-  lastStoryData = data
+  Object.assign(lastStoryData, data)
   // Diagnostic log
-  console.log(lastStoryData);
-  // Load the player with new story data
+  console.log(lastStoryData.cleanStory);
+  // Load the player with new story data here for safety
   loadPlayer(lastStoryData);
 
   return lastStoryData ;

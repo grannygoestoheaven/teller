@@ -1,4 +1,5 @@
 import { elements } from "./config.js";
+import { lastStoryData } from "./config.js";
 
 export function uiIdle() {
   // Clear past story
@@ -118,4 +119,9 @@ export function toggleTextVisibility() {
       elements.storyText.style.opacity = '1';
       elements.dotsContainer.style.display = 'none';
   }
+}
+
+export function updateStoryText() {
+  elements.storyText.innerHTML = lastStoryData.story;
+  console.log(elements.storyText.innerHTML);
 }

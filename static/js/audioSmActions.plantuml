@@ -22,7 +22,7 @@
     READY --> IDLE : INPUT_CHANGED [this.actions.inputIsEmpty()]
 
     LOADING: enter / this.actions.showLoadingAnimation(); this.actions.uiLoadingButtons();
-    LOADING --> PLAYING : SPEECH_READY / this.actions.setUpAndStartAllAudio();
+    LOADING --> PLAYING : SPEECH_READY / this.actions.updateStoryText(); this.actions.setUpAndStartAllAudio();
     LOADING --> PAUSED : PLAY_PAUSE_CLICKED / this.actions.pauseAllAudio();
     LOADING --> IDLE : CANCEL / this.actions.abortProcess();
 
@@ -41,7 +41,6 @@
     PAUSED --> READY : INPUT_CHANGED [this.actions.inputIsValid()]
     PAUSED : FROM_START_CLICKED / this.actions.resetAllAudio();
 
-    TEXT_DISPLAYED: enter / this.actions.textStreamer
 
 /'! $CONFIG : toml
 SmRunnerSettings.transpilerId = "JavaScript"

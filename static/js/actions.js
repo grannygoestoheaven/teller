@@ -28,6 +28,7 @@ import {
   showStoryText,
   hideStoryText,
   toggleTextVisibility,
+  updateStoryText,
 
 } from "./ui.js";
 
@@ -80,6 +81,7 @@ export const localActions = {
     showStoryText,
     hideStoryText,
     toggleTextVisibility,
+    updateStoryText,
     
     // Animation Actions
     showLoadingAnimation,
@@ -97,3 +99,4 @@ export const localActions = {
     findNextWordSpan,
     clearHighlights,
   };
+  

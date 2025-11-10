@@ -38,6 +38,8 @@
     PAUSED --> READY : INPUT_CHANGED [this.actions.inputIsValid()]
     PAUSED : FROM_START_CLICKED / this.actions.resetAllAudio();
 
+    TEXT_DISPLAYED: enter / this.actions.textStreamer
+
 /'! $CONFIG : toml
 SmRunnerSettings.transpilerId = "JavaScript"
 '/

@@ -45,6 +45,8 @@ export async function streamText() {
 
     chatHistoryElement.addEventListener('mousemove', handleMouseMove);
     chatHistoryElement.addEventListener('mouseout', handleMouseOut);
+
+    return story;
 }
 
  // Helper function to find the next word span in the history

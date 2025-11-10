@@ -77,6 +77,11 @@ export function uiLoadingButtons() {
   // elements.formInput.style.display = 'none';
 }
 
+export function uiLoadingEnablePause() {
+  elements.playPauseButton.disabled = false;
+  elements.playPauseButton.textContent = 'Pause';
+}
+
 export function uiPlayingButtons() {
   elements.fromStartButton.disabled = false;
   elements.playPauseButton.disabled = false;

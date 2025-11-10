@@ -41,7 +41,7 @@ export function pauseBackgroundOnly() {
   elements.backgroundTrack.pause();
 }
 export function resumeBackgroundOnly() {
-  elements.backgroundTrack.volume = 0.02;
+  elements.backgroundTrack.volume = 0.04;
   elements.backgroundTrack.play();
 }
 
@@ -70,7 +70,7 @@ export function setUpAndStartAllAudio() {
   delaySpeechStart();
 }
 
-export function setBgVolume(volume = 0.2) {
+export function setBgVolume(volume = 0.04) {
   elements.backgroundTrack.volume = volume;
 }
 

@@ -24,6 +24,7 @@ import {
   uiClearInput,
   uiReadyButtons,
   uiPausedButtons,
+  uiLoadingEnablePause,
 } from "./ui.js";
 
 import {
@@ -71,7 +72,8 @@ export const localActions = {
     uiLoadingButtons,
     uiPlayingButtons,
     uiPausedButtons,
-
+    uiLoadingEnablePause,
+    
     // Animation Actions
     showLoadingAnimation,
     hideLoadingAnimation,

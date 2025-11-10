@@ -5,7 +5,7 @@ let currentlyHighlightedWords = [];
 // Function to stream text with typing effect and add interactivity
 export async function streamText() {
     const story = elements.storyText;
-    storyTxt.innerHTML = ''; // Clear container before streaming
+    storyText.innerHTML = ''; // Clear container before streaming
 
     const delay = 5; // Base delay in milliseconds
     const parts = text.match(/(\w+|[^\w\s]|\s+)/g);

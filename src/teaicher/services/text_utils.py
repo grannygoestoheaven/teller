@@ -1,0 +1,67 @@
+import re
+
+# helper functions for parameters, track selection, and story generation
+def _prepare_story_parameters(request_form):
+    subject = request_form.get('subject')
+    duration_str = request_form.get('duration', str(DEFAULT_DURATION))
+    try:
+        duration = int(duration_str)
+        if duration < 1:
+            duration = 1
+    except ValueError:
+        duration = DEFAULT_DURATION
+    estimated_chars = 1000 # Hardcoded as per original, can be dynamic later
+    return subject, duration, estimated_chars
+
+def _sanitize_filename(raw_title: str, max_length: int = 200) -> str:
+    """Generate a sanitized filename from a raw title."""
+    if not raw_title or not isinstance(raw_title, str):
+        return "mistral_story.mp3"
+        
+    # Convert to lowercase and replace spaces
+    filename = raw_title.lower().replace(" ", "_")
+    # Remove any non-alphanumeric characters except dots and underscores
+    filename = "".join(c for c in filename if c.isalnum() or c in ('.', '_')).rstrip()
+    
+    # Ensure .mp3 extension
+    if not filename.endswith(".mp3"):
+        filename += ".mp3"
+    
+    # Handle edge cases
+    if len(filename) > max_length:
+        filename = filename[:max_length - 4] + ".mp3"
+    if filename == ".mp3":
+        return "mistral_story.mp3"
+        
+    return filename
+
+def _clean_story_text(story: str) -> str:
+    """
+    Clean the story text by removing <[silence]> tags and ensuring proper punctuation. The goal is to have
+    a well-formed story with sentences ending in periods, and to remove unnecessary whitespace.
+    """
+    if not story:
+        return story
+    cleaned = re.sub(r'<\[silence]>(\s*)', lambda m: ' ' if m.group(1) else '', story)
+    cleaned = re.sub(r'([a-z])(\s*\n|$)', r'\1.\2', cleaned, flags=re.IGNORECASE)
+    cleaned = re.sub(r'\.\.+', '.', cleaned)
+    cleaned = re.sub(r'\.([^ \n])', r'. \1', cleaned)
+    return cleaned.strip()
+
+
+# This function assumes _sanitize_filename is defined elsewhere.
+
+
+# def _sanitize_filename(text: str) -> str:
+#     """
+#     Sanitizes a string to be used as a safe filename.
+#     Replaces non-alphanumeric characters (except dashes and underscores) with underscores,
+#     and limits the length.
+#     """
+#     # Replace any non-alphanumeric, non-space characters with an empty string
+#     # This also removes the '/' character
+#     sanitized = re.sub(r'[^\w\s-]', '', text).strip()
+#     # Replace spaces and multiple dashes/underscores with a single underscore
+#     sanitized = re.sub(r'[\s_-]+', '_', sanitized)
+#     # Ensure it's not too long and is lowercase
+#     return sanitized[:100].lower() # Limit length to 100 characters, convert to lowercase

@@ -2,6 +2,16 @@
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
+# The following YouTube functions are currently unused and can be kept for future expansion or removed.
+def _read_youtube_urls(file_path, logger):
+    try:
+        with open(file_path, 'r') as f:
+            return [line.strip() for line in f 
+                    if line.strip() and not line.strip().startswith('#')]
+    except Exception as e:
+        logger.error(f"Error reading YouTube URLs from {file_path}: {str(e)}")
+        return []
+
 def get_youtube_client(api_key: str):
     return build('youtube', 'v3', developerKey=api_key)
 

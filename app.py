@@ -9,10 +9,10 @@ from datetime import datetime
 from dotenv import load_dotenv
 from flask import Flask, render_template, request, jsonify, url_for
 
-from src.teaicher.services.generate_story import generate_story, generate_news_with_mistral
-from src.teaicher.services.text_to_speech import openai_text_to_speech
-from src.teaicher.services.store_story import save_story_to_server
-from src.teaicher.services.text_utils import prepare_story_parameters, _clean_story_text, sanitize_filename
+from src.services.generate_story_text import generate_story, generate_news_with_mistral_chat
+from src.services.generate_tts import openai_text_to_speech
+from src.services.store_story import save_story_to_server
+from src.services.text_utils import _prepare_story_parameters, _clean_story_text, _sanitize_filename
 
 app = Flask(__name__)
 
@@ -20,9 +20,9 @@ load_dotenv()
 
 # --- Configuration Constants ---
 DEFAULT_DURATION = 1
-# PATTERN_FILE_PATH = 'src/teaicher/config/patterns/abrupt.md'
-# PATTERN_FILE_PATH = 'src/teaicher/config/patterns/sensory_precision.md'
-PATTERN_FILE_PATH = 'src/teaicher/config/patterns/default_narrative.md'
+# PATTERN_FILE_PATH = 'src/config/patterns/abrupt.md'
+# PATTERN_FILE_PATH = 'src/config/patterns/sensory_precision.md'
+PATTERN_FILE_PATH = 'src/config/patterns/default_narrative.md'
 LOCAL_AMBIENT_TRACKS_DIR = 'local_ambient_tracks'
 YOUTUBE_AMBIENT_LANDSCAPES_DIR = 'youtube_ambient_landscapes' # Not used in current logic, kept for reference
 YOUTUBE_AMBIENT_TRACKS_DIR = 'youtube_ambient_tracks'         # Not used in current logic, kept for reference
@@ -89,7 +89,7 @@ def index():
 
 @app.route('/generate_story', methods=['POST'])
 def teller_ui():
-    subject, duration, estimated_chars = _prepare_story_parameters(request.form)
+    subject = _prepare_story_parameters(request.form)
     app_base_dir = os.path.dirname(__file__)
     
     # _generate_story_and_speech now handles track selection and returns its URL

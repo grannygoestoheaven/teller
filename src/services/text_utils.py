@@ -2,16 +2,7 @@ import re
 
 # helper functions for parameters, track selection, and story generation
 def _prepare_story_parameters(request_form):
-    subject = request_form.get('subject')
-    duration_str = request_form.get('duration', str(DEFAULT_DURATION))
-    try:
-        duration = int(duration_str)
-        if duration < 1:
-            duration = 1
-    except ValueError:
-        duration = DEFAULT_DURATION
-    estimated_chars = 1000 # Hardcoded as per original, can be dynamic later
-    return subject, duration, estimated_chars
+    return subject
 
 def _sanitize_filename(raw_title: str, max_length: int = 200) -> str:
     """Generate a sanitized filename from a raw title."""

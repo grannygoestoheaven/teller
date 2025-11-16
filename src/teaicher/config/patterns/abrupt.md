@@ -1,1 +1,0 @@
-## abrupt, raw functional and minimalist description of the {subject}. No emotions. presence of emotions prohibited. short sentences. technical. non fitted for beginners.

@@ -1,1 +1,0 @@
-## "Present the {input} in a structured and informative way."

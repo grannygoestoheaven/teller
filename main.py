@@ -1,3 +1,6 @@
+from fastapi import FastAPI
+from routers import story
+
 import os
 import re
 import random
@@ -15,6 +18,9 @@ from src.services.store_story import save_story_to_server
 from src.services.text_utils import _prepare_story_parameters, _clean_story_text, _sanitize_filename
 
 app = Flask(__name__)
+app = fastAPI()
+
+app.include_router(story.router)
 
 load_dotenv()
 

@@ -14,7 +14,7 @@ from src.services.text_utils import _sanitize_filename
 
 load_dotenv()
 
-def generate_story_with_openai(subject, pattern) -> tuple[str, str]:
+def generate_story_with_openai(subject) -> tuple[str, str]:
     client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
 
     # cognitive_style_approach = pattern
@@ -25,7 +25,6 @@ def generate_story_with_openai(subject, pattern) -> tuple[str, str]:
     # Create a clear instruction for the AI
     user_message =f"""Please generate a presentation about: {subject}
     - Focus specifically on: {subject}
-    - keep it around {estimated_chars} characters long
     - Be factual, clear and precise. No generalities.
     - Make the text four paragraphs long.
     - Initiate the text with a soft, quiet opening e.g. with a raw list of a few concepts that will be covered in the story. **always pick concepts slighlty more unexpected than normal**.

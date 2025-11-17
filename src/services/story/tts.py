@@ -11,7 +11,7 @@ from elevenlabs.client import ElevenLabs # ElevenLabs API client
 # You might need to choose a different model based on your needs and installed models.
 # tts = TTS("tts_models/en/ljspeech/tacotron2-DDC", gpu=False) # Set gpu=True if you have a CUDA-enabled GPU
 
-GENERATED_STORIES_SUBDIR = 'audio/generated_stories'
+GENERATED_STORIES_SUBDIR = '../../static/audio/generated_stories'
 
 def _add_ssml_breaks(text: str, pause_ms: int = 500) -> str:
     """Add SSML break tags between sentences.
@@ -97,76 +97,6 @@ def openai_text_to_speech(story: str, filename: str, pause_between_sentences_ms:
 
     # Ensure the directory exists
     os.makedirs(os.path.dirname(static_audio_path), exist_ok=True)
-    
-    
-# def openai_text_to_speech_websocket_story(story: str) -> str:
-#     """
-#     Generates speech from text using OpenAI's TTS and saves it to a static directory.
-
-#     Args:
-#         story: The text content of the story.
-#         filename: The desired filename for the audio (e.g., 'my_story.mp3').
-#         pause_between_sentences_ms: Duration of pause between sentences in milliseconds (default: 500ms).
-
-#     Returns:
-#         The path to the saved audio file relative to the 'static' directory
-#         (e.g., 'audio/generated_stories/my_story.mp3'), or None on error.
-#     """
-#     client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
-
-#     try:
-#         # Add SSML breaks between sentences
-#         # ssml_text = f"<speak>{_add_ssml_breaks(story, pause_between_sentences_ms)}</speak>"
-        
-#         # Ensure the input text is not empty and is a string
-#         if not story or not isinstance(story, str):
-#             raise ValueError("Story text must be a non-empty string")
-            
-#         response = client.audio.speech.create(
-#             # model="tts-1-hd-1106",
-#             model="tts-1-hd",
-#             # model="gpt-4o-mini-tts",
-#             # voice= random.choice(["onyx", "nova", "fable", "alloy", "echo", "verse", "shimmer"]),
-#             voice="onyx",
-#             input=story.strip(),  # Ensure we're passing a clean string
-#             response_format="mp3",
-#             # instructions="Speak in a chill, surfer voice, making no noise, detached from worries, with double silences between sentences.",
-#             instructions='''
-#                         Tone : discreet, tired.
-#                         Pacing : fast, with controlled, double silences between sentences.
-#                         Emotional Range : peaceful''',
-#             speed=1.0,
-#         )
-
-#         # Determine the absolute path to the static directory
-#         # Assuming this script is in src/teaicher/services,
-#         # static_dir is ../../../static
-#         current_script_dir = os.path.dirname(os.path.abspath(__file__))
-#         project_root = os.path.abspath(os.path.join(current_script_dir, '..', '..', '..'))
-#         static_dir_abs_path = os.path.join(project_root, 'static')
-        
-#         save_dir = os.path.join(static_dir_abs_path, GENERATED_STORIES_SUBDIR)
-#         os.makedirs(save_dir, exist_ok=True)
-
-#         speech_file_abs_path = os.path.join(save_dir, filename)
-
-#         with open(speech_file_abs_path, 'wb') as f:
-#             f.write(response.content)
-
-#         # Return path relative to static directory for url_for()
-#         speech_file_relative_path = os.path.join(GENERATED_STORIES_SUBDIR, filename)
-#         return speech_file_relative_path
-
-#     except Exception as e:
-#         # Log the error appropriately in a real application
-#         print(f"Error in openai_text_to_speech: {e}")
-#         return None
-
-#     # Set the path and create folder if needed
-#     static_audio_path = os.path.join('static', 'audio', filename)
-
-#     # Ensure the directory exists
-#     os.makedirs(os.path.dirname(static_audio_path), exist_ok=True)
     
 def elevenlabs_text_to_speech(story: str) -> bytes:
     

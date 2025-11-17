@@ -52,7 +52,7 @@ def _generate_story_and_speech(subject, estimated_chars, pattern_path, base_dir,
     try:
         with open(pattern_path, 'r') as file:
             pattern = file.read()
-            story, filename_from_story_gen = generate_news_with_mistral_chat(subject, pattern, estimated_chars = str)
+            story, filename_from_story_gen = generate_news_with_mistral_chat(subject)
             if not story or not isinstance(story, str) or story == "Error" or "Failed to generate story" in story: 
                 error_msg = f"Story generation failed for subject '{subject}'."
                 error_msg += f"Got story: {story[:100]}..." if story and isinstance(story, str) else "No story was generated"

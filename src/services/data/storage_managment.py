@@ -23,6 +23,23 @@ def _cleanup_old_audio_files(logger, max_files=5):
             audio_files.append((mtime, file_path))
         
         audio_files.sort()
+        # ///// to translate in js
+                try:
+            _cleanup_old_audio_files(logger)
+            
+            if not filename_from_story_gen or not isinstance(filename_from_story_gen, str):
+                filename_from_story_gen = f"story_{int(datetime.now().timestamp())}.mp3"
+            elif not filename_from_story_gen.lower().endswith('.mp3'):
+                filename_from_story_gen = f"{os.path.splitext(filename_from_story_gen)[0]}.mp3"
+            
+            if not speech_file_path_relative_to_static:
+                logger.warning(f"TTS failed for story, but continuing without audio. Filename: {filename_from_story_gen}")
+            elif not track_url_for_client:
+                logger.warning(f"No music but speech will go on")
+        except Exception as e:
+            logger.warning(f"TTS encountered an error but continuing without audio: {str(e)}")
+        
+        # /////
         
         while len(audio_files) >= max_files:
             _, oldest_file_path = audio_files.pop(0)

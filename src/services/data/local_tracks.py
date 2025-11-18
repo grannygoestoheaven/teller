@@ -44,7 +44,7 @@ class AmbientTrackManager:
         
         return relative_track_path
 
-def _get_local_ambient_track_url(base_dir, logger):
+def _get_local_track_url(base_dir, logger):
     """
     Retrieves the URL for the next local ambient track.
     This URL is relative to the static folder, suitable for url_for.

@@ -1,24 +1,19 @@
-import os
 import math  # For character-to-token conversion
 import re
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter
 from pydantic import BaseModel
 
-from dotenv import load_dotenv
+from src.settings import settings
+
 from mistralai import Mistral
 from openai import OpenAI
-from openai.types.responses import web_search_tool
 
-from src.services.text_utils import _sanitize_filename
-
-load_dotenv()
+from src.services.text_utils import
+_clean_story_text,
+_sanitize_filename,
 
 def generate_story_with_openai(subject) -> tuple[str, str]:
-    client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
-
-    # cognitive_style_approach = pattern
-    
     # Format the pattern by replacing placeholders
     system_message = "You are an expert on writing concise, clear, and factual presentation on the {subject} provided"
     
@@ -52,30 +47,18 @@ def generate_story_with_openai(subject) -> tuple[str, str]:
             temperature=0.4,
             max_tokens=1150,
         )
-    
-    # try:
-    # # ** CHANGE 1: Use the Responses API endpoint **
-    #     response = client.responses.create(
-    #         model="gpt-4o",
-    #         # CHANGE 2: Use the 'input' parameter for the user prompt
-    #         input=user_message,
-    #         instructions=system_message,
-    #         temperature=0.4,
-    #     )
 
         print(f"Response from OpenAI: {response}")
-        # Get the story content
-        story = response.choices[0].message.content.strip()
-        # story = response.output_text
         
-        # Use the original subject for the filename, not the AI-generated title
-        filename = _sanitize_filename(subject)
+        raw_story = response.choices[0].message.content.strip() if story else ""
+        cleaned_story = _clean_story_text(raw_story) # remove punctuation tags to have a clean version to display
+        filename = sanitize_filename(subject)  # Use the original subject for the filename, not an AI-generated title
         
-        return story, filename
+        return raw_story, cleaned_story, filename
         
     except Exception as e:
         print(f"Error in generate_story: {str(e)}")
-        # Return a default error response
         error_title = f"Error generating story about {subject}"
         error_story = "We encountered an error while generating the story. Please try again."
+        
         return error_story, _sanitize_filename(error_title) + ".mp3"

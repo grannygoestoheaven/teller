@@ -52,35 +52,13 @@ def _generate_story_and_speech(subject, estimated_chars, pattern_path, base_dir,
     try:
         with open(pattern_path, 'r') as file:
             pattern = file.read()
-            story, filename_from_story_gen = generate_news_with_mistral_chat(subject)
+            story, filename = generate_news_with_mistral_chat(subject)
             if not story or not isinstance(story, str) or story == "Error" or "Failed to generate story" in story: 
                 error_msg = f"Story generation failed for subject '{subject}'."
                 error_msg += f"Got story: {story[:100]}..." if story and isinstance(story, str) else "No story was generated"
                 logger.error(error_msg)
                 return None, None, None, None # Return None for all on story failure
         track_url_for_client = None
-        try:
-            _cleanup_old_audio_files(logger)
-            
-            if not filename_from_story_gen or not isinstance(filename_from_story_gen, str):
-                filename_from_story_gen = f"story_{int(datetime.now().timestamp())}.mp3"
-            elif not filename_from_story_gen.lower().endswith('.mp3'):
-                filename_from_story_gen = f"{os.path.splitext(filename_from_story_gen)[0]}.mp3"
-            
-            speech_file_path_relative_to_static = openai_text_to_speech(story, filename_from_story_gen)
-            if not speech_file_path_relative_to_static:
-                logger.warning(f"TTS failed for story, but continuing without audio. Filename: {filename_from_story_gen}")
-            elif not track_url_for_client:
-                logger.warning(f"No music but speech will go on")
-        except Exception as e:
-            logger.warning(f"TTS encountered an error but continuing without audio: {str(e)}")
-        
-        # Get the ambient track URL
-        track_url_for_client = _get_local_ambient_track_url(base_dir, logger)
-
-        raw_story = story.strip() if story else ""
-        cleaned_story = _clean_story_text(raw_story)
-        return raw_story, cleaned_story, filename_from_story_gen, speech_file_path_relative_to_static, track_url_for_client
         
     except FileNotFoundError:
         logger.error(f"Pattern file not found: {pattern_path}")

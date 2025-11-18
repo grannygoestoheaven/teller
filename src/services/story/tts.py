@@ -2,40 +2,14 @@ import os
 import tempfile
 import random
 
+from src.schemas.tts import TtsResponse
+from src.config import settings
+from storage import save_speech_file
+
 from openai import OpenAI  # OpenAI API client
 from elevenlabs.client import ElevenLabs # ElevenLabs API client
-# from TTS.api import TTS
 
-# Initialize the TTS model (using a common English model)
-# This assumes you have the model downloaded or it will download it.
-# You might need to choose a different model based on your needs and installed models.
-# tts = TTS("tts_models/en/ljspeech/tacotron2-DDC", gpu=False) # Set gpu=True if you have a CUDA-enabled GPU
-
-GENERATED_STORIES_SUBDIR = '../../static/audio/generated_stories'
-
-def _add_ssml_breaks(text: str, pause_ms: int = 500) -> str:
-    """Add SSML break tags between sentences.
-    
-    Args:
-        text: Input text to process
-        pause_ms: Duration of pause in milliseconds between sentences
-        
-    Returns:
-        Text with SSML break tags added between sentences
-    """
-    import re
-    # Split into sentences while preserving the delimiters
-    sentences = re.split('([.!?] +)', text)
-    # Join with SSML break tags
-    processed = ''
-    for i in range(0, len(sentences)-1, 2):
-        processed += sentences[i]
-        if i+1 < len(sentences):
-            processed += sentences[i+1]
-        processed += f'<break time="{pause_ms}ms"/>'
-    return processed
-
-def openai_text_to_speech(story: str, filename: str, pause_between_sentences_ms: int = 500) -> str:
+def openai_text_to_speech(story: TtsResponse, filename: str) -> str:
     """
     Generates speech from text using OpenAI's TTS and saves it to a static directory.
 
@@ -48,55 +22,34 @@ def openai_text_to_speech(story: str, filename: str, pause_between_sentences_ms:
         The path to the saved audio file relative to the 'static' directory
         (e.g., 'audio/generated_stories/my_story.mp3'), or None on error.
     """
-    client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
 
     try:
         # Ensure the input text is not empty and is a string
         if not story or not isinstance(story, str):
             raise ValueError("Story text must be a non-empty string")
-            
+        
         response = client.audio.speech.create(
             # model="tts-1-hd-1106",
             # model="tts-1-hd",
             model="tts-1",
-            # voice= random.choice(["onyx", "nova", "fable", "alloy", "echo", "verse", "shimmer"]),
             voice="onyx",
             input=story.strip(),  # Ensure we're passing a clean string
             response_format="mp3",
-            # instructions="Speak in a chill, surfer voice, making no noise, detached from worries, with double silences between sentences.",
             instructions='''
                         Tone : discreet, tired.
                         Pacing : fast, with controlled, double silences between sentences.
-                        Emotional Range : peaceful''',
-            # speed=1.0,
+                        Emotional Range : peaceful
+                        ''',
         )
-        
-        current_script_dir = os.path.dirname(os.path.abspath(__file__))
-        project_root = os.path.abspath(os.path.join(current_script_dir, '..', '..', '..'))
-        static_dir_abs_path = os.path.join(project_root, 'static')
-        
-        save_dir = os.path.join(static_dir_abs_path, GENERATED_STORIES_SUBDIR)
-        os.makedirs(save_dir, exist_ok=True)
 
-        speech_file_abs_path = os.path.join(save_dir, filename)
+    speech_file_relative_path = save_speech_file(response.content, filename, settings.GENERATED_STORIES_AUDIO)
 
-        with open(speech_file_abs_path, 'wb') as f:
-            f.write(response.content)
-
-        # Return path relative to static directory for url_for()
-        speech_file_relative_path = os.path.join(GENERATED_STORIES_SUBDIR, filename)
-        return speech_file_relative_path
+    return speech_file_relative_path
 
     except Exception as e:
         # Log the error appropriately in a real application
         print(f"Error in openai_text_to_speech: {e}")
         return None
-
-    # Set the path and create folder if needed
-    static_audio_path = os.path.join('static', 'audio', filename)
-
-    # Ensure the directory exists
-    os.makedirs(os.path.dirname(static_audio_path), exist_ok=True)
     
 def elevenlabs_text_to_speech(story: str) -> bytes:
     

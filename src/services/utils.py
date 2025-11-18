@@ -38,21 +38,3 @@ def _clean_story_text(story: str) -> str:
     cleaned = re.sub(r'\.\.+', '.', cleaned)
     cleaned = re.sub(r'\.([^ \n])', r'. \1', cleaned)
     return cleaned.strip()
-
-
-# This function assumes _sanitize_filename is defined elsewhere.
-
-
-# def _sanitize_filename(text: str) -> str:
-#     """
-#     Sanitizes a string to be used as a safe filename.
-#     Replaces non-alphanumeric characters (except dashes and underscores) with underscores,
-#     and limits the length.
-#     """
-#     # Replace any non-alphanumeric, non-space characters with an empty string
-#     # This also removes the '/' character
-#     sanitized = re.sub(r'[^\w\s-]', '', text).strip()
-#     # Replace spaces and multiple dashes/underscores with a single underscore
-#     sanitized = re.sub(r'[\s_-]+', '_', sanitized)
-#     # Ensure it's not too long and is lowercase
-#     return sanitized[:100].lower() # Limit length to 100 characters, convert to lowercase

@@ -52,9 +52,9 @@ def generate_story_with_openai(subject) -> tuple[str, str]:
         
         raw_story = response.choices[0].message.content.strip() if story else ""
         cleaned_story = _clean_story_text(raw_story) # remove punctuation tags to have a clean version to display
-        filename = sanitize_filename(subject)  # Use the original subject for the filename, not an AI-generated title
+        file_name = _sanitize_filename(subject)  # Use the original subject for the file_name, not an AI-generated title
         
-        return raw_story, cleaned_story, filename
+        return raw_story, cleaned_story, file_name
         
     except Exception as e:
         print(f"Error in generate_story: {str(e)}")

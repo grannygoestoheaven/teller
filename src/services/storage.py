@@ -37,4 +37,5 @@ def save_speech_file(content: bytes, filename: str, save_dir: Path) -> str:
     filepath = save_dir / filename
     with open(filepath, "wb") as f:
         f.write(content)
-    return str(path.relative_to(save_dir.parent))
+        
+    return str(filepath.relative_to(save_dir.parent))

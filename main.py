@@ -10,66 +10,10 @@ import shutil
 from datetime import datetime
 
 from dotenv import load_dotenv
-from flask import Flask, render_template, request, jsonify, url_for
 
-from src.services.generate_story_text import generate_story, generate_news_with_mistral_chat
-from src.services.generate_tts import openai_text_to_speech
-from src.services.store_story import save_story_to_server
-from src.services.text_utils import _prepare_story_parameters, _clean_story_text, _sanitize_filename
-
-app = Flask(__name__)
 app = fastAPI()
+app.include_router(story.router)     # Not used in current logic, kept for reference
 
-app.include_router(story.router)
-
-load_dotenv()
-
-# --- Configuration Constants ---
-DEFAULT_DURATION = 1
-# PATTERN_FILE_PATH = 'src/config/patterns/abrupt.md'
-# PATTERN_FILE_PATH = 'src/config/patterns/sensory_precision.md'
-PATTERN_FILE_PATH = 'src/config/patterns/default_narrative.md'
-LOCAL_AMBIENT_TRACKS_DIR = 'local_ambient_tracks'
-YOUTUBE_AMBIENT_LANDSCAPES_DIR = 'youtube_ambient_landscapes' # Not used in current logic, kept for reference
-YOUTUBE_AMBIENT_TRACKS_DIR = 'youtube_ambient_tracks'         # Not used in current logic, kept for reference
-
-def _generate_story_and_speech(subject, estimated_chars, pattern_path, base_dir, logger):
-    """
-    Generates a story and speech, returning paths for both.
-    Also selects an ambient track URL.
-    """
-    if subject == "test":
-        with open("src/server_data/stories/20251108T225411Z_the_deja-vu_effect.json") as f:
-            story_data = json.load(f)
-            story_raw = story_data["raw"]
-            story_cleaned = story_data["clean"]
-        filename_from_story_gen = "eyewitness_testimony.mp3"
-        speech_file_path_relative_to_static = "static/audio/generated_stories/the_precise_composition_of_dust.mp3"
-        # track_url_for_client = ""
-        track_url_for_client = "static/audio/local_ambient_tracks/abstract_aprils_hold.mp3"
-        return story_raw, story_cleaned, filename_from_story_gen, speech_file_path_relative_to_static, track_url_for_client
-
-    try:
-        with open(pattern_path, 'r') as file:
-            pattern = file.read()
-            story, filename = generate_news_with_mistral_chat(subject)
-            if not story or not isinstance(story, str) or story == "Error" or "Failed to generate story" in story: 
-                error_msg = f"Story generation failed for subject '{subject}'."
-                error_msg += f"Got story: {story[:100]}..." if story and isinstance(story, str) else "No story was generated"
-                logger.error(error_msg)
-                return None, None, None, None # Return None for all on story failure
-        track_url_for_client = None
-        
-    except FileNotFoundError:
-        logger.error(f"Pattern file not found: {pattern_path}")
-        return None, None, None, None
-    except Exception as e:
-        logger.error(f"An unexpected error occurred: {e}", exc_info=True)
-        return None, None, None, None
-
-@app.route('/')
-def index():
-    return render_template('index_2.html')
 
 @app.route('/generate_story', methods=['POST'])
 def teller_ui():

@@ -4,12 +4,14 @@ import re
 from fastapi import APIRouter
 from pydantic import BaseModel
 
-from src.config.settings import settings
+from src.config.settings import env_settings
 
 from mistralai import Mistral
 from openai import OpenAI
 
 from src.services.utils import _clean_story_text, _sanitize_filename
+
+client = OpenAI(api_key=env_settings.openai_api_key)
 
 def generate_story_with_openai(subject) -> tuple[str, str]:
     # Format the pattern by replacing placeholders
@@ -48,7 +50,7 @@ def generate_story_with_openai(subject) -> tuple[str, str]:
 
         print(f"Response from OpenAI: {response}")
         
-        raw_story = response.choices[0].message.content.strip() if story else ""
+        raw_story = response.choices[0].message.content.strip() if response else ""
         cleaned_story = _clean_story_text(raw_story) # remove punctuation tags to have a clean version to display
         file_name = _sanitize_filename(subject)  # Use the original subject for the file_name, not an AI-generated title
         
@@ -59,4 +61,4 @@ def generate_story_with_openai(subject) -> tuple[str, str]:
         error_title = f"Error generating story about {subject}"
         error_story = "We encountered an error while generating the story. Please try again."
         
-        return error_story, _sanitize_filename(error_title) + ".mp3"
+        return error_story, error_title, _sanitize_filename(error_title) + ".mp3"

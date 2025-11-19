@@ -3,11 +3,13 @@ import tempfile
 import random
 
 from src.schemas.tts import TtsRequest
-from src.config.settings import Settings, GENERATED_STORIES_AUDIO
+from src.config.settings import env_settings, GENERATED_STORIES_AUDIO
 from src.services.storage import save_speech_file
 
 from openai import OpenAI  # OpenAI API client
 from elevenlabs.client import ElevenLabs # ElevenLabs API client
+
+client = OpenAI(api_key=env_settings.openai_api_key)
 
 def openai_tts(story: TtsRequest, filename: str) -> str:
     """

@@ -22,6 +22,7 @@ export async function startNewStoryProcess() {
 
   // Handle non-OK responses
   if (!response.ok) throw new Error((await response.json()).error || `Error ${response.status}`);
+  
   const data = await response.json();
   console.log("Full data from backend:", data);
 

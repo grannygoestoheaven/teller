@@ -6,9 +6,9 @@
 #     _initialized = False
     
 #     @classmethod
-#     def initialize(cls, base_dir):
+#     def initialize(cls, BASE_DIR):
 #         if not cls._initialized:
-#             ambient_dir = os.path.join(base_dir, 'static', 'audio', LOCAL_AMBIENT_TRACKS_DIR)
+#             ambient_dir = os.path.join(BASE_DIR, 'static', 'audio', LOCAL_AMBIENT_TRACKS_DIR)
 #             try:
 #                 cls._tracks = [f for f in os.listdir(ambient_dir) 
 #                             if f.endswith(('.mp3', '.wav', '.flac'))]
@@ -20,11 +20,11 @@
 #                 cls._initialized = True # Mark as initialized to prevent repeated warnings
     
 #     @classmethod
-#     def get_next_track(cls, base_dir, logger):
+#     def get_next_track(cls, BASE_DIR, logger):
 #         if not cls._initialized:
-#             cls.initialize(base_dir)
+#             cls.initialize(BASE_DIR)
             
-#         ambient_dir = os.path.join(base_dir, 'static', 'audio', LOCAL_AMBIENT_TRACKS_DIR)
+#         ambient_dir = os.path.join(BASE_DIR, 'static', 'audio', LOCAL_AMBIENT_TRACKS_DIR)
         
 #         if not cls._tracks and not cls._played_tracks:
 #             logger.warning(f"No MP3 or WAV files found in {ambient_dir}. No ambient sound will be played.")
@@ -44,6 +44,8 @@
         
 #         return relative_track_path
 
+from src.config.settings import BASE_DIR, LOCAL_TRACKS_DIR
+
 class AmbientTrackManager:
     _instance = None
     _tracks = []
@@ -51,10 +53,10 @@ class AmbientTrackManager:
     _initialized = False
 
     @classmethod
-    def initialize(cls, base_dir: str) -> None:
+    def initialize(cls, BASE_DIR: str) -> None:
         if cls._initialized:
             return
-        ambient_dir = Path(base_dir) / "static" / "audio" / LOCAL_AMBIENT_TRACKS_DIR
+        ambient_dir = BASE_DIR / "static" / "audio" / LOCAL_AMBIENT_TRACKS_DIR
         try:
             cls._tracks = [
                 f.name for f in ambient_dir.iterdir()
@@ -66,9 +68,9 @@ class AmbientTrackManager:
         cls._initialized = True
 
     @classmethod
-    def get_next_track(cls, base_dir: str) -> str | None:
+    def get_next_track(cls, BASE_DIR: str) -> str | None:
         if not cls._initialized:
-            cls.initialize(base_dir)
+            cls.initialize(BASE_DIR)
 
         if not cls._tracks and not cls._played_tracks:
             return None
@@ -81,13 +83,13 @@ class AmbientTrackManager:
         cls._played_tracks.append(track_filename)
         return str(Path("audio") / LOCAL_AMBIENT_TRACKS_DIR / track_filename)
 
-# def _get_local_track_url(base_dir, logger):
+# def _get_local_track_url(BASE_DIR, logger):
     # """
     # Retrieves the URL for the next local ambient track.
     # This URL is relative to the static folder, suitable for url_for.
     # """
     # try:
-    #     track_relative_static_path = AmbientTrackManager.get_next_track(base_dir, logger)
+    #     track_relative_static_path = AmbientTrackManager.get_next_track(BASE_DIR, logger)
     #     if track_relative_static_path:
     #         return url_for('static', filename=track_relative_static_path)
     #     return None
@@ -95,13 +97,13 @@ class AmbientTrackManager:
     #     logger.error(f"Error getting ambient track URL: {str(e)}")
     #     return None
 
-def get_local_track_path(base_dir: str) -> str | None:
+def get_local_track_path(BASE_DIR: str) -> str | None:
     """
     Returns the relative path of the next ambient track (e.g., "audio/ambient/track.mp3").
     Returns None if no tracks are available.
     """
     try:
-        return AmbientTrackManager.get_next_track(base_dir)
+        return AmbientTrackManager.get_next_track(BASE_DIR)
     except Exception as e:
         print(f"Error getting ambient track: {e}")  # Replace with your logger
         return None

@@ -6,12 +6,11 @@ from pathlib import Path
 from fastapi import Request
 from datetime import datetime
 
-from src.config import settings
+from src.config import env_settings
 
-BASE = os.path.join(os.path.dirname(__file__), '..', '..', 'static', 'audio', 'generated_stories')
 os.makedirs(BASE, exist_ok=True)
 
-def save_story_to_static(subject: str, raw: str, clean: str) -> str:
+def save_story_txt_to_static(subject: str, raw: str, clean: str) -> str:
     """
     Writes a JSON file with subject, raw text, clean text, timestamp.
     Returns the filename for reference.
@@ -33,7 +32,7 @@ def save_story_to_static(subject: str, raw: str, clean: str) -> str:
 
     return filename
 
-def save_speech_file(content: bytes, filename: str, save_dir: Path) -> str:
+def save_speech_file_to_static(content: bytes, filename: str, save_dir: Path) -> str:
     save_dir.mkdir(parents=True, exist_ok=True)
     filepath = save_dir / filename
     with open(filepath, "wb") as f:

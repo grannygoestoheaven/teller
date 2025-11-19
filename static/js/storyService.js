@@ -14,7 +14,7 @@ export async function startNewStoryProcess() {
   const subject = formData.get('subject').trim();
 
   // Fetch story and corresponding TTS from backend
-  const response = await fetch('/new', {
+  const response = await fetch('/v1/stories/new', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ subject }),

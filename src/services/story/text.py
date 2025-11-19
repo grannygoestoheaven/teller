@@ -4,14 +4,12 @@ import re
 from fastapi import APIRouter
 from pydantic import BaseModel
 
-from src.settings import settings
+from src.config.settings import settings
 
 from mistralai import Mistral
 from openai import OpenAI
 
-from src.services.text_utils import
-_clean_story_text,
-_sanitize_filename,
+from src.services.utils import _clean_story_text, _sanitize_filename
 
 def generate_story_with_openai(subject) -> tuple[str, str]:
     # Format the pattern by replacing placeholders

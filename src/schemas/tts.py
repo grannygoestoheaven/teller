@@ -1,4 +1,4 @@
-from fastapi import BaseModel
+from pydantic import BaseModel
 
 class TtsRequest(BaseModel):
     text: str

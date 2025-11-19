@@ -5,7 +5,7 @@ from fastapi.templating import Jinja2Templates
 
 # Initialize router and templates
 router = APIRouter()
-templates = Jinja2Templates(directory="static/templates")
+templates = Jinja2Templates(directory="templates")
 
 @router.get("/", response_class=HTMLResponse)
 async def serve_index(request: Request):

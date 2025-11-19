@@ -1,4 +1,4 @@
-from fastapi import BaseModel
+from pydantic import BaseModel
 
 # text and audio schemas request
 class StoryRequest(BaseModel):

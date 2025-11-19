@@ -82,18 +82,18 @@ class AmbientTrackManager:
         return str(Path("audio") / LOCAL_AMBIENT_TRACKS_DIR / track_filename)
 
 # def _get_local_track_url(base_dir, logger):
-    """
-    Retrieves the URL for the next local ambient track.
-    This URL is relative to the static folder, suitable for url_for.
-    """
-    try:
-        track_relative_static_path = AmbientTrackManager.get_next_track(base_dir, logger)
-        if track_relative_static_path:
-            return url_for('static', filename=track_relative_static_path)
-        return None
-    except Exception as e:
-        logger.error(f"Error getting ambient track URL: {str(e)}")
-        return None
+    # """
+    # Retrieves the URL for the next local ambient track.
+    # This URL is relative to the static folder, suitable for url_for.
+    # """
+    # try:
+    #     track_relative_static_path = AmbientTrackManager.get_next_track(base_dir, logger)
+    #     if track_relative_static_path:
+    #         return url_for('static', filename=track_relative_static_path)
+    #     return None
+    # except Exception as e:
+    #     logger.error(f"Error getting ambient track URL: {str(e)}")
+    #     return None
 
 def get_local_track_path(base_dir: str) -> str | None:
     """

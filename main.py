@@ -1,11 +1,12 @@
 from fastapi import FastAPI
-from routers import home_ui, story
+from fastapi.staticfiles import StaticFiles
 
-from datetime import datetime
+from src.routers import ui_home, story
 
-app = fastAPI()
-app.include_router(story.router)     # Not used in current logic, kept for reference
-app.include_router(home_ui.router)
+app = FastAPI()
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
-if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=8000, debug=False)
+app.include_router(story.router, prefix="/v1/stories")
+app.include_router(ui_home.router)
+
+print("Server running at: http://127.0.0.1:8000")

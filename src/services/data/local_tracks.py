@@ -53,10 +53,10 @@ class AmbientTrackManager:
     _initialized = False
 
     @classmethod
-    def initialize(cls, BASE_DIR: str) -> None:
+    def initialize(cls, local_tracks_dir: str) -> None:
         if cls._initialized:
             return
-        ambient_dir = BASE_DIR / "static" / "audio" / LOCAL_AMBIENT_TRACKS_DIR
+        ambient_dir = LOCAL_TRACKS_DIR
         try:
             cls._tracks = [
                 f.name for f in ambient_dir.iterdir()
@@ -81,7 +81,7 @@ class AmbientTrackManager:
 
         track_filename = cls._tracks.pop(0)
         cls._played_tracks.append(track_filename)
-        return str(Path("audio") / LOCAL_AMBIENT_TRACKS_DIR / track_filename)
+        return str(Path("audio") / LOCAL_TRACKS_DIR / track_filename)
 
 # def _get_local_track_url(BASE_DIR, logger):
     # """

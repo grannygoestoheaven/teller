@@ -8,11 +8,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 # Directories for storing generated stories
 STATIC_AUDIO_DIR = BASE_DIR / "static" / "audio"
 SUB_AUDIO_DIR = "generated_stories_audio"
-GENERATED_STORIES_AUDIO = STATIC_AUDIO_DIR / SUB_AUDIO_DIR
+GENERATED_STORIES_AUDIO_DIR = STATIC_AUDIO_DIR / SUB_AUDIO_DIR
 
 STATIC_TEXT_DIR = BASE_DIR / "static" / "text"
 SUB_TEXT_DIR = "jsonStories"
-GENERATED_STORIES_TEXT = STATIC_TEXT_DIR / SUB_TEXT_DIR
+GENERATED_STORIES_TEXT_DIR = STATIC_TEXT_DIR / SUB_TEXT_DIR
 
 # Story settings
 DEFAULT_DURATION = 1

@@ -13,6 +13,8 @@ export async function startNewStoryProcess() {
   // Trim whitespace from subject input
   const subject = formData.get('subject').trim();
 
+  // ================= SENDS REQUEST TO BACKEND =================
+
   // Fetch story and corresponding TTS from backend
   const response = await fetch('/v1/stories/new', {
     method: 'POST',
@@ -20,9 +22,11 @@ export async function startNewStoryProcess() {
     body: JSON.stringify({ subject }),
     signal:abortController.signal });
 
+  // ==================== HANDLES RESPONSE ======================
+
   // Handle non-OK responses
   if (!response.ok) throw new Error((await response.json()).error || `Error ${response.status}`);
-  
+
   const data = await response.json();
   console.log("Full data from backend:", data);
 

@@ -4,7 +4,7 @@ import re
 def _prepare_story_parameters(request_form):
     return subject
 
-def _sanitize_filename(raw_title: str, max_length: int = 200) -> str:
+def _clean_title(raw_title: str, max_length: int = 200) -> str:
     """Generate a sanitized filename from a raw title."""
     if not raw_title or not isinstance(raw_title, str):
         return "mistral_story.mp3"

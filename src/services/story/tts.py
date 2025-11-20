@@ -4,13 +4,14 @@ import random
 
 from src.schemas.tts import TtsRequest
 from src.config.settings import env_settings
+from src.services.utils import _format_mp3_filename
 
 from openai import OpenAI  # OpenAI API client
 from elevenlabs.client import ElevenLabs # ElevenLabs API client
 
 client = OpenAI(api_key=env_settings.openai_api_key)
 
-def openai_tts(story: TtsRequest) -> bytes:
+def openai_tts(story: TtsRequest, filename) -> bytes:
     """
     Generates speech from text using OpenAI's TTS and saves it to a static directory.
 
@@ -43,83 +44,84 @@ def openai_tts(story: TtsRequest) -> bytes:
                         ''',
         )
         
+        speech_filename = _format_mp3_filename(filename)
         speech_audio = response.content
         
-        return speech_audio
+        return speech_filename, speech_audio
 
     except Exception as e:
         # Log the error appropriately in a real application
         print(f"Error in openai_text_to_speech: {e}")
         return None
     
-def elevenlabs_text_to_speech(story: str) -> bytes:
+# def elevenlabs_text_to_speech(story: str) -> bytes:
     
-    # Initialize client
-    client = ElevenLabs(api_key=os.environ.get("ELEVEN_LABS_API_KEY"))
+#     # Initialize client
+#     client = ElevenLabs(api_key=os.environ.get("ELEVEN_LABS_API_KEY"))
 
-    # Define the text and parameters
-    text = story
-    voice_id = "JBFqnCBsd6RMkjVDRZzb"  # Replace with your voice ID
-    model_id = "eleven_multilingual_v2"
+#     # Define the text and parameters
+#     text = story
+#     voice_id = "JBFqnCBsd6RMkjVDRZzb"  # Replace with your voice ID
+#     model_id = "eleven_multilingual_v2"
 
-    # Generate speech
-    audio = client.text_to_speech.convert(
-        text=text,
-        voice_id=voice_id,
-        model_id=model_id,
-        output_format="mp3_22050_32"
-    )
+#     # Generate speech
+#     audio = client.text_to_speech.convert(
+#         text=text,
+#         voice_id=voice_id,
+#         model_id=model_id,
+#         output_format="mp3_22050_32"
+#     )
     
-    audio_bytes = b"".join(audio)
-    # we could return the audio bytes here, but we'll save it to a file instead
+#     audio_bytes = b"".join(audio)
+#     # we could return the audio bytes here, but we'll save it to a file instead
 
-    # Save the audio
-    with open("output.mp3", "wb") as file:
-        file.write(audio_bytes)
+#     # Save the audio
+#     with open("output.mp3", "wb") as file:
+#         file.write(audio_bytes)
     
-    # Return the audio bytes    
-    with open("output.mp3", "rb") as f:
-        audio_bytes = f.read()
+#     # Return the audio bytes    
+#     with open("output.mp3", "rb") as f:
+#         audio_bytes = f.read()
     
-    return audio_bytes
+#     return audio_bytes
 
-def coqui_tts_text_to_speech(story: str, filename: str = "story.wav", model_name: str = "tts_models/en/ljspeech/glow-tts") -> str:
-    """
-    Generates speech from text using Coqui TTS and saves it to a static directory.
+# def coqui_tts_text_to_speech(story: str, filename: str = "story.wav", model_name: str = "tts_models/en/ljspeech/glow-tts") -> str:
+#     """
+#     Generates speech from text using Coqui TTS and saves it to a static directory.
 
-    Args:
-        story: The text content of the story.
-        filename: The desired filename for the audio (e.g., 'my_story.wav').
-        model_name: The Coqui TTS model to use (default: 'tts_models/en/ljspeech/glow-tts').
-                  Other options: 'tts_models/en/ljspeech/tacotron2-DDC', 'tts_models/en/ek1/tacotron2'
+#     Args:
+#         story: The text content of the story.
+#         filename: The desired filename for the audio (e.g., 'my_story.wav').
+#         model_name: The Coqui TTS model to use (default: 'tts_models/en/ljspeech/glow-tts').
+#                   Other options: 'tts_models/en/ljspeech/tacotron2-DDC', 'tts_models/en/ek1/tacotron2'
 
-    Returns:
-        The path to the saved audio file relative to the 'static' directory,
-        or None if an error occurs.
-    """
-    try:
-        from TTS.api import TTS
-        import torch
+#     Returns:
+#         The path to the saved audio file relative to the 'static' directory,
+#         or None if an error occurs.
+#     """
+#     try:
+#         from TTS.api import TTS
+#         import torch
         
-        # Set device (use GPU if available)
-        device = 'cuda' if torch.cuda.is_available() else 'cpu'
+#         # Set device (use GPU if available)
+#         device = 'cuda' if torch.cuda.is_available() else 'cpu'
         
-        # Initialize TTS with the specified model
-        tts = TTS(model_name=model_name, progress_bar=False).to(device)
+#         # Initialize TTS with the specified model
+#         tts = TTS(model_name=model_name, progress_bar=False).to(device)
         
-        # Create output directory if it doesn't exist
-        if not filename.lower().endswith('.wav'):
-            filename = f"{os.path.splitext(filename)[0]}.wav"
+#         # Create output directory if it doesn't exist
+#         if not filename.lower().endswith('.wav'):
+#             filename = f"{os.path.splitext(filename)[0]}.wav"
             
-        output_path = os.path.join('static', GENERATED_STORIES_SUBDIR, filename)
-        os.makedirs(os.path.dirname(output_path), exist_ok=True)
+#         output_path = os.path.join('static', GENERATED_STORIES_SUBDIR, filename)
+#         os.makedirs(os.path.dirname(output_path), exist_ok=True)
         
-        # Generate and save speech
-        tts.tts_to_file(text=story, file_path=output_path)
+#         # Generate and save speech
+#         tts.tts_to_file(text=story, file_path=output_path)
         
-        # Return path relative to static directory
-        return os.path.join(GENERATED_STORIES_SUBDIR, filename)
+#         # Return path relative to static directory
+#         return os.path.join(GENERATED_STORIES_SUBDIR, filename)
         
-    except Exception as e:
-        print(f"Error in Coqui TTS: {str(e)}")
-        return None
+#     except Exception as e:
+#         print(f"Error in Coqui TTS: {str(e)}")
+#         return None

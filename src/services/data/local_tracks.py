@@ -44,6 +44,8 @@
         
 #         return relative_track_path
 
+import random
+
 from src.config.settings import BASE_DIR, LOCAL_TRACKS_DIR
 
 class AmbientTrackManager:
@@ -103,7 +105,7 @@ def get_local_track_path(BASE_DIR: str) -> str | None:
     Returns None if no tracks are available.
     """
     try:
-        return AmbientTrackManager.get_next_track(BASE_DIR)
+        return AmbientTrackManager.get_next_track(LOCAL_TRACKS_DIR)
     except Exception as e:
         print(f"Error getting ambient track: {e}")  # Replace with your logger
         return None

@@ -4,15 +4,18 @@ import re
 def _prepare_story_parameters(request_form):
     return subject
 
-def sanitize_filename(raw_title: str, max_length: int = 200) -> str:
-    """Generate a sanitized filename from a raw title."""
+def _format_text_filename(raw_title: str) -> str:
+    return raw_title.lower().replace(" ", "_")
+
+def _format_mp3_filename(raw_title: str, max_length: int = 200) -> str:
+    """Generate an mp3 filename from a raw title."""
     if not raw_title or not isinstance(raw_title, str):
         return "mistral_story.mp3"
         
     # Convert to lowercase and replace spaces
     filename = raw_title.lower().replace(" ", "_")
-    # Remove any non-alphanumeric characters except dots and underscores
-    filename = "".join(c for c in filename if c.isalnum() or c in ('.', '_')).rstrip()
+    # Remove any non-alphanumeric characters except dots, dashes and underscores
+    filename = "".join(c for c in filename if c.isalnum() or c in ('.', '_', '-')).rstrip()
     
     # Ensure .mp3 extension
     if not filename.endswith(".mp3"):

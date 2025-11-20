@@ -10,7 +10,7 @@ from datetime import datetime
 
 def save_story_txt_to_static(tagged: str, clean: str, subject: str, save_dir: str) -> str:
     """
-    Writes a JSON file with subject, raw text, clean text, timestamp.
+    Writes a JSON file with subject, tagged text, clean text, timestamp.
     Returns . 
     """
     save_dir.mkdir(parents=True, exist_ok=True)
@@ -21,7 +21,7 @@ def save_story_txt_to_static(tagged: str, clean: str, subject: str, save_dir: st
     filepath = save_dir / filename
     payload = {
         'subject': subject,
-        'raw': raw,
+        'tagged': tagged,
         'clean': clean,
         'timestamp': timestamp
     }
@@ -46,7 +46,7 @@ def save_speech_file_to_static(content: bytes, filename: str, save_dir: Path) ->
         
     return str(audio_filepath)
 
-def get_clean_story_from_json_file(filename: str, save_dir: Path) -> str:
+def get_clean_story_url_from_json_file(filename: str, save_dir: Path) -> str:
     """
     Extracts the cleaned story from the saved JSON file.
     """

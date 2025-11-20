@@ -8,8 +8,7 @@ from mistralai import Mistral
 from openai import OpenAI
 
 from src.config.settings import env_settings
-from src.services.utils import _clean_story_text, _sanitize_filename
-from src.services.storage import _save_story_txt_to_static
+from src.services.utils import _clean_story_text
 
 client = OpenAI(api_key=env_settings.openai_api_key)
 
@@ -52,15 +51,12 @@ def generate_story_with_openai(subject) -> tuple[str, str]:
         
         tagged_story_for_tts = response.choices[0].message.content.strip() if response else ""
         cleaned_story = _clean_story_text(tagged_story_for_tts) # remove punctuation tags to have a clean version to display
-        sane_filename = _sanitize_filename(subject)  # Use the original subject for the filename, not an AI-generated title
-        
-        json_url = _save_story_txt_to_static(tagged_story, cleaned_story, sane_filename, GENERATED_STORIES_TEXT_DIR)
-        
-        return json_url
+                
+        return tagged_story_for_tts, cleaned_story
     
-    except Exception as e:s
+    except Exception as e:
         print(f"Error in generate_story: {str(e)}")
         error_title = f"Error generating story about {subject}"
         error_story = "We encountered an error while generating the story. Please try again."
         
-        return error_story, error_title, _sanitize_filename(error_title) + ".mp3"
+        return error_story, _sanitize_filename(error_title) + ".mp3"

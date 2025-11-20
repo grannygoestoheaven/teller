@@ -3,15 +3,14 @@ import tempfile
 import random
 
 from src.schemas.tts import TtsRequest
-from src.config.settings import env_settings, GENERATED_STORIES_AUDIO
-from src.services.storage import save_speech_file_to_static
+from src.config.settings import env_settings
 
 from openai import OpenAI  # OpenAI API client
 from elevenlabs.client import ElevenLabs # ElevenLabs API client
 
 client = OpenAI(api_key=env_settings.openai_api_key)
 
-def openai_tts(story: TtsRequest, filename: str) -> str:
+def openai_tts(story: TtsRequest) -> bytes:
     """
     Generates speech from text using OpenAI's TTS and saves it to a static directory.
 
@@ -43,10 +42,10 @@ def openai_tts(story: TtsRequest, filename: str) -> str:
                         Emotional Range : peaceful
                         ''',
         )
-
-        speech_file_relative_path = save_speech_file_to_static(response.content, filename, GENERATED_STORIES_AUDIO)
         
-        return speech_file_relative_path
+        speech_audio = response.content
+        
+        return speech_audio
 
     except Exception as e:
         # Log the error appropriately in a real application

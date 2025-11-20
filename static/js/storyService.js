@@ -34,7 +34,7 @@ export async function startNewStoryProcess() {
   Object.assign(lastStoryData, data)
   console.log(lastStoryData.cleanStory);
   // Load the player with new story data here for safety
-  loadPlayer(lastStoryData);
+  loadPlayer(lastStoryData); // The audio sources are now loaded from this object
 
   return lastStoryData ;
   }

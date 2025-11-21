@@ -2,8 +2,11 @@ from pydantic_settings import BaseSettings
 from pydantic import Field
 from pathlib import Path
 
+print("entering settings.py")
+
 # Root directory
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
+print(f"BASE_DIR set to: {BASE_DIR}")
 
 # Directories for storing generated stories
 STATIC_AUDIO_DIR = BASE_DIR / "static" / "audio"

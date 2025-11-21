@@ -18,7 +18,7 @@ def save_story_txt_to_static(tagged: str, clean: str, subject: str, save_dir: st
     timestamp = datetime.utcnow().strftime('%Y%m%dT%H%M%SZ')
     
     filename = f"{timestamp}_{subject}.json"
-    filepath = save_dir / filename
+    filepath = save_dir / filename # jsonStories/"date+subject+.json"
     payload = {
         'subject': subject,
         'tagged': tagged,
@@ -28,9 +28,9 @@ def save_story_txt_to_static(tagged: str, clean: str, subject: str, save_dir: st
     with open(filepath, 'w', encoding='utf-8') as f:
         json.dump(payload, f, ensure_ascii=False, indent=2)
 
-    story_filepath = filepath.relative_to(save_dir.parent)
-
-    return str(story_filepath)
+    txt_fullpath = filepath.resolve()
+    
+    return str(fullpath)
 
 def save_speech_file_to_static(content: bytes, filename: str, save_dir: Path) -> str:
     """
@@ -42,15 +42,15 @@ def save_speech_file_to_static(content: bytes, filename: str, save_dir: Path) ->
     with open(filepath, "wb") as f:
         f.write(content)
         
-    audio_filepath = filepath.relative_to(save_dir.parent)
+    audio_fullpath = filepath.resolve()
         
-    return str(audio_filepath)
+    return str(audio_fullpath)
 
-def get_clean_story_url_from_json_file(filename: str, save_dir: Path) -> str:
+def get_clean_story_url_from_json_file(filepath) -> str:
     """
     Extracts the cleaned story from the saved JSON file.
     """
-    filepath = save_dir / f"{filename}.json"
+    print(f"Retrieving clean story from: {filepath}")
     with open(filepath, "r", encoding="utf-8") as f:
         story_data = json.load(f)
         

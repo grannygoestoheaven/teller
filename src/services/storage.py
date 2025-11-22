@@ -8,19 +8,19 @@ from pathlib import Path
 from fastapi import Request
 from datetime import datetime
 
-def save_story_txt_to_static(tagged: str, clean: str, subject: str, save_dir: str) -> str:
+def save_story_txt_to_static(tagged: str, clean: str, filename: str, save_dir: str) -> str:
     """
-    Writes a JSON file with subject, tagged text, clean text, timestamp.
+    Writes a JSON file with filename, tagged text, clean text, timestamp.
     Returns . 
     """
     save_dir.mkdir(parents=True, exist_ok=True)
 
     timestamp = datetime.utcnow().strftime('%Y%m%dT%H%M%SZ')
     
-    filename = f"{timestamp}_{subject}.json"
-    filepath = save_dir / filename # jsonStories/"date+subject+.json"
+    dated_filename = f"{timestamp}_{filename}.json"
+    filepath = save_dir / dated_filename # jsonStories/"date+filename+.json"
     payload = {
-        'subject': subject,
+        'dated_filename': dated_filename,
         'tagged': tagged,
         'clean': clean,
         'timestamp': timestamp
@@ -29,8 +29,9 @@ def save_story_txt_to_static(tagged: str, clean: str, subject: str, save_dir: st
         json.dump(payload, f, ensure_ascii=False, indent=2)
 
     txt_fullpath = filepath.resolve()
+    print(f"Saved story JSON to: {txt_fullpath}")
     
-    return str(fullpath)
+    return str(txt_fullpath)
 
 def save_speech_file_to_static(content: bytes, filename: str, save_dir: Path) -> str:
     """
@@ -55,9 +56,8 @@ def get_clean_story_url_from_json_file(filepath) -> str:
         story_data = json.load(f)
         
     clean_story = story_data["clean"]
-        
+    
     return clean_story
-
 
 from datetime import datetime
 

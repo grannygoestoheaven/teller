@@ -4,6 +4,7 @@ from fastapi.staticfiles import StaticFiles
 from src.routers import ui_home, story
 
 app = FastAPI()
+
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 app.include_router(story.router, prefix="/v1/stories")

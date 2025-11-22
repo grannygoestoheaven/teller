@@ -1,7 +1,5 @@
 import random
 
-# from src.config.settings import BASE_DIR, LOCAL_TRACKS_DIR
-
 class AmbientTrackManager:
     _instance = None
     _tracks = []
@@ -37,7 +35,7 @@ class AmbientTrackManager:
         
         return str(tracks_dir / track_filename)  # Use LOCAL_TRACKS_DIR directly
 
-def get_local_track_path(tracks_dir) -> str | None:
+def get_random_track_path(tracks_dir) -> str | None:
     """
     Returns the relative path of the next ambient track (e.g., "audio/ambient/track.mp3").
     Returns None if no tracks are available.

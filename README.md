@@ -11,15 +11,16 @@ pinned: false
 
 # Teller
 
-🧠 **Teller** is an AI-powered micro podcast that syncs voice and background ambient music to create immersive, focus-improved narratives and invites to explore further
+🧠 **Teller** is an AI-powered micro podcast that syncs voice and background ambient music to create immersive, focus-improved narratives, triggering curiosity and the will to explore further.
 
 
 ## Features
 
-- Converts subject into an insightful micro podcast 
+- Converts subject into an insightful micro podcast with player controls
 - Syncs narration with background track  
-- Uses LLMs text generation and TTS
+- Uses LLMs text generation and text to speech.
 
----
+- The backend is powered by FastAPI.
+- The Frontend player is handled by a uml generated state machine, created using the StateSmithg GitHub project.
 
-Made with ❤️ by Grandpa.
+Made with ❤️ by Granny.

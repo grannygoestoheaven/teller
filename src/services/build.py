@@ -30,10 +30,10 @@ def build_story(subject: str) -> dict:
     track_url = f"/static/audio/local_ambient_tracks/{track_filename}"
 
     payload = {
-        "storyFilename": story_filename,
-        "StoryUrl": story_url,
-        "speechUrl": speech_url,
-        "trackUrl" : track_url
+        "story_filename": story_filename,
+        "Story_url": story_url,
+        "speech_url": speech_url,
+        "track_url" : track_url
     }
     
     return payload

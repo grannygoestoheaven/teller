@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 # text and audio schemas request
 class StoryRequest(BaseModel):
@@ -6,5 +6,12 @@ class StoryRequest(BaseModel):
 
 # text and audio schemas response
 class StoryResponse(BaseModel):
-    text: str
-    audio_url: str
+    story_filename: str = Field(alias="storyFilename")
+    story_url: str = Field(alias="StoryUrl")
+    speech_url: str = Field(alias="speechUrl")
+    track_url: str = Field(alias="trackUrl")
+    
+    class Config:
+        populate_by_name = True
+        allow_population_by_field_name = True
+        

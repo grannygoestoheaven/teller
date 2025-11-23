@@ -68,7 +68,7 @@ def generate_news_with_mistral_chat(news_text: str, pattern: str, estimated_char
             return "Received empty response from Mistral API.", "error.mp3"
         
         # Use the original subject for the filename, not the AI-generated title
-        filename = _sanitize_filename(subject)
+        filename = _format_mp3_filename(subject)
         
         return content, filename
         

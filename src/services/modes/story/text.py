@@ -62,4 +62,4 @@ def generate_story_with_openai(subject) -> tuple[str, str]:
         error_title = f"Error generating story about {subject}"
         error_story = "We encountered an error while generating the story. Please try again."
         
-        return error_story, _sanitize_filename(error_title) + ".mp3"
+        return error_story, _format_text_filename(error_title) + ".mp3"

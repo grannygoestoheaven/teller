@@ -32,8 +32,8 @@ def openai_tts(story: TtsRequest, filename) -> bytes:
         
         response = client.audio.speech.create(
             # model="tts-1-hd-1106",
-            # model="tts-1-hd",
-            model="tts-1",
+            model="tts-1-hd",
+            # model="tts-1",
             voice="onyx",
             input=story.strip(),  # Ensure we're passing a clean string
             response_format="mp3",
@@ -46,6 +46,8 @@ def openai_tts(story: TtsRequest, filename) -> bytes:
         
         speech_filename = _format_mp3_filename(filename)
         speech_audio = response.content
+        
+        print(f"Generated speech length: {len(speech_audio)} bytes")  # Should match expected size
         
         return speech_filename, speech_audio
 

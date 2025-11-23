@@ -19,7 +19,7 @@ def build_story(subject: str) -> dict:
     print(f"Saved story JSON filepath: {json_story_filepath}")
     story_path = get_clean_story_url_from_json_file(json_story_filepath) # get the path of the cleaned story only, from the json story file, and pass it to the payload
     print(f"Retrieved clean story path: {story_path}")
-    speech_path = save_speech_file_to_static(speech, speech_filename, GENERATED_STORIES_AUDIO_DIR) # store the speech audio file and returns its path
+    speech_path = save_speech_file_to_static(speech_filename, speech, GENERATED_STORIES_AUDIO_DIR) # store the speech audio file and returns its path
     track_path = get_random_track_path(LOCAL_TRACKS_DIR) # returns the path of local ambient track
     # Extract the filename from the full path
     track_filename = track_path.split('/')[-1] if track_path else None

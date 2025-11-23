@@ -33,7 +33,7 @@ def save_story_txt_to_static(tagged: str, clean: str, filename: str, save_dir: s
     
     return str(txt_fullpath)
 
-def save_speech_file_to_static(content: bytes, filename: str, save_dir: Path) -> str:
+def save_speech_file_to_static(filename: str, content: bytes, save_dir: Path) -> str:
     """
     Saves the speech mp3 audio content to a file in the specified directory.
     """

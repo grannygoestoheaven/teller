@@ -5,7 +5,7 @@ def _prepare_story_parameters(request_form):
     return subject
 
 def _format_text_filename(raw_title: str) -> str:
-    return raw_title.lower().replace(" ", "_")
+    return raw_title.lower().replace(" ", "_").replace("'", "")
 
 def _format_mp3_filename(raw_title: str, max_length: int = 200) -> str:
     """Generate an mp3 filename from a raw title."""

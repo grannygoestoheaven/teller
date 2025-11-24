@@ -20,20 +20,25 @@ def build_story(subject: str) -> dict:
     story_path = get_clean_story_url_from_json_file(json_story_filepath) # get the path of the cleaned story only, from the json story file, and pass it to the payload
     print(f"Retrieved clean story path: {story_path}")
     speech_path = save_speech_file_to_static(speech_filename, speech, GENERATED_STORIES_AUDIO_DIR) # store the speech audio file and returns its path
+    print(f"Saved speech path: {speech_path}")
     track_path = get_random_track_path(LOCAL_TRACKS_DIR) # returns the path of local ambient track
     # Extract the filename from the full path
     track_filename = track_path.split('/')[-1] if track_path else None
+    print(f"Selected track filename: {track_filename}")
 
     # Get urls for the payload:
     story_url = f"/static/audio/generated_stories/text/{story_filename}"
     speech_url = f"/static/audio/generated_stories_audio/{speech_filename}"
     track_url = f"/static/audio/local_ambient_tracks/{track_filename}"
+    
+    print(f"Story URL: {story_url}, Speech URL: {speech_url}, Track URL: {track_url}")
 
     payload = {
         "story_filename": story_filename,
-        "Story_url": story_url,
+        "story_url": story_url,
         "speech_url": speech_url,
         "track_url" : track_url
     }
+    print(f"Payload constructed: {payload}")
     
     return payload

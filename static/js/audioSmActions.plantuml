@@ -8,8 +8,9 @@
     state READY
     state LOADING
     state PLAYING
+    state PLAYING_DISABLED_BTN
     state PAUSED
-    state TEXT_DISPLAYED
+    state PAUSED_DISABLED_BTN
 
     '############################ Handlers ############################
 
@@ -18,29 +19,34 @@
 
     READY: enter / this.actions.uiReadyButtons();
     READY --> LOADING : FORM_SUBMITTED / this.actions.startNewStoryProcess();
-    READY --> LOADING : PLAY_PAUSE_CLICKED / this.actions.startNewStoryProcess();
     READY --> IDLE : INPUT_CHANGED [this.actions.inputIsEmpty()]
 
     LOADING: enter / this.actions.showLoadingAnimation(); this.actions.uiLoadingButtons();
     LOADING --> PLAYING : SPEECH_READY / this.actions.setUpAndStartAllAudio();
-    LOADING --> PAUSED : PLAY_PAUSE_CLICKED / this.actions.pauseAllAudio();
+    LOADING --> PAUSED : TOGGLE_PAUSE_RESUME / this.actions.pauseAllAudio();
     LOADING --> IDLE : CANCEL / this.actions.abortProcess();
 
     PLAYING: enter / this.actions.uiPlayingButtons(); this.actions.removeBlurr(); this.actions.redDots();
-    PLAYING --> PAUSED : SPACEBAR_TOGGLE_PAUSE_RESUME / this.actions.pauseAllAudio();
-    PLAYING --> PAUSED : PLAY_PAUSE_CLICKED / this.actions.pauseAllAudio();
+    PLAYING --> PAUSED : TOGGLE_PAUSE_RESUME / this.actions.pauseAllAudio();
     PLAYING --> IDLE : MUSIC_OVER
     PLAYING --> READY : INPUT_CHANGED [this.actions.inputIsValid()]
+    PLAYING --> PLAYING_DISABLED : INPUT_CHANGED [this.actions.inputIsEmpty()]
     PLAYING : CHAT_HISTORY_CLICKED / this.actions.toggleTextVisibility();
     PLAYING : FROM_START_CLICKED / this.actions.pauseAllAudio(); this.actions.resetAllAudio(); this.actions.setUpAndStartAllAudio();
 
+
+    PLAYING_DISABLED: enter / this.actions.uiIdleButtons()
+    PLAYING_DISABLED --> READY : INPUT_CHANGED [this.actions.inputIsValid]
+    PLAYING_DISABLED --> IDLE : MUSIC_OVER
+    PLAYING_DISABLED --> PAUSED_DISABLED : TOGGLE_PAUSE_RESUME / this.actions.pauseAllAudio()
+
     PAUSED: enter / this.actions.uiPausedButtons(); this.actions.addBlurr();
-    PAUSED --> PLAYING : SPACEBAR_TOGGLE_PAUSE_RESUME / this.actions.resumeAllAudio();
-    PAUSED --> PLAYING : PLAY_PAUSE_CLICKED / this.actions.resumeAllAudio();
+    PAUSED --> PLAYING : TOGGLE_PAUSE_RESUME / this.actions.resumeAllAudio();
     PAUSED --> PLAYING : FROM_START_CLICKED / this.actions.resetAllAudio(); this.actions.setUpAndStartAllAudio();
     PAUSED --> READY : INPUT_CHANGED [this.actions.inputIsValid()]
-    PAUSED : FROM_START_CLICKED / this.actions.resetAllAudio();
 
+    PAUSED_DISABLED: enter / this.actions.uiIdleButtons()
+    PAUSED_DISABLED --> PLAYING_DISABLED : TOGGLE_PAUSE_RESUME / this.actions.resumeAllAudio()
 
 /'! $CONFIG : toml
 SmRunnerSettings.transpilerId = "JavaScript"

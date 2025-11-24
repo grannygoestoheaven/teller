@@ -4,9 +4,14 @@ export function events(sm) {
   window.addEventListener('keydown', (event) => {
     if (event.code === 'Space' && document.activeElement.tagName !== 'INPUT') {
       event.preventDefault();
-      sm.dispatchEvent(AudioStateMachine.EventId.SPACEBAR_TOGGLE_PAUSE_RESUME); // leads to PAUSED state or PLAYING (resumed) state
+      sm.dispatchEvent(AudioStateMachine.EventId.TOGGLE_PAUSE_RESUME); // leads to PAUSED state or PLAYING (resumed) state
     }
   });
+  
+    elements.playPauseButton?.addEventListener("click", () => {
+      console.log('Play/Pause clicked');
+      sm.dispatchEvent(AudioStateMachine.EventId.TOGGLE_PAUSE_RESUME); // leads to PLAYING state or PAUSED state
+    });
 
   elements.formInput?.addEventListener('input', () => {
     console.log('Form input changed');
@@ -17,11 +22,6 @@ export function events(sm) {
     e.preventDefault();
     console.log('Form submitted');
     sm.dispatchEvent(AudioStateMachine.EventId.FORM_SUBMITTED) // leads to LOADING state
-  });
-
-  elements.playPauseButton?.addEventListener("click", () => {
-    console.log('Play/Pause clicked');
-    sm.dispatchEvent(AudioStateMachine.EventId.PLAY_PAUSE_CLICKED); // leads to PLAYING state or PAUSED state
   });
 
   elements.chatHistoryContainer?.addEventListener('click', () => {

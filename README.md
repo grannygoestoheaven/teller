@@ -26,7 +26,7 @@ EdTech focused Text-To-Speech project
 
 Made with ❤️ by Granny.
 
-![App Screenshot](Users/grannygoestoheaven/Desktop/teller_screenshot.png)
+![App Screenshot](https://raw.githubusercontent.com/grannygoestoheaven/teller/docs/images/teller_screenshot.png)
 
 "Loading animation (red blocks = audio generation in progress)."
 "The Chronology Protection Conjecture" = random subject. It can be any subject.

@@ -10,8 +10,9 @@ pinned: false
 ---
 
 # Teller
+EdTech focused Text-To-Speech project
 
-🧠 **Teller** is an AI-powered micro podcast that syncs voice and background ambient music to create immersive, focus-improved narratives, triggering curiosity and the will to explore further.
+🧠 **Teller** is an AI-powered micro podcast that syncs voice and background ambient music to create immersive, focus-improved narratives, triggering curiosity and the will to explore further and further.
 
 
 ## Features

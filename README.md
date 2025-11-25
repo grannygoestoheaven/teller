@@ -5,7 +5,7 @@ colorFrom: blue
 colorTo: green
 sdk: docker
 hardware: cpu
-app_file: flask_ui_app_new.py
+app_file: main.py
 pinned: false
 ---
 
@@ -14,6 +14,7 @@ EdTech focused Text-To-Speech project
 
 🧠 **Teller** is an AI-powered micro podcast that syncs voice and background ambient music to create immersive, focus-improved narratives, triggering curiosity and the will to explore further and further.
 
+"Teller transforms any subject into an immersive 1-minute audio summary, using TTS + AI to boost engagement and retention."
 
 ## Features
 
@@ -28,5 +29,5 @@ Made with ❤️ by Granny.
 
 ![App Screenshot](https://github.com/grannygoestoheaven/teller/blob/main/docs/images/teller_screenshot.png)
 
-"Loading animation (red blocks = audio generation in progress)."
+Prototype UI: Red blocks = real-time audio generation. Backend fully functional; frontend in progress.
 "The Chronology Protection Conjecture" = random subject. It can be any subject.

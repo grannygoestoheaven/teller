@@ -81,7 +81,6 @@ export function setBgVolume(volume = 0.04) {
 
 export function delaySpeechStart(ms = 5000) {
   if (speechTimeout) clearTimeout(speechTimeout); // Clear the speech timeout
-  clearPlaybackTimers(); // Clear ALL other timers/intervals (no arg)
   elements.speech.volume = 1.0;
   speechTimeout = setTimeout(() => {
     elements.speech.play();

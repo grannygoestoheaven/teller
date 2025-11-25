@@ -25,3 +25,8 @@ EdTech focused Text-To-Speech project
 - The Frontend player is handled by a uml generated state machine, created using the StateSmithg GitHub project.
 
 Made with ❤️ by Granny.
+
+![App Screenshot](Users/grannygoestoheaven/Desktop/telle_screenshot.png)
+
+"Loading animation (red blocks = audio generation in progress)."
+"The Chronology Protection Conjecture" = random subject. It can be any subject.

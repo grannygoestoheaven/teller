@@ -8,9 +8,7 @@
     state READY
     state LOADING
     state PLAYING
-    state PLAYING_DISABLED_BTN
     state PAUSED
-    state PAUSED_DISABLED_BTN
 
     '############################ Handlers ############################
 
@@ -29,22 +27,13 @@
     PLAYING --> PAUSED : TOGGLE_PAUSE_RESUME / this.actions.pauseAllAudio();
     PLAYING --> IDLE : MUSIC_OVER
     PLAYING --> READY : INPUT_CHANGED [this.actions.inputIsValid()]
-    PLAYING --> PLAYING_DISABLED : [this.actions.inputIsEmpty()]
     PLAYING : CHAT_HISTORY_CLICKED / this.actions.toggleTextVisibility();
     PLAYING : FROM_START_CLICKED / this.actions.pauseAllAudio(); this.actions.resetAllAudio(); this.actions.setUpAndStartAllAudio();
-
-    PLAYING_DISABLED: enter / this.actions.uiIdleButtons()
-    PLAYING_DISABLED --> READY : INPUT_CHANGED [this.actions.inputIsValid]
-    PLAYING_DISABLED --> IDLE : MUSIC_OVER
-    PLAYING_DISABLED --> PAUSED_DISABLED : TOGGLE_PAUSE_RESUME / this.actions.pauseAllAudio()
 
     PAUSED: enter / this.actions.uiPausedButtons(); this.actions.addBlurr();
     PAUSED --> PLAYING : TOGGLE_PAUSE_RESUME / this.actions.resumeAllAudio();
     PAUSED --> PLAYING : FROM_START_CLICKED / this.actions.resetAllAudio(); this.actions.setUpAndStartAllAudio();
     PAUSED --> READY : INPUT_CHANGED [this.actions.inputIsValid()]
-
-    PAUSED_DISABLED: enter / this.actions.uiIdleButtons()
-    PAUSED_DISABLED --> PLAYING_DISABLED : TOGGLE_PAUSE_RESUME / this.actions.resumeAllAudio()
 
 /'! $CONFIG : toml
 SmRunnerSettings.transpilerId = "JavaScript"

@@ -41,15 +41,6 @@ import {
   removeBlurr,
 } from "./animation.js";
 
-import {
-  streamText,
-  handleWordClick,
-  handleMouseMove,
-  handleMouseOut,
-  findNextWordSpan,
-  clearHighlights,
-} from "./textStreamer.js";
-
 export const localActions = {
     // Story and Process Actions
     startNewStoryProcess,
@@ -90,13 +81,5 @@ export const localActions = {
     redDots,
     addBlurr,
     removeBlurr,
-
-    // Text Streamer Actions
-    streamText,
-    handleWordClick,
-    handleMouseMove,
-    handleMouseOut,
-    findNextWordSpan,
-    clearHighlights,
   };
   

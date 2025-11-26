@@ -29,14 +29,13 @@ html, body {
 
 /* Update body and layout */
 body {
+    display: flex; /* Use flexbox */
     font-family: 'Inika', serif;
-    background-color: rgb(24, 24, 23); /* Darkened UI background */
-    background-color: rgb(46, 46, 44); /* Darkened UI background */
+    background-color: #18181b;
     color: #d1caca;
     margin: 0;
     padding: 0;
     height: 100vh; /* Use height: 100vh to fill viewport height */
-    display: flex; /* Use flexbox */
     flex-direction: column; /* Stack children vertically */
     align-items: center; /* Center children horizontally */
     overflow: hidden; /* Hide body scrollbar */
@@ -44,32 +43,19 @@ body {
 
 /* Header styles */
 .chat-header {
-    font-size: 2em; /* Base font size for the header container */
+    font-size: 1.5em; /* Base font size for the header container */
     z-index: 10;
     background: none;
     padding: 20px 25px;
-    /* margin-bottom: 20px; */
     flex-shrink: 0; /* Prevent header from shrinking */
 }
-
-/* header block (keeps previous padding / spacing) */
-/* .chat-header{
-    font-size:2em;         
-    padding:20px 25px 0;
-  } */
-  
-  /* main word */
   .brand{
     cursor:pointer;                   /* h1 already sits on one line      */
     display:inline-block;
     margin:0 0 0 0px;      /* keep your left indent            */
     color:rgba(249,245,245);
     font-weight:700;        /* make it stand out                */
-    /* transition:border 0.2s ease; */
   }
-  /* .brand:hover{
-    border:1px solid rgba(249,245,245,0.4);
-  } */
   
   /* smaller tagline that stays on same line */
   .tagline{
@@ -90,13 +76,6 @@ body {
     word-wrap: break-word; /* Ensure words break if too long */
     overflow-wrap: break-word; /* Modern equivalent */
 }
-
-/* New: For text that appears briefly then fades to shadowed state */
-/* #chatHistory.text-shadow {
-    opacity: 0.15; /* Low opacity for shadowed state */
-    /* transition: opacity 1s ease-out; Smooth transition to shadow */
-    /* pointer-events: auto; Still clickable for highlighting */
-/* } */
 
 #chatHistory { 
     /* position: absolute; */
@@ -249,7 +228,7 @@ body {
 }
 
 /* Animation delays for each period */
-.loading-animation .period-1 { animation-delay: 0s; }
+.loading-animation .period-1 { animation-delay: 0.1s; }
 .loading-animation .period-2 { animation-delay: 0.2s; }
 .loading-animation .period-3 { animation-delay: 0.4s; }
 
@@ -257,41 +236,6 @@ body {
     0% { opacity: 0.2; transform: translateY(0) scale(0.9); }
     50% { opacity: 1; transform: translateY(-3px) scale(1.2); text-shadow: 0 0 8px rgba(0,0,0,0.2); }
     100% { opacity: 0.2; transform: translateY(0) scale(0.9); }
-}
-
-/* Styles for when dots become interactive controls */
-.loading-animation .period.interactive {
-    animation: none; /* Stop loading animation */
-    cursor: pointer;
-    border-radius: 50%; /* Make them round buttons */
-    padding: 10px 15px; /* Adjust padding for better clickable area */
-    background-color: rgba(60, 60, 60, 0.5); /* Subtle background, as in your second picture */
-    font-size: 1em; /* Adjust text size if adding text */
-    color: rgba(255, 255, 255, 0.7); /* Text color, as in your second picture */
-    transition: background-color 0.2s, color 0.2s, transform 0.2s, font-size 0.2s, padding 0.2s;
-    margin: 0 8px; /* Spacing between transformed buttons, slightly wider */
-    min-width: 40px; /* Ensure a minimum width */
-    text-align: center;
-    display: flex; /* Use flexbox for centering content (icon/text) */
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* Add subtle shadow */
-}
-
-.loading-animation .period.interactive:hover {
-    background-color: rgba(80, 80, 80, 0.7);
-    transform: scale(1.1);
-}
-
-/* Specific colors/states for dots */
-.loading-animation .period.interactive.control-restart { color: #88C0D0; } /* Blueish */
-.loading-animation .period.interactive.control-play { color: #A3BE8C; }    /* Greenish */
-.loading-animation .period.interactive.control-pause { color: #EBCB8B; }   /* Yellowish */
-.loading-animation .period.interactive.control-toggle-text { color: #B48EAD; } /* Purplish */
-
-/* Hide the audio player container, as its controls are now dots */
-#audioPlayerContainer {
-    display: none !important;
 }
 
 /* Input area */
@@ -347,14 +291,14 @@ footer.chat-input-area {
     flex-grow: 1;
     padding: 24px 16px;
     font-size: 1em;
-    border: none !important;
+    border: none !important ;
     border-radius: 20px;
-    background: #0f0f0f; /* As seen in your second picture */
+    background: #3d3d3d2c; /* As seen in your second picture */
     color: rgba(245, 245, 245, 0.9);
     font-family: 'Inika', serif;
     transition: none;
     box-sizing: border-box;
-    outline: none !important;
+    /* outline: none !important; */
     box-shadow: none !important;
     text-align: center;
 }
@@ -376,7 +320,6 @@ footer.chat-input-area {
     justify-content: center;  /* or space-between, as you like */
     gap: 0.7rem;              /* spacing between buttons */
     margin-top: 0.5rem;
-    /* margin-bottom: 1rem; */
   }
 
 /* Pixel PLAY style */
@@ -396,7 +339,8 @@ footer.chat-input-area {
 .send-button {
     background-color: #1f1e1e;
     color: rgb(234,232,232);
-    border: none;
+    border: 1px solid #d21515;
+    border: none !important;
     padding: 5px 17px;
     border-radius: 4px;
     cursor: pointer;

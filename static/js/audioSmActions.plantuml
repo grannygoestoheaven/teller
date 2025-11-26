@@ -19,7 +19,6 @@
 
     READY: enter / this.actions.uiReadyButtons();
     READY --> LOADING : FORM_SUBMITTED / this.actions.startNewStoryProcess();
-    READY --> IDLE : INPUT_CHANGED [this.actions.inputIsEmpty()]
 
     LOADING: enter / this.actions.showLoadingAnimation(); this.actions.uiLoadingButtons();
     LOADING --> PLAYING : SPEECH_READY / this.actions.setUpAndStartAllAudio();
@@ -30,10 +29,9 @@
     PLAYING --> PAUSED : TOGGLE_PAUSE_RESUME / this.actions.pauseAllAudio();
     PLAYING --> IDLE : MUSIC_OVER
     PLAYING --> READY : INPUT_CHANGED [this.actions.inputIsValid()]
-    PLAYING --> PLAYING_DISABLED : INPUT_CHANGED [this.actions.inputIsEmpty()]
+    PLAYING --> PLAYING_DISABLED : [this.actions.inputIsEmpty()]
     PLAYING : CHAT_HISTORY_CLICKED / this.actions.toggleTextVisibility();
     PLAYING : FROM_START_CLICKED / this.actions.pauseAllAudio(); this.actions.resetAllAudio(); this.actions.setUpAndStartAllAudio();
-
 
     PLAYING_DISABLED: enter / this.actions.uiIdleButtons()
     PLAYING_DISABLED --> READY : INPUT_CHANGED [this.actions.inputIsValid]

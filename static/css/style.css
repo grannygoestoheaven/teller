@@ -43,7 +43,7 @@ body {
 
 /* Header styles */
 .chat-header {
-    font-size: 1.5em; /* Base font size for the header container */
+    font-size: 1.7em; /* Base font size for the header container */
     z-index: 10;
     background: none;
     padding: 20px 25px;
@@ -221,10 +221,10 @@ body {
     opacity: 0; /* Start invisible for animation */
     animation: period-fade 2.2s infinite ease-in-out; /* Main animation */
     margin: 0 -0.17em;
-    font-size: 5em; /* Larger period size relative to parent .loading-animation */
+    font-size: 5em;
     font-weight: bold;
-    color: var(--period-color); /*Slightly darker color for better visibility during animation  */
-    line-height: 0.8; /* Better vertical alignment */
+    color: var(--period-color);
+    line-height: 0.8;
 }
 
 /* Animation delays for each period */
@@ -254,8 +254,6 @@ footer.chat-input-area {
 
 .form-fields-container {
     width: 100%;
-    /* display: flex;
-    flex-direction: column; */
     gap: 10px;
 }
 
@@ -272,7 +270,8 @@ footer.chat-input-area {
     margin: 15px 0;
     padding: 0;
     box-sizing: border-box;
-    background: #3d3d3d2c; /* As seen in your second picture */
+    background: #3d3d3d2c;
+    border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 20px;
 }
 
@@ -281,14 +280,13 @@ footer.chat-input-area {
     background: transparent;
     width: 100%;
     overflow: hidden;
-    resize: none;    /* user can’t manually drag it */
+    resize: none;
     min-height: 1.5em;
     line-height: 1.2em;
     border: none !important ;
     padding: 24px 60px;
-    /* padding-right: 50px; */
     box-sizing: border-box;
-    font-size: 1em;
+    font-size: 1.2em;
     font-family: 'Inika', serif;
     color: rgba(245, 245, 245, 0.9);
     transition: none;
@@ -303,22 +301,36 @@ footer.chat-input-area {
 }
 
 #subject::placeholder {
-    color: rgba(157, 155, 155, 0.84); /* As seen in your second picture */
+    color: rgba(157, 155, 155, 0.84);
     font-style: regular;
     font-weight: lighter;
 }
 
 .input-stop-button{
     position: absolute;
-    right: 40px;
+    aspect-ratio: 1/1;
+    height: 102%;
+    right: 0px;
     top: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-top-right-radius: 20px;
+    background-color:rgb(41, 40, 40);
+    border-bottom-right-radius: 20px;
+    transition: transform 0.1s ease;
     transform: translateY(-50%);
 }
 
+.input-stop-button:hover {
+    transform: translateY(-50%) scale(1.02);
+  }
+  .input-stop-button:active {
+    transform: translateY(-50%) scale(1);
+  }
+
 .controls {
     display: flex;
-    justify-content: center;  /* or space-between, as you like */
-    gap: 0.7rem;              /* spacing between buttons */
+    justify-content: center;
+    gap: 0.7rem;
     margin-top: 0.5rem;
   }
 
@@ -337,16 +349,15 @@ footer.chat-input-area {
 
 /* Send button styles */
 .send-button {
-    background-color: #1f1e1e;
+    background-color: #2a2828;
     color: rgb(234,232,232);
-    border: 1px solid #d21515;
     border: none !important;
     padding: 5px 17px;
     border-radius: 4px;
     cursor: pointer;
-    font-family: 'Pixelify Sans', serif;  /* ← pixel font */
-    text-transform: uppercase;             /* ← uppercase */
-    letter-spacing: 0.12em;                /* ← pixel spacing */
+    font-family: 'Pixelify Sans', serif;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
     font-size: 0.85em;
     margin: 0 4px;
 }

@@ -241,7 +241,7 @@ body {
 /* Input area */
 footer.chat-input-area {
     width: 100%;
-    max-width: 1200px;
+    max-width: 800px;
     margin: 20px auto 20px auto;
     padding: 0 20px;
     box-sizing: border-box;
@@ -254,51 +254,44 @@ footer.chat-input-area {
 
 .form-fields-container {
     width: 100%;
-    display: flex;
-    flex-direction: column;
+    /* display: flex;
+    flex-direction: column; */
     gap: 10px;
 }
 
 #story-form {
     width: 100%;
-    display: flex;
-    flex-direction: column;
     gap: 10px;
-    align-items: center;
     margin-top: 0.5em;
     margin-bottom: 0.5em;
 }
 
 .subject-input-group {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    position: relative;
     width: 100%;
-    max-width: 1000px;
-    margin: 0 auto auto auto;
+    margin: 15px 0;
     padding: 0;
     box-sizing: border-box;
-    position: relative;
+    background: #3d3d3d2c; /* As seen in your second picture */
+    border-radius: 20px;
 }
 
 /* Subject input specific styles */
 #subject {
+    background: transparent;
+    width: 100%;
     overflow: hidden;
     resize: none;    /* user can’t manually drag it */
     min-height: 1.5em;
     line-height: 1.2em;
-    max-width: 650px;
-    flex-grow: 1;
-    padding: 24px 16px;
-    font-size: 1em;
     border: none !important ;
-    border-radius: 20px;
-    background: #3d3d3d2c; /* As seen in your second picture */
-    color: rgba(245, 245, 245, 0.9);
-    font-family: 'Inika', serif;
-    transition: none;
+    padding: 24px 60px;
+    /* padding-right: 50px; */
     box-sizing: border-box;
-    /* outline: none !important; */
+    font-size: 1em;
+    font-family: 'Inika', serif;
+    color: rgba(245, 245, 245, 0.9);
+    transition: none;
     box-shadow: none !important;
     text-align: center;
 }
@@ -313,6 +306,13 @@ footer.chat-input-area {
     color: rgba(157, 155, 155, 0.84); /* As seen in your second picture */
     font-style: regular;
     font-weight: lighter;
+}
+
+.input-stop-button{
+    position: absolute;
+    right: 40px;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 .controls {

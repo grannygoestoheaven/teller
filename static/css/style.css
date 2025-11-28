@@ -31,7 +31,9 @@ html, body {
 body {
     display: flex; /* Use flexbox */
     font-family: 'Inika', serif;
-    background-color: #18181b;
+    /* background-color: #18181b; */
+    /* background-color: rgb(24, 24, 23); */
+    background-color: rgb(46, 45, 44);
     color: #d1caca;
     margin: 0;
     padding: 0;
@@ -241,7 +243,7 @@ body {
 /* Input area */
 footer.chat-input-area {
     width: 100%;
-    max-width: 800px;
+    max-width: 750px;
     margin: 20px auto 20px auto;
     padding: 0 20px;
     box-sizing: border-box;
@@ -273,8 +275,8 @@ footer.chat-input-area {
     padding: 0;
     box-sizing: border-box;
     border: 0.2px solid rgba(255, 255, 255, 0.2);
-    background: #2c2c2caf;
-    /* background: #1f1f1faf; */
+    /* background: #2c2c2caf; */
+    background: #0c0c0c;
     border-radius: 20px;
 }
 
@@ -289,7 +291,7 @@ footer.chat-input-area {
     border: none !important ;
     padding: 24px 60px;
     box-sizing: border-box;
-    font-size: 1.2em;
+    /* font-size: 1.2em; */
     font-family: 'Inika', serif;
     color: rgba(245, 245, 245, 0.9);
     transition: none;
@@ -304,30 +306,32 @@ footer.chat-input-area {
 }
 
 #subject::placeholder {
-    color: rgba(157, 155, 155, 0.84);
+    color: rgba(157, 155, 155, 0.521);
     font-style: regular;
+    font-size: 0.9em;
     font-weight: lighter;
 }
 
 .input-stop-button{
     position: absolute;
     aspect-ratio: 1/1;
-    height: 100%;
-    right: 0px;
+    height: 70%;
+    right: 12px;
     top: 50%;
     bottom: 50%;
-    border: 0.2px solid rgba(255, 255, 255, 0.2);
+    border: none;
+    /* border: 0.1px solid rgba(255, 255, 255, 0.2); */
     /* border: transparent; */
-    border-radius: 15px;
-    border-top-left-radius: 2px;
-    border-bottom-left-radius: 2px;
-    background: #3d3d3d2c;
+    border-radius: 12px;
+    /* border-top-left-radius: 2px;
+    border-bottom-left-radius: 2px; */
+    background: #303030b4;
     transition: transform 0.1s ease;
     transform: translateY(-50%);
 }
 
 .input-stop-button:hover {
-    background-color: #262626;
+    background-color: #424242;
   }
 
 .input-stop-button:active {
@@ -356,7 +360,7 @@ footer.chat-input-area {
 
 /* Send button styles */
 .send-button {
-    background-color: #2a2828;
+    background-color: #1f1e1e;
     color: rgb(234,232,232);
     border: none !important;
     padding: 5px 17px;

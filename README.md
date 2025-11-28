@@ -30,4 +30,5 @@ Made with ❤️ by Granny.
 ![App Screenshot](https://github.com/grannygoestoheaven/teller/blob/main/docs/images/teller_screenshot.png)
 
 Prototype UI: Red blocks = real-time audio generation. Backend fully functional; frontend in progress.
-"The Chronology Protection Conjecture" = random subject. It can be any subject.
+"The Chronology Protection Conjecture" = example subject. It can be any subject.
+The frontend is a work in progress. The very basic interaction is depicted in the screenshot. It is an early stage prototype.

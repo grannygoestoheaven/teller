@@ -17,6 +17,7 @@
 
     READY: enter / this.actions.uiReadyButtons();
     READY --> LOADING : FORM_SUBMITTED / this.actions.startNewStoryProcess();
+    READY --> IDLE: CANCEL / this.actions.stopAndResetAllAudio();
 
     LOADING: enter / this.actions.showLoadingAnimation(); this.actions.uiLoadingButtons();
     LOADING --> PLAYING : SPEECH_READY / this.actions.setUpAndStartAllAudio();
@@ -27,6 +28,7 @@
     PLAYING --> PAUSED : TOGGLE_PAUSE_RESUME / this.actions.pauseAllAudio();
     PLAYING --> IDLE : MUSIC_OVER
     PLAYING --> READY : INPUT_CHANGED [this.actions.inputIsValid()]
+    PLAYING --> IDLE: CANCEL / this.actions.stopAndResetAllAudio();
     PLAYING : CHAT_HISTORY_CLICKED / this.actions.toggleTextVisibility();
     PLAYING : FROM_START_CLICKED / this.actions.pauseAllAudio(); this.actions.resetAllAudio(); this.actions.setUpAndStartAllAudio();
 
@@ -34,6 +36,7 @@
     PAUSED --> PLAYING : TOGGLE_PAUSE_RESUME / this.actions.resumeAllAudio();
     PAUSED --> PLAYING : FROM_START_CLICKED / this.actions.resetAllAudio(); this.actions.setUpAndStartAllAudio();
     PAUSED --> READY : INPUT_CHANGED [this.actions.inputIsValid()]
+    PAUSED --> IDLE: CANCEL / this.actions.setUpAndStartAllAudio();
 
 /'! $CONFIG : toml
 SmRunnerSettings.transpilerId = "JavaScript"

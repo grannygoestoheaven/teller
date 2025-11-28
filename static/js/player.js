@@ -1,4 +1,5 @@
 import { elements } from "./config.js";
+import { uiIdle } from "./ui.js";
 
 let speechTimeout = null;
 
@@ -68,6 +69,7 @@ export function resetAllAudio(){
 export function stopAndResetAllAudio() {
   pauseAllAudio();
   resetAllAudio();
+  uiIdle();
 }
 
 export function setUpAndStartAllAudio() {

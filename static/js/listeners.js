@@ -7,11 +7,16 @@ export function events(sm) {
       sm.dispatchEvent(AudioStateMachine.EventId.TOGGLE_PAUSE_RESUME); // leads to PAUSED state or PLAYING (resumed) state
     }
   });
-  
-    elements.playPauseButton?.addEventListener("click", () => {
-      console.log('Play/Pause clicked');
-      sm.dispatchEvent(AudioStateMachine.EventId.TOGGLE_PAUSE_RESUME); // leads to PLAYING state or PAUSED state
-    });
+
+  elements.playPauseButton?.addEventListener("click", () => {
+    console.log('Play/Pause clicked');
+    sm.dispatchEvent(AudioStateMachine.EventId.TOGGLE_PAUSE_RESUME); // leads to PLAYING state or PAUSED state
+  });
+
+  elements.stopButton?.addEventListener("click", () => {
+    console.log("Stop clicked")
+    sm.dispatchEvent(AudioStateMachine.EventId.CANCEL); // Leads to IDLE state
+  })
 
   elements.formInput?.addEventListener('input', () => {
     console.log('Form input changed');
@@ -43,11 +48,6 @@ export function events(sm) {
     console.log('Background track ended');
     sm.dispatchEvent(AudioStateMachine.EventId.MUSIC_OVER); // leads to MUSIC_ENDED state
   });
-
-  // elements.stopButton?.addEventListener("click", () => {
-  //   console.log('Stop clicked');
-  //   sm.dispatchEvent(AudioStateMachine.EventId.CANCEL); // leads to IDLE state
-  // });
 
   elements.fromStartButton?.addEventListener("click", () => {
     console.log('Replay clicked');

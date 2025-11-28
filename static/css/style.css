@@ -243,7 +243,7 @@ body {
 /* Input area */
 footer.chat-input-area {
     width: 100%;
-    max-width: 750px;
+    max-width: 730px;
     margin: 20px auto 20px auto;
     padding: 0 20px;
     box-sizing: border-box;
@@ -267,7 +267,6 @@ footer.chat-input-area {
 }
 
 .subject-input-group {
-    pointer-events: auto;
     position: relative;
     display: flex;
     align-items: center;
@@ -314,31 +313,34 @@ footer.chat-input-area {
 }
 
 .input-stop-button{
+    pointer-events: auto;
     position: absolute;
     z-index: 9999;
-    background: rgba(255, 0, 0, 0.586) !important;
     aspect-ratio: 1/1;
-    height: 65%;
-    right: 15px;
+    height: 50%;
+    right: 19px;
     top: 50%;
     bottom: 50%;
     border: none;
     /* border: 0.1px solid rgba(255, 255, 255, 0.2); */
     /* border: transparent; */
-    border-radius: 12px;
+    border-radius: 8px;
     /* border-top-left-radius: 2px;
     border-bottom-left-radius: 2px; */
     background: #202020d0;
-    transition: transform 0.1s ease;
+    /* background: rgba(255, 0, 0, 0.369); */
+    transition: 0.8s ease;
     transform: translateY(-50%);
 }
 
 .input-stop-button:hover {
-    background-color: #2d2d2d;
+    /* background-color: #2d2d2d; */
+    background-color: rgba(101, 99, 99, 0.702);
+    border: 0.2px solid rgba(255, 255, 255, 0.775);
   }
 
 .input-stop-button:active {
-    transform: translateY(-50%) scale(0.97);
+    transform: translateY(-50%) scale(0.95);
   }
 
 .controls {

@@ -14,10 +14,16 @@ client = OpenAI(api_key=env_settings.openai_api_key)
 
 def generate_story_with_openai(subject) -> tuple[str, str]:
     # Format the pattern by replacing placeholders
-    system_message = "You are an expert on writing concise, clear, and factual presentation on the {subject} provided"
+    system_message = """
+    # IDENTITY AND PURPOSE:
+    You are an expert on writing concise, clear, and factual presentation on the {subject} provided."""
     
     # Create a clear instruction for the AI
-    user_message =f"""Please generate a presentation about: {subject}
+    user_message =f"""
+    # INSTRUCTIONS:
+    The key of your presentation is precision + design, razor-sharp clarity and deliberate pacing to hold attention.
+    
+    Please generate a presentation about: {subject}
     - Focus specifically on: {subject}
     - Be factual, clear and precise. No generalities.
     - Make the text four paragraphs long.
@@ -27,10 +33,10 @@ def generate_story_with_openai(subject) -> tuple[str, str]:
     - Conclude by suggesting three related subjects to the topic, in variations of this kind : "Three related subjects are...". Don't write anything after that.
     
     ## Unavoidable Instructions :
+    - FORBIDDEN words = "crucial", "essential", "critical", "fundamental", "paramount", "key".
     - Write in an elegant style, not in a grandiose style. Avoid any mystery tone at all cost.
     - Do not use cliches or jargon.
     - Use absolutely ZERO cliches or jargon or journalistic language like "In a world, in the realm", etc.
-    - Forbidden extreme words = "crucial", "essential", "critical", "fundamental" etc.
     - USE ZERO poetry of any kind.
     - Use ZERO metaphor of any kind.
     - use ZERO common setup language in any sentence, including: in conclusion, in closing, etc.
@@ -44,7 +50,7 @@ def generate_story_with_openai(subject) -> tuple[str, str]:
                 {"role": "user", "content": user_message}
             ],
             temperature=0.4,
-            max_tokens=1150,
+            max_tokens=950,
         )
 
         print(f"Response from OpenAI: {response}")

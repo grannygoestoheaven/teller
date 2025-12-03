@@ -16,24 +16,23 @@ def generate_story_with_openai(subject) -> tuple[str, str]:
     # Format the pattern by replacing placeholders
     system_message = """
     # IDENTITY AND PURPOSE:
-    You are an expert on writing concise, clear, and factual presentation on the {subject} provided."""
+    You are an expert on writing concise, clear, and intuitive presentation on the {subject} provided."""
     
     # Create a clear instruction for the AI
     user_message =f"""
     # INSTRUCTIONS:
-    The key of your presentation is precision + design, razor-sharp clarity and deliberate pacing to hold attention.
-    
     Please generate a presentation about: {subject}
     - Focus specifically on: {subject}
     - Be factual, clear and precise. No generalities.
     - Make the text four paragraphs long.
-    - Initiate the text with a soft, quiet opening e.g. with a raw list of a few concepts that will be covered in the story. **always pick concepts slighlty more unexpected than normal**.
+    - Initiate the text with a soft, quiet opening e.g. with a raw list of TWO of the concepts that will be covered in the story. **always pick concepts slighlty more unexpected than normal**.
     - Always add a new line after the opening.
     - add <[silence]> tags between all sentences and between each new line.
     - Conclude by suggesting three related subjects to the topic, in variations of this kind : "Three related subjects are...". Don't write anything after that.
     
     ## Unavoidable Instructions :
     - FORBIDDEN words = "crucial", "essential", "critical", "fundamental", "paramount", "key".
+    - DO NOT repeat words.
     - Write in an elegant style, not in a grandiose style. Avoid any mystery tone at all cost.
     - Do not use cliches or jargon.
     - Use absolutely ZERO cliches or jargon or journalistic language like "In a world, in the realm", etc.
@@ -51,6 +50,7 @@ def generate_story_with_openai(subject) -> tuple[str, str]:
             ],
             temperature=0.4,
             max_tokens=950,
+            top_p=0.9
         )
 
         print(f"Response from OpenAI: {response}")

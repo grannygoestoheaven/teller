@@ -3,35 +3,34 @@ import json
 import glob
 import shutil
 import re
+import random
 
 from pathlib import Path
 from fastapi import Request
 from datetime import datetime
 
-def save_story_txt_to_static(tagged: str, clean: str, filename: str, save_dir: str) -> str:
-    """
-    Writes a JSON file with filename, tagged text, clean text, timestamp.
-    Returns . 
-    """
-    save_dir.mkdir(parents=True, exist_ok=True)
 
-    timestamp = datetime.utcnow().strftime('%Y%m%dT%H%M%SZ')
-    
-    dated_filename = f"{timestamp}_{filename}.json"
-    filepath = save_dir / dated_filename # jsonStories/"date+filename+.json"
+def save_story_txt_to_static(tagged: str, clean: str, subject: str, base_dir: Path) -> Path:
+    """
+    Saves the story text to a JSON file in the specified directory.
+    """
+    subject_dir = base_dir / subject
+    subject_dir.mkdir(parents=True, exist_ok=True)
+    filepath = subject_dir / f"{subject}.json"  # e.g., "the_sand.json"
+
     payload = {
-        'dated_filename': dated_filename,
         'tagged': tagged,
         'clean': clean,
-        'timestamp': timestamp
+        'timestamp': datetime.utcnow().strftime('%Y%m%dT%H%M%SZ')
     }
     with open(filepath, 'w', encoding='utf-8') as f:
         json.dump(payload, f, ensure_ascii=False, indent=2)
+        
+    clean_story = payload.get('clean')
 
-    txt_fullpath = filepath.resolve()
-    print(f"Saved story JSON to: {txt_fullpath}")
+    print(f"Saved story JSON to: {filepath.resolve()}")
     
-    return str(txt_fullpath)
+    return clean_story
 
 def save_speech_file_to_static(filename: str, content: bytes, save_dir: Path) -> str:
     """
@@ -47,7 +46,7 @@ def save_speech_file_to_static(filename: str, content: bytes, save_dir: Path) ->
         
     return str(audio_fullpath)
 
-def get_clean_story_url_from_json_file(filepath) -> str:
+def get_clean_story_from_json_file(filepath) -> str:
     """
     Extracts the cleaned story from the saved JSON file.
     """
@@ -59,7 +58,64 @@ def get_clean_story_url_from_json_file(filepath) -> str:
     
     return clean_story
 
-from datetime import datetime
+def get_story_filenames(subject: str) -> dict:
+    """Returns filenames for a story from storage."""
+    story_filename = f"static/stories/{subject}/{subject}.json"
+    speech_filename = f"static/speech/{subject}/{subject}.mp3"
+    
+def get_speech_url(story_filename: str) -> str:
+    """Returns the speech URL for a story from storage."""
+    speech_url = f"/static/speech/{story_filename}/{story_filename}.mp3"
+    
+    return speech_url
+
+# Handling random track selecton 
+class AmbientTrackManager:
+    _instance = None
+    _tracks = []
+    _played_tracks = []
+    _initialized = False
+
+    @classmethod
+    def initialize(cls, tracks_dir: str) -> None:
+        if cls._initialized:
+            return
+        try:
+            cls._tracks = [
+                f.name for f in tracks_dir.iterdir()
+                if f.suffix.lower() in (".mp3", ".wav", ".flac")
+            ]
+            random.shuffle(cls._tracks)
+        except FileNotFoundError:
+            cls._tracks = []
+        cls._initialized = True
+
+    @classmethod
+    def get_next_track(cls, tracks_dir) -> str | None:  # Remove base_dir argument
+        if not cls._initialized:
+            cls.initialize(tracks_dir)
+        if not cls._tracks and not cls._played_tracks:
+            return None
+        if not cls._tracks:
+            cls._tracks, cls._played_tracks = cls._played_tracks, []
+            random.shuffle(cls._tracks)
+
+        track_filename = cls._tracks.pop(0)
+        cls._played_tracks.append(track_filename)
+        
+        return str(tracks_dir / track_filename)  # Use LOCAL_TRACKS_DIR directly
+
+def get_random_track_path(tracks_dir) -> str | None:
+    """
+    Returns the relative path of the next ambient track (e.g., "audio/ambient/track.mp3").
+    Returns None if no tracks are available.
+    """
+    try:
+        return AmbientTrackManager.get_next_track(tracks_dir)
+    except Exception as e:
+        print(f"Error getting ambient track: {e}")  # Replace with your logger
+        return None
+
 
 # def _cleanup_old_audio_files(logger, max_files=5):
 #     """

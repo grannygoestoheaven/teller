@@ -1,3 +1,7 @@
+import os
+import re
+import shutil
+
 from pydantic_settings import BaseSettings
 from pydantic import Field
 from pathlib import Path
@@ -10,8 +14,7 @@ print(f"BASE_DIR set to: {BASE_DIR}")
 
 # Directories for storing generated stories
 STATIC_DIR = BASE_DIR / "static"
-GENERATED_STORIES_AUDIO_DIR = STATIC_DIR / "audio" / "generated_stories_audio"
-GENERATED_STORIES_TEXT_DIR = STATIC_DIR / "text" / "jsonStories"
+GENERATED_STORIES_DIR = STATIC_DIR / "stories"
 
 # Local Tracks
 LOCAL_TRACKS_DIR = STATIC_DIR / "audio" / "local_ambient_tracks"

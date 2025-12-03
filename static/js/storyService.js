@@ -10,10 +10,25 @@ export async function startNewStoryProcess() {
 
   abortController = new AbortController(); // Abort any ongoing fetch
   const formData = new FormData(elements.form); // Collect form data
-  // Trim whitespace from subject input
-  const subject = formData.get('subject').trim();
-
+  
+  const subject = formData.get('subject').trim(); // Trim whitespace from subject input
+  
   // ================= SENDS REQUEST TO BACKEND =================
+  
+  // checking if story exists
+  const responseCheck = await fetch('/v1/stories/check', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ subject })
+  });
+  const { exists, story } = await responseCheck.json(); // destructure response - bool, story object
+  
+  // If story exists, load it directly
+  if (exists) {
+    Object.assign(lastStoryData, story);
+    loadPlayer(lastStoryData);
+    return lastStoryData;
+  }
 
   // Fetch story and corresponding TTS from backend
   const response = await fetch('/v1/stories/new', {
@@ -33,6 +48,7 @@ export async function startNewStoryProcess() {
   // Store the last story data for playback - contains story text, audio URLs for TTS file and background track
   Object.assign(lastStoryData, data)
   console.log(lastStoryData.cleanStory);
+
   // Load the player with new story data here for safety
   loadPlayer(lastStoryData); // The audio sources are now loaded from the lastStoryData object
 

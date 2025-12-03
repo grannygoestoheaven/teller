@@ -13,7 +13,7 @@ def _format_mp3_filename(raw_title: str, max_length: int = 200) -> str:
         return "mistral_story.mp3"
         
     # Convert to lowercase and replace spaces
-    filename = raw_title.lower().replace(" ", "_")
+    filename = format_text_filename(raw_title)
     # Remove any non-alphanumeric characters except dots, dashes and underscores
     filename = "".join(c for c in filename if c.isalnum() or c in ('.', '_', '-')).rstrip()
     

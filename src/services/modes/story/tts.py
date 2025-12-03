@@ -2,9 +2,9 @@ import os
 import tempfile
 import random
 
-from src.schemas.tts import TtsRequest
-from src.config.settings import env_settings
-from src.services.utils import _format_mp3_filename
+from src.schemas.tts import TtsRequest # Pydantic model for TTS request
+from src.config.settings import env_settings # Environment settings like API keys
+from src.services.utils import _format_mp3_filename # Helper function to format filenames
 
 from openai import OpenAI  # OpenAI API client
 from elevenlabs.client import ElevenLabs # ElevenLabs API client
@@ -53,7 +53,7 @@ def openai_tts(story: TtsRequest, filename) -> bytes:
 
     except Exception as e:
         # Log the error appropriately in a real application
-        print(f"Error in openai_text_to_speech: {e}")
+        print(f"Error in openai_tts: {e}")
         return None
     
 # def elevenlabs_text_to_speech(story: str) -> bytes:

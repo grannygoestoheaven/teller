@@ -33,6 +33,7 @@ def teller_story(data: StoryRequest) -> StoryResponse:
 async def check_story(data: StoryRequest) -> StoryResponse:
     try:
         payload = load_story(data.subject)
+        console.log(f"Payload: {payload}")
         return StoryResponse(**payload, by_alias=True)
     except Exception as e:
         raise HTTPException(

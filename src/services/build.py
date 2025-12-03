@@ -2,13 +2,7 @@ from fastapi import HTTPException
 
 from src.services.modes.story.text import generate_story_with_openai
 from src.services.modes.story.tts import openai_tts
-from src.services.storage import
-    save_story_txt_to_static,
-    save_speech_file_to_static,
-    get_clean_story_from_json_file,
-    get_story_filenames,
-    get_speech_url,
-    get_random_track_path
+from src.services.storage import save_story_txt_to_static, save_speech_file_to_static, get_clean_story_from_json_file, get_story_filenames, get_speech_url, get_random_track_path
 
 from src.config.settings import GENERATED_STORIES_DIR, LOCAL_TRACKS_DIR
 
@@ -47,14 +41,16 @@ def build_story(subject: str) -> dict:
     
     return payload
 
-def load_story (subject: str),
+def load_story (subject: str):
+    try:
+        print(f"Loading story for subject: {subject}")
         story_filename = get_story_filenames(subject)
+        print(f"Story filename: {story_filename}")
         story_clean = get_clean_story_from_json_file(story_filename)
         speech_url = f"/static/stories/{story_filename}/{speech_filename}.mp3" # path to already existing generated text file
         track_url = f"/static/audio/local_ambient_tracks/{track_filename}" # path to already existing generated audio file
         track_filename = track_url.split('/')[-1] if track_url else None
         
-        return {
         payload = {
             "story_filename": story_filename,
             "cleaned_story": cleaned_story,
@@ -62,3 +58,10 @@ def load_story (subject: str),
             "track_url": track_url,
             "track_filename": track_filename
         }
+        
+    except Exception as e:
+        print(f"Error loading story: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+    
+    return payload
+

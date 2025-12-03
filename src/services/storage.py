@@ -59,9 +59,11 @@ def get_clean_story_from_json_file(filepath) -> str:
     return clean_story
 
 def get_story_filenames(subject: str) -> dict:
+    print("MOOUAHHAHHAHAHAHAHAHAH")
     """Returns filenames for a story from storage."""
     story_filename = f"static/stories/{subject}/{subject}.json"
-    speech_filename = f"static/speech/{subject}/{subject}.mp3"
+    
+    return story_filename
     
 def get_speech_url(story_filename: str) -> str:
     """Returns the speech URL for a story from storage."""

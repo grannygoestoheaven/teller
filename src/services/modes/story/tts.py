@@ -44,7 +44,7 @@ def openai_tts(story: TtsRequest, filename) -> bytes:
                         ''',
         )
         
-        speech_mp3_filename = _format_mp3_filename(filename) # generate an mp3 filename with underscores
+        speech_filename = _format_mp3_filename(filename) # generate an mp3 filename with underscores
         speech_audio = response.content
         
         print(f"Generated speech length: {len(speech_audio)} bytes")  # Should match expected size
@@ -55,7 +55,7 @@ def openai_tts(story: TtsRequest, filename) -> bytes:
         # Log the error appropriately in a real application
         print(f"Error in openai_tts: {e}")
         return None
-    
+
 # def elevenlabs_text_to_speech(story: str) -> bytes:
     
 #     # Initialize client

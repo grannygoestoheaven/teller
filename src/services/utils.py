@@ -4,18 +4,16 @@ import re
 def _prepare_story_parameters(request_form):
     return subject
 
-def _format_text_filename(raw_title: str) -> str:
-    """Generate a text filename with underscores from a raw title"""
-    return raw_title.lower().replace(" ", "_").replace("'", "")
+def _format_text_filename(subject: str) -> str:
+    """Generate a text filename with underscores from a raw subject"""
+    return re.sub(r'[^\w\-_]', '_', subject.strip().lower())
 
-def _format_mp3_filename(raw_title: str, max_length: int = 200) -> str:
-    """Generate an mp3 filename with underscores from a raw title."""
-    if not raw_title or not isinstance(raw_title, str):
+def _format_mp3_filename(subject: str, max_length: int = 200) -> str:
+    """Generate an mp3 filename with underscores from a raw subject."""
+    if not subject or not isinstance(subject, str):
         return "mistral_story.mp3"
         
-    mp3_filename = raw_title.lower().replace(" ", "_").replace("'", "")
-    # Remove any non-alphanumeric characters except dots, underscores and dashes
-    mp3_filename = "".join(c for c in mp3_filename if c.isalnum() or c in ('.', '_', '-')).rstrip()
+    mp3_filename = re.sub(r'[^\w\-_]', '_', subject.strip().lower())
     
     # Ensure .mp3 extension
     if not mp3_filename.endswith(".mp3"):
@@ -42,8 +40,8 @@ def _clean_story_text(story: str) -> str:
     cleaned = re.sub(r'\.([^ \n])', r'. \1', cleaned)
     return cleaned.strip()
 
-def _clean_story_filename(raw_title: str) -> str:
+def _clean_story_filename(subject: str) -> str:
     """Generate a clean story filename with spaces from an underscored filename."""
-    if not raw_title or not isinstance(raw_title, str):
+    if not subject or not isinstance(subject, str):
         return "Mistral Story"
-    return raw_title.replace("_", " ").title()
+    return subject.replace("_", " ").title()

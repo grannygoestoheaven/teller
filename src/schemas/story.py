@@ -15,3 +15,7 @@ class StoryResponse(BaseModel):
     class Config:
         populate_by_name = True
         validate_by_name = True
+
+class StoryCheckResponse:
+    exists: bool
+    story: optional[StoryResponse] = None

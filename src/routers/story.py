@@ -29,14 +29,14 @@ def teller_story(data: StoryRequest) -> StoryResponse:
         raise HTTPException(status_code=500, detail=str(e))
 
 # loading endpoint for an existing story
-@router.post("/check", response_model=StoryResponse)
-async def check_story(data: StoryRequest) -> StoryResponse:
-    try:
-        payload = load_story(data.subject)
-        console.log(f"Payload: {payload}")
-        return StoryResponse(**payload, by_alias=True)
-    except Exception as e:
-        raise HTTPException(
-            status_code=500,
-            detail=f"Failed to load story: {str(e)}"
-        )
+@router.post("/check", response_model=StoryCheckResponse)
+async def check_story(data: StoryRequest) -> StoryCheckResponse:
+    subject = data.subject
+    json_path = STATIC_DIR / "stories" / subject / f"{subject}.json"
+    mp3_path = STATIC_DIR / "stories" / subject / f"{subject}.mp3"
+
+    if not json_path.exists() or not mp3_path.exists():
+        return {"exists": False}
+
+    payload = load_story(subject)
+    return {"exists": True, "story": StoryResponse(**payload, by_alias=True)}

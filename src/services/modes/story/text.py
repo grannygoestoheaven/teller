@@ -8,7 +8,7 @@ from mistralai import Mistral
 from openai import OpenAI
 
 from src.config.settings import env_settings
-from src.services.utils import _clean_story_text, _format_text_filename
+from src.services.utils import _clean_story_text, _format_text_filename, _clean_story_filename
 
 client = OpenAI(api_key=env_settings.openai_api_key)
 
@@ -55,13 +55,14 @@ def generate_story_with_openai(subject) -> tuple[str, str]:
 
         print(f"Response from OpenAI: {response}")
         
-        story_filename = _format_text_filename(subject)
+        story_filename = _format_text_filename(subject) # generate filename with underscores
         print(f"Generated story filename: {story_filename}")
-        tagged_story_for_tts = response.choices[0].message.content.strip() if response else ""
+        tagged_story_for_tts = response.choices[0].message.content.strip() if response else "" # get the story text with punctuation tags
         print(f"Generated tagged story for TTS: {tagged_story_for_tts}")
-        cleaned_story = _clean_story_text(tagged_story_for_tts) # remove punctuation tags to have a clean version to display
-                
-        return story_filename, tagged_story_for_tts, cleaned_story
+        clean_story = _clean_story_text(tagged_story_for_tts) # remove punctuation tags to have a clean version to display
+        clean_story_filename = _clean_story_filename(story_filename)
+       
+        return story_filename, clean_story_filename, tagged_story_for_tts, clean_story
     
     except Exception as e:
         print(f"Error in generate_story: {str(e)}")

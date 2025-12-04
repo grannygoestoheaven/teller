@@ -9,8 +9,7 @@ from pathlib import Path
 from fastapi import Request
 from datetime import datetime
 
-
-def save_story_txt_to_static(tagged: str, clean: str, subject: str, base_dir: Path) -> Path:
+def save_story_txt_to_static(story_filename: str, clean_story_filename, tagged_story: str, clean_story: str, base_dir: Path) -> Path:
     """
     Saves the story text to a JSON file in the specified directory.
     """
@@ -18,19 +17,18 @@ def save_story_txt_to_static(tagged: str, clean: str, subject: str, base_dir: Pa
     subject_dir.mkdir(parents=True, exist_ok=True)
     filepath = subject_dir / f"{subject}.json"  # e.g., "the_sand.json"
 
+    # Prepare payload that will be stored, then fetched later for replay, or when user sends existing subject.
     payload = {
-        'tagged': tagged,
-        'clean': clean,
+        'story_filename': story_filename,
+        'clean_story_filename': clean_story_filename,
+        'tagged_story': tagged_story,
+        'clean_story': clean_story,
         'timestamp': datetime.utcnow().strftime('%Y%m%dT%H%M%SZ')
     }
     with open(filepath, 'w', encoding='utf-8') as f:
         json.dump(payload, f, ensure_ascii=False, indent=2)
         
     clean_story = payload.get('clean')
-
-    print(f"Saved story JSON to: {filepath.resolve()}")
-    
-    return clean_story
 
 def save_speech_file_to_static(filename: str, content: bytes, save_dir: Path) -> str:
     """
@@ -54,19 +52,26 @@ def get_clean_story_from_json_file(filepath) -> str:
     with open(filepath, "r", encoding="utf-8") as f:
         story_data = json.load(f)
         
-    clean_story = story_data["clean"]
+    clean_story = story_data["clean_story"]
     
     return clean_story
 
-def get_story_filenames(subject: str) -> dict:
-    print("MOOUAHHAHHAHAHAHAHAHAH")
-    """Returns filenames for a story from storage."""
-    story_filename = f"static/stories/{subject}/{subject}.json"
+def get_story_title_from_json_file(filepath) -> str:
+    """
+    Returns clean title for a story from storage.
+    """
+    print(f"Retrieving filename from: {filepath}")
+    with open(filepath, "r",encoding="utf-8") -> str:
+        story_data = json.load(f)
+        
+    clean_story_title = story_data["clean_story_filename"]
     
     return story_filename
     
 def get_speech_url(story_filename: str) -> str:
-    """Returns the speech URL for a story from storage."""
+    """
+    Returns the speech URL for a story from storage.
+    """
     speech_url = f"/static/speech/{story_filename}/{story_filename}.mp3"
     
     return speech_url
@@ -117,54 +122,3 @@ def get_random_track_path(tracks_dir) -> str | None:
     except Exception as e:
         print(f"Error getting ambient track: {e}")  # Replace with your logger
         return None
-
-
-# def _cleanup_old_audio_files(logger, max_files=5):
-#     """
-#     Keep only the most recent audio files in the generated_stories directory.
-#     """
-#     try:
-#         generated_stories_dir = os.path.join(app.static_folder, 'audio', 'generated_stories')
-#         archive_dir = os.path.join(app.static_folder, 'audio', 'archived_stories')
-        
-#         if not os.path.exists(archive_dir):
-#             os.makedirs(archive_dir)
-            
-#         audio_files = []
-#         for file_path in glob.glob(os.path.join(generated_stories_dir, '*.mp3')):
-#             mtime = os.path.getmtime(file_path)
-#             audio_files.append((mtime, file_path))
-        
-#         audio_files.sort()
-#         # ///// to translate in js
-#             try:
-#                 _cleanup_old_audio_files(logger)
-            
-#             if not filename_from_story_gen or not isinstance(filename_from_story_gen, str):
-#                 filename_from_story_gen = f"story_{int(datetime.now().timestamp())}.mp3"
-#             elif not filename_from_story_gen.lower().endswith('.mp3'):
-#                 filename_from_story_gen = f"{os.path.splitext(filename_from_story_gen)[0]}.mp3"
-            
-#             if not speech_file_path_relative_to_static:
-#                 logger.warning(f"TTS failed for story, but continuing without audio. Filename: {filename_from_story_gen}")
-#             elif not track_url_for_client:
-#                 logger.warning(f"No music but speech will go on")
-#         except Exception as e:
-#             logger.warning(f"TTS encountered an error but continuing without audio: {str(e)}")
-        
-#         # /////
-        
-#         while len(audio_files) >= max_files:
-#             _, oldest_file_path = audio_files.pop(0)
-#             file_name = os.path.basename(oldest_file_path)
-#             destination_path = os.path.join(archive_dir, file_name)
-#             try:
-#                 shutil.move(oldest_file_path, destination_path)
-#                 logger.info(f"moved old audio file: {oldest_file_path}")
-#             except Exception as e:
-#                 logger.error(f"Error moving old audio file {oldest_file_path}: {e}")
-#     except Exception as e:
-#         logger.error(f"Error in _cleanup_old_audio_files: {e}")
-
-# BASE = os.path.join(os.path.dirname(__file__), '..', '..', 'server_data', 'stories')
-# os.makedirs(BASE, exist_ok=True)

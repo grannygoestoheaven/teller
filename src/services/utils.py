@@ -5,29 +5,29 @@ def _prepare_story_parameters(request_form):
     return subject
 
 def _format_text_filename(raw_title: str) -> str:
+    """Generate a text filename with underscores from a raw title"""
     return raw_title.lower().replace(" ", "_").replace("'", "")
 
 def _format_mp3_filename(raw_title: str, max_length: int = 200) -> str:
-    """Generate an mp3 filename from a raw title."""
+    """Generate an mp3 filename with underscores from a raw title."""
     if not raw_title or not isinstance(raw_title, str):
         return "mistral_story.mp3"
         
-    # Convert to lowercase and replace spaces
-    filename = format_text_filename(raw_title)
-    # Remove any non-alphanumeric characters except dots, dashes and underscores
-    filename = "".join(c for c in filename if c.isalnum() or c in ('.', '_', '-')).rstrip()
+    mp3_filename = raw_title.lower().replace(" ", "_").replace("'", "")
+    # Remove any non-alphanumeric characters except dots, underscores and dashes
+    mp3_filename = "".join(c for c in mp3_filename if c.isalnum() or c in ('.', '_', '-')).rstrip()
     
     # Ensure .mp3 extension
-    if not filename.endswith(".mp3"):
-        filename += ".mp3"
+    if not mp3_filename.endswith(".mp3"):
+        mp3_filename += ".mp3"
     
     # Handle edge cases
-    if len(filename) > max_length:
-        filename = filename[:max_length - 4] + ".mp3"
-    if filename == ".mp3":
+    if len(mp3_filename) > max_length:
+        mp3_filename = mp3_filename[:max_length - 4] + ".mp3"
+    if mp3_filename == ".mp3":
         return "mistral_story.mp3"
         
-    return filename
+    return mp3_filename
 
 def _clean_story_text(story: str) -> str:
     """
@@ -41,3 +41,9 @@ def _clean_story_text(story: str) -> str:
     cleaned = re.sub(r'\.\.+', '.', cleaned)
     cleaned = re.sub(r'\.([^ \n])', r'. \1', cleaned)
     return cleaned.strip()
+
+def _clean_story_filename(raw_title: str) -> str:
+    """Generate a clean story filename with spaces from an underscored filename."""
+    if not raw_title or not isinstance(raw_title, str):
+        return "Mistral Story"
+    return raw_title.replace("_", " ").title()

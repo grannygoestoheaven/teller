@@ -49,7 +49,7 @@ def openai_tts(story: TtsRequest, filename) -> bytes:
         
         print(f"Generated speech length: {len(speech_audio)} bytes")  # Should match expected size
         
-        return speech_mp3_filename, speech_audio
+        return speech_filename, speech_audio
 
     except Exception as e:
         # Log the error appropriately in a real application

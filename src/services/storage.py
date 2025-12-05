@@ -13,7 +13,7 @@ from src.config.settings import STATIC_DIR, GENERATED_STORIES_DIR, LOCAL_TRACKS_
 
 # ==== STORING FUNCTIONS =====
 
-def save_story_txt_to_json_file(story_filename: str, story_title, tagged_story_for_tts: str, clean_story: str, save_dir: Path) -> Path:
+def save_story_txt_to_json_file(story_filename: str, story_title: str, tagged_story_for_tts: str, clean_story: str, save_dir: Path) -> Path:
     """
     Saves the story text to a JSON file in the specified directory.
     """
@@ -25,24 +25,24 @@ def save_story_txt_to_json_file(story_filename: str, story_title, tagged_story_f
     payload = {
         'story_filename': story_filename,
         'story_title': story_title,
-        'tagged_story_for_tts': tagged_story_fort_tts,
+        'tagged_story_for_tts': tagged_story_for_tts,
         'clean_story': clean_story,
         'timestamp': datetime.utcnow().strftime('%Y%m%dT%H%M%SZ')
     }
-    with open(GENERATED_STORIES_DIR/, 'w', encoding='utf-8') as f:
+    with open(filepath, 'w', encoding='utf-8') as f:
         json.dump(payload, f, ensure_ascii=False, indent=2)
         
-    clean_story = payload.get('clean')
+    clean_story = payload["clean_story"]
 
 def save_mp3_speech_file(speech_filename: str, speech_audio: bytes, save_dir: Path) -> str:
     """
     Saves the speech mp3 audio content to a file in the specified directory.
     """
     save_dir.mkdir(parents=True, exist_ok=True)
+    filepath = save_dir / speech_filename
     
-    filepath = save_dir / filename
     with open(filepath, "wb") as f:
-        f.write(content)
+        f.write(speech_audio)
         
     audio_fullpath = filepath.resolve()
         
@@ -72,7 +72,7 @@ def get_story_title_from_json_file(story_filename) -> str:
     
     with open(story_filename_path, "r",encoding="utf-8") as f:
         story_data = json.load(f)
-        story_title = story_data["story_title"]
+        story_title = story_data["clean_story_title"]
     
     return story_title
     
@@ -97,7 +97,7 @@ def get_random_track_url(tracks_dir) -> str | None:
         print(f"Error getting ambient track: {e}")  # Replace with your logger
         return None
 
-def get_clean_track_title(tracks_dir):
+# def get_clean_track_title(tracks_dir):
 
 # Handling random track selecton 
 class AmbientTrackManager:

@@ -3,10 +3,10 @@ import os
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import JSONResponse
 
-from src.schemas.story import StoryRequest, StoryResponse
+from src.schemas.story import StoryRequest, StoryResponse, StoryCheckResponse
 from src.services.utils import _format_text_filename
 from src.services.build import build_story, load_story
-from src.config.settings import BASE_DIR
+from src.config.settings import BASE_DIR, STATIC_DIR
 
 router = APIRouter()
 
@@ -15,6 +15,7 @@ router = APIRouter()
 def teller_story(data: StoryRequest) -> StoryResponse:
     try:
         subject = data.subject
+        
         if data.subject.lower().strip() == "test":
             # Return a random existing story/speech URL
             return StoryResponse(
@@ -35,16 +36,17 @@ def teller_story(data: StoryRequest) -> StoryResponse:
 async def check_story(data: StoryRequest) -> StoryCheckResponse:
     try:
         subject = data.subject
+        
         filename = _format_text_filename(subject)
         json_path = STATIC_DIR / "stories" / filename / f"{filename}.json"
         mp3_path = STATIC_DIR / "stories" / filename / f"{filename}.mp3"
 
         if not json_path.exists() or not mp3_path.exists():
-            return {"exists": False}
+            return {"exists": False, "story": None}
 
         payload = load_story(subject)
         return {"exists": True, "story": StoryResponse(**payload, by_alias=True)}
     except Exception as e:
         print(f"ERROR: {str(e)}")  # Log the error
         raise HTTPException(status_code=500, detail=str(e))
-        
+    

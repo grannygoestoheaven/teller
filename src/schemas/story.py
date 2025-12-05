@@ -1,4 +1,5 @@
 from pydantic import BaseModel, Field
+from typing import Optional
 
 # text and audio schemas request
 class StoryRequest(BaseModel):
@@ -16,6 +17,6 @@ class StoryResponse(BaseModel):
         populate_by_name = True
         validate_by_name = True
 
-class StoryCheckResponse:
+class StoryCheckResponse(BaseModel):
     exists: bool
-    story: optional[StoryResponse] = None
+    story: Optional[StoryResponse] = None

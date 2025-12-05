@@ -54,18 +54,15 @@ def generate_story_with_openai(subject) -> tuple[str, str]:
         )
 
         print(f"Response from OpenAI: {response}")
-        
-        story_filename = _format_text_filename(subject) # generate filename with underscores
-        print(f"Generated story filename: {story_filename}")
         tagged_story_for_tts = response.choices[0].message.content.strip() if response else "" # get the story text with punctuation tags
         print(f"Generated tagged story for TTS: {tagged_story_for_tts}")
         clean_story = _clean_story_text(tagged_story_for_tts) # remove punctuation tags to have a clean version to display
-        clean_story_filename = _clean_story_filename(story_filename)
+        clean_story_title = _clean_story_filename(subject)
        
-        return story_filename, clean_story_filename, tagged_story_for_tts, clean_story
+        return clean_story_title, tagged_story_for_tts, clean_story
     
     except Exception as e:
-        print(f"Error in generate_story: {str(e)}")
+        print(f"Error in generating_story: {str(e)}")
         error_title = f"Error generating story about {subject}"
         error_story = "We encountered an error while generating the story. Please try again."
         

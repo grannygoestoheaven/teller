@@ -49,7 +49,7 @@ def generate_story_with_openai(subject) -> tuple[str, str]:
                 {"role": "user", "content": user_message}
             ],
             temperature=0.4,
-            max_tokens=950,
+            max_tokens=600,
             top_p=0.9
         )
 

@@ -35,12 +35,12 @@ def save_story_txt_to_json_file(story_filename: str, story_title: str, tagged_st
         
     clean_story = payload["clean_story"]
 
-def save_mp3_speech_file(speech_filename: str, speech_audio: bytes, save_dir: Path) -> str:
+def save_mp3_speech_file(story_foldername: str, speech_filename: str, speech_audio: bytes, save_dir: Path) -> str:
     """
     Saves the speech mp3 audio content to a file in the specified directory.
     """
     save_dir.mkdir(parents=True, exist_ok=True)
-    filepath = save_dir / speech_filename
+    filepath = save_dir / story_foldername / speech_filename
     
     with open(filepath, "wb") as f:
         f.write(speech_audio)

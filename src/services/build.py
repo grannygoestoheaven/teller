@@ -9,24 +9,26 @@ from src.config.settings import GENERATED_STORIES_DIR, LOCAL_TRACKS_DIR
 def build_story(subject: str) -> dict:
     # genereate story and speech files
     story_filename = subject
+    story_foldername = subject
+    
     story_title, tagged_story_for_tts, story = generate_story_with_openai(subject) # returns text files
     speech_filename, speech_audio = openai_tts(tagged_story_for_tts, subject) # one text file, one bytes file (mp3)
     print(f"Generated speech filename: {speech_filename}")
     
     # store files and get their paths
-    json_story_filepath = save_story_txt_to_json_file(subject, story_title, tagged_story_for_tts, story, GENERATED_STORIES_DIR) # store the story parameters on the server and returns the clean story file
+    json_story_filepath = save_story_txt_to_json_file(story_filename, story_title, tagged_story_for_tts, story, GENERATED_STORIES_DIR) # store the story parameters on the server and returns the clean story file
     print(f"Saved story JSON filepath: {json_story_filepath}")
-    speech_filepath = save_mp3_speech_file(speech_filename, speech_audio, GENERATED_STORIES_DIR) # store the speech audio file and returns its path
+    speech_filepath = save_mp3_speech_file(story_foldername, speech_filename, speech_audio, GENERATED_STORIES_DIR) # store the speech audio file and returns its path
     print(f"Saved speech path: {speech_filepath}")
     
     # get the path for a random local ambient track
-    track_path = get_random_track_path(LOCAL_TRACKS_DIR) # returns the path of local ambient track
-    track_filename = track_path.split('/')[-1] if track_path else None # get only the filename; last part of the path
-    clean_track_title = track_filename.replace(".mp3", "").replace("_", " ").title() if track_filename else None
-    print(f"Selected track filename: {clean_track_title}")
+    track_filepath = get_random_track_url(LOCAL_TRACKS_DIR) # returns the path of local ambient track
+    track_filename = track_filepath.split('/')[-1] if track_filepath else None # get only the filename; last part of the path
+    track_title = track_filename.replace(".mp3", "").replace("_", " ").title() if track_filename else None
+    print(f"Selected track title: {track_title}")
     
     # Get audio urls for the payload:
-    speech_url = f"/static/stories/{subject}/{speech_filename}"
+    speech_url = f"/static/stories/{story_filename}/{speech_filename}"
     track_url = f"/static/audio/local_ambient_tracks/{track_filename}"
     print(f"Speech URL: {speech_url}, Track URL: {track_url}")
     
@@ -39,9 +41,9 @@ def build_story(subject: str) -> dict:
         "trackTitle": track_title
     }
     
-    print(f"Payload constructed: {payload}")
+    print(f"Payload constructed: {frontend_payload}")
     
-    return payload
+    return frontend_payload
 
 def load_story (subject: str):
     # load an existing story from the stored json and speech files

@@ -40,7 +40,7 @@ def _clean_story_text(story: str) -> str:
     cleaned = re.sub(r'\.([^ \n])', r'. \1', cleaned)
     return cleaned.strip()
 
-def _clean_story_filename(subject: str) -> str:
+def _clean_story_title(subject: str) -> str:
     """Generate a clean story filename with spaces from an underscored filename."""
     if not subject or not isinstance(subject, str):
         return "Mistral Story"

@@ -7,60 +7,54 @@ let abortController;
 
 export async function startNewStoryProcess() {
   console.log("new story process started");
-  abortController = new AbortController(); // Abort any ongoing fetch
-
-  const formData = new FormData(elements.form); // Collect form data
+  abortController = new AbortController();
+  const formData = new FormData(elements.form);
   let subject = formData.get('subject');
-
-  subject = sanitizeSubject(subject) // get a formatted subject with underscores to send to the backend
+  subject = sanitizeSubject(subject);
   console.log("Sanitized subject:", subject);
-  
-  // ================= SENDS REQUEST TO BACKEND =================
-  
-  // checking if story exists - request sent to the backend at src/routers/story/@router.post("/check")
+
+  // Check if story exists
   const responseCheck = await fetch('/v1/stories/check', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ subject })
-  }); 
+  });
 
-  const { exists, data } = await responseCheck.json(); // destructure response - bool, story object
+  if (!responseCheck.ok) {
+    const errorData = await responseCheck.json();
+    throw new Error(errorData.error || `Error ${responseCheck.status}`);
+  }
 
-  if (!exists) {
-    // if story does not exist, generate a new one
-    const response = await fetch('/v1/stories/new', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ subject }),
-    signal:abortController.signal });
-  
-  // ==================== HANDLES RESPONSE ======================
-  
-    // Handle non-OK responses
-    if (!response.ok) throw new Error((await response.json()).error || `Error ${response.status}`);
-  
-    const data = await response.json();
-    console.log("Full data from backend:", data);
-  
-    // Store the last story data for playback - contains story text, audio URLs for TTS file and background track
-    Object.assign(lastStoryData, data)
-    console.log(lastStoryData.cleanStory);
-  
-    // Load the player with new story data here for safety
-    loadPlayer(lastStoryData); // The audio sources are now loaded from the lastStoryData object
-  
+  const { exists, story } = await responseCheck.json();
+
+  if (exists) {
+    // If story exists, load it directly
+    console.log("Story exists, loading directly:", story);
+    Object.assign(lastStoryData, story);
+    loadPlayer(lastStoryData);
     return lastStoryData;
+  } else {
+    // If story does not exist, generate a new one
+    const response = await fetch('/v1/stories/new', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ subject }),
+      signal: abortController.signal
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error || `Error ${response.status}`);
     }
 
-  // If story exists, load it directly
-  if (!responseCheck.ok) throw new Error((await response.json()).error || `Error ${response.status}`);
-  
-  console.log("Full data from backend:", data);
-  Object.assign(lastStoryData, data);
-  loadPlayer(lastStoryData);
-
-  return lastStoryData;
+    const newStoryData = await response.json();
+    console.log("Full data from backend:", newStoryData);
+    Object.assign(lastStoryData, newStoryData);
+    loadPlayer(lastStoryData);
+    return lastStoryData;
   }
+}
+
 
 export function clearPlaybackTimers() {
   // Implementation to clear any active timers

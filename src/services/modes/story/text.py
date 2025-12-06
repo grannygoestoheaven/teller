@@ -8,7 +8,7 @@ from mistralai import Mistral
 from openai import OpenAI
 
 from src.config.settings import env_settings
-from src.services.utils import _clean_story_text, _format_text_filename, _clean_story_filename
+from src.services.utils import _clean_story_text, _format_text_filename, _clean_story_title
 
 client = OpenAI(api_key=env_settings.openai_api_key)
 
@@ -57,7 +57,7 @@ def generate_story_with_openai(subject) -> tuple[str, str]:
         tagged_story_for_tts = response.choices[0].message.content.strip() if response else "" # get the story text with punctuation tags
         print(f"Generated tagged story for TTS: {tagged_story_for_tts}")
         clean_story = _clean_story_text(tagged_story_for_tts) # remove punctuation tags to have a clean version to display
-        clean_story_title = _clean_story_filename(subject)
+        clean_story_title = _clean_story_title(subject)
        
         return clean_story_title, tagged_story_for_tts, clean_story
     

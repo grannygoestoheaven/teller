@@ -20,14 +20,15 @@ def save_story_txt_to_json_file(story_filename: str, story_title: str, tagged_st
     subject_dir = save_dir / story_filename
     subject_dir.mkdir(parents=True, exist_ok=True)
     filepath = subject_dir / f"{story_filename}.json"  # e.g., "the_sand.json"
+    timestamp = datetime.utcnow().strftime('%Y%m%dT%H%M%SZ')
 
     # Prepare payload that will be stored, then fetched later for replay, or when user sends existing subject.
     payload = {
-        'story_filename': story_filename,
-        'story_title': story_title,
-        'tagged_story_for_tts': tagged_story_for_tts,
-        'clean_story': clean_story,
-        'timestamp': datetime.utcnow().strftime('%Y%m%dT%H%M%SZ')
+        "story_filename": story_filename,
+        "story_title": story_title,
+        "tagged_story_for_tts": tagged_story_for_tts,
+        "clean_story": clean_story,
+        "timestamp": timestamp
     }
     with open(filepath, 'w', encoding='utf-8') as f:
         json.dump(payload, f, ensure_ascii=False, indent=2)
@@ -69,10 +70,13 @@ def get_story_title_from_json_file(story_filename) -> str:
     """
     story_filename_path = STATIC_DIR / "stories" / story_filename / f"{story_filename}.json"
     print(f"Retrieving filename from: {story_filename_path}")
+    print(story_filename_path.exists())
     
     with open(story_filename_path, "r",encoding="utf-8") as f:
         story_data = json.load(f)
-        story_title = story_data["clean_story_title"]
+        print(f"Loaded story data: {story_data}")
+        story_title = story_data["story_title"]
+        print(f"Extracted story title: {story_title}")
     
     return story_title
     
@@ -80,7 +84,7 @@ def get_speech_url(story_filename: str) -> str:
     """
     Returns the speech URL for a story from storage.
     """
-    speech_url = f"/static/speech/{story_filename}/{story_filename}.mp3"
+    speech_url = f"/static/stories/{story_filename}/{story_filename}.mp3"
     
     return speech_url
 
@@ -134,3 +138,4 @@ class AmbientTrackManager:
         cls._played_tracks.append(track_filename)
         
         return str(tracks_dir / track_filename)  # Use LOCAL_TRACKS_DIR directly
+

@@ -26,9 +26,9 @@ def teller_story(data: StoryRequest) -> StoryResponse:
                 track_url = f"static/audio/local_ambient_tracks/abstract_aprils_hold.mp3",
                 track_filename = "abstract_aprils_hold.mp3"
             )
-            
-        payload = build_story(subject)
         
+        payload = build_story(subject)
+
         return StoryResponse(**payload, by_alias=True)
     
     except Exception as e:
@@ -44,10 +44,10 @@ async def check_story(data: StoryRequest) -> StoryCheckResponse:
         json_path = STATIC_DIR / "stories" / filename / f"{filename}.json"
         mp3_path = STATIC_DIR / "stories" / filename / f"{filename}.mp3"
 
-        if not json_path.exists() or not mp3_path.exists():
+        if not json_path.exists():
             return {"exists": False, "story": None}
 
-        payload = load_story(subject)
+        payload = load_story(subject, regenerate_mp3=True)
         
         return {"exists": True, "story": StoryResponse(**payload, by_alias=True)}
     

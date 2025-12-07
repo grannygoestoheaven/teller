@@ -21,6 +21,9 @@ def generate_story_with_openai(subject) -> tuple[str, str]:
     # Create a clear instruction for the AI
     user_message =f"""
     # INSTRUCTIONS:
+    
+    ## OUTPUT: 850 chars MAXIMUM.
+    
     Please generate a presentation about: {subject}
     - Focus specifically on: {subject}
     - Be factual, clear and precise. No generalities.
@@ -30,7 +33,7 @@ def generate_story_with_openai(subject) -> tuple[str, str]:
     - add <[silence]> tags between all sentences and between each new line.
     - Conclude by suggesting three related subjects to the topic, in variations of this kind : "Three related subjects are...". Don't write anything after that.
     
-    ## Unavoidable Instructions :
+    ## STYLE AND TONE:
     - FORBIDDEN words = "crucial", "essential", "critical", "fundamental", "paramount", "key".
     - DO NOT repeat words.
     - Write in an elegant style, not in a grandiose style. Avoid any mystery tone at all cost.

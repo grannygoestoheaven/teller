@@ -51,6 +51,19 @@ def save_mp3_speech_file(story_foldername: str, speech_filename: str, speech_aud
 
 # ==== FETCHING FUNCTIONS =====
 
+def get_tagged_story_from_json_file(story_filename) -> str:
+    """
+    Extracts the tagged story for TTS from the saved JSON file.
+    """
+    json_path = STATIC_DIR / "stories" / story_filename / f"{story_filename}.json"
+    print(f"Retrieving tagged story from: {json_path}")
+    
+    with open(json_path, "r", encoding="utf-8") as f:
+        story_data = json.load(f)
+        tagged_story = story_data["tagged_story_for_tts"]
+    
+    return tagged_story
+
 def get_clean_story_from_json_file(story_filename) -> str:
     """
     Extracts the cleaned story from the saved JSON file.

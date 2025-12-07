@@ -17,6 +17,7 @@
 
     READY: enter / this.actions.uiReadyButtons();
     READY --> LOADING : FORM_SUBMITTED / this.actions.startNewStoryProcess();
+    READY --> LOADING : TOGGLE_PAUSE_RESUME / this.actions.startNewStoryProcess();
     READY --> IDLE: CANCEL / this.actions.stopAndResetAllAudio();
 
     LOADING: enter / this.actions.showLoadingAnimation(); this.actions.uiLoadingButtons();
@@ -24,7 +25,7 @@
     LOADING --> PAUSED : TOGGLE_PAUSE_RESUME / this.actions.pauseAllAudio();
     LOADING --> IDLE : CANCEL / this.actions.abortProcess();
 
-    PLAYING: enter / this.actions.uiPlayingButtons(); this.actions.removeBlurr(); this.actions.redDots();
+    PLAYING: enter / this.actions.uiPlayingButtons(); this.actions.removeBlurr(); this.actions.greenDots();
     PLAYING --> PAUSED : TOGGLE_PAUSE_RESUME / this.actions.pauseAllAudio();
     PLAYING --> IDLE : MUSIC_OVER
     PLAYING --> READY : INPUT_CHANGED [this.actions.inputIsValid()]

@@ -29,4 +29,3 @@ export function getEarthToneColor() {
     // Example: red color
     return Math.random(arrayOfRedShades) < 0.5 ? arrayOfRedShades[Math.floor(Math.random() * arrayOfRedShades.length)] : "#FF0000";
   }
-  

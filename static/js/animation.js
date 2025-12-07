@@ -36,8 +36,19 @@ export function getRedColor() {
   return Math.random(arrayOfRedShades) < 0.5 ? arrayOfRedShades[Math.floor(Math.random() * arrayOfRedShades.length)] : "#FF0000";
 }
 
+export function getGreenColor() {
+  let gardenGnomeGreen = "#6d9778";
+  return gardenGnomeGreen;
+}
+
 export function redDots() {
   const color = getRedColor(); // generate a color
+  console.log("Generated Red Color:", color);
+  elements.dots.style.setProperty("--period-color", color); // set CSS variable to make the dots turn red
+}
+
+export function greenDots() {
+  const color = getGreenColor(); // generate a color
   elements.dots.style.setProperty("--period-color", color); // set CSS variable to make the dots turn red
 }
 

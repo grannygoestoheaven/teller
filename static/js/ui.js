@@ -7,7 +7,7 @@ export function uiIdle() {
   // Reset buttons
   elements.fromStartButton.disabled = true;
   elements.playPauseButton.disabled = true;
-  elements.playPauseButton.textContent = 'Play new Story';
+  elements.playPauseButton.textContent = 'Start';
 }
 
 export function initInputAdjustments() {
@@ -68,7 +68,7 @@ export function uiClearInput() {
 export function uiIdleButtons() {
   elements.fromStartButton.disabled = true;
   elements.playPauseButton.disabled = true;
-  elements.playPauseButton.textContent = 'Play new Story';
+  elements.playPauseButton.textContent = 'Start';
 }
 
 export function uiLoadingButtons() {

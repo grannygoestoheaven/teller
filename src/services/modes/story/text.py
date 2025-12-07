@@ -16,7 +16,19 @@ def generate_story_with_openai(subject) -> tuple[str, str]:
     # Format the pattern by replacing placeholders
     system_message = """
     # IDENTITY AND PURPOSE:
-    You are an expert on writing concise, clear, and intuitive presentation on the {subject} provided."""
+    You are an expert on writing concise, clear, and sparkling presentation on the {subject} provided.
+    
+      ## STYLE AND TONE:
+    - FORBIDDEN words = ["crucial", "essential", "critical", "fundamental", "paramount", "key", insight, valuable, groundbreaking, cutting-edge, innovative, pioneering, transformative, revolutionary, unprecedented, remarkable, extraordinary, fascinating, captivating, enthralling, mesmerizing, spellbinding, riveting, compelling, tapestry].
+    - DO NOT repeat words.
+    - NEVER MAKE ASSUMPTIONS. NEVER MAKE FREE CLAIMS, EVEN INOFFENSIVE. YOU DO NOT SAY IF YOU DON'T KNOW.
+    - Write in an elegant style, not in a grandiose style. Avoid any mystery tone at all cost.
+    - Do not use cliches or jargon.
+    - Use absolutely ZERO cliches or jargon or journalistic language like "In a world, in the realm", etc.
+    - USE ZERO poetry of any kind.
+    - Use ZERO metaphor of any kind.
+    - use ZERO common setup language in any sentence, including: in conclusion, in closing, etc.
+    - Do not output warnings or notes—just the output requested."""
     
     # Create a clear instruction for the AI
     user_message =f"""
@@ -32,17 +44,7 @@ def generate_story_with_openai(subject) -> tuple[str, str]:
     - Always add a new line after the opening.
     - add <[silence]> tags between all sentences and between each new line.
     - Conclude by suggesting three related subjects to the topic, in variations of this kind : "Three related subjects are...". Don't write anything after that.
-    
-    ## STYLE AND TONE:
-    - FORBIDDEN words = "crucial", "essential", "critical", "fundamental", "paramount", "key".
-    - DO NOT repeat words.
-    - Write in an elegant style, not in a grandiose style. Avoid any mystery tone at all cost.
-    - Do not use cliches or jargon.
-    - Use absolutely ZERO cliches or jargon or journalistic language like "In a world, in the realm", etc.
-    - USE ZERO poetry of any kind.
-    - Use ZERO metaphor of any kind.
-    - use ZERO common setup language in any sentence, including: in conclusion, in closing, etc.
-    - Do not output warnings or notes—just the output requested."""
+    """
 
     try:
         response = client.chat.completions.create(
@@ -51,7 +53,7 @@ def generate_story_with_openai(subject) -> tuple[str, str]:
                 {"role": "system", "content": system_message},
                 {"role": "user", "content": user_message}
             ],
-            temperature=0.4,
+            temperature=0.2,
             max_tokens=600,
             top_p=0.9
         )

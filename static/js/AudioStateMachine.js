@@ -125,6 +125,7 @@ class AudioStateMachine
                 switch (eventId)
                 {
                     case AudioStateMachine.EventId.FORM_SUBMITTED: this.#READY_form_submitted(); break;
+                    case AudioStateMachine.EventId.TOGGLE_PAUSE_RESUME: this.#READY_toggle_pause_resume(); break;
                     case AudioStateMachine.EventId.CANCEL: this.#READY_cancel(); break;
                 }
                 break;
@@ -409,10 +410,10 @@ class AudioStateMachine
         this.stateId = AudioStateMachine.StateId.PLAYING;
         
         // PLAYING behavior
-        // uml: enter / { this.actions.uiPlayingButtons(); this.actions.removeBlurr(); this.actions.redDots(); }
+        // uml: enter / { this.actions.uiPlayingButtons(); this.actions.removeBlurr(); this.actions.greenDots(); }
         {
-            // Step 1: execute action `this.actions.uiPlayingButtons(); this.actions.removeBlurr(); this.actions.redDots();`
-            this.actions.uiPlayingButtons(); this.actions.removeBlurr(); this.actions.redDots();
+            // Step 1: execute action `this.actions.uiPlayingButtons(); this.actions.removeBlurr(); this.actions.greenDots();`
+            this.actions.uiPlayingButtons(); this.actions.removeBlurr(); this.actions.greenDots();
         } // end of behavior for PLAYING
     }
     
@@ -424,13 +425,13 @@ class AudioStateMachine
     #PLAYING_cancel()
     {
         // PLAYING behavior
-        // uml: CANCEL / { this.actions.setUpAndStartAllAudio(); } TransitionTo(IDLE)
+        // uml: CANCEL / { this.actions.stopAndResetAllAudio(); } TransitionTo(IDLE)
         {
             // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
             this.#PLAYING_exit();
             
-            // Step 2: Transition action: `this.actions.setUpAndStartAllAudio();`.
-            this.actions.setUpAndStartAllAudio();
+            // Step 2: Transition action: `this.actions.stopAndResetAllAudio();`.
+            this.actions.stopAndResetAllAudio();
             
             // Step 3: Enter/move towards transition target `IDLE`.
             this.#IDLE_enter();
@@ -575,6 +576,27 @@ class AudioStateMachine
     {
         // READY behavior
         // uml: FORM_SUBMITTED / { this.actions.startNewStoryProcess(); } TransitionTo(LOADING)
+        {
+            // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
+            this.#READY_exit();
+            
+            // Step 2: Transition action: `this.actions.startNewStoryProcess();`.
+            this.actions.startNewStoryProcess();
+            
+            // Step 3: Enter/move towards transition target `LOADING`.
+            this.#LOADING_enter();
+            
+            // Step 4: complete transition. Ends event dispatch. No other behaviors are checked.
+            return;
+        } // end of behavior for READY
+        
+        // No ancestor handles this event.
+    }
+    
+    #READY_toggle_pause_resume()
+    {
+        // READY behavior
+        // uml: TOGGLE_PAUSE_RESUME / { this.actions.startNewStoryProcess(); } TransitionTo(LOADING)
         {
             // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
             this.#READY_exit();

@@ -33,7 +33,8 @@ body {
     font-family: 'Inika', serif;
     /* background-color: #18181b; */
     /* background-color: rgb(24, 24, 23); */
-    background-color: rgb(46, 45, 44);
+    /* background-color: rgb(46, 45, 44); */
+    background-color: rgb(37, 37, 36);
     color: #d1caca;
     margin: 0;
     padding: 0;
@@ -45,7 +46,7 @@ body {
 
 /* Header styles */
 .chat-header {
-    font-size: 1.7em; /* Base font size for the header container */
+    font-size: 1.8em; /* Base font size for the header container */
     z-index: 10;
     background: none;
     padding: 20px 25px;
@@ -275,8 +276,10 @@ footer.chat-input-area {
     padding: 0;
     box-sizing: border-box;
     border: 0.2px solid rgba(255, 255, 255, 0.2);
+    border: transparent !important ;
     /* background: #2c2c2caf; */
-    background: #0c0c0c;
+    /* background: #0c0c0c; */
+    background: #141414;
     border-radius: 20px;
 }
 
@@ -327,7 +330,7 @@ footer.chat-input-area {
     border-radius: 8px;
     /* border-top-left-radius: 2px;
     border-bottom-left-radius: 2px; */
-    background: #202020d0;
+    background: #1b1a1ad0;
     /* background: rgba(255, 0, 0, 0.369); */
     transition: 0.8s ease;
     transform: translateY(-50%);
@@ -346,8 +349,8 @@ footer.chat-input-area {
 .controls {
     display: flex;
     justify-content: center;
-    gap: 0.7rem;
-    margin-top: 0.5rem;
+    gap: 1.5rem;
+    margin-top: 1rem;
   }
 
 /* Pixel PLAY style */
@@ -365,13 +368,18 @@ footer.chat-input-area {
 
 /* Send button styles */
 .send-button {
-    background-color: #1f1e1e;
-    color: rgb(234,232,232);
+    /* background-color: #302e2e; */
+    width: 180px;
+    /* background-color: #2a613b88; */
+    border: 4px solid rgba(200, 212, 201, 0.865);
+    background-color: #1c1b1bc2;
+    color: rgb(250, 247, 247);
     border: none !important;
     padding: 5px 17px;
     border-radius: 4px;
     cursor: pointer;
     font-family: 'Pixelify Sans', serif;
+    text-align: center;
     text-transform: uppercase;
     letter-spacing: 0.12em;
     font-size: 0.85em;

@@ -6,12 +6,14 @@ from src.services.storage import save_story_txt_to_json_file, save_mp3_speech_fi
 
 from src.config.settings import GENERATED_STORIES_DIR, LOCAL_TRACKS_DIR
 
-def build_story(subject: str, narrative_style_prompt, narrative_difficulty) -> dict:
-    # genereate story and speech files
+def build_story(subject: str, narrative_style: str, difficulty: str) -> dict:
+    print(subject)
+    # the goal of this function is to call the generation functions, group their respective outputs (text files, audio files),
+    # store them for later use and send their data and urls to the frontend.
     story_filename = subject
     story_foldername = subject
     
-    story_title, tagged_story_for_tts, story = generate_story_with_mistralai(subject, narrative_style_prompt, narrative_difficulty) # returns text files
+    story_title, tagged_story_for_tts, story = generate_story_with_mistralai(subject, narrative_style, difficulty) # returns text files
     speech_filename, speech_audio = openai_tts(tagged_story_for_tts, subject) # one text file, one bytes file (mp3)
     print(f"Generated speech filename: {speech_filename}")
     
@@ -88,4 +90,3 @@ def load_story(subject: str, regenerate_mp3: bool) -> dict:
     except Exception as e:
         print(f"Error loading story: {e}")
         raise HTTPException(status_code=500, detail=str(e))
-

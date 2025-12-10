@@ -16,22 +16,24 @@ from src.services.utils import _clean_story_text, _format_text_filename, _clean_
 mistral_client = Mistral(api_key=env_settings.mistral_api_key)
 openai_client = OpenAI(api_key=env_settings.openai_api_key)
 
-def generate_story_with_mistralai(subject, system_prompt, difficulty) -> tuple[str, str]:
+def generate_story_with_mistralai(subject, narrative_style, difficulty) -> tuple[str, str]:
+    print("entering Mistral story, subject: ", subject)
     try:
         # 1. Read the prompt template from the file
-        with open("precision_narrative_mistral.md", "r") as f:
-            system_prompt = f.read()
-            system_prompt_template = Template(system_prompt)
-            rendered_system_prompt = system_prompt_template.render(
+        with open(narrative_style, "r") as f:
+            narrative_style_template = Template(f.read())
+            print(f"narrative_style_temp: {narrative_style_template}")  # Debug print to verify template content
+            narrative_style_rendered = narrative_style_template.render(
                 subject = subject,
                 difficulty = difficulty
             )
+            print(narrative_style_rendered)  # Debug print to verify rendered content
         
         response = mistral_client.chat.complete(
             model="mistral-small-latest",
             messages=[
                 {
-                    "content": system_prompt_formatted,
+                    "content": narrative_style_rendered,
                     "role": "system"
                 },
                 {
@@ -44,7 +46,7 @@ def generate_story_with_mistralai(subject, system_prompt, difficulty) -> tuple[s
         if not response or not response.choices:
             raise ValueError("Empty response from Mistral API")
 
-        tagged_story_for_tts = response.choices[0].message.strip() if response else "" # get the story text with punctuation tags
+        tagged_story_for_tts = response.choices[0].message.content if response else "" # get the story text with punctuation tags
         print(f"Generated tagged story for TTS: {tagged_story_for_tts}")
         clean_story = _clean_story_text(tagged_story_for_tts) # remove punctuation tags to have a clean version to display
         clean_story_title = _clean_story_title(subject)

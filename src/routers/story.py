@@ -6,7 +6,7 @@ from fastapi.responses import JSONResponse
 from src.schemas.story import StoryRequest, StoryResponse, StoryCheckResponse
 from src.services.utils import _format_text_filename
 from src.services.build import build_story, load_story
-from src.config.settings import BASE_DIR, STATIC_DIR
+from src.config.settings import BASE_DIR, STATIC_DIR, DEFAULT_PROMPT_PATH
 
 router = APIRouter()
 
@@ -15,8 +15,10 @@ router = APIRouter()
 def teller_story(data: StoryRequest) -> StoryResponse:
     try:
         subject = data.subject
-        narrative_style_prompt = "precision_narrative_mistral.md"
-        narrative_difficulty = data.difficulty or "beginner"
+        print(f"Hello Server {subject}")  # Debug print to verify subject
+        narrative_style = data.narrative_style or DEFAULT_PROMPT_PATH
+        print(DEFAULT_PROMPT_PATH) # Debug print to verify prompt content
+        difficulty = data.difficulty or "beginner"
         
         if data.subject.lower().strip() == "test":
             # Return a random existing story/speech URL
@@ -29,7 +31,7 @@ def teller_story(data: StoryRequest) -> StoryResponse:
                 track_filename = "abstract_aprils_hold.mp3"
             )
         
-        payload = build_story(subject, narrative_style_prompt, narrative_difficulty) # the build story function generates both text then sends it to tts.
+        payload = build_story(subject, narrative_style, difficulty) # the build story function generates both text then sends it to tts.
 
         return StoryResponse(**payload, by_alias=True)
     
@@ -42,7 +44,7 @@ def teller_story(data: StoryRequest) -> StoryResponse:
 async def check_story(data: StoryRequest) -> StoryCheckResponse:
     try:
         subject = data.subject
-        
+
         filename = _format_text_filename(subject)
         json_path = STATIC_DIR / "stories" / filename / f"{filename}.json"
         mp3_path = STATIC_DIR / "stories" / filename / f"{filename}.mp3"
@@ -57,4 +59,3 @@ async def check_story(data: StoryRequest) -> StoryCheckResponse:
     except Exception as e:
         print(f"ERROR: {str(e)}")  # Log the error
         raise HTTPException(status_code=500, detail=str(e))
- 

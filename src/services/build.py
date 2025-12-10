@@ -1,17 +1,17 @@
 from fastapi import HTTPException
 
-from src.services.modes.story.text import generate_story_with_openai
+from src.services.modes.story.text import generate_story_with_openai, generate_story_with_mistralai
 from src.services.modes.story.tts import openai_tts
 from src.services.storage import save_story_txt_to_json_file, save_mp3_speech_file, get_clean_story_from_json_file, get_tagged_story_from_json_file, get_story_title_from_json_file, get_speech_url, get_random_track_url
 
 from src.config.settings import GENERATED_STORIES_DIR, LOCAL_TRACKS_DIR
 
-def build_story(subject: str) -> dict:
+def build_story(subject: str, narrative_style_prompt, narrative_difficulty) -> dict:
     # genereate story and speech files
     story_filename = subject
     story_foldername = subject
     
-    story_title, tagged_story_for_tts, story = generate_story_with_openai(subject) # returns text files
+    story_title, tagged_story_for_tts, story = generate_story_with_mistralai(subject, narrative_style_prompt, narrative_difficulty) # returns text files
     speech_filename, speech_audio = openai_tts(tagged_story_for_tts, subject) # one text file, one bytes file (mp3)
     print(f"Generated speech filename: {speech_filename}")
     

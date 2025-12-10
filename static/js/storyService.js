@@ -7,8 +7,10 @@ let abortController;
 
 export async function startNewStoryProcess() {
   console.log("new story process started");
+
   abortController = new AbortController();
   const formData = new FormData(elements.form);
+
   let subject = formData.get('subject');
   subject = sanitizeSubject(subject);
   console.log("Sanitized subject:", subject);
@@ -38,7 +40,7 @@ export async function startNewStoryProcess() {
     const response = await fetch('/v1/stories/new', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ subject }),
+      body: JSON.stringify({ subject, narrativeStyle: null, difficulty: null }),
       signal: abortController.signal
     });
 
@@ -54,7 +56,6 @@ export async function startNewStoryProcess() {
     return lastStoryData;
   }
 }
-
 
 export function clearPlaybackTimers() {
   // Implementation to clear any active timers

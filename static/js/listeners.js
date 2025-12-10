@@ -58,3 +58,17 @@ export function events(sm) {
     sm.dispatchEvent(AudioStateMachine.EventId.MUSIC_OVER);
   });
 }
+
+export function toggleDifficulty() {
+  elements.difficultySelector.addEventListener("click", () => {
+    let currentIndex = 0;
+    const difficulties = ["beginner", "intermediate", "expert"];
+    currentIndex = (currentIndex + 1) % difficulties.length; // Loop: 0→1→2→0
+    const newDifficulty = difficulties[currentIndex];
+  
+    difficultySelector.textContent = newDifficulty.charAt(0).toUpperCase() + newDifficulty.slice(1); // "Beginner"
+    difficultySelector.setAttribute("data-value", newDifficulty);
+  
+    return newDifficulty;
+  })
+};

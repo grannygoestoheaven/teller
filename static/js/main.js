@@ -20,6 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
     fromStartButton: document.getElementById('replayBtn'),
     playPauseButton: document.getElementById('playPauseBtn'),
     stopButton: document.getElementById('stopBtn'),
+    difficultyLevelButton: document.getElementById('difficultyLevelBtn')
   };
 
   if (domElements.storyText) {

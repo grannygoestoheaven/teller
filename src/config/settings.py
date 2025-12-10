@@ -21,7 +21,9 @@ LOCAL_TRACKS_DIR = STATIC_DIR / "audio" / "local_ambient_tracks"
 
 # Story settings
 DEFAULT_DURATION = 1
-PATTERN_FILE_PATH = 'src/config/patterns/default_narrative.md'
+PATTERN_FILE_PATH = 'src/config/patterns/precision_narrative_mistral.md'
+
+PROMPTS = {}  # {"narrative_style": "template...", "other_narrative_style": "template..."}
 
 class EnvSettings(BaseSettings):
     # API keys for external services
@@ -33,3 +35,10 @@ class EnvSettings(BaseSettings):
         env_file = ".env"
 
 env_settings = EnvSettings()
+
+def load_prompts():
+    patterns_dir = Path(__file__) / "patterns"
+    for md_file in patterns_dir.glob("*.md"):
+        style_name = md_file.stem  # stem gets the filename without suffix
+        with open(md_file, "r") as f:
+            PROMPTS[style_name] = f.read()

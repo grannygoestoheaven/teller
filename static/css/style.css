@@ -369,13 +369,13 @@ footer.chat-input-area {
 /* Send button styles */
 .send-button {
     /* background-color: #302e2e; */
-    width: 180px;
+    width: 150px;
     /* background-color: #2a613b88; */
     border: 4px solid rgba(200, 212, 201, 0.865);
     background-color: #1c1b1bc2;
     color: rgb(250, 247, 247);
     border: none !important;
-    padding: 5px 17px;
+    padding: 8px 17px;
     border-radius: 4px;
     cursor: pointer;
     font-family: 'Pixelify Sans', serif;

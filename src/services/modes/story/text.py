@@ -1,3 +1,4 @@
+import os
 import math  # For character-to-token conversion
 import re
 
@@ -7,10 +8,56 @@ from pydantic import BaseModel
 from mistralai import Mistral
 from openai import OpenAI
 
+from jinja2 import Template
+
 from src.config.settings import env_settings
 from src.services.utils import _clean_story_text, _format_text_filename, _clean_story_title
 
-client = OpenAI(api_key=env_settings.openai_api_key)
+mistral_client = Mistral(api_key=env_settings.mistral_api_key)
+openai_client = OpenAI(api_key=env_settings.openai_api_key)
+
+def generate_story_with_mistralai(subject, system_prompt, difficulty) -> tuple[str, str]:
+    try:
+        # 1. Read the prompt template from the file
+        with open("precision_narrative_mistral.md", "r") as f:
+            system_prompt = f.read()
+            system_prompt_template = Template(system_prompt)
+            rendered_system_prompt = system_prompt_template.render(
+                subject = subject,
+                difficulty = difficulty
+            )
+        
+        response = mistral_client.chat.complete(
+            model="mistral-small-latest",
+            messages=[
+                {
+                    "content": system_prompt_formatted,
+                    "role": "system"
+                },
+                {
+                    "content": "generate the text.",
+                    "role": "user"
+                },
+                
+            ], stream=False)
+
+        if not response or not response.choices:
+            raise ValueError("Empty response from Mistral API")
+
+        tagged_story_for_tts = response.choices[0].message.strip() if response else "" # get the story text with punctuation tags
+        print(f"Generated tagged story for TTS: {tagged_story_for_tts}")
+        clean_story = _clean_story_text(tagged_story_for_tts) # remove punctuation tags to have a clean version to display
+        clean_story_title = _clean_story_title(subject)
+    
+        print(f"Returning: {clean_story_title}, {tagged_story_for_tts}, {clean_story}")
+        return clean_story_title, tagged_story_for_tts, clean_story
+    
+    except Exception as e:
+        print(f"Error in generating_story with Mistral: {str(e)}")
+        error_title = f"Error generating story about {subject}"
+        error_story = "We encountered an error while generating the story. Please try again."
+        
+        return error_story, _format_text_filename(error_title) + ".mp3"
 
 def generate_story_with_openai(subject) -> tuple[str, str]:
     # Format the pattern by replacing placeholders
@@ -72,3 +119,4 @@ def generate_story_with_openai(subject) -> tuple[str, str]:
         error_story = "We encountered an error while generating the story. Please try again."
         
         return error_story, _format_text_filename(error_title) + ".mp3"
+

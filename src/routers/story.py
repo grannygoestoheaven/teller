@@ -15,6 +15,8 @@ router = APIRouter()
 def teller_story(data: StoryRequest) -> StoryResponse:
     try:
         subject = data.subject
+        narrative_style_prompt = "precision_narrative_mistral.md"
+        narrative_difficulty = data.difficulty or "beginner"
         
         if data.subject.lower().strip() == "test":
             # Return a random existing story/speech URL
@@ -27,7 +29,7 @@ def teller_story(data: StoryRequest) -> StoryResponse:
                 track_filename = "abstract_aprils_hold.mp3"
             )
         
-        payload = build_story(subject)
+        payload = build_story(subject, narrative_style_prompt, narrative_difficulty) # the build story function generates both text then sends it to tts.
 
         return StoryResponse(**payload, by_alias=True)
     
@@ -40,6 +42,7 @@ def teller_story(data: StoryRequest) -> StoryResponse:
 async def check_story(data: StoryRequest) -> StoryCheckResponse:
     try:
         subject = data.subject
+        
         filename = _format_text_filename(subject)
         json_path = STATIC_DIR / "stories" / filename / f"{filename}.json"
         mp3_path = STATIC_DIR / "stories" / filename / f"{filename}.mp3"
@@ -47,10 +50,11 @@ async def check_story(data: StoryRequest) -> StoryCheckResponse:
         if not json_path.exists():
             return {"exists": False, "story": None}
 
-        payload = load_story(subject, regenerate_mp3=True)
+        payload = load_story(subject, regenerate_mp3=True) # The load story function holds the condition to generate tts if missing.
         
         return {"exists": True, "story": StoryResponse(**payload, by_alias=True)}
     
     except Exception as e:
         print(f"ERROR: {str(e)}")  # Log the error
         raise HTTPException(status_code=500, detail=str(e))
+ 

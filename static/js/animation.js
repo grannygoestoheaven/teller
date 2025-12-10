@@ -33,12 +33,14 @@ export function hideLoadingAnimation() {
 export function getRedColor() {
   let arrayOfRedShades = ["#fb2943", "#e2253c", "#c92136", "#b01d2f", "#971928"];
   // Example: red color
-  return Math.random(arrayOfRedShades) < 0.5 ? arrayOfRedShades[Math.floor(Math.random() * arrayOfRedShades.length)] : "#FF0000";
+  return "#fb2943"
+  // return Math.random(arrayOfRedShades) < 0.5 ? arrayOfRedShades[Math.floor(Math.random() * arrayOfRedShades.length)] : "#FF0000";
 }
 
 export function getGreenColor() {
   let gardenGnomeGreen = "#6d9778";
-  return gardenGnomeGreen;
+  let flashGreen = "#00ff00"
+  return "#e01818dd";
 }
 
 export function redDots() {

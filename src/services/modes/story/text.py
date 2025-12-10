@@ -41,7 +41,9 @@ def generate_story_with_mistralai(subject, narrative_style, difficulty) -> tuple
                     "role": "user"
                 },
                 
-            ], stream=False)
+            ],
+            max_tokens=700,
+            stream=False)
 
         if not response or not response.choices:
             raise ValueError("Empty response from Mistral API")

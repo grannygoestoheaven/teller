@@ -19,7 +19,7 @@ GENERATED_STORIES_DIR = STATIC_DIR / "stories"
 # Directories for retrieval augmented generation sources
 RELIABLE_SOURCES = {"science": ["https://api.nature.com/headlines"],
                     "politics": ["https://api.reuters.com/latest"],
-                    "weather": }
+                    "weather": "" }
 
 # Local Tracks
 LOCAL_TRACKS_DIR = STATIC_DIR / "audio" / "local_ambient_tracks"

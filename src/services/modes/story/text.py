@@ -17,7 +17,7 @@ mistral_client = Mistral(api_key=env_settings.mistral_api_key)
 openai_client = OpenAI(api_key=env_settings.openai_api_key)
 
 def generate_story_with_mistralai(subject, narrative_style, difficulty) -> tuple[str, str]:
-    print("entering Mistral story, subject: ", subject)
+    print("entering Mistral story: ", subject, narrative_style, difficulty)
     try:
         # 1. Read the prompt template from the file
         with open(narrative_style, "r") as f:
@@ -27,8 +27,7 @@ def generate_story_with_mistralai(subject, narrative_style, difficulty) -> tuple
                 subject = subject,
                 difficulty = difficulty
             )
-            print(narrative_style_rendered)  # Debug print to verify rendered content
-        
+       
         response = mistral_client.chat.complete(
             model="mistral-small-latest",
             messages=[
@@ -42,11 +41,15 @@ def generate_story_with_mistralai(subject, narrative_style, difficulty) -> tuple
                 },
                 
             ],
-            max_tokens=700,
+            max_tokens=1100,
+            temperature=0.2,
+            presence_penalty=7.0,
             stream=False)
 
         if not response or not response.choices:
             raise ValueError("Empty response from Mistral API")
+        
+        print (response.choices[0].message.content)
 
         tagged_story_for_tts = response.choices[0].message.content if response else "" # get the story text with punctuation tags
         print(f"Generated tagged story for TTS: {tagged_story_for_tts}")
@@ -57,13 +60,14 @@ def generate_story_with_mistralai(subject, narrative_style, difficulty) -> tuple
         return clean_story_title, tagged_story_for_tts, clean_story
     
     except Exception as e:
-        print(f"Error in generating_story with Mistral: {str(e)}")
+        print(f"Full error: {e}")  # Log both error and response
+        raise  # Re-raise to see the traceback
         error_title = f"Error generating story about {subject}"
         error_story = "We encountered an error while generating the story. Please try again."
         
-        return error_story, _format_text_filename(error_title) + ".mp3"
+        return error_story, error_story, _format_text_filename(error_title) + ".mp3"
 
-def generate_story_with_openai(subject) -> tuple[str, str]:
+def generate_story_with_openai(subject, narrative_style: None, difficulty: None) -> tuple[str, str]:
     # Format the pattern by replacing placeholders
     system_message = """
     # IDENTITY AND PURPOSE:
@@ -98,14 +102,14 @@ def generate_story_with_openai(subject) -> tuple[str, str]:
     """
 
     try:
-        response = client.chat.completions.create(
+        response = openai_client.chat.completions.create(
             model="gpt-4o",
             messages=[
                 {"role": "system", "content": system_message},
                 {"role": "user", "content": user_message}
             ],
             temperature=0.2,
-            max_tokens=600,
+            max_tokens=900,
             top_p=0.9
         )
 
@@ -123,4 +127,3 @@ def generate_story_with_openai(subject) -> tuple[str, str]:
         error_story = "We encountered an error while generating the story. Please try again."
         
         return error_story, _format_text_filename(error_title) + ".mp3"
-

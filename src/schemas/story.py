@@ -23,3 +23,8 @@ class StoryResponse(BaseModel):
 class StoryCheckResponse(BaseModel):
     exists: bool
     story: Optional[StoryResponse] = None
+
+class NewsItem(BaseModel):
+    title: str
+    source: str
+    summary: str  # Max 3 sentences

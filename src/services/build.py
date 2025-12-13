@@ -10,10 +10,12 @@ def build_story(subject: str, narrative_style: str, difficulty: str) -> dict:
     print(subject)
     # the goal of this function is to call the generation functions, group their respective outputs (text files, audio files),
     # store them for later use and send their data and urls to the frontend.
-    story_foldername = f"{subject}_{difficulty}"
-    story_filename = f"{subject}_{difficulty}"
+    story_foldername = subject
+    story_filename = subject
     
-    story_title, tagged_story_for_tts, story = generate_story_with_mistralai(subject, narrative_style, difficulty) # returns text files
+    print (subject, narrative_style, difficulty)
+    
+    story_title, tagged_story_for_tts, story = generate_story_with_openai(subject, narrative_style, difficulty) # returns text files
     speech_filename, speech_audio = openai_tts(tagged_story_for_tts, subject) # one text file, one bytes file (mp3)
     print(f"Generated speech filename: {speech_filename}")
     

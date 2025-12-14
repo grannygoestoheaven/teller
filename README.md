@@ -31,3 +31,5 @@ Made with ❤️ by Granny.
 
 Prototype UI: Red blocks = real-time audio generation. Backend fully functional; frontend in progress.
 "The Chronology Protection Conjecture" = example subject. It can be any subject. The very basic interaction is depicted in the screenshot. It is an early stage prototype.
+
+Typescript migration is on her way.

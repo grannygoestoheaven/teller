@@ -38,12 +38,12 @@ def generate_story_with_mistralai(subject, narrative_style, difficulty) -> tuple
                     "role": "system"
                 },
                 {
-                    "content": "generate the text.",
+                    "content": "generate a 2000 char text about the {subject}.",
                     "role": "user"
                 },
                 
             ],
-            max_tokens=1100,
+            max_tokens=900,
             temperature=0.7,
             presence_penalty=7.0,
             stream=False))

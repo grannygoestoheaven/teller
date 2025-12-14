@@ -55,11 +55,11 @@ def load_story(subject: str, regenerate_mp3: bool) -> dict:
         print(f"Loading story: {subject}")
         story_filename = subject
         story_foldername = subject
-        story_title = get_story_title_from_json_file(story_filename)
+        story_title = get_text_title_from_json_file(story_filename)
         print(f"Story filename: {story_filename}, Story title: {story_title}")
 
         story = get_clean_text_from_json_file(story_filename)
-        tagged_story_for_tts = get_tagged_story_from_json_file(story_filename)  # Add this helper if needed
+        tagged_story_for_tts = get_tagged_text_from_json_file(story_filename)  # Add this helper if needed
 
         # Check if MP3 exists; regenerate if missing and flag is True
         mp3_path = GENERATED_STORIES_DIR / story_filename / f"{story_filename}.mp3"

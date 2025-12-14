@@ -11,7 +11,7 @@ class StoryRequest(BaseModel):
 class StoryResponse(BaseModel):
     story_filename: str = Field(alias="storyFilename")  # raw filename
     story_title: str = Field(alias="storyTitle")        # cleaned title   
-    story: str = Field(alias="Story")                   # cleaned story text
+    story: str = Field(alias="story")                   # cleaned story text
     speech_url: str = Field(alias="speechUrl")          # url to speech
     track_url: str = Field(alias="trackUrl")            # url to track
     track_title: str = Field(alias="trackTitle")        # clean track filename

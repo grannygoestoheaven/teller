@@ -17,9 +17,9 @@ STATIC_DIR = BASE_DIR / "static"
 GENERATED_STORIES_DIR = STATIC_DIR / "stories"
 
 # Directories for retrieval augmented generation sources
-RELIABLE_SOURCES = {"science": ["https://api.nature.com/headlines"],
-                    "politics": ["https://api.reuters.com/latest"],
-                    "weather": "" }
+NEWS_SOURCES = {"science": ["https://api.nature.com/headlines"],
+                "politics": ["https://api.reuters.com/latest"],
+                "weather": "" }
 
 # Local Tracks
 LOCAL_TRACKS_DIR = STATIC_DIR / "audio" / "local_ambient_tracks"
@@ -28,7 +28,10 @@ LOCAL_TRACKS_DIR = STATIC_DIR / "audio" / "local_ambient_tracks"
 DEFAULT_DURATION = 1
 
 PROMPTS_DIR = BASE_DIR / "src" / "config" / "patterns"
-DEFAULT_PROMPT_PATH = BASE_DIR / "src" / "config"/ "patterns" / "precision_narrative_mistral.md"
+# DEFAULT_PROMPT_PATH = BASE_DIR / "src" / "config"/ "patterns" / "desirable_difficulty.md"
+DEFAULT_PROMPT_PATH = BASE_DIR / "src" / "config"/ "patterns" / "precision_narrative_compact.md"
+# DEFAULT_PROMPT_PATH = BASE_DIR / "src" / "config"/ "patterns" / "blueprint_precision_narrative.md"
+
 DEFAULT_PROMPT = DEFAULT_PROMPT_PATH.read_text()
 
 PROMPTS = {}  # {"narrative_style": "template...", "other_narrative_style": "template..."} filled with load_prompts() see below.
@@ -38,6 +41,7 @@ class EnvSettings(BaseSettings):
     openai_api_key: str = Field(..., env="OPENAI_API_KEY")
     mistral_api_key: str = Field(..., env="MISTRAL_API_KEY")
     elevenlabs_api_key: str = Field(..., env="ELEVEN_LABS_API_KEY")
+    newsapi_api_key: str = Field(..., env="NEWSAPI_API_KEY")
 
     class Config:
         env_file = ".env"
@@ -50,4 +54,4 @@ def load_prompts():
         style_name = md_file.stem  # stem gets the filename without suffix
         with open(md_file, "r") as f:
             PROMPTS[style_name] = f.read()
-    print(PROMPTS["precision_narrative_mistral"][:10]) # Debug print to verify prompts are loadedf
+    print(PROMPTS.keys()) # Debug print to verify prompts are loadedf

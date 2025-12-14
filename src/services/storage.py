@@ -13,7 +13,7 @@ from src.config.settings import STATIC_DIR, GENERATED_STORIES_DIR, LOCAL_TRACKS_
 
 # ==== STORING FUNCTIONS =====
 
-def save_story_txt_to_json_file(story_filename: str, story_title: str, tagged_story_for_tts: str, clean_story: str, save_dir: Path) -> Path:
+def save_txt_to_json_file(story_filename: str, story_title: str, tagged_story_for_tts: str, clean_story: str, save_dir: Path) -> Path:
     """
     Saves the story text to a JSON file in the specified directory.
     """
@@ -51,7 +51,7 @@ def save_mp3_speech_file(story_foldername: str, speech_filename: str, speech_aud
 
 # ==== FETCHING FUNCTIONS =====
 
-def get_tagged_story_from_json_file(story_filename) -> str:
+def get_tagged_text_from_json_file(story_filename) -> str:
     """
     Extracts the tagged story for TTS from the saved JSON file.
     """
@@ -64,7 +64,7 @@ def get_tagged_story_from_json_file(story_filename) -> str:
     
     return tagged_story
 
-def get_clean_story_from_json_file(story_filename) -> str:
+def get_clean_text_from_json_file(story_filename) -> str:
     """
     Extracts the cleaned story from the saved JSON file.
     """
@@ -77,7 +77,7 @@ def get_clean_story_from_json_file(story_filename) -> str:
     
     return clean_story
 
-def get_story_title_from_json_file(story_filename) -> str:
+def get_text_title_from_json_file(story_filename) -> str:
     """
     Returns clean title for a story from storage.
     """

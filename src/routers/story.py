@@ -6,18 +6,17 @@ from fastapi.responses import JSONResponse
 from src.schemas.story import StoryRequest, StoryResponse, StoryCheckResponse
 from src.services.utils import _format_text_filename
 from src.services.build import build_story, load_story
-from src.config.settings import BASE_DIR, STATIC_DIR, DEFAULT_PROMPT_PATH
+from src.config.settings import BASE_DIR, STATIC_DIR, DEFAULT_PROMPT_PATH, PROMPTS
 
 router = APIRouter()
 
 # generation endpoint for an unexisting story
-@router.post("/new", response_model = StoryResponse)
-def teller_story(data: StoryRequest) -> StoryResponse:
+@router.post("/new_story", response_model = StoryResponse)
+def new_story(data: StoryRequest) -> StoryResponse:
     try:
         subject = data.subject
         print(f"Hello Server {subject}")  # Debug print to verify subject
         narrative_style = data.narrative_style or DEFAULT_PROMPT_PATH
-        print(DEFAULT_PROMPT_PATH) # Debug print to verify prompt content
         # difficulty = data.difficulty or "beginner"
         # difficulty = data.difficulty or "intermediate"
         difficulty = data.difficulty or "expert"
@@ -42,7 +41,7 @@ def teller_story(data: StoryRequest) -> StoryResponse:
         raise HTTPException(status_code=500, detail=str(e))
 
 # loading endpoint for an existing story
-@router.post("/check", response_model=StoryCheckResponse)
+@router.post("/check_story", response_model=StoryCheckResponse)
 async def check_story(data: StoryRequest) -> StoryCheckResponse:
     try:
         subject = data.subject

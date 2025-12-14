@@ -27,8 +27,10 @@ def generate_story_with_mistralai(subject, narrative_style, difficulty) -> tuple
                 subject = subject,
                 difficulty = difficulty
             )
-       
-        response = mistral_client.chat.complete(
+
+        print(f" Let's see : {narrative_style_rendered}")
+
+        print(response = mistral_client.chat.complete(
             model="mistral-small-latest",
             messages=[
                 {
@@ -42,9 +44,11 @@ def generate_story_with_mistralai(subject, narrative_style, difficulty) -> tuple
                 
             ],
             max_tokens=1100,
-            temperature=0.2,
+            temperature=0.7,
             presence_penalty=7.0,
-            stream=False)
+            stream=False))
+        
+        print(response)
 
         if not response or not response.choices:
             raise ValueError("Empty response from Mistral API")
@@ -60,7 +64,7 @@ def generate_story_with_mistralai(subject, narrative_style, difficulty) -> tuple
         return clean_story_title, tagged_story_for_tts, clean_story
     
     except Exception as e:
-        print(f"Full error: {e}")  # Log both error and response
+        print(f"Full error: {e[:10]}")  # Log both error and response
         raise  # Re-raise to see the traceback
         error_title = f"Error generating story about {subject}"
         error_story = "We encountered an error while generating the story. Please try again."
@@ -89,8 +93,6 @@ def generate_story_with_openai(subject, narrative_style: None, difficulty: None)
     user_message =f"""
     # INSTRUCTIONS:
     
-    ## OUTPUT: 850 chars MAXIMUM.
-    
     Please generate a presentation about: {subject}
     - Focus specifically on: {subject}
     - Be factual, clear and precise. No generalities.
@@ -108,9 +110,49 @@ def generate_story_with_openai(subject, narrative_style: None, difficulty: None)
                 {"role": "system", "content": system_message},
                 {"role": "user", "content": user_message}
             ],
-            temperature=0.2,
-            max_tokens=900,
+            temperature=0.7,
+            max_tokens=1200,
             top_p=0.9
+        )
+
+        print(f"Response from OpenAI: {response}")
+        tagged_story_for_tts = response.choices[0].message.content.strip() if response else "" # get the story text with punctuation tags
+        print(f"Generated tagged story for TTS: {tagged_story_for_tts}")
+        clean_story = _clean_story_text(tagged_story_for_tts) # remove punctuation tags to have a clean version to display
+        clean_story_title = _clean_story_title(subject)
+       
+        return clean_story_title, tagged_story_for_tts, clean_story
+    
+    except Exception as e:
+        print(f"Error in generating_story: {str(e)}")
+        error_title = f"Error generating story about {subject}"
+        error_story = "We encountered an error while generating the story. Please try again."
+        
+        return error_story, _format_text_filename(error_title) + ".mp3"
+
+def generate_story_with_openai_jinja(subject, narrative_style: None, difficulty: None) -> tuple[str, str]:
+    print("entering Mistral story: ", subject, narrative_style, difficulty)
+    try:
+        # 1. Read the prompt template from the file
+        with open(narrative_style, "r") as f:
+            narrative_style_template = Template(f.read())
+            print(f"narrative_style_temp: {narrative_style_template}")  # Debug print to verify template content
+            narrative_style_rendered = narrative_style_template.render(
+                subject = subject,
+                difficulty = difficulty
+            )
+
+        print(f" Let's see : {narrative_style_rendered}")
+
+        response = openai_client.chat.completions.create(
+            model="gpt-4o",
+            messages=[
+                {"role": "system", "content": narrative_style_rendered},
+                {"role": "user", "content": "follow the system instructions and generate a text of 2500 characters."}
+            ],
+            temperature=0.1,
+            max_tokens=2200,
+            top_p=0.8
         )
 
         print(f"Response from OpenAI: {response}")

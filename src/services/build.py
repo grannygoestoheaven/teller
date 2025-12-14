@@ -1,8 +1,8 @@
 from fastapi import HTTPException
 
-from src.services.modes.story.text import generate_story_with_openai, generate_story_with_mistralai
+from src.services.modes.story.text import generate_story_with_openai, generate_story_with_openai_jinja, generate_story_with_mistralai
 from src.services.modes.story.tts import openai_tts
-from src.services.storage import save_story_txt_to_json_file, save_mp3_speech_file, get_clean_story_from_json_file, get_tagged_story_from_json_file, get_story_title_from_json_file, get_speech_url, get_random_track_url
+from src.services.storage import save_txt_to_json_file, save_mp3_speech_file, get_clean_text_from_json_file, get_tagged_text_from_json_file, get_text_title_from_json_file, get_speech_url, get_random_track_url
 
 from src.config.settings import GENERATED_STORIES_DIR, LOCAL_TRACKS_DIR
 
@@ -14,13 +14,13 @@ def build_story(subject: str, narrative_style: str, difficulty: str) -> dict:
     story_filename = subject
     
     print (subject, narrative_style, difficulty)
-    
-    story_title, tagged_story_for_tts, story = generate_story_with_openai(subject, narrative_style, difficulty) # returns text files
+
+    story_title, tagged_story_for_tts, story = generate_story_with_openai_jinja(subject, narrative_style, difficulty) # returns text files
     speech_filename, speech_audio = openai_tts(tagged_story_for_tts, subject) # one text file, one bytes file (mp3)
     print(f"Generated speech filename: {speech_filename}")
     
     # store files and get their paths
-    json_story_filepath = save_story_txt_to_json_file(story_filename, story_title, tagged_story_for_tts, story, GENERATED_STORIES_DIR) # store the story parameters on the server and returns the clean story file
+    json_story_filepath = save_txt_to_json_file(story_filename, story_title, tagged_story_for_tts, story, GENERATED_STORIES_DIR) # store the story parameters on the server and returns the clean story file
     print(f"Saved story JSON filepath: {json_story_filepath}")
     speech_filepath = save_mp3_speech_file(story_foldername, speech_filename, speech_audio, GENERATED_STORIES_DIR) # store the speech audio file and returns its path
     print(f"Saved speech path: {speech_filepath}")
@@ -58,7 +58,7 @@ def load_story(subject: str, regenerate_mp3: bool) -> dict:
         story_title = get_story_title_from_json_file(story_filename)
         print(f"Story filename: {story_filename}, Story title: {story_title}")
 
-        story = get_clean_story_from_json_file(story_filename)
+        story = get_clean_text_from_json_file(story_filename)
         tagged_story_for_tts = get_tagged_story_from_json_file(story_filename)  # Add this helper if needed
 
         # Check if MP3 exists; regenerate if missing and flag is True

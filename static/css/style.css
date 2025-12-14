@@ -33,7 +33,7 @@ body {
     font-family: 'Inika', serif;
     /* background-color: #18181b; */
     /* background-color: rgb(24, 24, 23); */
-    background-color: rgb(46, 46, 44);
+    background-color: rgb(34, 34, 35);
     /* background-color: rgb(75, 71, 66); */
     color: #d1caca;
     margin: 0;
@@ -214,7 +214,7 @@ body {
     position: absolute;
     color: var(--period-color); /* Use the dynamically set color, fallback to #888 */
     border: #0f0f0f;
-    font-size: 4em; /* Overall size of the dots */
+    font-size: 6em; /* Overall size of the dots */
     line-height: 0.5; /* Align dots vertically */
     gap: 0;
 }
@@ -228,6 +228,7 @@ body {
     font-weight: bold;
     color: var(--period-color);
     line-height: 0.8;
+    text-align: center;
 }
 
 /* Animation delays for each period */

@@ -16,7 +16,7 @@ export async function startNewStoryProcess() {
   console.log("Sanitized subject:", subject);
 
   // Check if story exists
-  const responseCheck = await fetch('/v1/stories/check', {
+  const responseCheck = await fetch('/v1/stories/check_story', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ subject })
@@ -37,7 +37,7 @@ export async function startNewStoryProcess() {
     return lastStoryData;
   } else {
     // If story does not exist, generate a new one
-    const response = await fetch('/v1/stories/new', {
+    const response = await fetch('/v1/stories/new_story', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ subject, narrativeStyle: null, difficulty: null }),

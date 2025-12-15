@@ -38,14 +38,14 @@ def generate_story_with_mistralai(subject, narrative_style, difficulty) -> tuple
                     "role": "system"
                 },
                 {
-                    "content": "generate a 2000 char text about the {subject}.",
+                    "content": "generate a **1200 char MAXIMUM** text about the {subject}.",
                     "role": "user"
                 },
                 
             ],
-            max_tokens=900,
+            max_tokens=800,
             temperature=0.7,
-            presence_penalty=7.0,
+            presence_penalty=2.0,
             stream=False))
         
         print(response)
@@ -148,11 +148,12 @@ def generate_story_with_openai_jinja(subject, narrative_style: None, difficulty:
             model="gpt-4o",
             messages=[
                 {"role": "system", "content": narrative_style_rendered},
-                {"role": "user", "content": "follow the system instructions and generate a text of 2500 characters."}
+                {"role": "user", "content": "follow the system instructions and generate a text of **MAX 1440 characters.**"}
             ],
-            temperature=0.1,
-            max_tokens=2200,
-            top_p=0.8
+            temperature=0.5,
+            presence_penalty=0.3,
+            top_p=0.9,
+            max_tokens=1111
         )
 
         print(f"Response from OpenAI: {response}")

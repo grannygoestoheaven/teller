@@ -229,6 +229,7 @@ body {
     color: var(--period-color);
     line-height: 0.8;
     text-align: center;
+    line-height: match-font-size;
 }
 
 /* Animation delays for each period */

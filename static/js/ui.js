@@ -1,4 +1,4 @@
-import { elements } from "./config.js";
+import { elements, gridSize } from "./config.js";
 import { lastStoryData } from "./config.js";
 
 export function uiIdle() {
@@ -124,4 +124,42 @@ export function toggleTextVisibility() {
 export function updateStoryText() {
   elements.storyText.innerHTML = lastStoryData.story;
   console.log(elements.storyText.innerHTML);
+}
+
+// Toggle function
+ export function toggleView(isGridVisible) {
+  console.log("toggleView called!"); // Debug log
+  elements.gridContainer.style.display = isGridVisible ? "grid" : "none";
+  elements.chatHistory.style.display = isGridVisible ? "none" : "block";
+  elements.gridContainer.style.pointerEvents = isGridVisible ? "auto" : "none";
+  elements.chatHistory.style.pointerEvents = isGridVisible ? "none" : "auto";
+}
+
+export function createGridOfSquares(gridSize) {
+  let squarecount = (gridSize * gridSize);
+  console.log(squarecount);
+  elements.gridContainer.style.display = 'grid';
+  elements.gridContainer.style.gridTemplateColumns = `repeat(${gridSize}, 1fr)`;
+  elements.gridContainer.style.gridTemplateRows = `repeat(${gridSize}, 1fr)`;
+
+  // let's fill the grid
+  for(let i = 0; i < squarecount; i++)
+  {
+      const squareDiv = document.createElement('div');
+      squareDiv.classList.add('square');
+      squareDiv.textContent = '';
+      elements.gridContainer.append(squareDiv);
+  }
+}
+
+export function removeLastGrid(grid) {
+  while (grid.lastChild) {
+      grid.removeChild(grid.lastChild);
+  };
+}
+
+// Function to resize the grid (call this when needed)
+export function resizeGrid(newSize) {
+  gridSize = newSize;
+  createGridOfSquares(newSize);
 }

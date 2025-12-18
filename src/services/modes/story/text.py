@@ -44,8 +44,8 @@ def generate_story_with_mistralai(subject, narrative_style, difficulty) -> tuple
                 
             ],
             max_tokens=800,
-            temperature=0.7,
-            presence_penalty=2.0,
+            temperature=0.2,
+            presence_penalty=0.3,
             stream=False))
         
         print(response)
@@ -150,10 +150,10 @@ def generate_story_with_openai_jinja(subject, narrative_style: None, difficulty:
                 {"role": "system", "content": narrative_style_rendered},
                 {"role": "user", "content": "follow the system instructions and generate a text of **MAX 1440 characters.**"}
             ],
-            temperature=0.5,
+            temperature=0.2,
             presence_penalty=0.3,
             top_p=0.9,
-            max_tokens=1111
+            max_tokens=1001
         )
 
         print(f"Response from OpenAI: {response}")
@@ -170,3 +170,4 @@ def generate_story_with_openai_jinja(subject, narrative_style: None, difficulty:
         error_story = "We encountered an error while generating the story. Please try again."
         
         return error_story, _format_text_filename(error_title) + ".mp3"
+    

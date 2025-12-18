@@ -1,4 +1,4 @@
-import { elements } from './config.js';
+import { elements, isGridVisible } from './config.js';
 
 export function events(sm) {
   window.addEventListener('keydown', (event) => {
@@ -58,6 +58,12 @@ export function events(sm) {
     sm.dispatchEvent(AudioStateMachine.EventId.MUSIC_OVER);
   });
 }
+
+elements.toggleButton?.addEventListener('click', () => {
+  console.log('Toggling grid visibility');
+  isGridVisible = !isGridVisible;
+  toggleView(isGridVisible);
+});
 
 export function toggleDifficulty() {
   elements.difficultySelector.addEventListener("click", () => {

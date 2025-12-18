@@ -18,8 +18,8 @@ def new_story(data: StoryRequest) -> StoryResponse:
         print(f"Hello Server {subject}")  # Debug print to verify subject
         narrative_style = data.narrative_style or DEFAULT_PROMPT_PATH
         # difficulty = data.difficulty or "beginner"
-        difficulty = data.difficulty or "intermediate"
-        # difficulty = data.difficulty or "expert"
+        # difficulty = data.difficulty or "intermediate"
+        difficulty = data.difficulty or "expert"
         
         if data.subject.lower().strip() == "test":
             # Return a random existing story/speech URL
@@ -60,3 +60,8 @@ async def check_story(data: StoryRequest) -> StoryCheckResponse:
     except Exception as e:
         print(f"ERROR: {str(e)}")  # Log the error
         raise HTTPException(status_code=500, detail=str(e))
+        return JSONResponse(
+            status_code=500,
+            content={"detail": str(e)})
+        
+            

@@ -1,9 +1,11 @@
 // import the elements object that will point to all HTML elements
-import { elements } from "./config.js";
+import { elements, gridSize } from "./config.js";
 // import the listeners function to load the state machine events
 import { events } from "./listeners.js";
 // import the actions object that will be assigned to the state machine
 import { localActions } from "./actions.js";
+// import the grid initialazation function
+import { createGridOfSquares } from "./ui.js";
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -11,16 +13,19 @@ document.addEventListener('DOMContentLoaded', () => {
   const domElements = {
     speech: document.getElementById('speechAudio'),
     backgroundTrack: document.getElementById('backgroundAudio'),
+    toggleContainer: document.getElementById('toggleContainer'),
+    gridContainer: document.getElementById('gridContainer'),
     chatHistoryContainer: document.querySelector('.chat-history'),
     storyText: document.getElementById('story'),
     dotsContainer: document.getElementById('loadingAnimationContainer'),
     dots: document.getElementById('loadingAnimation'),
-    form: document.getElementById('story-form'),
+    form: document.getElementById('storyForm'),
     formInput: document.getElementById('subject'),
     fromStartButton: document.getElementById('replayBtn'),
     playPauseButton: document.getElementById('playPauseBtn'),
     stopButton: document.getElementById('stopBtn'),
-    difficultyLevelButton: document.getElementById('difficultyLevelBtn')
+    difficultyLevelButton: document.getElementById('difficultyLevelBtn'),
+    toggleButton: document.getElementById('toggleBtn')
   };
 
   if (domElements.storyText) {
@@ -39,6 +44,9 @@ document.addEventListener('DOMContentLoaded', () => {
     elements.period2 = domElements.dots.querySelector('.period-2');
     elements.period3 = domElements.dots.querySelector('.period-3');
   }
+
+  // Initialize the grid
+  createGridOfSquares(gridSize);
 
   // Create an instance of the state machine and attach the actions object to it
   const sm = new AudioStateMachine();

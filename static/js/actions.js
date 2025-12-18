@@ -30,6 +30,7 @@ import {
   hideStoryText,
   toggleTextVisibility,
   updateStoryText,
+  toggleView,
 
 } from "./ui.js";
 
@@ -77,6 +78,7 @@ export const localActions = {
     hideStoryText,
     toggleTextVisibility,
     updateStoryText,
+    toggleView,
     
     // Animation Actions
     showLoadingAnimation,

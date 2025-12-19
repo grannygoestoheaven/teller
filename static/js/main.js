@@ -5,7 +5,7 @@ import { events } from "./listeners.js";
 // import the actions object that will be assigned to the state machine
 import { localActions } from "./actions.js";
 // import the grid initialazation function
-import { createGridOfSquares } from "./ui.js";
+import { createFreeGridOfSquares } from "./ui.js";
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Initialize the grid
-  createGridOfSquares(getGridSize());
+  createFreeGridOfSquares(getGridSize());
 
   // Create an instance of the state machine and attach the actions object to it
   const sm = new AudioStateMachine();

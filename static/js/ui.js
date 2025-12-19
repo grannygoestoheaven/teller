@@ -152,6 +152,49 @@ export function createGridOfSquares(gridSize) {
   }
 }
 
+// export function createFreeGridOfSquares(gridSize) {
+//   // Set the grid template to create equal squares using fractional units
+//   elements.gridContainer.style.gridTemplateColumns = `repeat(${gridSize}, 1fr)`;
+//   elements.gridContainer.style.gridTemplateRows = `repeat(${gridSize}, 1fr)`;
+
+//   // Clear existing squares
+//   elements.gridContainer.innerHTML = '';
+
+//   // Create and append squares
+//   const squareCount = gridSize * gridSize;
+//   for (let i = 0; i < squareCount; i++) {
+//     const squareDiv = document.createElement('div');
+//     squareDiv.classList.add('square');
+//     squareDiv.textContent = '';
+//     elements.gridContainer.append(squareDiv);
+//   }
+// }
+
+export function createFreeGridOfSquares(gridSize) {
+  const containerWidth = elements.gridContainer.clientWidth;
+  const squareSize = containerWidth / gridSize;
+  const rows = Math.floor(elements.gridContainer.clientHeight / squareSize);
+
+  // Set the container's height to fit the grid
+  elements.gridContainer.style.height = `${squareSize * rows}px`;
+
+  // Set the grid template to create equal squares
+  elements.gridContainer.style.gridTemplateColumns = `repeat(${gridSize}, ${squareSize}px)`;
+  elements.gridContainer.style.gridTemplateRows = `repeat(${rows}, ${squareSize}px)`;
+
+  // Clear existing squares
+  elements.gridContainer.innerHTML = '';
+
+  // Create and append squares
+  const squareCount = gridSize * rows;
+  for (let i = 0; i < squareCount; i++) {
+    const squareDiv = document.createElement('div');
+    squareDiv.classList.add('square');
+    elements.gridContainer.append(squareDiv);
+  }
+}
+
+
 export function removeLastGrid(grid) {
   while (grid.lastChild) {
       grid.removeChild(grid.lastChild);

@@ -1,4 +1,4 @@
-import { elements, gridSize } from "./config.js";
+import { elements, getIsGridVisible, setIsGridVisible } from "./config.js";
 import { lastStoryData } from "./config.js";
 
 export function uiIdle() {
@@ -127,12 +127,12 @@ export function updateStoryText() {
 }
 
 // Toggle function
- export function toggleView(isGridVisible) {
-  console.log("toggleView called!"); // Debug log
+export function toggleView() {
+  console.log(elements);
+  const isGridVisible = getIsGridVisible();
   elements.gridContainer.style.display = isGridVisible ? "grid" : "none";
-  elements.chatHistory.style.display = isGridVisible ? "none" : "block";
-  elements.gridContainer.style.pointerEvents = isGridVisible ? "auto" : "none";
-  elements.chatHistory.style.pointerEvents = isGridVisible ? "none" : "auto";
+  elements.chatHistoryContainer.style.display = isGridVisible ? "none" : "flex";
+  setIsGridVisible(!isGridVisible); // Toggle the state
 }
 
 export function createGridOfSquares(gridSize) {

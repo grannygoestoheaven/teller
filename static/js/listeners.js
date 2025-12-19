@@ -1,4 +1,5 @@
-import { elements, isGridVisible } from './config.js';
+import { elements, getIsGridVisible } from './config.js';
+import { toggleView } from './ui.js';
 
 export function events(sm) {
   window.addEventListener('keydown', (event) => {
@@ -57,13 +58,14 @@ export function events(sm) {
   elements.backgroundTrack?.addEventListener('ended', () => {
     sm.dispatchEvent(AudioStateMachine.EventId.MUSIC_OVER);
   });
-}
 
-elements.toggleButton?.addEventListener('click', () => {
-  console.log('Toggling grid visibility');
-  isGridVisible = !isGridVisible;
-  toggleView(isGridVisible);
-});
+  elements.toggleButton?.addEventListener('click', () => {
+    console.log('Toggling grid visibility');
+    let isGridVisible = getIsGridVisible();
+    isGridVisible = !isGridVisible;
+    toggleView(isGridVisible);
+  });
+}
 
 export function toggleDifficulty() {
   elements.difficultySelector.addEventListener("click", () => {
@@ -74,7 +76,7 @@ export function toggleDifficulty() {
   
     difficultySelector.textContent = newDifficulty.charAt(0).toUpperCase() + newDifficulty.slice(1); // "Beginner"
     difficultySelector.setAttribute("data-value", newDifficulty);
-  
+
     return newDifficulty;
   })
 };

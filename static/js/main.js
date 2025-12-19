@@ -1,5 +1,5 @@
 // import the elements object that will point to all HTML elements
-import { elements, gridSize } from "./config.js";
+import { elements, getGridSize } from "./config.js";
 // import the listeners function to load the state machine events
 import { events } from "./listeners.js";
 // import the actions object that will be assigned to the state machine
@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Initialize the grid
-  createGridOfSquares(gridSize);
+  createGridOfSquares(getGridSize());
 
   // Create an instance of the state machine and attach the actions object to it
   const sm = new AudioStateMachine();

@@ -190,10 +190,10 @@ export function createFreeGridOfSquares(gridSize) {
   for (let i = 0; i < squareCount; i++) {
     const squareDiv = document.createElement('div');
     squareDiv.classList.add('square');
+    squareDiv.innerHTML = '';
     elements.gridContainer.append(squareDiv);
   }
 }
-
 
 export function removeLastGrid(grid) {
   while (grid.lastChild) {

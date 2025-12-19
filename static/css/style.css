@@ -74,19 +74,20 @@ body {
     align-items: center;
     width: 80%;
     height: 80%; /* Ensure it fills the available space */
-    flex-direction: column;
   }
 
 .grid-container, .chat-history {
-    /* position: absolute; */
-    top: 0;
-    left: 0;
+    position: absolute;
     width: 80%;
     height: 80%;
 }
 
 .grid-container {
     display: grid;
+    /* width: fit-content;
+    height: fit-content; */
+    justify-content: center;
+    align-items: center;
     border: 5px dashed rgb(9, 145, 34);
     border-radius: 4px;
     background-color: seashell;
@@ -98,7 +99,10 @@ body {
 }
 
 .grid-container > .square {
+    display: block;
+    box-sizing: border-box;
     aspect-ratio: 1/1;
+    /* background-color: red; */
     opacity: 75%;
     border: 0.5px dashed rgba(183, 183, 183, 0.74);
     border-radius: 2px;
@@ -152,7 +156,7 @@ body {
     align-items: center;
     /* overflow: hidden; */
     border-radius: 5px;
-    /* border: 2px solid rgba(201, 200, 200, 0.691); */
+    border: 2px solid rgba(201, 200, 200, 0.691);
 }
 
 .chat-inner {

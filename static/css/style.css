@@ -69,7 +69,7 @@ body {
 .toggle-container {
     display: flex;
     position: relative;
-    border: solid 1px red;
+    /* border: solid 1px red; */
     justify-content: center;
     align-items: center;
     width: 80%;
@@ -86,27 +86,27 @@ body {
     display: grid;
     /* width: fit-content;
     height: fit-content; */
-    justify-content: center;
-    align-items: center;
-    border: 5px dashed rgb(9, 145, 34);
+    /* justify-content: center;
+    align-items: center; */
+    border: 1px dashed rgb(237, 230, 212, 3);
     border-radius: 4px;
     background-color: seashell;
     background-color: blanchedalmond;
-    background-color: rgb(23, 23, 23);
-    background-color: transparent;
-    gap: 4px;
+    background-color: rgb(29, 29, 29);
+    /* background-color: transparent; */
+    /* gap: 2px; */
     /* gap: 1px; */
 }
 
 .grid-container > .square {
-    display: block;
-    box-sizing: border-box;
-    aspect-ratio: 1/1;
-    /* background-color: red; */
+    /* display: block; */
+    /* box-sizing: border-box; */
+    /* aspect-ratio: 1/1; */
+    /* background-color: hsla(116, 75%, 16%, 0.107); */
     opacity: 75%;
-    border: 0.5px dashed rgba(183, 183, 183, 0.74);
-    border-radius: 2px;
-    transition: 1200ms;
+    /* border: 0.01px solid rgb(255, 255, 255); */
+    border-radius: 4px;
+    transition: 900ms;
 }
 
 .grid-container > .square:hover {
@@ -156,7 +156,6 @@ body {
     align-items: center;
     /* overflow: hidden; */
     border-radius: 5px;
-    border: 2px solid rgba(201, 200, 200, 0.691);
 }
 
 .chat-inner {

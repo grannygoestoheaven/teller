@@ -2,7 +2,7 @@ export const elements = {}; // the elements object is defined in main.js
 export let lastStoryData = {}; // the lastStoryData object is defined in storyService.js
 
 // Global variables
-let gridSize = 24; // Default size
+let gridSize = 23; // Default size
 let gridValues = new Map(); // { id: { value: string, size: string } }
 let isGridVisible = true; // Default visibility
 

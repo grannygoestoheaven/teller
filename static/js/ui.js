@@ -128,7 +128,6 @@ export function updateStoryText() {
 
 // Toggle function
 export function toggleView() {
-  console.log(elements);
   const isGridVisible = getIsGridVisible();
   elements.gridContainer.style.display = isGridVisible ? "grid" : "none";
   elements.chatHistoryContainer.style.display = isGridVisible ? "none" : "flex";
@@ -151,24 +150,6 @@ export function createGridOfSquares(gridSize) {
       elements.gridContainer.append(squareDiv);
   }
 }
-
-// export function createFreeGridOfSquares(gridSize) {
-//   // Set the grid template to create equal squares using fractional units
-//   elements.gridContainer.style.gridTemplateColumns = `repeat(${gridSize}, 1fr)`;
-//   elements.gridContainer.style.gridTemplateRows = `repeat(${gridSize}, 1fr)`;
-
-//   // Clear existing squares
-//   elements.gridContainer.innerHTML = '';
-
-//   // Create and append squares
-//   const squareCount = gridSize * gridSize;
-//   for (let i = 0; i < squareCount; i++) {
-//     const squareDiv = document.createElement('div');
-//     squareDiv.classList.add('square');
-//     squareDiv.textContent = '';
-//     elements.gridContainer.append(squareDiv);
-//   }
-// }
 
 export function createFreeGridOfSquares(gridSize) {
   const containerWidth = elements.gridContainer.clientWidth;
@@ -194,6 +175,7 @@ export function createFreeGridOfSquares(gridSize) {
     elements.gridContainer.append(squareDiv);
   }
 }
+
 
 export function removeLastGrid(grid) {
   while (grid.lastChild) {

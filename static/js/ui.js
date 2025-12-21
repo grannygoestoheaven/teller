@@ -134,6 +134,23 @@ export function toggleView() {
   setIsGridVisible(!isGridVisible); // Toggle the state
 }
 
+export function createGridOfSquares2_1(squaresPerWidth) {
+  const containerWidth = elements.toggleContainer.clientWidth;
+  const squareSize = containerWidth / squaresPerWidth; // Square size based on width
+  const rows = Math.floor((containerWidth / 2) / squareSize); // Rows based on height (2:1 ratio)
+
+  elements.gridContainer.style.gridTemplateColumns = `repeat(${squaresPerWidth}, ${squareSize}px)`;
+  elements.gridContainer.style.gridTemplateRows = `repeat(${rows}, ${squareSize}px)`;
+
+  elements.gridContainer.innerHTML = '';
+  const squareCount = squaresPerWidth * rows;
+  for (let i = 0; i < squareCount; i++) {
+    const squareDiv = document.createElement('div');
+    squareDiv.classList.add('square');
+    elements.gridContainer.append(squareDiv);
+  }
+}
+
 export function createGridOfSquares(gridSize) {
   let squarecount = (gridSize * gridSize);
   console.log(squarecount);
@@ -148,6 +165,27 @@ export function createGridOfSquares(gridSize) {
       squareDiv.classList.add('square');
       squareDiv.textContent = '';
       elements.gridContainer.append(squareDiv);
+  }
+}
+
+export function create2freeGridOfSquares(gridSize) {
+  const containerWidth = elements.toggleContainer.clientWidth;
+  const containerHeight = elements.toggleContainer.clientHeight;
+
+  // Calculate the aspect ratio of the container
+  const aspectRatio = containerWidth / containerHeight;
+
+  // Apply the aspect ratio to the grid template
+  elements.gridContainer.style.gridTemplateColumns = `repeat(${gridSize * 2}, 1fr)`;
+  elements.gridContainer.style.gridTemplateRows = `repeat(${gridSize / 2}, 2fr)`;
+
+  elements.gridContainer.innerHTML = '';
+  const squareCount = gridSize * gridSize;
+
+  for (let i = 0; i < squareCount; i++) {
+    const squareDiv = document.createElement('div');
+    squareDiv.classList.add('square');
+    elements.gridContainer.append(squareDiv);
   }
 }
 
@@ -175,7 +213,6 @@ export function createFreeGridOfSquares(gridSize) {
     elements.gridContainer.append(squareDiv);
   }
 }
-
 
 export function removeLastGrid(grid) {
   while (grid.lastChild) {

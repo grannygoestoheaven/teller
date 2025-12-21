@@ -34,7 +34,7 @@ body {
     color: #d1caca;
     margin: 0;
     padding: 0;
-    height: 100%; /* Use height: 100vh to fill viewport height */
+    height: 100vh; /* Use height: 100vh to fill viewport height */
     flex-direction: column; /* Stack children vertically */
     justify-content: center;
     align-items: center; /* Center children horizontally */

@@ -5,7 +5,7 @@ import { events } from "./listeners.js";
 // import the actions object that will be assigned to the state machine
 import { localActions } from "./actions.js";
 // import the grid initialazation function
-import { createGridOfSquares, createGridOfSquares2_1 } from "./ui.js";
+import { createGridOfSquares } from "./config.js";
 
 document.addEventListener('DOMContentLoaded', () => {
 

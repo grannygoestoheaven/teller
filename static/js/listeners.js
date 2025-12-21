@@ -65,6 +65,15 @@ export function events(sm) {
     isGridVisible = !isGridVisible;
     toggleView(isGridVisible);
   });
+
+  elements.gridSquares.forEach(square => {
+    square.addEventListener('mouseenter', () => {
+      document.getElementById('subject').value = square.dataset.compactSubject;
+    });
+    square.addEventListener('click', () => {
+      launchStory(square.dataset.fullSubject); // Pass full version to backend
+    });
+  });
 }
 
 export function toggleDifficulty() {
@@ -80,3 +89,4 @@ export function toggleDifficulty() {
     return newDifficulty;
   })
 };
+

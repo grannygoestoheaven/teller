@@ -45,6 +45,12 @@ import {
   removeBlurr,
 } from "./animation.js";
 
+import {
+  createGridOfSquares,
+  mapValuesToSquares,
+  getSquareElements,
+} from "./config.js";
+
 export const localActions = {
     // Story and Process Actions
     startNewStoryProcess,
@@ -89,5 +95,10 @@ export const localActions = {
     greenDots,
     addBlurr,
     removeBlurr,
+
+    // Grid Actions
+    createGridOfSquares,
+    mapValuesToSquares,
+    getSquareElements,
   };
   

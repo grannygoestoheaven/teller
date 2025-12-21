@@ -353,7 +353,8 @@ footer.chat-input-area {
     border: none !important ;
     padding: 18px 60px;
     box-sizing: border-box;
-    font-size: 1em;
+    font-size: 2em;
+    font-stretch: ultra-condensed;
     font-family: 'Inika', serif;
     color: rgba(245, 245, 245, 0.9);
     transition: none;

@@ -65,6 +65,20 @@ body {
     opacity:0.4;            /* optional subtle fade             */
 }
 
+.toggle-button {
+    font-size: 0.8em;
+    margin-bottom: 21px;
+    padding: 0, 10, 10px;
+    color: rgb(200, 200, 200);
+    opacity: 0.7;
+}
+
+.toggle-button .button {
+    text-align: center;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
 .toggle-container {
     display: flex;
     position: relative;
@@ -97,6 +111,7 @@ body {
     /* background-color: transparent; */
     /* gap: 2px; */
     /* gap: 1px; */
+    z-index: 5;
 }
 
 .grid-container > .square {
@@ -104,9 +119,10 @@ body {
     /* box-sizing: border-box; */
     /* aspect-ratio: 1/1; */
     /* background-color: hsla(116, 75%, 16%, 0.107); */
+    /* background-color: rgb(29, 29, 29); */
     opacity: 75%;
-    border: 0.01px dashed rgb(255, 255, 255, 0.123);
-    border-radius: 14px;
+    /* border: 0.01px dashed rgb(255, 255, 255); */
+    border-radius: 11px;
     transition: 900ms;
 }
 
@@ -239,7 +255,7 @@ body {
     transform: translate(-50%, -50%);
     width: 100%;
     height: 100%;
-    z-index: 100; /* Ensure it's on top */
+    /* z-index: 100; Ensure it's on top */
     pointer-events: none; /* Allows clicks to pass through when hidden */
 }
 
@@ -296,7 +312,7 @@ body {
 /* Input area */
 footer.chat-input-area {
     width: 100%;
-    max-width: 430px;
+    max-width: 730px;
     max-height: auto;
     margin: 20px auto 20px auto;
     padding: 0 20px;
@@ -347,14 +363,14 @@ footer.chat-input-area {
     background: transparent;
     width: 100%;
     overflow: hidden;
-    resize: none;
+    /* resize: none; */
     min-height: 1.5em;
     line-height: 1.2em;
     border: none !important ;
-    padding: 18px 60px;
+    padding: 18px 5px;
     box-sizing: border-box;
     font-size: 2em;
-    font-stretch: ultra-condensed;
+    letter-spacing: 0cqmin;
     font-family: 'Inika', serif;
     color: rgba(245, 245, 245, 0.9);
     transition: none;

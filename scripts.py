@@ -1,6 +1,8 @@
 import os
 import re
 import shutil
+import json
+from datetime import datetime
 
 from pathlib import Path
 
@@ -55,6 +57,3 @@ def rename_files_in_stories_dir():
                 audio_file.rename(subject_dir / f"{subject}.mp3")
 
 rename_files_in_stories_dir()
-
-if __name__ == "__main__":
-    rename_files_in_stories_dir()

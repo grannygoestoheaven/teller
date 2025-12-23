@@ -113,4 +113,5 @@ const fullSubjects = [
     "Eastern Philosophy: Buddhism, Taoism",
     "Can Machines Think?"
   ];
+  
 export { fullSubjects, compactSubjects };  

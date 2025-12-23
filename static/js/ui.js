@@ -1,4 +1,4 @@
-import { elements, getIsGridVisible, setIsGridVisible } from "./config.js";
+import { elements, getIsGridVisible, setIsGridVisible, getIsChatVisible } from "./config.js";
 import { lastStoryData } from "./config.js";
 
 export function uiIdle() {
@@ -8,6 +8,7 @@ export function uiIdle() {
   elements.fromStartButton.disabled = true;
   elements.playPauseButton.disabled = true;
   elements.playPauseButton.textContent = 'Start';
+  elements.chatHistoryContainer.disabled = !getIsChatVisible();
 }
 
 export function initInputAdjustments() {
@@ -58,6 +59,7 @@ export function uiReadyButtons() {
   // Enable buttons when input is at least one character long
   elements.fromStartButton.disabled = false;
   elements.playPauseButton.disabled = false;
+  elements.chatHistoryContainer.disabled = !getIsChatVisible();
 }
 
 export function uiClearInput() {

@@ -1,4 +1,4 @@
-import { elements, getIsGridVisible } from './config.js';
+import { elements, getIsGridVisible, getIsChatVisible } from './config.js';
 import { toggleView } from './ui.js';
 
 export function events(sm) {
@@ -68,10 +68,10 @@ export function events(sm) {
 
   elements.gridSquares.forEach(square => {
     square.addEventListener('mouseenter', () => {
-      document.getElementById('subject').value = square.dataset.compactSubject;
+      elements.formInput.value = square.dataset.compactSubject;
     });
     square.addEventListener('click', () => {
-      launchStory(square.dataset.fullSubject); // Pass full version to backend
+      sm.dispatchEvent(AudioStateMachine.EventId.FORM_SUBMITTED); // Pass full version to backend
     });
   });
 }

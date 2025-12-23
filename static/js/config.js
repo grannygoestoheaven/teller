@@ -1,4 +1,5 @@
 import { fullSubjects, compactSubjects } from '../subjects/fields/philosophy/philosophyBasics.js';
+// import { fullSubjects, compactSubjects } from '../subjects/fields/finance_and_trading/intradayProtocol.js';
 
 export const elements = {}; // the elements object is defined in main.js
 export let lastStoryData = {}; // the lastStoryData object is defined in storyService.js
@@ -11,6 +12,7 @@ let gridSize = 6; // Default size
 let squaresPerWidth = 7; // Default squares per width
 let gridValues = new Map(); // { id: { value: string, size: string } }
 let isGridVisible = true; // Default visibility
+let isChatVisible = false; // Default chat visibility
 let squareValues = []; // Array to hold values for each square
 
 // Getters
@@ -18,6 +20,7 @@ export function getGridSize() { return gridSize; }
 export function getSquaresPerWidth() { return squaresPerWidth; }
 export function getGridValues() { return gridValues; }
 export function getIsGridVisible() { return isGridVisible; }
+export function getIsChatVisible() { return isChatVisible; }
 export function getSquaresValuesList() { return squareValues; }
 
 // Setters

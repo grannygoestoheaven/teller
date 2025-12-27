@@ -1,5 +1,81 @@
 :root {
     --period-color: #888; /* Default color for periods */
+    --square-color: transparent; /* color for hovered squares */
+    :root {
+        /* Grain texture */
+        --grain-texture: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="none"/><rect width="100" height="100" fill="rgba(0,0,0,0.03)" filter="url(%23noise)"/></svg>');
+      
+        /* 1. Introduction to Philosophy */
+        --topic-1-base: #5D4A3E;
+        --topic-1-sub1: #7A6555;
+        --topic-1-sub2: #6E584A;
+        --topic-1-sub3: #8B7668;
+        --topic-1-sub4: #9D8A7B;
+        --topic-1-sub5: #A59485;
+        --topic-1-sub6: #B8A898;
+        --topic-1-sub7: #C4B8A8;
+      
+        /* 2. Logic & Reasoning */
+        --topic-2-base: #3A4A6B;
+        --topic-2-sub1: #4A5B7D;
+        --topic-2-sub2: #5B6D8F;
+        --topic-2-sub3: #6C7FA1;
+        --topic-2-sub4: #7D91B3;
+        --topic-2-sub5: #8E9FC4;
+        --topic-2-sub6: #A0B0D5;
+        --topic-2-sub7: #B2C1E6;
+      
+        /* 3. Metaphysics */
+        --topic-3-base: #4B3F72;
+        --topic-3-sub1: #5E5286;
+        --topic-3-sub2: #71659A;
+        --topic-3-sub3: #8478AD;
+        --topic-3-sub4: #978BC0;
+        --topic-3-sub5: #A99ED3;
+        --topic-3-sub6: #BCB1E6;
+        --topic-3-sub7: #CFC4F9;
+      
+        /* 4. Epistemology */
+        --topic-4-base: #2E5A5A;
+        --topic-4-sub1: #3D6D6D;
+        --topic-4-sub2: #4D8080;
+        --topic-4-sub3: #5D9393;
+        --topic-4-sub4: #6EA6A6;
+        --topic-4-sub5: #7FB9B9;
+        --topic-4-sub6: #90CCCC;
+        --topic-4-sub7: #A1DFDF;
+      
+        /* 5. Ethics */
+        --topic-5-base: #6B3D3D;
+        --topic-5-sub1: #8A4E4E;
+        --topic-5-sub2: #9C6060;
+        --topic-5-sub3: #AE7272;
+        --topic-5-sub4: #BF8484;
+        --topic-5-sub5: #D09696;
+        --topic-5-sub6: #E1A8A8;
+        --topic-5-sub7: #F2BBBB;
+      
+        /* 6. Political Philosophy */
+        --topic-6-base: #4A6741;
+        --topic-6-sub1: #5B7A52;
+        --topic-6-sub2: #6C8D63;
+        --topic-6-sub3: #7DA074;
+        --topic-6-sub4: #8EB385;
+        --topic-6-sub5: #9FC696;
+        --topic-6-sub6: #B0D9A7;
+        --topic-6-sub7: #C1EBB8;
+      
+        /* 7. Existential & Aesthetic Philosophy */
+        --topic-7-base: #724B5A;
+        --topic-7-sub1: #855D6B;
+        --topic-7-sub2: #986F7C;
+        --topic-7-sub3: #AB818D;
+        --topic-7-sub4: #BE939E;
+        --topic-7-sub5: #D1A5AF;
+        --topic-7-sub6: #E4B7C0;
+        --topic-7-sub7: #F7C9D1;
+      }
+      
 }
 
 /* Hide scrollbars for the entire page */
@@ -119,7 +195,7 @@ body {
     /* box-sizing: border-box; */
     /* aspect-ratio: 1/1; */
     /* background-color: hsla(116, 75%, 16%, 0.107); */
-    /* background-color: rgb(29, 29, 29); */
+    background-color: rgb(29, 29, 29);
     opacity: 75%;
     /* border: 0.01px dashed rgb(255, 255, 255); */
     border-radius: 11px;
@@ -127,7 +203,7 @@ body {
 }
 
 .grid-container > .square:hover {
-    background-color: rgba(242, 6, 6, 0.7);  
+    background-color: green;
     transition: 150ms;
 }
 

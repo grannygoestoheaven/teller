@@ -70,7 +70,9 @@ export function events(sm) {
     square.addEventListener('mouseenter', () => {
       elements.formInput.value = square.dataset.compactSubject;
     });
+  
     square.addEventListener('click', () => {
+      console.log("Square clicked! Current state:", sm.currentState);
       sm.dispatchEvent(AudioStateMachine.EventId.FORM_SUBMITTED); // Pass full version to backend
     });
   });
@@ -90,3 +92,10 @@ export function toggleDifficulty() {
   })
 };
 
+// Wake up listeners and Set the input field to the current time in "HH:MM" format
+export function wakeUpListeners(sm) {
+  const now = new Date();
+  const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  elements.formInput.value = timeString;
+  sm.dispatchEvent(AudioStateMachine.EventId.INPUT_CHANGED, { value: timeString });
+}

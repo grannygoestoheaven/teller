@@ -9,6 +9,7 @@ export function uiIdle() {
   elements.playPauseButton.disabled = true;
   elements.playPauseButton.textContent = 'Start';
   elements.chatHistoryContainer.disabled = !getIsChatVisible();
+  inputIsValid();
 }
 
 export function initInputAdjustments() {

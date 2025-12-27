@@ -1,11 +1,11 @@
 // import the elements object that will point to all HTML elements
-import { elements, getGridSize, getSquaresPerWidth } from "./config.js";
+import { elements, createGridOfSquares, getSquaresPerWidth, mapValuesToSquares } from "./config.js";
 // import the listeners function to load the state machine events
 import { events } from "./listeners.js";
 // import the actions object that will be assigned to the state machine
 import { localActions } from "./actions.js";
-// import the grid initialazation function
-import { createGridOfSquares } from "./config.js";
+
+import { fullSubjects, compactSubjects } from '../subjects/fields/philosophy/philosophyBasics.js';
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -45,15 +45,16 @@ document.addEventListener('DOMContentLoaded', () => {
     elements.period3 = domElements.dots.querySelector('.period-3');
   }
 
-  // Initialize the grid
-  createGridOfSquares(getSquaresPerWidth());
-
   // Create an instance of the state machine and attach the actions object to it
   const sm = new AudioStateMachine();
   sm.actions = localActions;
-
+  
+  createGridOfSquares(getSquaresPerWidth(), sm);
+  
   // call the event function to set up event listeners for the state machine
   events(sm);
+
+  mapValuesToSquares(elements.gridSquares, fullSubjects, compactSubjects);
 
   // start the state machine
   sm.start();

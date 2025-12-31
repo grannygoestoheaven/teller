@@ -5,7 +5,9 @@ import { events } from "./listeners.js";
 // import the actions object that will be assigned to the state machine
 import { localActions } from "./actions.js";
 
-import { fullSubjects, compactSubjects } from '../subjects/fields/philosophy/philosophyBasics.js';
+// import { fullSubjects, compactSubjects } from '../subjects/fields/philosophy/philosophyBasics.js';
+import { fullSubjects, compactSubjects } from '../subjects/fields/films/BackToTheFuture.js';
+// import { fullSubjects, compactSubjects } from '../subjects/fields/financeAndTrading/intradayProtocol.js';
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -54,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // call the event function to set up event listeners for the state machine
   events(sm);
 
-  mapValuesToSquares(elements.gridSquares, fullSubjects, compactSubjects);
+  mapValuesToSquares(elements.gridSquares, fullSubjects, compactSubjects, sm);
 
   // start the state machine
   sm.start();

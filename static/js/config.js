@@ -1,14 +1,11 @@
-// import { fullSubjects, compactSubjects } from '../subjects/fields/philosophy/philosophyBasics.js';
-// import { fullSubjects, compactSubjects } from '../subjects/fields/finance_and_trading/intradayProtocol.js';
-
 export const elements = {}; // the elements object is defined in main.js
-export let lastStoryData = {}; // the lastStoryData object is defined in storyService.js
+export let lastStoryData = {}; // the lastStoryData object is assigned in storyService.js
+export let lastTopicData = {}; // the lastTopicData object is assigned in storyService.js
 
 // export let fullSubjects = []; // for later use, will be populated from subjects files in relation to the field the user would have clicked onto.
 // export let compactSubjects = []; // for later use, will be populated from subjects files - in a compacted version - in relation to the field the user would have clicked onto.
 
 // Global variables
-let gridSize = 6; // Default size
 let squaresPerWidth = 7; // Default squares per width
 let gridValues = new Map(); // { id: { value: string, size: string } }
 let isGridVisible = true; // Default visibility
@@ -43,6 +40,8 @@ export function mapValuesToSquares(squares, fullSubjects, compactSubjects, sm) {
       square.dataset.fullSubject = fullSubjects[index];
       square.dataset.compactSubject = compactSubjects[index];
 
+      // elements.formInput.dispatchEvent(new Event('input', { bubbles: true }));
+
       // Attach click listener
       square.addEventListener('click', () => {
         console.log("Square clicked! Current state:", sm.currentState);
@@ -51,7 +50,6 @@ export function mapValuesToSquares(squares, fullSubjects, compactSubjects, sm) {
     }
   });
 }
-  
 
 export function mapColorsToSquares(squares, colorArray) {
   squares.forEach((square, index) => {
@@ -92,20 +90,7 @@ export function getSquareElements() {
     return elements.gridContainer.querySelectorAll('.square');
 }
 
-export function createSubjectsInfoDicts(squareCount, subjectsData) {
-  const subjects = [];
-  for (let i = 0; i < squareCount; i++) {
-    subjects.push({
-      id: `square-${i + 1}`,
-      topic: subjectsData[i].topic,
-      subcolor: subjectsData[i].subcolor,
-      name: subjectsData[i].name
-    });
-  }
-  return subjects;
-}
-
-function assignSquareInfoDicts(squares, subjectArray) {
+function assignInfoDictsToSquares(squares, subjectArray) {
   squares.forEach(square => {
     square.dataset.squareInfo = subjectArray[square]
     if (square) {
@@ -200,4 +185,3 @@ export function createFreeGridOfSquares(gridSize) {
     elements.gridContainer.append(squareDiv);
   }
 }
-

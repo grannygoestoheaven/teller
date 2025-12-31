@@ -1,17 +1,41 @@
 // storyService.js
-import { elements, lastStoryData } from "./config.js";
+import { elements, lastTopicData, lastStoryData } from "./config.js";
 import { loadPlayer } from "./player.js";
 import { sanitizeSubject } from "./utils.js";
 
 let abortController;
 
+// send a topic to backend for it to returns a list of related subjects
+export async function createSubjectsListFromTopic() {
+  let topicData = new FormData(elements.topic)
+  let topic = topicData.get('topic')
+  const response =  await fetch('/v1/stories/subjects', {
+    method: POST,
+    headers: { "Content-Type" : "application.json" },
+    body: JSON.stringify({topic})
+  })
+
+  if (!response.ok) {
+    const errorTopicData = await response.json();
+    throw new Error(errorTopicData.error || `Error ${response.status}`);
+  }
+
+  const { exists, subjectsList } = await response.json();
+  
+  if (exists) {
+    lastTopicData = Object.assign(lastTopicData, topicData)
+  }
+}
+
 export async function startNewStoryProcess() {
   console.log("new story process started");
 
+  // allow cancellation of process
   abortController = new AbortController();
-  const formData = new FormData(elements.form);
+  const subjectData = new FormData(elements.form);
 
-  let subject = formData.get('subject');
+  // store and clean subject before sending to backend
+  let subject = subjectData.get('subject');
   subject = sanitizeSubject(subject);
   console.log("Sanitized subject:", subject);
 

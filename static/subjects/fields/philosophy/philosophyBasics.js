@@ -114,4 +114,4 @@ const fullSubjects = [
     "Can Machines Think?"
   ];
   
-export { fullSubjects, compactSubjects };  
+export { fullSubjects, compactSubjects };

@@ -69,6 +69,7 @@ export function events(sm) {
   elements.gridSquares.forEach(square => {
     square.addEventListener('mouseenter', () => {
       elements.formInput.value = square.dataset.compactSubject;
+      elements.formInput.dispatchEvent(new Event('input', { bubbles: true }));
     });
   
     square.addEventListener('click', () => {

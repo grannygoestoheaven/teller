@@ -6,7 +6,7 @@ export let lastTopicData = {}; // the lastTopicData object is assigned in storyS
 // export let compactSubjects = []; // for later use, will be populated from subjects files - in a compacted version - in relation to the field the user would have clicked onto.
 
 // Global variables
-let squaresPerWidth = 7; // Default squares per width
+let squaresPerWidth = 5; // Default squares per width
 let gridValues = new Map(); // { id: { value: string, size: string } }
 let isGridVisible = true; // Default visibility
 let isChatVisible = false; // Default chat visibility
@@ -33,6 +33,20 @@ export function setIsGridVisible(value) { isGridVisible = value; }
 //     }
 //   });
 //   }
+
+export function mapMainFieldsToSquares(squares, mainFields) {
+  squares.forEach((square, index) => {
+    if (index < mainFields.length) { // Use < to avoid undefined errors
+      square.dataset.mainField = mainFields[index];
+
+      // Attach click listener
+      square.addEventListener('click', () => {
+        console.log("Square clicked! Current state:", sm.currentState);
+        sm.dispatchEvent(AudioStateMachine.EventId.FORM_SUBMITTED);
+      });
+    }
+  });
+}
 
 export function mapValuesToSquares(squares, fullSubjects, compactSubjects, sm) {
   squares.forEach((square, index) => {

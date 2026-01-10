@@ -16,13 +16,13 @@ def build_story(subject: str, narrative_style: str, difficulty: str) -> dict:
     print (subject, narrative_style, difficulty)
 
     story_title, tagged_story_for_tts, story = generate_story_with_mistralai(subject, narrative_style, difficulty) # returns text files
-    print(f"Generated story title: {story_title}")
+    print(f"Generated story: {story}")
     speech_filename, speech_audio = openai_tts(tagged_story_for_tts, subject) # one text file, one bytes file (mp3)
     print(f"Generated speech filename: {speech_filename}")
     
     # store files and get their paths
     json_story_filepath = save_txt_to_json_file(story_filename, story_title, tagged_story_for_tts, story, GENERATED_STORIES_DIR) # store the story parameters on the server and returns the clean story file
-    print(f"Saved story JSON filepath: {json_story_filepath}")
+    # print(f"Saved story JSON filepath: {json_story_filepath}")
     speech_filepath = save_mp3_speech_file(story_foldername, speech_filename, speech_audio, GENERATED_STORIES_DIR) # store the speech audio file and returns its path
     print(f"Saved speech path: {speech_filepath}")
     

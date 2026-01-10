@@ -13,3 +13,7 @@ async def serve_index(request: Request):
         "index_2.html",
         {"request": request}  # Required for Jinja2 URL generation
     )
+
+@router.get("/main_fields")
+async def get_main_fields():
+    return {"main_fields": list(fields_data.keys())}

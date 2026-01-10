@@ -42,7 +42,7 @@ def generate_story_with_mistralai(subject, narrative_style: None, difficulty: No
                 },
                 
             ],
-            max_tokens=900,
+            max_tokens=1100,
             temperature=0.2,
             presence_penalty=0.3,
             stream=False)
@@ -54,6 +54,7 @@ def generate_story_with_mistralai(subject, narrative_style: None, difficulty: No
 
         tagged_story_for_tts = response.choices[0].message.content if response else "" # get the story text with punctuation tags
         clean_story = _clean_story_text(tagged_story_for_tts) # remove punctuation tags to have a clean version to display
+        print(clean_story[:50])
         clean_story_title = _clean_story_title(subject)
     
         return clean_story_title, tagged_story_for_tts, clean_story

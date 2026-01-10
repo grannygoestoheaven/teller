@@ -1,13 +1,12 @@
 // import the elements object that will point to all HTML elements
-import { elements, createGridOfSquares, getSquaresPerWidth, mapValuesToSquares } from "./config.js";
+import { elements, createGridOfSquares, getSquaresPerWidth, mapMainFieldsToSquares , mapValuesToSquares } from "./config.js";
 // import the listeners function to load the state machine events
 import { events } from "./listeners.js";
 // import the actions object that will be assigned to the state machine
 import { localActions } from "./actions.js";
 
-// import { fullSubjects, compactSubjects } from '../subjects/fields/philosophy/philosophyBasics.js';
-import { fullSubjects, compactSubjects } from '../subjects/fields/films/BackToTheFuture.js';
-// import { fullSubjects, compactSubjects } from '../subjects/fields/financeAndTrading/intradayProtocol.js';
+import { mainFields } from '../subjectsMainFields/mainFields.js';
+import { fullSubjects, compactSubjects } from '../subjects/fields/philosophy/philosophyBasics.js';
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -56,7 +55,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // call the event function to set up event listeners for the state machine
   events(sm);
 
-  mapValuesToSquares(elements.gridSquares, fullSubjects, compactSubjects, sm);
+  // mapValuesToSquares(elements.gridSquares, fullSubjects, compactSubjects, sm);
+  mapMainFieldsToSquares(elements.gridSquares, mainFields);
 
   // start the state machine
   sm.start();

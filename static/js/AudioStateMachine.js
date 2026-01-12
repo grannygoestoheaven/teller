@@ -219,10 +219,10 @@ class AudioStateMachine
         this.stateId = AudioStateMachine.StateId.LOADING;
         
         // LOADING behavior
-        // uml: enter / { this.actions.showLoadingAnimation(); this.actions.uiLoadingButtons(); }
+        // uml: enter / { this.actions.showLoadingAnimation(); this.actions.uiLoadingButtons(); this.actions.lockTitleSend(); }
         {
-            // Step 1: execute action `this.actions.showLoadingAnimation(); this.actions.uiLoadingButtons();`
-            this.actions.showLoadingAnimation(); this.actions.uiLoadingButtons();
+            // Step 1: execute action `this.actions.showLoadingAnimation(); this.actions.uiLoadingButtons(); this.actions.lockTitleSend();`
+            this.actions.showLoadingAnimation(); this.actions.uiLoadingButtons(); this.actions.lockTitleSend();
         } // end of behavior for LOADING
     }
     
@@ -234,13 +234,13 @@ class AudioStateMachine
     #LOADING_cancel()
     {
         // LOADING behavior
-        // uml: CANCEL / { this.actions.abortProcess(); } TransitionTo(IDLE)
+        // uml: CANCEL / { this.actions.abortProcess(); this.actions.unlockTitleSend(); } TransitionTo(IDLE)
         {
             // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
             this.#LOADING_exit();
             
-            // Step 2: Transition action: `this.actions.abortProcess();`.
-            this.actions.abortProcess();
+            // Step 2: Transition action: `this.actions.abortProcess(); this.actions.unlockTitleSend();`.
+            this.actions.abortProcess(); this.actions.unlockTitleSend();
             
             // Step 3: Enter/move towards transition target `IDLE`.
             this.#IDLE_enter();
@@ -491,12 +491,13 @@ class AudioStateMachine
     #PLAYING_music_over()
     {
         // PLAYING behavior
-        // uml: MUSIC_OVER TransitionTo(IDLE)
+        // uml: MUSIC_OVER / { this.actions.unlockTitleSend(); } TransitionTo(IDLE)
         {
             // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
             this.#PLAYING_exit();
             
-            // Step 2: Transition action: ``.
+            // Step 2: Transition action: `this.actions.unlockTitleSend();`.
+            this.actions.unlockTitleSend();
             
             // Step 3: Enter/move towards transition target `IDLE`.
             this.#IDLE_enter();

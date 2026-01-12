@@ -49,7 +49,9 @@ import {
   createGridOfSquares,
   mapValuesToSquares,
   getSquareElements,
-} from "./config.js";
+  lockTitleSend,
+  unlockTitleSend
+} from "./squaresAndSubjects.js";
 
 export const localActions = {
     // Story and Process Actions
@@ -100,5 +102,6 @@ export const localActions = {
     createGridOfSquares,
     mapValuesToSquares,
     getSquareElements,
+    lockTitleSend,
+    unlockTitleSend
   };
-  

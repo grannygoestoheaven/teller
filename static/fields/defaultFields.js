@@ -1,4 +1,4 @@
-defaultFields = {
+export const defaultFields = {
     "Science": {
         "full": [
             "What Is Science? The Scientific Method and Its Core Principles",

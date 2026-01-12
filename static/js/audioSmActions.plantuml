@@ -20,14 +20,14 @@
     READY --> LOADING : TOGGLE_PAUSE_RESUME / this.actions.startNewStoryProcess();
     READY --> IDLE: CANCEL / this.actions.stopAndResetAllAudio();
 
-    LOADING: enter / this.actions.showLoadingAnimation(); this.actions.uiLoadingButtons();
+    LOADING: enter / this.actions.showLoadingAnimation(); this.actions.uiLoadingButtons(); this.actions.lockTitleSend();
     LOADING --> PLAYING : SPEECH_READY / this.actions.setUpAndStartAllAudio();
     LOADING --> PAUSED : TOGGLE_PAUSE_RESUME / this.actions.pauseAllAudio();
-    LOADING --> IDLE : CANCEL / this.actions.abortProcess();
+    LOADING --> IDLE : CANCEL / this.actions.abortProcess(); this.actions.unlockTitleSend();
 
     PLAYING: enter / this.actions.uiPlayingButtons(); this.actions.removeBlurr(); this.actions.greenDots();
     PLAYING --> PAUSED : TOGGLE_PAUSE_RESUME / this.actions.pauseAllAudio();
-    PLAYING --> IDLE : MUSIC_OVER
+    PLAYING --> IDLE : MUSIC_OVER / this.actions.unlockTitleSend();
     PLAYING --> READY : INPUT_CHANGED [this.actions.inputIsValid()]
     PLAYING --> IDLE: CANCEL / this.actions.stopAndResetAllAudio();
     PLAYING : CHAT_HISTORY_CLICKED / this.actions.toggleTextVisibility();

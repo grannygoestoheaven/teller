@@ -24,6 +24,9 @@ NEWS_SOURCES = {"science": ["https://api.nature.com/headlines"],
 # Local Tracks
 LOCAL_TRACKS_DIR = STATIC_DIR / "audio" / "local_ambient_tracks"
 
+# Remaining subjects list
+
+
 # Story settings
 DEFAULT_DURATION = 1
 

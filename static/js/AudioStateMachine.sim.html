@@ -269,7 +269,7 @@ LOADING
 
 LOADING : LOADING
 
-LOADING : enter / #123; this.actions.showLoadingAnimation()#59; this.actions.uiLoadingButtons()#59; #125;
+LOADING : enter / #123; this.actions.showLoadingAnimation()#59; this.actions.uiLoadingButtons()#59; this.actions.lockTitleSend()#59; #125;
 
 PLAYING
 
@@ -301,11 +301,11 @@ LOADING --> PLAYING : SPEECH_READY / #123; this.actions.setUpAndStartAllAudio()#
 
 LOADING --> PAUSED : TOGGLE_PAUSE_RESUME / #123; this.actions.pauseAllAudio()#59; #125;
 
-LOADING --> IDLE : CANCEL / #123; this.actions.abortProcess()#59; #125;
+LOADING --> IDLE : CANCEL / #123; this.actions.abortProcess()#59; this.actions.unlockTitleSend()#59; #125;
 
 PLAYING --> PAUSED : TOGGLE_PAUSE_RESUME / #123; this.actions.pauseAllAudio()#59; #125;
 
-PLAYING --> IDLE : MUSIC_OVER
+PLAYING --> IDLE : MUSIC_OVER / #123; this.actions.unlockTitleSend()#59; #125;
 
 PLAYING --> READY : INPUT_CHANGED [this.actions.inputIsValid()]
 
@@ -604,10 +604,10 @@ evaluateGuard = null;
         } // end of behavior for LOADING
         
         // LOADING behavior
-        // uml: enter / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.showLoadingAnimation(); this.actions.uiLoadingButtons();"); }
+        // uml: enter / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.showLoadingAnimation(); this.actions.uiLoadingButtons(); this.actions.lockTitleSend();"); }
         {
-            // Step 1: execute action `this.tracer?.log("⚡ FSM would execute action: " + "this.actions.showLoadingAnimation(); this.actions.uiLoadingButtons();");`
-            this.tracer?.log("⚡ FSM would execute action: " + "this.actions.showLoadingAnimation(); this.actions.uiLoadingButtons();");
+            // Step 1: execute action `this.tracer?.log("⚡ FSM would execute action: " + "this.actions.showLoadingAnimation(); this.actions.uiLoadingButtons(); this.actions.lockTitleSend();");`
+            this.tracer?.log("⚡ FSM would execute action: " + "this.actions.showLoadingAnimation(); this.actions.uiLoadingButtons(); this.actions.lockTitleSend();");
         } // end of behavior for LOADING
     }
     
@@ -626,13 +626,13 @@ evaluateGuard = null;
     #LOADING_cancel()
     {
         // LOADING behavior
-        // uml: CANCEL / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.abortProcess();");this.tracer?.edgeTransition("edge7"); } TransitionTo(IDLE)
+        // uml: CANCEL / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.abortProcess(); this.actions.unlockTitleSend();");this.tracer?.edgeTransition("edge7"); } TransitionTo(IDLE)
         {
             // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
             this.#LOADING_exit();
             
-            // Step 2: Transition action: `this.tracer?.log("⚡ FSM would execute action: " + "this.actions.abortProcess();");this.tracer?.edgeTransition("edge7");`.
-            this.tracer?.log("⚡ FSM would execute action: " + "this.actions.abortProcess();");this.tracer?.edgeTransition("edge7");
+            // Step 2: Transition action: `this.tracer?.log("⚡ FSM would execute action: " + "this.actions.abortProcess(); this.actions.unlockTitleSend();");this.tracer?.edgeTransition("edge7");`.
+            this.tracer?.log("⚡ FSM would execute action: " + "this.actions.abortProcess(); this.actions.unlockTitleSend();");this.tracer?.edgeTransition("edge7");
             
             // Step 3: Enter/move towards transition target `IDLE`.
             this.#IDLE_enter();
@@ -913,13 +913,13 @@ evaluateGuard = null;
     #PLAYING_music_over()
     {
         // PLAYING behavior
-        // uml: MUSIC_OVER / { this.tracer?.edgeTransition("edge9"); } TransitionTo(IDLE)
+        // uml: MUSIC_OVER / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.unlockTitleSend();");this.tracer?.edgeTransition("edge9"); } TransitionTo(IDLE)
         {
             // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
             this.#PLAYING_exit();
             
-            // Step 2: Transition action: `this.tracer?.edgeTransition("edge9");`.
-            this.tracer?.edgeTransition("edge9");
+            // Step 2: Transition action: `this.tracer?.log("⚡ FSM would execute action: " + "this.actions.unlockTitleSend();");this.tracer?.edgeTransition("edge9");`.
+            this.tracer?.log("⚡ FSM would execute action: " + "this.actions.unlockTitleSend();");this.tracer?.edgeTransition("edge9");
             
             // Step 3: Enter/move towards transition target `IDLE`.
             this.#IDLE_enter();

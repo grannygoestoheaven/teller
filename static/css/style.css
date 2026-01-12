@@ -203,7 +203,9 @@ body {
 }
 
 .grid-container > .square:hover {
-    background-color: green;
+    /* transform: scale(); */
+    /* background-color: green; */
+    background-color: rgb(204, 6, 6);
     transition: 150ms;
 }
 

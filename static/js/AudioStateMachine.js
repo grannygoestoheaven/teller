@@ -491,7 +491,8 @@ class AudioStateMachine
     #PLAYING_music_over()
     {
         // PLAYING behavior
-        // uml: MUSIC_OVER / { this.actions.unlockTitleSend(); } TransitionTo(IDLE)
+        // uml: MUSIC_OVER [this.actions.bothTracksEnded()] / { this.actions.unlockTitleSend(); } TransitionTo(IDLE)
+        if (this.actions.bothTracksEnded())
         {
             // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
             this.#PLAYING_exit();

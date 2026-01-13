@@ -27,7 +27,7 @@
 
     PLAYING: enter / this.actions.uiPlayingButtons(); this.actions.removeBlurr(); this.actions.greenDots();
     PLAYING --> PAUSED : TOGGLE_PAUSE_RESUME / this.actions.pauseAllAudio();
-    PLAYING --> IDLE : MUSIC_OVER / this.actions.unlockTitleSend();
+    PLAYING --> IDLE : MUSIC_OVER [this.actions.bothTracksEnded()] / this.actions.unlockTitleSend();
     PLAYING --> READY : INPUT_CHANGED [this.actions.inputIsValid()]
     PLAYING --> IDLE: CANCEL / this.actions.stopAndResetAllAudio();
     PLAYING : CHAT_HISTORY_CLICKED / this.actions.toggleTextVisibility();

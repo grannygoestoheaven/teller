@@ -305,7 +305,7 @@ LOADING --> IDLE : CANCEL / #123; this.actions.abortProcess()#59; this.actions.u
 
 PLAYING --> PAUSED : TOGGLE_PAUSE_RESUME / #123; this.actions.pauseAllAudio()#59; #125;
 
-PLAYING --> IDLE : MUSIC_OVER / #123; this.actions.unlockTitleSend()#59; #125;
+PLAYING --> IDLE : MUSIC_OVER [this.actions.bothTracksEnded()] / #123; this.actions.unlockTitleSend()#59; #125;
 
 PLAYING --> READY : INPUT_CHANGED [this.actions.inputIsValid()]
 
@@ -913,7 +913,8 @@ evaluateGuard = null;
     #PLAYING_music_over()
     {
         // PLAYING behavior
-        // uml: MUSIC_OVER / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.unlockTitleSend();");this.tracer?.edgeTransition("edge9"); } TransitionTo(IDLE)
+        // uml: MUSIC_OVER [this.tracer?.log("🛡️ User evaluating guard: " + "this.actions.bothTracksEnded()") || this.evaluateGuard("PLAYING","MUSIC_OVER [this.actions.bothTracksEnded()] / { this.actions.unlockTitleSend(); } TransitionTo(IDLE)")] / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.unlockTitleSend();");this.tracer?.edgeTransition("edge9"); } TransitionTo(IDLE)
+        if (this.tracer?.log("🛡️ User evaluating guard: " + "this.actions.bothTracksEnded()") || this.evaluateGuard("PLAYING","MUSIC_OVER [this.actions.bothTracksEnded()] / { this.actions.unlockTitleSend(); } TransitionTo(IDLE)"))
         {
             // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
             this.#PLAYING_exit();

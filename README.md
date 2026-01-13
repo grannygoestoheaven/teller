@@ -27,9 +27,9 @@ EdTech focused Text-To-Speech project
 
 Made with ❤️ by Granny.
 
-![App Screenshot](https://github.com/grannygoestoheaven/teller/blob/main/docs/images/teller_screenshot_4.png)
+![App Screenshot](https://github.com/grannygoestoheaven/teller/blob/main/docs/images/teller_screenshot_5.png)
 
 Prototype UI: Red blocks = real-time audio generation. Backend fully functional; frontend in progress.
-"The Chronology Protection Conjecture" = example subject. It can be any subject. The very basic interaction is depicted in the screenshot. It is an early stage prototype.
+"The Ising Model" = example subject. It can be any subject. The very basic interaction is depicted in the screenshot. It is an early stage prototype.
 
 Typescript migration is on her way.

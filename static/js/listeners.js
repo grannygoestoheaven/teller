@@ -61,9 +61,9 @@ export function events(sm) {
 
   elements.toggleButton?.addEventListener('click', () => {
     console.log('Toggling grid visibility');
-    let isGridVisible = getIsGridVisible();
-    isGridVisible = !isGridVisible;
-    toggleView(isGridVisible);
+    // let isGridVisible = getIsGridVisible();
+    // isGridVisible = !isGridVisible;
+    toggleView();
   });
 
   elements.gridSquares.forEach(square => {

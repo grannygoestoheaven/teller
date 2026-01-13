@@ -390,7 +390,7 @@ body {
 /* Input area */
 footer.chat-input-area {
     width: 100%;
-    max-width: 730px;
+    width: 900px;
     max-height: auto;
     margin: 20px auto 20px auto;
     padding: 0 20px;
@@ -407,13 +407,13 @@ footer.chat-input-area {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 100%;
+    width: 530px;
     height: 100%;
     gap: 10px;
 }
 
 #story-form {
-    width: 100%;
+    width: 800px;
     gap: 10px;
     margin-top: 0.5em;
     margin-bottom: 0.5em;
@@ -427,7 +427,7 @@ footer.chat-input-area {
     width: 100%;
     margin: 15px 0;
     padding: 0;
-    border: 20px solid rgb(27, 27, 27);
+    border: 10px solid rgb(27, 27, 27);
     box-sizing: border-box;
     border: transparent !important ;
     /* background: #2c2c2caf; */
@@ -439,6 +439,7 @@ footer.chat-input-area {
 /* Subject input specific styles */
 #subject {
     background: transparent;
+    width: 800px;
     width: 100%;
     overflow: hidden;
     /* resize: none; */

@@ -132,7 +132,7 @@ export function updateStoryText() {
 // Toggle function
 export function toggleView() {
   const isGridVisible = getIsGridVisible();
-  elements.gridContainer.style.display = isGridVisible ? "grid" : "none";
-  elements.chatHistoryContainer.style.display = isGridVisible ? "none" : "flex";
+  elements.gridContainer.style.display = isGridVisible ? "none" : "grid";
+  elements.chatHistoryContainer.style.display = isGridVisible ? "flex" : "none";
   setIsGridVisible(!isGridVisible); // Toggle the state
 }

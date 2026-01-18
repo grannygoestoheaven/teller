@@ -12,7 +12,7 @@
 
     '############################ Handlers ############################
 
-    IDLE: enter / this.actions.pauseAllAudio(); this.actions.resetAllAudio(); this.actions.uiIdle(); this.actions.hideLoadingAnimation(); this.actions.initInputAdjustments();
+    IDLE: enter / this.actions.pauseAllAudio(); this.actions.resetAllAudio(); this.actions.uiIdle(); this.actions.hideLoadingAnimation(); this.actions.initInputAdjustments(); this.actions.unlockTitleSend();
     IDLE --> READY : INPUT_CHANGED [this.actions.inputIsValid()]
 
     READY: enter / this.actions.uiReadyButtons();

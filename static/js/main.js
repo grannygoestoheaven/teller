@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // A single object to hold all HTML elements.
   const domElements = {
+    title: document.getElementById('teller-title'),
     speech: document.getElementById('speechAudio'),
     backgroundTrack: document.getElementById('backgroundAudio'),
     toggleContainer: document.getElementById('toggleContainer'),

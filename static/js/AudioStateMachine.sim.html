@@ -257,7 +257,7 @@ IDLE
 
 IDLE : IDLE
 
-IDLE : enter / #123; this.actions.pauseAllAudio()#59; this.actions.resetAllAudio()#59; this.actions.uiIdle()#59; this.actions.hideLoadingAnimation()#59; this.actions.initInputAdjustments()#59; #125;
+IDLE : enter / #123; this.actions.pauseAllAudio()#59; this.actions.resetAllAudio()#59; this.actions.uiIdle()#59; this.actions.hideLoadingAnimation()#59; this.actions.initInputAdjustments()#59; this.actions.unlockTitleSend()#59; #125;
 
 READY
 
@@ -546,10 +546,10 @@ evaluateGuard = null;
         } // end of behavior for IDLE
         
         // IDLE behavior
-        // uml: enter / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.pauseAllAudio(); this.actions.resetAllAudio(); this.actions.uiIdle(); this.actions.hideLoadingAnimation(); this.actions.initInputAdjustments();"); }
+        // uml: enter / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.pauseAllAudio(); this.actions.resetAllAudio(); this.actions.uiIdle(); this.actions.hideLoadingAnimation(); this.actions.initInputAdjustments(); this.actions.unlockTitleSend();"); }
         {
-            // Step 1: execute action `this.tracer?.log("⚡ FSM would execute action: " + "this.actions.pauseAllAudio(); this.actions.resetAllAudio(); this.actions.uiIdle(); this.actions.hideLoadingAnimation(); this.actions.initInputAdjustments();");`
-            this.tracer?.log("⚡ FSM would execute action: " + "this.actions.pauseAllAudio(); this.actions.resetAllAudio(); this.actions.uiIdle(); this.actions.hideLoadingAnimation(); this.actions.initInputAdjustments();");
+            // Step 1: execute action `this.tracer?.log("⚡ FSM would execute action: " + "this.actions.pauseAllAudio(); this.actions.resetAllAudio(); this.actions.uiIdle(); this.actions.hideLoadingAnimation(); this.actions.initInputAdjustments(); this.actions.unlockTitleSend();");`
+            this.tracer?.log("⚡ FSM would execute action: " + "this.actions.pauseAllAudio(); this.actions.resetAllAudio(); this.actions.uiIdle(); this.actions.hideLoadingAnimation(); this.actions.initInputAdjustments(); this.actions.unlockTitleSend();");
         } // end of behavior for IDLE
     }
     

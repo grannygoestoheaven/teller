@@ -198,7 +198,11 @@ export function lockTitleSend() {
 }
 
 export function unlockTitleSend() {
-  elements.gridSquares.forEach(square => {
-    square.style.pointerEvents = 'auto';
-  });
+  elements.formInput.dataset.locked = 'false'; // Clear when playback ends
 }
+
+// export function unlockTitleSend() {
+//   elements.gridSquares.forEach(square => {
+//     square.style.pointerEvents = 'auto';
+//   });
+// }

@@ -1,4 +1,4 @@
-import { elements, getCurrentPlayingSquare } from './config.js';
+import { elements } from './config.js';
 import { toggleView } from './ui.js';
 
 export function events(sm) {
@@ -7,6 +7,11 @@ export function events(sm) {
       event.preventDefault();
       sm.dispatchEvent(AudioStateMachine.EventId.TOGGLE_PAUSE_RESUME); // leads to PAUSED state or PLAYING (resumed) state
     }
+  });
+
+  elements.title?.addEventListener('click', () => {
+    console.log('Title clicked');
+    sm.dispatchEvent(AudioStateMachine.EventId.CANCEL); // leads to IDLE state
   });
 
   elements.playPauseButton?.addEventListener("click", () => {

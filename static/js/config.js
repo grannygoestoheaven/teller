@@ -11,6 +11,7 @@ let gridValues = new Map(); // { id: { value: string, size: string } }
 let isGridVisible = true; // Default visibility
 let isChatVisible = false; // Default chat visibility
 let squareValues = []; // Array to hold values for each square
+let currentPlayingSquare = null;
 
 // Getters
 export function getGridSize() { return gridSize; }
@@ -19,6 +20,7 @@ export function getGridValues() { return gridValues; }
 export function getIsGridVisible() { return isGridVisible; }
 export function getIsChatVisible() { return isChatVisible; }
 export function getSquaresValuesList() { return squareValues; }
+export function getCurrentPlayingSquare() { return currentPlayingSquare; }
 
 // Setters
 export function setGridSize(value) { gridSize = value; }

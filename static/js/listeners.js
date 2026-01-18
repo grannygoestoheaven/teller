@@ -1,4 +1,4 @@
-import { elements, getIsGridVisible, getIsChatVisible } from './config.js';
+import { elements, getCurrentPlayingSquare } from './config.js';
 import { toggleView } from './ui.js';
 
 export function events(sm) {
@@ -66,10 +66,21 @@ export function events(sm) {
     toggleView();
   });
 
+  // elements.gridSquares.forEach(square => {
+  //   square.addEventListener('mouseenter', () => {
+  //     let currentPlayingSquare = getCurrentPlayingSquare();
+  //     if (!currentPlayingSquare){
+  //       elements.formInput.value = square.dataset.compactSubject;
+  //       elements.formInput.dispatchEvent(new Event('input', { bubbles: true }));
+  //     }
+  //   });
+  
   elements.gridSquares.forEach(square => {
     square.addEventListener('mouseenter', () => {
-      elements.formInput.value = square.dataset.compactSubject;
-      elements.formInput.dispatchEvent(new Event('input', { bubbles: true }));
+      if (elements.formInput.dataset.locked !== 'true') {
+        elements.formInput.value = square.dataset.compactSubject;
+        elements.formInput.dispatchEvent(new Event('input', { bubbles: true }));
+      }
     });
   
     square.addEventListener('click', () => {

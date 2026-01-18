@@ -187,10 +187,14 @@ export function createFreeGridOfSquares(gridSize) {
   }
 }
 
+// export function lockTitleSend() {
+//   elements.gridSquares.forEach(square => {
+//     square.style.pointerEvents = 'none'; // Or toggle a class
+//   });
+// }
+
 export function lockTitleSend() {
-  elements.gridSquares.forEach(square => {
-    square.style.pointerEvents = 'none'; // Or toggle a class
-  });
+  elements.formInput.dataset.locked = 'true';  // Set when a square is playing
 }
 
 export function unlockTitleSend() {

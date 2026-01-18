@@ -122,7 +122,7 @@ body {
     font-size: 1.8em; /* Base font size for the header container */
     z-index: 10;
     background: none;
-    padding: 25px 25px;
+    padding: 30px 25px;
     flex-shrink: 0; /* Prevent header from shrinking */
 }
 
@@ -392,7 +392,7 @@ footer.chat-input-area {
     width: 100%;
     width: 900px;
     max-height: auto;
-    margin: 20px auto 30px auto;
+    margin: 8px auto 10px auto;
     padding: 0 20px;
     box-sizing: border-box;
     background: none;

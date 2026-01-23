@@ -34,6 +34,7 @@ PROMPTS_DIR = BASE_DIR / "src" / "config" / "patterns"
 # DEFAULT_PROMPT_PATH = BASE_DIR / "src" / "config"/ "patterns" / "desirable_difficulty.md"
 # DEFAULT_PROMPT_PATH = BASE_DIR / "src" / "config"/ "patterns" / "precision_narrative_compact.md"
 DEFAULT_PROMPT_PATH = BASE_DIR / "src" / "config"/ "patterns" / "precision_narrative_mistral.md"
+# DEFAULT_PROMPT_PATH = BASE_DIR / "src" / "config"/ "patterns" / "schizophrenic.md"
 
 DEFAULT_PROMPT = DEFAULT_PROMPT_PATH.read_text()
 

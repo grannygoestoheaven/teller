@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // A single object to hold all HTML elements.
   const domElements = {
     title: document.getElementById('teller-title'),
+    subtitle: document.getElementById('teller-subtitle'),
     speech: document.getElementById('speechAudio'),
     backgroundTrack: document.getElementById('backgroundAudio'),
     toggleContainer: document.getElementById('toggleContainer'),
@@ -46,6 +47,8 @@ document.addEventListener('DOMContentLoaded', () => {
     elements.period2 = domElements.dots.querySelector('.period-2');
     elements.period3 = domElements.dots.querySelector('.period-3');
   }
+
+
 
   // Create an instance of the state machine and attach the actions object to it
   const sm = new AudioStateMachine();

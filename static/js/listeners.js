@@ -1,5 +1,5 @@
 import { elements } from './config.js';
-import { toggleView } from './ui.js';
+import { toggleView, cycleToNextTopic, initTopicCycling } from './ui.js';
 
 export function events(sm) {
   window.addEventListener('keydown', (event) => {
@@ -9,9 +9,38 @@ export function events(sm) {
     }
   });
 
-  elements.title?.addEventListener('click', () => {
-    console.log('Title clicked');
+  // Initialize topic cycling
+  initTopicCycling();
+  
+  // Title click handler - now handles both topic cycling and state machine events
+  elements.title?.addEventListener('click', (e) => {
+    // Prevent text selection and default behavior
+    e.preventDefault();
+    e.stopPropagation();
+    
+    // Cycle to next topic
+    const newTopic = cycleToNextTopic();
+    console.log('Title clicked - Topic changed to:', newTopic);
+    
+    // Also dispatch the original CANCEL event for state machine
     sm.dispatchEvent(AudioStateMachine.EventId.CANCEL); // leads to IDLE state
+  });
+  
+  // Prevent double-click text selection on title
+  elements.title?.addEventListener('mousedown', (e) => {
+    if (e.detail > 1) {
+      e.preventDefault();
+    }
+  });
+  
+  // Prevent text selection on subtitle (for future functionality)
+  elements.subtitle?.addEventListener('mousedown', (e) => {
+    e.preventDefault();
+  });
+  
+  elements.subtitle?.addEventListener('click', (e) => {
+    e.preventDefault();
+    console.log('Subtitle clicked - ready for future functionality');
   });
 
   elements.playPauseButton?.addEventListener("click", () => {

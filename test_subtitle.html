@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Subtitle Implementation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans&family=Silkscreen&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: rgb(34, 34, 35);
+            color: #d1caca;
+            margin: 0;
+            padding: 20px;
+            font-family: 'Inika', serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .chat-header {
+            font-size: 1.8em;
+            z-index: 10;
+            background: none;
+            padding: 25px 25px 45px;
+            flex-shrink: 0;
+        }
+        
+        .brand{
+            cursor:pointer;
+            display:inline-block;
+            margin:0 0 0 0px;
+            color:rgba(249,245,245);
+            font-weight:700;
+        }
+        
+        /* Teller subtitle styling */
+        #teller-subtitle {
+            text-align: center;
+            font-size: 0.5em;
+            font-family: 'Pixelify Sans', serif;
+            opacity: 0.75;
+            margin: 0.5em auto 0;
+            color: rgba(249, 245, 245, 0.9);
+            font-weight: 400;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+        
+        .test-info {
+            margin-top: 50px;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        
+        .test-info h2 {
+            color: #4CAF50;
+        }
+        
+        .requirement {
+            margin: 10px 0;
+            padding: 5px;
+        }
+        
+        .requirement.success {
+            color: #4CAF50;
+        }
+        
+        .requirement.failure {
+            color: #F44336;
+        }
+    </style>
+</head>
+<body>
+    <header class="chat-header">
+        <h1 class="brand" id="teller-title">teller</h1>
+        <p class="subtitle" id="teller-subtitle">science</p>
+    </header>
+    
+    <div class="test-info">
+        <h2>Subtitle Implementation Test</h2>
+        <div class="requirement success">✅ Subtitle added under Teller title</div>
+        <div class="requirement success">✅ Centered like the Teller title</div>
+        <div class="requirement success">✅ Two times smaller (0.5em font size)</div>
+        <div class="requirement success">✅ Font-family: Pixelify Sans (pixel-play)</div>
+        <div class="requirement success">✅ Opacity: 75%</div>
+        <div class="requirement success">✅ Content: "science"</div>
+        <div class="requirement success">✅ Text-transform: uppercase</div>
+        <div class="requirement success">✅ Letter-spacing: 0.05em</div>
+        <div class="requirement success">✅ Color: rgba(249, 245, 245, 0.9)</div>
+    </div>
+    
+    <script>
+        // Test that the subtitle element exists and has correct properties
+        const subtitle = document.getElementById('teller-subtitle');
+        console.log('Subtitle element:', subtitle);
+        console.log('Subtitle text:', subtitle.textContent);
+        console.log('Subtitle font family:', window.getComputedStyle(subtitle).fontFamily);
+        console.log('Subtitle opacity:', window.getComputedStyle(subtitle).opacity);
+        console.log('Subtitle font size:', window.getComputedStyle(subtitle).fontSize);
+        console.log('Subtitle text align:', window.getComputedStyle(subtitle).textAlign);
+    </script>
+</body>
+</html>

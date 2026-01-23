@@ -119,6 +119,7 @@ body {
 
 /* Header styles */
 .chat-header {
+    text-align: center;
     font-size: 1.8em; /* Base font size for the header container */
     z-index: 10;
     background: none;
@@ -132,6 +133,35 @@ body {
     margin:0 0 0 0px;      /* keep your left indent            */
     color:rgba(249,245,245);
     font-weight:700;        /* make it stand out                */
+    user-select: none;              /* Prevent text selection */
+    -webkit-user-select: none;      /* Safari */
+    -moz-user-select: none;         /* Firefox */
+    -ms-user-select: none;          /* IE/Edge */
+}
+
+/* Teller subtitle styling */
+#teller-subtitle {
+    text-align: center;
+    font-size: 0.5em;
+    font-family: 'Pixelify Sans', serif;
+    opacity: 0.75;
+    margin: 0.5em auto 0;
+    color: rgba(249, 245, 245, 0.9);
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 0 10px;
+    box-sizing: border-box;
+    user-select: none;              /* Prevent text selection */
+    -webkit-user-select: none;      /* Safari */
+    -moz-user-select: none;         /* Firefox */
+    -ms-user-select: none;          /* IE/Edge */
 }
 
   /* smaller tagline that stays on same line */
@@ -207,6 +237,7 @@ body {
     /* transform: scale(); */
     /* background-color: green; */
     background-color: rgb(204, 6, 6);
+    /* background-color: rgb(236, 129, 14); */
     transition: 150ms;
 }
 
@@ -217,6 +248,53 @@ body {
 /* Hide scrollbar for Webkit browsers (Chrome, Safari, Opera) */
 .chat-history::-webkit-scrollbar {
     display: none;
+}
+
+/* Responsive design for different screen sizes */
+@media (max-width: 768px) {
+    .chat-header {
+        font-size: 1.5em;
+        padding: 15px 15px 30px;
+    }
+    
+    #teller-subtitle {
+        font-size: 0.6em;
+    }
+    
+    .toggle-container {
+        width: 90%;
+        min-height: 250px;
+    }
+    
+    footer.chat-input-area {
+        width: 95%;
+    }
+}
+
+@media (min-width: 1920px) {
+    /* Large screens - prevent truncation */
+    body {
+        padding: 20px 0;
+    }
+    
+    .toggle-container {
+        max-height: 70vh; /* Limit height on large screens */
+    }
+    
+    footer.chat-input-area {
+        margin-bottom: 30px;
+    }
+}
+
+/* Fix for external monitors with different DPI */
+@media (-webkit-device-pixel-ratio: 1.5), (min-resolution: 144dpi) {
+    body {
+        padding: 10px 0;
+    }
+    
+    .toggle-container {
+        min-height: 350px;
+    }
 }
 
 /* Styles for the actual text inside chatHistory */

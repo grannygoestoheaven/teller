@@ -1,6 +1,6 @@
 // import the elements object that will point to all HTML elements
 import { elements, getSquaresPerWidth } from "./config.js";
-import { createGridOfSquares, mapMainFieldsToSquares, mapValuesToSquares  } from "./squaresAndSubjects.js";
+import { createGridOfSquares, initializeGrid, initTopicCycling  } from "./squaresAndSubjects.js";
 // import the listeners function to load the state machine events
 import { events } from "./listeners.js";
 // import the actions object that will be assigned to the state machine
@@ -59,8 +59,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // call the event function to set up event listeners for the state machine
   events(sm);
 
-  mapValuesToSquares(elements.gridSquares, fullSubjects, compactSubjects, sm);
-  // mapMainFieldsToSquares(elements.gridSquares, mainFields);
+  // initialize the grid with subjects from the current topic
+  initializeGrid(elements.gridSquares, sm);
+  initTopicCycling();
 
   // start the state machine
   sm.start();

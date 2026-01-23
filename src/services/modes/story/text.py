@@ -30,7 +30,7 @@ def generate_story_with_mistralai(subject, narrative_style: None, difficulty: No
         print(f" Let's see : {narrative_style_rendered[:50]}")
 
         response = mistral_client.chat.complete(
-            model="mistral-7b-instruct",
+            model="mistral-tiny-latest",
             messages=[
                 {
                     "content": narrative_style_rendered,

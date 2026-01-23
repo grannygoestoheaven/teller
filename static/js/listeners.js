@@ -1,5 +1,6 @@
 import { elements } from './config.js';
-import { toggleView, cycleToNextTopic, initTopicCycling } from './ui.js';
+import { getCurrentTopicSubjects, cycleToNextTopic, mapValuesToSquares } from './squaresAndSubjects.js';
+import { toggleView } from './ui.js';
 
 export function events(sm) {
   window.addEventListener('keydown', (event) => {
@@ -8,21 +9,18 @@ export function events(sm) {
       sm.dispatchEvent(AudioStateMachine.EventId.TOGGLE_PAUSE_RESUME); // leads to PAUSED state or PLAYING (resumed) state
     }
   });
-
-  // Initialize topic cycling
-  initTopicCycling();
   
   // Title click handler - now handles both topic cycling and state machine events
   elements.title?.addEventListener('click', (e) => {
     // Prevent text selection and default behavior
     e.preventDefault();
     e.stopPropagation();
-    
+
     // Cycle to next topic
-    const newTopic = cycleToNextTopic();
-    console.log('Title clicked - Topic changed to:', newTopic);
-    
-    // Also dispatch the original CANCEL event for state machine
+    cycleToNextTopic();
+    const compactSubjects = getCurrentTopicSubjects('compact');
+    const fullSubjects = getCurrentTopicSubjects('full');
+    mapValuesToSquares(elements.gridSquares, fullSubjects, compactSubjects, sm);
     sm.dispatchEvent(AudioStateMachine.EventId.CANCEL); // leads to IDLE state
   });
   

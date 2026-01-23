@@ -1,4 +1,79 @@
 import { elements } from './config.js';
+import { defaultFields } from "../fields/defaultFields.js";
+
+export function initializeGrid(squares, sm) {
+  // Get the current topic's subjects
+  const compactSubjects = getCurrentTopicSubjects('compact');
+  const fullSubjects = getCurrentTopicSubjects('full');
+
+  // Populate the grid
+  mapValuesToSquares(squares, fullSubjects, compactSubjects, sm);
+
+  console.log(`Grid initialized with ${compactSubjects.length} subjects from topic: ${getCurrentTopic()}`);
+}
+
+// Topic cycling utility
+const topics = Object.keys(defaultFields);
+let currentTopicData = defaultFields[topics[0]];
+let currentTopicIndex = 0;
+
+/**
+ * Initialize topic cycling functionality
+ */
+export function initTopicCycling() {
+  // Set initial topic
+  if (elements.subtitle) {
+    elements.subtitle.textContent = topics[currentTopicIndex];
+  }
+}
+
+export function getCurrentTopicSubjects(type = 'compact') {
+  return currentTopicData[type] || [];
+}
+
+/**
+ * Cycle to the next topic
+ * @returns {string} The new current topic
+ */
+export function cycleToNextTopic() {
+  currentTopicIndex = (currentTopicIndex + 1) % topics.length;
+  currentTopicData = defaultFields[topics[currentTopicIndex]];
+  
+  if (elements.subtitle) {
+    elements.subtitle.textContent = topics[currentTopicIndex];
+  }
+  
+  return topics[currentTopicIndex];
+}
+
+/**
+ * Get the current topic
+ * @returns {string} The current topic
+ */
+export function getCurrentTopic() {
+  return topics[currentTopicIndex];
+}
+
+/**
+ * Set a specific topic by index
+ * @param {number} index - The topic index
+ */
+export function setTopicByIndex(index) {
+  if (index >= 0 && index < topics.length) {
+    currentTopicIndex = index;
+    if (elements.subtitle) {
+      elements.subtitle.textContent = topics[currentTopicIndex];
+    }
+  }
+}
+
+/**
+ * Get all available topics
+ * @returns {Array} Array of all topics
+ */
+export function getAllTopics() {
+  return [...topics];
+}
 
 // When a user clicks a subject (e.g., in your grid click handler):
 const handleSubjectClick = (clickedSubject) => {

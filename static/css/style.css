@@ -471,7 +471,7 @@ footer.chat-input-area {
     width: 100%;
     width: 900px;
     max-height: auto;
-    margin: 5px auto 10px auto;
+    margin: 15px auto 10px auto;
     padding: 0 20px;
     box-sizing: border-box;
     background: none;
@@ -527,7 +527,7 @@ footer.chat-input-area {
     border: none !important ;
     padding: 18px 5px;
     box-sizing: border-box;
-    font-size: 2em;
+    font-size: 1.5em;
     letter-spacing: 0cqmin;
     font-family: 'Inika', serif;
     color: rgba(245, 245, 245, 0.9);
@@ -578,11 +578,12 @@ footer.chat-input-area {
     display: flex;
     justify-content: center;
     gap: 1rem;
-    padding-bottom: 2rem;
+    padding-bottom: 1rem;
   }
 
 /* Pixel PLAY style */
 .pixel-play {
+    display: none;
     font-family: 'Pixelify Sans', serif;
     text-transform: uppercase;
     font-size: 1em;
@@ -596,6 +597,7 @@ footer.chat-input-area {
 
 /* Send button styles */
 .send-button {
+    visibility: hidden;
     width: auto;
     border: 4px solid rgba(200, 212, 201, 0.865);
     background-color: #1c1b1bc2;

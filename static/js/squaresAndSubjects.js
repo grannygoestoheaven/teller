@@ -1,5 +1,5 @@
 import { elements } from './config.js';
-import { defaultFields } from "../fields/defaultFields.js";
+import { defaultFields } from "../fields/defaultFieldsSmall.js";
 
 export function initializeGrid(squares, sm) {
   // Get the current topic's subjects

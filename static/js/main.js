@@ -1,12 +1,12 @@
 // import the elements object that will point to all HTML elements
-import { elements, getSquaresPerWidth } from "./config.js";
-import { createGridOfSquares, initializeGrid, initTopicCycling  } from "./squaresAndSubjects.js";
+import { elements, getSquaresPerWidth } from "/static/js/config.js";
+import { createGridOfSquares, initializeGrid, initTopicCycling, mapValuesToSquares } from "/static/js/uiInit.js";
 // import the listeners function to load the state machine events
-import { events } from "./listeners.js";
+import { stateMachineEvents, staticListeners } from "/static/js/listeners.js";
 // import the actions object that will be assigned to the state machine
-import { localActions } from "./actions.js";
+import { localActions } from "/static/js/actions.js";
 // import { mainFields } from '../subjectsMainFields/mainFields.js';
-import { fullSubjects, compactSubjects } from '../fields/subjects/science.js';
+// import { fullSubjects, compactSubjects } from '../fields/subjects/science.js';
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -48,8 +48,6 @@ document.addEventListener('DOMContentLoaded', () => {
     elements.period3 = domElements.dots.querySelector('.period-3');
   }
 
-
-
   // Create an instance of the state machine and attach the actions object to it
   const sm = new AudioStateMachine();
   sm.actions = localActions;
@@ -57,10 +55,12 @@ document.addEventListener('DOMContentLoaded', () => {
   createGridOfSquares(getSquaresPerWidth(), sm);
   
   // call the event function to set up event listeners for the state machine
-  events(sm);
+  stateMachineEvents(sm);
+  staticListeners();
 
   // initialize the grid with subjects from the current topic
-  initializeGrid(elements.gridSquares, sm);
+  initializeGrid(elements.gridSquares);
+  // mapValuesToSquares(elements.gridSquares, fullSubjects, compactSubjects);
   initTopicCycling();
 
   // start the state machine

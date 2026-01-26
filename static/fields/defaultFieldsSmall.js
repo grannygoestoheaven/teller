@@ -45,6 +45,55 @@ export const defaultFields = {
             "Renewable Energy", "Nanotechnology", "Ethics in Science"
         ]
     },
+    "Critical Thinking": {
+        "full": [
+            "What Is Critical Thinking? Definition, Skills, and Practical Applications",
+            "The Cognitive Biases That Distort Reasoning: Confirmation, Anchoring, and Dunning-Kruger",
+            "Logical Fallacies: Recognizing and Avoiding Errors in Argumentation",
+            "The Socratic Method: Questioning Assumptions to Uncover Truth",
+            "Deductive vs. Inductive Reasoning: Strengths, Weaknesses, and Real-World Uses",
+            "The Role of Skepticism in Critical Thinking: Questioning Claims and Evidence",
+            "How Emotions Influence Decision-Making: The Psychology Behind Rationality",
+            "Analyzing Arguments: Identifying Premises, Conclusions, and Hidden Assumptions",
+            "The Scientific Method as a Framework for Critical Thinking",
+            "Critical Thinking in Everyday Life: From Media Literacy to Problem-Solving",
+            "The Difference Between Correlation and Causation: Why Misinterpretation Leads to Bad Conclusions",
+            "Heuristics and Mental Shortcuts: When Quick Thinking Leads to Errors",
+            "Evaluating Sources: How to Spot Misinformation, Propaganda, and Fake News",
+            "Problem-Solving Strategies: Breaking Down Complex Issues Systematically",
+            "The Art of Debate: Constructing and Deconstructing Persuasive Arguments",
+            "Critical Thinking in Ethics: Moral Reasoning and Ethical Dilemmas",
+            "The Importance of Intellectual Humility: Admitting What You Don’t Know",
+            "Cognitive Dissonance: Why People Cling to Beliefs Despite Contradictory Evidence",
+            "The Role of Evidence: Distinguishing Fact from Opinion and Anecdote",
+            "Critical Thinking in Science: Peer Review, Reproducibility, and the Burden of Proof",
+            "How Language Shapes Thought: The Power of Framing and Rhetoric",
+            "Teaching Critical Thinking: Methods and Challenges in Education",
+            "Critical Thinking vs. Cynicism: Balancing Skepticism with Open-Mindedness",
+            "The Backfire Effect: Why Facts Sometimes Strengthen False Beliefs",
+            "Decision-Making Under Uncertainty: Probability, Risk, and Heuristics",
+            "The Influence of Culture and Upbringing on Critical Thinking Skills",
+            "Critical Thinking in the Digital Age: Navigating Algorithms, Echo Chambers, and Deepfakes",
+            "The Dunning-Kruger Effect: Why Incompetence Breeds Overconfidence",
+            "The Gell-Mann Amnesia Effect: Forgetting the Errors of Trusted Sources",
+            "Critical Thinking in Leadership: Making Informed and Ethical Decisions",
+            "The Role of Curiosity: Asking the Right Questions to Uncover Deeper Truths",
+            "Critical Thinking and Creativity: How Constraints Fuel Innovation"
+        ],
+        "compact": [
+            "What Is Critical Thinking?", "Cognitive Biases", "Logical Fallacies",
+            "Socratic Method", "Deductive vs. Inductive Reasoning", "Skepticism in Critical Thinking",
+            "Emotions and Decision-Making", "Analyzing Arguments", "Scientific Method and Critical Thinking",
+            "Everyday Critical Thinking", "Correlation vs. Causation", "Heuristics and Errors",
+            "Evaluating Sources", "Problem-Solving Strategies", "Art of Debate",
+            "Ethics and Critical Thinking", "Intellectual Humility", "Cognitive Dissonance",
+            "Fact vs. Opinion", "Critical Thinking in Science", "Language and Thought",
+            "Teaching Critical Thinking", "Critical Thinking vs. Cynicism",
+            "Backfire Effect", "Decision-Making Under Uncertainty", "Culture and Critical Thinking",
+            "Digital Age Challenges", "Dunning-Kruger Effect", "Gell-Mann Amnesia Effect",
+            "Leadership and Critical Thinking", "Curiosity and Innovation"
+        ]
+    },
     "Philosophy": {
         "full": [
             "What is Philosophy?",

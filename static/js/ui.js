@@ -7,7 +7,7 @@ export function uiIdle() {
   // Reset buttons
   elements.fromStartButton.disabled = true;
   elements.playPauseButton.disabled = true;
-  elements.playPauseButton.textContent = 'Start';
+  elements.playPauseButton.textContent = 'Pause';
   elements.chatHistoryContainer.disabled = !getIsChatVisible();
   inputIsValid();
 }
@@ -135,4 +135,20 @@ export function toggleView() {
   elements.gridContainer.style.display = isGridVisible ? "none" : "grid";
   elements.chatHistoryContainer.style.display = isGridVisible ? "flex" : "none";
   setIsGridVisible(!isGridVisible); // Toggle the state
+}
+
+// Activate: Show text on hover, no background change
+export function activateSquareTextHover() {
+  elements.gridSquares.forEach(square => {
+    square.style.setProperty('--hover-bg', 'rgb(29, 29, 29)');
+    square.style.setProperty('--hover-color', 'white');
+  });
+}
+
+// Deactivate: Change background on hover, hide text
+export function deactivateSquareTextHover() {
+  elements.gridSquares.forEach(square => {
+    square.style.setProperty('--hover-bg', 'rgb(204, 6, 6)');
+    square.style.setProperty('--hover-color', 'transparent');
+  });
 }

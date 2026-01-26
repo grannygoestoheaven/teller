@@ -1,4 +1,4 @@
-import { startNewStoryProcess } from "./storyService.js";
+import { startNewStoryProcess } from "/static/js/storyService.js";
 
 import {
   loadPlayer,
@@ -13,8 +13,8 @@ import {
   bothTracksEnded,
   setBgVolume,
   delaySpeechStart,
-  resumeBackgroundOnly,
-} from "./player.js";
+  resumeBackgroundOnly
+} from "/static/js/player.js";
 
 import {
   uiIdle,
@@ -32,8 +32,9 @@ import {
   toggleTextVisibility,
   updateStoryText,
   toggleView,
-
-} from "./ui.js";
+  activateSquareTextHover,
+  deactivateSquareTextHover
+} from "/static/js/ui.js";
 
 import {
   showLoadingAnimation,
@@ -43,8 +44,8 @@ import {
   redDots,
   greenDots,
   addBlurr,
-  removeBlurr,
-} from "./animation.js";
+  removeBlurr
+} from "/static/js/animation.js";
 
 import {
   createGridOfSquares,
@@ -52,7 +53,7 @@ import {
   getSquareElements,
   lockTitleSend,
   unlockTitleSend
-} from "./squaresAndSubjects.js";
+} from "/static/js/uiInit.js";
 
 export const localActions = {
     // Story and Process Actions

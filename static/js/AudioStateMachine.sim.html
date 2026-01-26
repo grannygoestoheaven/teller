@@ -257,7 +257,7 @@ IDLE
 
 IDLE : IDLE
 
-IDLE : enter / #123; this.actions.pauseAllAudio()#59; this.actions.resetAllAudio()#59; this.actions.uiIdle()#59; this.actions.hideLoadingAnimation()#59; this.actions.initInputAdjustments()#59; this.actions.unlockTitleSend()#59; #125;
+IDLE : enter / #123; this.actions.pauseAllAudio()#59; this.actions.resetAllAudio()#59; this.actions.uiIdle()#59; this.actions.hideLoadingAnimation()#59; this.actions.initInputAdjustments()#59; this.actions.unlockTitleSend()#59; this.actions.deactivateSquareTextHover()#59; #125;
 
 READY
 
@@ -269,7 +269,7 @@ LOADING
 
 LOADING : LOADING
 
-LOADING : enter / #123; this.actions.showLoadingAnimation()#59; this.actions.uiLoadingButtons()#59; this.actions.lockTitleSend()#59; #125;
+LOADING : enter / #123; this.actions.showLoadingAnimation()#59; this.actions.uiLoadingButtons()#59; this.actions.lockTitleSend()#59; this.actions.toggleView()#59; this.actions.activateSquareTextHover()#59; #125;
 
 PLAYING
 
@@ -546,10 +546,10 @@ evaluateGuard = null;
         } // end of behavior for IDLE
         
         // IDLE behavior
-        // uml: enter / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.pauseAllAudio(); this.actions.resetAllAudio(); this.actions.uiIdle(); this.actions.hideLoadingAnimation(); this.actions.initInputAdjustments(); this.actions.unlockTitleSend();"); }
+        // uml: enter / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.pauseAllAudio(); this.actions.resetAllAudio(); this.actions.uiIdle(); this.actions.hideLoadingAnimation(); this.actions.initInputAdjustments(); this.actions.unlockTitleSend(); this.actions.deactivateSquareTextHover();"); }
         {
-            // Step 1: execute action `this.tracer?.log("⚡ FSM would execute action: " + "this.actions.pauseAllAudio(); this.actions.resetAllAudio(); this.actions.uiIdle(); this.actions.hideLoadingAnimation(); this.actions.initInputAdjustments(); this.actions.unlockTitleSend();");`
-            this.tracer?.log("⚡ FSM would execute action: " + "this.actions.pauseAllAudio(); this.actions.resetAllAudio(); this.actions.uiIdle(); this.actions.hideLoadingAnimation(); this.actions.initInputAdjustments(); this.actions.unlockTitleSend();");
+            // Step 1: execute action `this.tracer?.log("⚡ FSM would execute action: " + "this.actions.pauseAllAudio(); this.actions.resetAllAudio(); this.actions.uiIdle(); this.actions.hideLoadingAnimation(); this.actions.initInputAdjustments(); this.actions.unlockTitleSend(); this.actions.deactivateSquareTextHover();");`
+            this.tracer?.log("⚡ FSM would execute action: " + "this.actions.pauseAllAudio(); this.actions.resetAllAudio(); this.actions.uiIdle(); this.actions.hideLoadingAnimation(); this.actions.initInputAdjustments(); this.actions.unlockTitleSend(); this.actions.deactivateSquareTextHover();");
         } // end of behavior for IDLE
     }
     
@@ -604,10 +604,10 @@ evaluateGuard = null;
         } // end of behavior for LOADING
         
         // LOADING behavior
-        // uml: enter / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.showLoadingAnimation(); this.actions.uiLoadingButtons(); this.actions.lockTitleSend();"); }
+        // uml: enter / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.showLoadingAnimation(); this.actions.uiLoadingButtons(); this.actions.lockTitleSend(); this.actions.toggleView(); this.actions.activateSquareTextHover();"); }
         {
-            // Step 1: execute action `this.tracer?.log("⚡ FSM would execute action: " + "this.actions.showLoadingAnimation(); this.actions.uiLoadingButtons(); this.actions.lockTitleSend();");`
-            this.tracer?.log("⚡ FSM would execute action: " + "this.actions.showLoadingAnimation(); this.actions.uiLoadingButtons(); this.actions.lockTitleSend();");
+            // Step 1: execute action `this.tracer?.log("⚡ FSM would execute action: " + "this.actions.showLoadingAnimation(); this.actions.uiLoadingButtons(); this.actions.lockTitleSend(); this.actions.toggleView(); this.actions.activateSquareTextHover();");`
+            this.tracer?.log("⚡ FSM would execute action: " + "this.actions.showLoadingAnimation(); this.actions.uiLoadingButtons(); this.actions.lockTitleSend(); this.actions.toggleView(); this.actions.activateSquareTextHover();");
         } // end of behavior for LOADING
     }
     

@@ -1,44 +1,13 @@
-import { elements } from './config.js';
-import { getCurrentTopicSubjects, cycleToNextTopic, mapValuesToSquares } from './squaresAndSubjects.js';
-import { toggleView } from './ui.js';
+import { elements } from '/static/js/config.js';
+import { cycleToNextTopic, mapValuesToSquares } from '/static/js/uiInit.js';
+import { toggleView } from '/static/js/ui.js';
 
-export function events(sm) {
+export function stateMachineEvents(sm) {
   window.addEventListener('keydown', (event) => {
     if (event.code === 'Space' && document.activeElement.tagName !== 'INPUT') {
       event.preventDefault();
       sm.dispatchEvent(AudioStateMachine.EventId.TOGGLE_PAUSE_RESUME); // leads to PAUSED state or PLAYING (resumed) state
     }
-  });
-  
-  // Title click handler - now handles both topic cycling and state machine events
-  elements.title?.addEventListener('click', (e) => {
-    // Prevent text selection and default behavior
-    e.preventDefault();
-    e.stopPropagation();
-
-    // Cycle to next topic
-    cycleToNextTopic();
-    const compactSubjects = getCurrentTopicSubjects('compact');
-    const fullSubjects = getCurrentTopicSubjects('full');
-    mapValuesToSquares(elements.gridSquares, fullSubjects, compactSubjects, sm);
-    sm.dispatchEvent(AudioStateMachine.EventId.CANCEL); // leads to IDLE state
-  });
-  
-  // Prevent double-click text selection on title
-  elements.title?.addEventListener('mousedown', (e) => {
-    if (e.detail > 1) {
-      e.preventDefault();
-    }
-  });
-  
-  // Prevent text selection on subtitle (for future functionality)
-  elements.subtitle?.addEventListener('mousedown', (e) => {
-    e.preventDefault();
-  });
-  
-  elements.subtitle?.addEventListener('click', (e) => {
-    e.preventDefault();
-    console.log('Subtitle clicked - ready for future functionality');
   });
 
   elements.playPauseButton?.addEventListener("click", () => {
@@ -91,13 +60,6 @@ export function events(sm) {
     sm.dispatchEvent(AudioStateMachine.EventId.MUSIC_OVER);
   });
 
-  elements.toggleButton?.addEventListener('click', () => {
-    console.log('Toggling grid visibility');
-    // let isGridVisible = getIsGridVisible();
-    // isGridVisible = !isGridVisible;
-    toggleView();
-  });
-
   // elements.gridSquares.forEach(square => {
   //   square.addEventListener('mouseenter', () => {
   //     let currentPlayingSquare = getCurrentPlayingSquare();
@@ -107,14 +69,11 @@ export function events(sm) {
   //     }
   //   });
   
-  elements.gridSquares.forEach(square => {
-    square.addEventListener('mouseenter', () => {
-      if (elements.formInput.dataset.locked !== 'true') {
-        elements.formInput.value = square.dataset.compactSubject;
-        elements.formInput.dispatchEvent(new Event('input', { bubbles: true }));
-      }
-    });
+  // if (elements.formInput.dataset.locked !== 'true') {
+    // elements.formInput.value = square.dataset.compactSubject;
+  // }
   
+  elements.gridSquares.forEach(square => {
     square.addEventListener('click', () => {
       console.log("Square clicked! Current state:", sm.currentState);
       sm.dispatchEvent(AudioStateMachine.EventId.FORM_SUBMITTED); // Pass full version to backend
@@ -122,24 +81,74 @@ export function events(sm) {
   });
 }
 
-export function toggleDifficulty() {
-  elements.difficultySelector.addEventListener("click", () => {
-    let currentIndex = 0;
-    const difficulties = ["beginner", "intermediate", "expert"];
-    currentIndex = (currentIndex + 1) % difficulties.length; // Loop: 0→1→2→0
-    const newDifficulty = difficulties[currentIndex];
+export function staticListeners() {
+  elements.toggleButton?.addEventListener('click', () => {
+    console.log('Toggling grid visibility');
+    toggleView();
+  });
   
-    difficultySelector.textContent = newDifficulty.charAt(0).toUpperCase() + newDifficulty.slice(1); // "Beginner"
-    difficultySelector.setAttribute("data-value", newDifficulty);
+  elements.gridSquares.forEach(square =>
+    square.addEventListener('mouseenter', () => {
+      elements.formInput.dispatchEvent(new Event('input', { bubbles: true }));
+  }));
 
-    return newDifficulty;
-  })
-};
+  elements.gridSquares.forEach(square => {
+    square.addEventListener('mouseenter', () => {
+      if (elements.formInput.dataset.locked !== 'true') {
+        elements.formInput.value = square.dataset.compactSubject;
+      }
+    })
+  });
+
+  // Title click handler - now handles both topic cycling and state machine events
+  elements.title?.addEventListener('click', (e) => {
+    // Prevent text selection and default behavior
+    e.preventDefault();
+    e.stopPropagation();
+
+    // Cycle to next topic
+    cycleToNextTopic();
+    mapValuesToSquares();
+    // sm.dispatchEvent(AudioStateMachine.EventId.CANCEL); // leads to IDLE state
+  });
+  
+  // Prevent double-click text selection on title
+  elements.title?.addEventListener('mousedown', (e) => {
+    if (e.detail > 1) {
+      e.preventDefault();
+    }
+  });
+  
+  // Prevent text selection on subtitle (for future functionality)
+  elements.subtitle?.addEventListener('mousedown', (e) => {
+    e.preventDefault();
+  });
+  
+  // Subtitle click handler - currently a placeholder for future functionality
+  elements.subtitle?.addEventListener('click', (e) => {
+    e.preventDefault();
+    console.log('Subtitle clicked - ready for future functionality');
+  });
+}
+
+// export function toggleDifficulty() {
+//   elements.difficultySelector.addEventListener("click", () => {
+//     let currentIndex = 0;
+//     const difficulties = ["beginner", "intermediate", "expert"];
+//     currentIndex = (currentIndex + 1) % difficulties.length; // Loop: 0→1→2→0
+//     const newDifficulty = difficulties[currentIndex];
+  
+//     difficultySelector.textContent = newDifficulty.charAt(0).toUpperCase() + newDifficulty.slice(1); // "Beginner"
+//     difficultySelector.setAttribute("data-value", newDifficulty);
+
+//     return newDifficulty;
+//   })
+// };
 
 // Wake up listeners and Set the input field to the current time in "HH:MM" format
-export function wakeUpListeners(sm) {
-  const now = new Date();
-  const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-  elements.formInput.value = timeString;
-  sm.dispatchEvent(AudioStateMachine.EventId.INPUT_CHANGED, { value: timeString });
-}
+// export function wakeUpListeners(sm) {
+//   const now = new Date();
+//   const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+//   elements.formInput.value = timeString;
+//   sm.dispatchEvent(AudioStateMachine.EventId.INPUT_CHANGED, { value: timeString });
+// }

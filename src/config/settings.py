@@ -27,12 +27,13 @@ LOCAL_TRACKS_DIR = STATIC_DIR / "audio" / "local_ambient_tracks"
 # Remaining subjects list
 
 
+# Fields and subjects
+DEFAULT_FIELDS = STATIC_DIR / "fields" / "defaultFieldsSmall.js"
+
 # Story settings
 DEFAULT_DURATION = 1
 
 PROMPTS_DIR = BASE_DIR / "src" / "config" / "patterns"
-# DEFAULT_PROMPT_PATH = BASE_DIR / "src" / "config"/ "patterns" / "desirable_difficulty.md"
-# DEFAULT_PROMPT_PATH = BASE_DIR / "src" / "config"/ "patterns" / "precision_narrative_compact.md"
 DEFAULT_PROMPT_PATH = BASE_DIR / "src" / "config"/ "patterns" / "precision_narrative_mistral.md"
 # DEFAULT_PROMPT_PATH = BASE_DIR / "src" / "config"/ "patterns" / "schizophrenic.md"
 

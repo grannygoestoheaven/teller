@@ -12,12 +12,13 @@ class AudioStateMachine
         FROM_START_CLICKED : 3,
         INPUT_CHANGED : 4,
         MUSIC_OVER : 5,
-        SPEECH_READY : 6,
-        TOGGLE_PAUSE_RESUME : 7,
+        SPEECH_OVER : 6,
+        SPEECH_READY : 7,
+        TOGGLE_PAUSE_RESUME : 8,
     }
     static { Object.freeze(this.EventId); }
     
-    static EventIdCount = 8;
+    static EventIdCount = 9;
     static { Object.freeze(this.EventIdCount); }
     
     static StateId = 
@@ -113,6 +114,7 @@ class AudioStateMachine
                 {
                     case AudioStateMachine.EventId.CHAT_HISTORY_CLICKED: this.#PLAYING_chat_history_clicked(); break;
                     case AudioStateMachine.EventId.FROM_START_CLICKED: this.#PLAYING_from_start_clicked(); break;
+                    case AudioStateMachine.EventId.SPEECH_OVER: this.#PLAYING_speech_over(); break;
                     case AudioStateMachine.EventId.TOGGLE_PAUSE_RESUME: this.#PLAYING_toggle_pause_resume(); break;
                     case AudioStateMachine.EventId.MUSIC_OVER: this.#PLAYING_music_over(); break;
                     case AudioStateMachine.EventId.INPUT_CHANGED: this.#PLAYING_input_changed(); break;
@@ -176,10 +178,10 @@ class AudioStateMachine
         this.stateId = AudioStateMachine.StateId.IDLE;
         
         // IDLE behavior
-        // uml: enter / { this.actions.pauseAllAudio(); this.actions.resetAllAudio(); this.actions.uiIdle(); this.actions.hideLoadingAnimation(); this.actions.initInputAdjustments(); this.actions.unlockTitleSend(); this.actions.deactivateSquareTextHover(); }
+        // uml: enter / { this.actions.pauseAllAudio(); this.actions.resetAllAudio(); this.actions.uiIdle(); this.actions.hideLoadingAnimation(); this.actions.initInputAdjustments(); this.actions.unlockTitleSend(); }
         {
-            // Step 1: execute action `this.actions.pauseAllAudio(); this.actions.resetAllAudio(); this.actions.uiIdle(); this.actions.hideLoadingAnimation(); this.actions.initInputAdjustments(); this.actions.unlockTitleSend(); this.actions.deactivateSquareTextHover();`
-            this.actions.pauseAllAudio(); this.actions.resetAllAudio(); this.actions.uiIdle(); this.actions.hideLoadingAnimation(); this.actions.initInputAdjustments(); this.actions.unlockTitleSend(); this.actions.deactivateSquareTextHover();
+            // Step 1: execute action `this.actions.pauseAllAudio(); this.actions.resetAllAudio(); this.actions.uiIdle(); this.actions.hideLoadingAnimation(); this.actions.initInputAdjustments(); this.actions.unlockTitleSend();`
+            this.actions.pauseAllAudio(); this.actions.resetAllAudio(); this.actions.uiIdle(); this.actions.hideLoadingAnimation(); this.actions.initInputAdjustments(); this.actions.unlockTitleSend();
         } // end of behavior for IDLE
     }
     
@@ -219,10 +221,10 @@ class AudioStateMachine
         this.stateId = AudioStateMachine.StateId.LOADING;
         
         // LOADING behavior
-        // uml: enter / { this.actions.showLoadingAnimation(); this.actions.uiLoadingButtons(); this.actions.lockTitleSend(); this.actions.toggleView(); this.actions.activateSquareTextHover(); }
+        // uml: enter / { this.actions.showLoadingAnimation(); this.actions.uiLoadingButtons(); this.actions.lockTitleSend(); this.actions.toggleView(); }
         {
-            // Step 1: execute action `this.actions.showLoadingAnimation(); this.actions.uiLoadingButtons(); this.actions.lockTitleSend(); this.actions.toggleView(); this.actions.activateSquareTextHover();`
-            this.actions.showLoadingAnimation(); this.actions.uiLoadingButtons(); this.actions.lockTitleSend(); this.actions.toggleView(); this.actions.activateSquareTextHover();
+            // Step 1: execute action `this.actions.showLoadingAnimation(); this.actions.uiLoadingButtons(); this.actions.lockTitleSend(); this.actions.toggleView();`
+            this.actions.showLoadingAnimation(); this.actions.uiLoadingButtons(); this.actions.lockTitleSend(); this.actions.toggleView();
         } // end of behavior for LOADING
     }
     
@@ -510,6 +512,18 @@ class AudioStateMachine
         // No ancestor handles this event.
     }
     
+    #PLAYING_speech_over()
+    {
+        // PLAYING behavior
+        // uml: SPEECH_OVER / { this.actions.unlockTitleSend(); this.actions.toggleView(); }
+        {
+            // Step 1: execute action `this.actions.unlockTitleSend(); this.actions.toggleView();`
+            this.actions.unlockTitleSend(); this.actions.toggleView();
+        } // end of behavior for PLAYING
+        
+        // No ancestor handles this event.
+    }
+    
     #PLAYING_toggle_pause_resume()
     {
         // PLAYING behavior
@@ -642,6 +656,7 @@ class AudioStateMachine
             case AudioStateMachine.EventId.FROM_START_CLICKED: return "FROM_START_CLICKED";
             case AudioStateMachine.EventId.INPUT_CHANGED: return "INPUT_CHANGED";
             case AudioStateMachine.EventId.MUSIC_OVER: return "MUSIC_OVER";
+            case AudioStateMachine.EventId.SPEECH_OVER: return "SPEECH_OVER";
             case AudioStateMachine.EventId.SPEECH_READY: return "SPEECH_READY";
             case AudioStateMachine.EventId.TOGGLE_PAUSE_RESUME: return "TOGGLE_PAUSE_RESUME";
             default: return "?";

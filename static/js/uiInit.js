@@ -181,26 +181,26 @@ export function resizeGrid(newSize) {
   createGridOfSquares(newSize);
 }
 
-export function lockTitleSend() {
-    elements.formInput.dataset.locked = 'true';  // Set when a square is playing
-  }
-  
-  export function unlockTitleSend() {
-  elements.formInput.dataset.locked = 'false'; // Clear when playback ends
-}
-
 // export function lockTitleSend() {
-//   elements.gridSquares.forEach(square => {
-//     square.style.pointerEvents = 'none'; // Or toggle a class
-//   });
+//     elements.formInput.dataset.locked = 'true';  // Set when a square is playing
+//   }
+  
+//   export function unlockTitleSend() {
+//   elements.formInput.dataset.locked = 'false'; // Clear when playback ends
 // }
 
-// export function unlockTitleSend() {
-//   elements.gridSquares.forEach(square => {
-//     square.style.pointerEvents = 'auto';
-//   });
-// }
-
-export function showSquareTitle() {
-  elements.square.classList.add('visible');
+export function lockTitleSend() {
+  elements.gridSquares.forEach(square => {
+    square.style.pointerEvents = 'none'; // Or toggle a class
+  });
 }
+
+export function unlockTitleSend() {
+  elements.gridSquares.forEach(square => {
+    square.style.pointerEvents = 'auto';
+  });
+}
+
+// export function showSquareTitle() {
+//   elements.square.classList.add('visible');
+// }

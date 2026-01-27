@@ -12,7 +12,7 @@
 
     '############################ Handlers ############################
 
-    IDLE: enter / this.actions.pauseAllAudio(); this.actions.resetAllAudio(); this.actions.uiIdle(); this.actions.hideLoadingAnimation(); this.actions.initInputAdjustments(); this.actions.unlockTitleSend(); this.actions.deactivateSquareTextHover();
+    IDLE: enter / this.actions.pauseAllAudio(); this.actions.resetAllAudio(); this.actions.uiIdle(); this.actions.hideLoadingAnimation(); this.actions.initInputAdjustments(); this.actions.unlockTitleSend();
     IDLE --> READY : INPUT_CHANGED [this.actions.inputIsValid()]
 
     READY: enter / this.actions.uiReadyButtons();
@@ -20,7 +20,7 @@
     READY --> LOADING : TOGGLE_PAUSE_RESUME / this.actions.startNewStoryProcess();
     READY --> IDLE: CANCEL / this.actions.stopAndResetAllAudio();
 
-    LOADING: enter / this.actions.showLoadingAnimation(); this.actions.uiLoadingButtons(); this.actions.lockTitleSend(); this.actions.toggleView(); this.actions.activateSquareTextHover();
+    LOADING: enter / this.actions.showLoadingAnimation(); this.actions.uiLoadingButtons(); this.actions.lockTitleSend(); this.actions.toggleView();
     LOADING --> PLAYING : SPEECH_READY / this.actions.setUpAndStartAllAudio();
     LOADING --> PAUSED : TOGGLE_PAUSE_RESUME / this.actions.pauseAllAudio();
     LOADING --> IDLE : CANCEL / this.actions.abortProcess(); this.actions.unlockTitleSend();
@@ -32,6 +32,7 @@
     PLAYING --> IDLE: CANCEL / this.actions.stopAndResetAllAudio();
     PLAYING : CHAT_HISTORY_CLICKED / this.actions.toggleTextVisibility();
     PLAYING : FROM_START_CLICKED / this.actions.pauseAllAudio(); this.actions.resetAllAudio(); this.actions.setUpAndStartAllAudio();
+    PLAYING : SPEECH_OVER / this.actions.unlockTitleSend(); this.actions.toggleView();
 
     PAUSED: enter / this.actions.uiPausedButtons(); this.actions.addBlurr();
     PAUSED --> PLAYING : TOGGLE_PAUSE_RESUME / this.actions.resumeAllAudio();

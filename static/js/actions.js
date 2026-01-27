@@ -32,8 +32,6 @@ import {
   toggleTextVisibility,
   updateStoryText,
   toggleView,
-  activateSquareTextHover,
-  deactivateSquareTextHover
 } from "/static/js/ui.js";
 
 import {

@@ -1,0 +1,47 @@
+
+/* Responsive design for different screen sizes */
+@media (max-width: 768px) {
+    .chat-header {
+        font-size: 1.5em;
+        padding: 15px 15px 30px;
+    }
+    
+    #teller-subtitle {
+        font-size: 0.6em;
+    }
+    
+    .toggle-container {
+        width: 90%;
+        min-height: 250px;
+    }
+    
+    footer.chat-input-area {
+        width: 95%;
+    }
+}
+
+@media (min-width: 1920px) {
+    /* Large screens - prevent truncation */
+    body {
+        padding: 20px 0;
+    }
+    
+    .toggle-container {
+        max-height: 70vh; /* Limit height on large screens */
+    }
+    
+    footer.chat-input-area {
+        margin-bottom: 30px;
+    }
+}
+
+/* Fix for external monitors with different DPI */
+@media (-webkit-device-pixel-ratio: 1.5), (min-resolution: 144dpi) {
+    body {
+        padding: 10px 0;
+    }
+    
+    .toggle-container {
+        min-height: 350px;
+    }
+}

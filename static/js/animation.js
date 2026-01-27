@@ -40,6 +40,7 @@ export function getRedColor() {
 export function getGreenColor() {
   let gardenGnomeGreen = "#6d9778";
   let flashGreen = "#00ff00"
+  return flashGreen;
   return "#e01818dd";
 }
 

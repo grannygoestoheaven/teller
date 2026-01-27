@@ -1,6 +1,7 @@
 import { elements } from '/static/js/config.js';
 import { cycleToNextTopic, mapValuesToSquares } from '/static/js/uiInit.js';
 import { toggleView } from '/static/js/ui.js';
+import { uiClearInput } from './ui.js';
 
 export function stateMachineEvents(sm) {
   window.addEventListener('keydown', (event) => {
@@ -109,6 +110,7 @@ export function staticListeners() {
     // Cycle to next topic
     cycleToNextTopic();
     mapValuesToSquares();
+    uiClearInput();
     // sm.dispatchEvent(AudioStateMachine.EventId.CANCEL); // leads to IDLE state
   });
   

@@ -32,6 +32,8 @@ import {
   toggleTextVisibility,
   updateStoryText,
   toggleView,
+  activateSquareTextHover,
+  deactivateSquareTextHover
 } from "/static/js/ui.js";
 
 import {
@@ -88,6 +90,8 @@ export const localActions = {
     toggleTextVisibility,
     updateStoryText,
     toggleView,
+    activateSquareTextHover,
+    deactivateSquareTextHover,
     
     // Animation Actions
     showLoadingAnimation,

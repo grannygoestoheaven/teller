@@ -110,7 +110,6 @@ export function staticListeners() {
     // Cycle to next topic
     cycleToNextTopic();
     mapValuesToSquares();
-    uiClearInput();
     // sm.dispatchEvent(AudioStateMachine.EventId.CANCEL); // leads to IDLE state
   });
   

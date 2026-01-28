@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // call the event function to set up event listeners for the state machine
   stateMachineEvents(sm);
-  staticListeners();
+  staticListeners(sm);
 
   // initialize the grid with subjects from the current topic
   initializeGrid(elements.gridSquares);

@@ -4,7 +4,7 @@
     --square-bg-color: transparent; /* color for squares */
     --square-content-color: transparent; /* Default: hide text */
     --square-hover-bg-color: rgb(204, 6, 6); /* color for hovered squares */
-    --square-hover-content-color: #d1caca; /* Default: hide text */
+    --square-hover-content-color: transparent /* Default: hide text */
    
     /* Grain texture */
     --grain-texture: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="none"/><rect width="100" height="100" fill="rgba(0,0,0,0.03)" filter="url(%23noise)"/></svg>');
@@ -82,8 +82,8 @@
 
 /* Hide scrollbars for the entire page */
 html, body {
+    width: 100vw;
     height: 100vh;
-    
     /* overflow: hidden; Prevent scrolling on the body, manage inner content scroll */
     scrollbar-width: none; /* Hide scrollbar for Firefox */
     -ms-overflow-style: none; /* Hide scrollbar for IE and Edge */
@@ -131,11 +131,11 @@ body {
 }
 
 .brand{
-    cursor:pointer;                   /* h1 already sits on one line      */
-    display:inline-block;
-    margin:0 0 0 0px;      /* keep your left indent            */
-    color:rgba(249,245,245);
-    font-weight:700;        /* make it stand out                */
+    cursor: pointer;                   /* h1 already sits on one line      */
+    display: inline-block;
+    margin: 0 0 0 0px;      /* keep your left indent            */
+    color: rgba(249,245,245);
+    font-weight: 700;        /* make it stand out                */
     user-select: none;              /* Prevent text selection */
     -webkit-user-select: none;      /* Safari */
     -moz-user-select: none;         /* Firefox */
@@ -196,29 +196,22 @@ body {
     /* border: solid 1px red; */
     justify-content: center;
     align-items: center;
-    width: 80%;
+    width: 75%;
     height: 100%; /* Ensure it fills the available space */
     /* overflow: hidden; */
   }
 
 .grid-container, .chat-history {
     position: absolute;
-    width: 90%;
+    width: 100%;
     height: 100%;
 }
 
 .grid-container {
     display: grid;
-    /* width: 100%; */
-    /* height: 100%;  */
-    /* justify-content: center;
-    align-items: center; */
     border: 1px dashed rgb(237, 230, 212, 3);
     border-radius: 14px;
-    background-color: rgb(29, 29, 29);
-    /* background-color: transparent; */
-    /* gap: 2px; */
-    /* gap: 1px; */
+    background-color: var(--grid-background-color);
     z-index: 5;
 }
 
@@ -228,20 +221,16 @@ body {
     /* aspect-ratio: 1/1; */
     /* background-color: hsla(116, 75%, 16%, 0.107); */
     background-color: var(--square-bg-color);
-    opacity: 75%;
     color: var(--square-content-color);
+    opacity: 75%;
     /* border: 0.01px dashed rgb(255, 255, 255); */
     border-radius: 14px;
     transition: 900ms;
 }
 
 .grid-container > .square:hover {
-    /* transform: scale(); */
-    /* background-color: green; */
-    /* background-color: rgb(236, 129, 14); */
-    /* background-color: rgb(204, 6, 6); */
     background-color: var(--square-hover-bg-color);
-    color: var(--square-hover-content-color);
+    color: transparent;
     transition: 150ms;
 }
 
@@ -425,8 +414,8 @@ body {
 
 /* Input area */
 footer.chat-input-area {
-    width: 100%;
-    width: 900px;
+    /* width: 100%; */
+    width: 100vw;
     max-height: auto;
     margin: 15px auto 10px auto;
     padding: 0 20px;

@@ -138,17 +138,17 @@ export function toggleView() {
 }
 
 // Activate: Show text on hover, no background change
-export function activateSquareTextHover() {
-  elements.gridSquares.forEach(square => {
-    square.style.setProperty('--square-bg-color:', 'transparent');
-    square.style.setProperty('--square-hover-content-color', '#d1caca');
-  });
-}
+// export function activateSquareTextHover() {
+//   elements.gridSquares.forEach(square => {
+//     square.style.setProperty('--square-bg-color:', 'transparent');
+//     square.style.setProperty('--square-hover-content-color', '#d1caca');
+//   });
+// }
 
 // Deactivate: Change background on hover, hide text
-export function deactivateSquareTextHover() {
-  elements.gridSquares.forEach(square => {
-    square.style.setProperty('--square-hover-bg-color:', 'rgb(204, 6, 6)');
-    square.style.setProperty('--square-hover-content-color', 'transparent');
-  });
-}
+// export function deactivateSquareTextHover() {
+//   elements.gridSquares.forEach(square => {
+//     square.style.setProperty('--square-hover-bg-color:', 'rgb(204, 6, 6)');
+//     square.style.setProperty('--square-hover-content-color', 'transparent');
+//   });
+// }

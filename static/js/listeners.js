@@ -90,7 +90,7 @@ export function staticListeners() {
   
   elements.gridSquares.forEach(square =>
     square.addEventListener('mouseenter', () => {
-      elements.formInput.dispatchEvent(new Event('input', { bubbles: true }));
+        elements.formInput.dispatchEvent(new Event('input', { bubbles: true }));
   }));
 
   elements.gridSquares.forEach(square => {

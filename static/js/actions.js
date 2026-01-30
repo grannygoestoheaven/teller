@@ -32,6 +32,8 @@ import {
   toggleTextVisibility,
   updateStoryText,
   toggleView,
+  applyDotsViewStyle,
+  applyGridViewStyle,
   // activateSquareTextHover,
   // deactivateSquareTextHover
 } from "/static/js/ui.js";
@@ -54,6 +56,7 @@ import {
   lockTitleSend,
   unlockTitleSend
 } from "/static/js/uiInit.js";
+import { applyDotsViewStyle, applyGridViewStyle } from "./ui";
 
 export const localActions = {
     // Story and Process Actions
@@ -90,6 +93,8 @@ export const localActions = {
     toggleTextVisibility,
     updateStoryText,
     toggleView,
+    applyDotsViewStyle,
+    applyGridViewStyle,
     // activateSquareTextHover,
     // deactivateSquareTextHover,
     

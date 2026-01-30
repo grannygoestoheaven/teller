@@ -16,7 +16,7 @@
     IDLE --> READY : INPUT_CHANGED [this.actions.inputIsValid()]
 
     READY: enter / this.actions.uiReadyButtons();
-    READY --> LOADING : FORM_SUBMITTED / this.actions.startNewStoryProcess();
+    READY --> LOADING : SQUARE_CLICKED / this.actions.startNewStoryProcess();
     READY --> LOADING : TOGGLE_PAUSE_RESUME / this.actions.startNewStoryProcess();
     READY --> IDLE: CANCEL / this.actions.stopAndResetAllAudio();
 
@@ -25,14 +25,22 @@
     LOADING --> PAUSED : TOGGLE_PAUSE_RESUME / this.actions.pauseAllAudio();
     LOADING --> IDLE : CANCEL / this.actions.abortProcess(); this.actions.unlockTitleSend();
 
-    PLAYING: enter / this.actions.uiPlayingButtons(); this.actions.removeBlurr(); this.actions.greenDots();
-    PLAYING --> PAUSED : TOGGLE_PAUSE_RESUME / this.actions.pauseAllAudio();
-    PLAYING --> IDLE : MUSIC_OVER [this.actions.bothTracksEnded()] / this.actions.unlockTitleSend();
+    PLAYING {
+    [*] --> GRID_VIEW
+
+    GRID_VIEW --> DOTS_VIEW : VIEW_TOGGLED / applyDotsViewStyle()
+    DOTS_VIEW --> GRID_VIEW : VIEW_TOGGLED / applyGridViewStyle()
+
+    PLAYING : enter / this.actions.uiPlayingButtons(); this.actions.removeBlurr(); this.actions.greenDots()
+    PLAYING --> PAUSED : TOGGLE_PAUSE_RESUME / this.actions.pauseAllAudio()
+    PLAYING --> IDLE : MUSIC_OVER [this.actions.bothTracksEnded()] / this.actions.unlockTitleSend()
     PLAYING --> READY : INPUT_CHANGED [this.actions.inputIsValid()]
-    PLAYING --> IDLE: CANCEL / this.actions.stopAndResetAllAudio();
-    PLAYING : CHAT_HISTORY_CLICKED / this.actions.toggleTextVisibility();
-    PLAYING : FROM_START_CLICKED / this.actions.pauseAllAudio(); this.actions.resetAllAudio(); this.actions.setUpAndStartAllAudio();
-    PLAYING : SPEECH_OVER / this.actions.unlockTitleSend(); this.actions.toggleView();
+    PLAYING --> IDLE : CANCEL / this.actions.stopAndResetAllAudio()
+    PLAYING : CHAT_HISTORY_CLICKED / this.actions.toggleTextVisibility()
+    PLAYING : FROM_START_CLICKED / this.actions.pauseAllAudio(); this.actions.resetAllAudio(); this.actions.setUpAndStartAllAudio()
+    PLAYING : SPEECH_OVER / this.actions.unlockTitleSend(); this.actions.toggleView()
+    }
+
 
     PAUSED: enter / this.actions.uiPausedButtons(); this.actions.addBlurr();
     PAUSED --> PLAYING : TOGGLE_PAUSE_RESUME / this.actions.resumeAllAudio();

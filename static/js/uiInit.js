@@ -93,7 +93,7 @@ export function mapValuesToSquares() {
     if (index < fullSubjects.length) { // Use < to avoid undefined errors
       square.dataset.fullSubject = fullSubjects[index];
       square.dataset.compactSubject = compactSubjects[index];
-      square.textContent = compactSubjects[index];
+      // square.textContent = compactSubjects[index];
       console.log(`compactSubject='${compactSubjects[index]}'`);
 
       // elements.formInput.dispatchEvent(new Event('input', { bubbles: true }));
@@ -153,12 +153,11 @@ export function createGridOfSquares(squaresPerWidth) {
   elements.gridContainer.style.gridTemplateRows = `repeat(${squaresPerWidth}, 1fr)`;
 
   // let's fill the grid
-  for(let i = 0; i < squareCount; i++)
+  for (let i = 0; i < squareCount; i++)
   {
       const squareDiv = document.createElement('div');
-      fragment.appendChild(squareDiv);
       squareDiv.classList.add('square');
-      squareDiv.textContent = '';
+      fragment.appendChild(squareDiv);
       elements.gridContainer.append(squareDiv);
   }
   elements.gridContainer.appendChild(fragment)

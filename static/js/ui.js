@@ -152,3 +152,11 @@ export function toggleView() {
 //     square.style.setProperty('--square-hover-content-color', 'transparent');
 //   });
 // }
+
+// In your state machine's actions:
+export function applyGridViewStyle() {
+  elements.formInput.style.opacity = 0.6;
+}
+export function applyDotsViewStyle() {
+  elements.formInput.style.opacity = 1;
+}

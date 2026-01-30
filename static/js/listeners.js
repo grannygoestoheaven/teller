@@ -1,7 +1,7 @@
 import { elements } from '/static/js/config.js';
 import { cycleToNextTopic, mapValuesToSquares } from '/static/js/uiInit.js';
 import { toggleView } from '/static/js/ui.js';
-import { uiClearInput } from './ui.js';
+// import { uiClearInput } from './ui.js';
 
 export function stateMachineEvents(sm) {
   window.addEventListener('keydown', (event) => {
@@ -74,32 +74,45 @@ export function stateMachineEvents(sm) {
     // elements.formInput.value = square.dataset.compactSubject;
   // }
   
+  // elements.gridSquares.forEach(square => {
+  //   square.addEventListener('click', () => {
+  //     sm.dispatchEvent(AudioStateMachine.EventId.FORM_SUBMITTED); // Pass full version to backend
+  //   });
+  // });
+
   elements.gridSquares.forEach(square => {
     square.addEventListener('click', () => {
-      console.log("Square clicked! Current state:", sm.currentState);
-      sm.dispatchEvent(AudioStateMachine.EventId.FORM_SUBMITTED); // Pass full version to backend
+      elements.activeSquare = square; // Store reference
+      sm.dispatchEvent(AudioStateMachine.EventId.SQUARE_CLICKED);
     });
   });
+
+  elements.toggleButton?.addEventListener('click', () => {
+    console.log('Toggling grid visibility');
+    sm.dispatchEvent(AudioStateMachine.EventId.VIEW_TOGGLED);
+    // toggleView();
+  });
+  
 }
 
 export function staticListeners() {
-  elements.toggleButton?.addEventListener('click', () => {
-    console.log('Toggling grid visibility');
-    toggleView();
-  });
   
   elements.gridSquares.forEach(square =>
-    square.addEventListener('mouseenter', () => {
-        elements.formInput.dispatchEvent(new Event('input', { bubbles: true }));
-  }));
-
-  elements.gridSquares.forEach(square => {
     square.addEventListener('mouseenter', () => {
       if (elements.formInput.dataset.locked !== 'true') {
         elements.formInput.value = square.dataset.compactSubject;
       }
-    })
-  });
+      // elements.formInput.dispatchEvent(new Event('input', { bubbles: true }));
+      console.log(square.dataset.fullSubject);
+  }));
+
+  // elements.gridSquares.forEach(square => {
+  //   square.addEventListener('mouseenter', () => {
+  //     if (elements.formInput.dataset.locked !== 'true') {
+  //       elements.formInput.value = square.dataset.compactSubject;
+  //     }
+  //   })
+  // });
 
   // Title click handler - now handles both topic cycling and state machine events
   elements.title?.addEventListener('click', (e) => {

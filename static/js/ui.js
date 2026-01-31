@@ -130,12 +130,33 @@ export function updateStoryText() {
 }
 
 // Toggle function
+// export function toggleView() {
+//   const isGridVisible = getIsGridVisible();
+//   elements.gridContainer.style.display = isGridVisible ? "none" : "grid";
+//   elements.chatHistoryContainer.style.display = isGridVisible ? "flex" : "none";
+//   setIsGridVisible(!isGridVisible); // Toggle the state
+// }
+
+// export function toggleView() {
+//   const isGridVisible = getIsGridVisible();
+//   elements.gridContainer.classList.toggle("hidden", !isGridVisible);
+//   elements.gridContainer.classList.toggle("visible", isGridVisible);
+//   elements.chatHistoryContainer.classList.toggle("hidden", isGridVisible);
+//   elements.chatHistoryContainer.classList.toggle("visible", !isGridVisible);
+//   setIsGridVisible(!isGridVisible);
+// }
+
 export function toggleView() {
   const isGridVisible = getIsGridVisible();
-  elements.gridContainer.style.display = isGridVisible ? "none" : "grid";
-  elements.chatHistoryContainer.style.display = isGridVisible ? "flex" : "none";
-  setIsGridVisible(!isGridVisible); // Toggle the state
+  // Reverse the logic for hidden/visible
+  elements.gridContainer.classList.toggle("hidden", isGridVisible);    // Hide if visible
+  elements.gridContainer.classList.toggle("visible", !isGridVisible);  // Show if hidden
+  elements.chatHistoryContainer.classList.toggle("hidden", !isGridVisible);  // Hide if grid is hidden
+  elements.chatHistoryContainer.classList.toggle("visible", isGridVisible);   // Show if grid is visible
+  setIsGridVisible(!isGridVisible);
 }
+
+
 
 // Activate: Show text on hover, no background change
 // export function activateSquareTextHover() {
@@ -155,7 +176,7 @@ export function toggleView() {
 
 // In your state machine's actions:
 export function applyGridViewStyle() {
-  elements.formInput.style.opacity = 0.6;
+  elements.formInput.style.opacity = 0.5;
 }
 export function applyDotsViewStyle() {
   elements.formInput.style.opacity = 1;

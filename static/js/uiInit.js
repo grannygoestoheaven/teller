@@ -1,6 +1,6 @@
 // ===== This module is about squares grids initializations and mappings =====
 import { elements } from '/static/js/config.js';
-import { defaultFields } from "/static/fields/defaultFieldsSmall.js";
+import { defaultFields } from "/static/fields/defaultFieldsDemo.js";
 
 const topics = Object.keys(defaultFields); // gets the list of topics from the defaultFields object
 
@@ -180,13 +180,13 @@ export function resizeGrid(newSize) {
   createGridOfSquares(newSize);
 }
 
-export function lockTitleSend() {
-    elements.formInput.dataset.locked = 'true';  // Set when a square is playing
-  }
+// export function lockTitleSend() {
+//     elements.formInput.dataset.locked = 'true';  // Set when a square is playing
+//   }
   
-  export function unlockTitleSend() {
-  elements.formInput.dataset.locked = 'false'; // Clear when playback ends
-}
+//   export function unlockTitleSend() {
+//   elements.formInput.dataset.locked = 'false'; // Clear when playback ends
+// }
 
 // export function lockTitleSend() {
 //   elements.gridSquares.forEach(square => {

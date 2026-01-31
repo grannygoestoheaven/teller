@@ -26,11 +26,11 @@ export function stateMachineEvents(sm) {
     sm.dispatchEvent(AudioStateMachine.EventId.INPUT_CHANGED); // leads to READY state
   });
 
-  elements.form?.addEventListener("submit", (e) => {
-    e.preventDefault();
-    console.log('Form submitted');
-    sm.dispatchEvent(AudioStateMachine.EventId.FORM_SUBMITTED) // leads to LOADING state
-  });
+  // elements.form?.addEventListener("submit", (e) => {
+  //   e.preventDefault();
+  //   console.log('Form submitted');
+  //   sm.dispatchEvent(AudioStateMachine.EventId.FORM_SUBMITTED) // leads to LOADING state
+  // });
 
   elements.chatHistoryContainer?.addEventListener('click', () => {
     console.log('Chat history clicked');
@@ -83,14 +83,15 @@ export function stateMachineEvents(sm) {
   elements.gridSquares.forEach(square => {
     square.addEventListener('click', () => {
       elements.activeSquare = square; // Store reference
+      console.log('Square clicked:', elements.activeSquare.dataset.fullSubject);
       sm.dispatchEvent(AudioStateMachine.EventId.SQUARE_CLICKED);
     });
   });
 
   elements.toggleButton?.addEventListener('click', () => {
     console.log('Toggling grid visibility');
-    sm.dispatchEvent(AudioStateMachine.EventId.VIEW_TOGGLED);
-    // toggleView();
+    // sm.dispatchEvent(AudioStateMachine.EventId.VIEW_TOGGLED);
+    toggleView();
   });
   
 }

@@ -33,10 +33,10 @@ export async function startNewStoryProcess() {
   // allow cancellation of process
   abortController = new AbortController();
   // const subjectData = new FormData(elements.form);
-  const subjectData = elements.activeSquare.dataset.fullSubject
+  let subject = elements.activeSquare.dataset.compactSubject
+  console.log("Subject from form input:", subject);
 
   // store and clean subject before sending to backend
-  let subject = subjectData.get('subject');
   subject = sanitizeSubject(subject);
   console.log("Sanitized subject:", subject);
 

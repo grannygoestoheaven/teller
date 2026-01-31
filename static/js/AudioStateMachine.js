@@ -8,12 +8,12 @@ class AudioStateMachine
     {
         CANCEL : 0,
         CHAT_HISTORY_CLICKED : 1,
-        FORM_SUBMITTED : 2,
-        FROM_START_CLICKED : 3,
-        INPUT_CHANGED : 4,
-        MUSIC_OVER : 5,
-        SPEECH_OVER : 6,
-        SPEECH_READY : 7,
+        FROM_START_CLICKED : 2,
+        INPUT_CHANGED : 3,
+        MUSIC_OVER : 4,
+        SPEECH_OVER : 5,
+        SPEECH_READY : 6,
+        SQUARE_CLICKED : 7,
         TOGGLE_PAUSE_RESUME : 8,
     }
     static { Object.freeze(this.EventId); }
@@ -83,7 +83,8 @@ class AudioStateMachine
             case AudioStateMachine.StateId.IDLE:
                 switch (eventId)
                 {
-                    case AudioStateMachine.EventId.INPUT_CHANGED: this.#IDLE_input_changed(); break;
+                    case AudioStateMachine.EventId.SQUARE_CLICKED: this.#IDLE_square_clicked(); break;
+                    case AudioStateMachine.EventId.TOGGLE_PAUSE_RESUME: this.#IDLE_toggle_pause_resume(); break;
                 }
                 break;
             
@@ -117,19 +118,14 @@ class AudioStateMachine
                     case AudioStateMachine.EventId.SPEECH_OVER: this.#PLAYING_speech_over(); break;
                     case AudioStateMachine.EventId.TOGGLE_PAUSE_RESUME: this.#PLAYING_toggle_pause_resume(); break;
                     case AudioStateMachine.EventId.MUSIC_OVER: this.#PLAYING_music_over(); break;
-                    case AudioStateMachine.EventId.INPUT_CHANGED: this.#PLAYING_input_changed(); break;
+                    case AudioStateMachine.EventId.SQUARE_CLICKED: this.#PLAYING_square_clicked(); break;
                     case AudioStateMachine.EventId.CANCEL: this.#PLAYING_cancel(); break;
                 }
                 break;
             
             // STATE: READY
             case AudioStateMachine.StateId.READY:
-                switch (eventId)
-                {
-                    case AudioStateMachine.EventId.FORM_SUBMITTED: this.#READY_form_submitted(); break;
-                    case AudioStateMachine.EventId.TOGGLE_PAUSE_RESUME: this.#READY_toggle_pause_resume(); break;
-                    case AudioStateMachine.EventId.CANCEL: this.#READY_cancel(); break;
-                }
+                // No events handled by this state (or its ancestors).
                 break;
         }
         
@@ -178,10 +174,10 @@ class AudioStateMachine
         this.stateId = AudioStateMachine.StateId.IDLE;
         
         // IDLE behavior
-        // uml: enter / { this.actions.pauseAllAudio(); this.actions.resetAllAudio(); this.actions.uiIdle(); this.actions.hideLoadingAnimation(); this.actions.initInputAdjustments(); this.actions.unlockTitleSend(); }
+        // uml: enter / { this.actions.pauseAllAudio(); this.actions.resetAllAudio(); this.actions.uiIdle(); this.actions.hideLoadingAnimation(); this.actions.initInputAdjustments(); }
         {
-            // Step 1: execute action `this.actions.pauseAllAudio(); this.actions.resetAllAudio(); this.actions.uiIdle(); this.actions.hideLoadingAnimation(); this.actions.initInputAdjustments(); this.actions.unlockTitleSend();`
-            this.actions.pauseAllAudio(); this.actions.resetAllAudio(); this.actions.uiIdle(); this.actions.hideLoadingAnimation(); this.actions.initInputAdjustments(); this.actions.unlockTitleSend();
+            // Step 1: execute action `this.actions.pauseAllAudio(); this.actions.resetAllAudio(); this.actions.uiIdle(); this.actions.hideLoadingAnimation(); this.actions.initInputAdjustments();`
+            this.actions.pauseAllAudio(); this.actions.resetAllAudio(); this.actions.uiIdle(); this.actions.hideLoadingAnimation(); this.actions.initInputAdjustments();
         } // end of behavior for IDLE
     }
     
@@ -190,19 +186,40 @@ class AudioStateMachine
         this.stateId = AudioStateMachine.StateId.ROOT;
     }
     
-    #IDLE_input_changed()
+    #IDLE_square_clicked()
     {
         // IDLE behavior
-        // uml: INPUT_CHANGED [this.actions.inputIsValid()] TransitionTo(READY)
-        if (this.actions.inputIsValid())
+        // uml: SQUARE_CLICKED / { this.actions.startNewStoryProcess(); } TransitionTo(LOADING)
         {
             // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
             this.#IDLE_exit();
             
-            // Step 2: Transition action: ``.
+            // Step 2: Transition action: `this.actions.startNewStoryProcess();`.
+            this.actions.startNewStoryProcess();
             
-            // Step 3: Enter/move towards transition target `READY`.
-            this.#READY_enter();
+            // Step 3: Enter/move towards transition target `LOADING`.
+            this.#LOADING_enter();
+            
+            // Step 4: complete transition. Ends event dispatch. No other behaviors are checked.
+            return;
+        } // end of behavior for IDLE
+        
+        // No ancestor handles this event.
+    }
+    
+    #IDLE_toggle_pause_resume()
+    {
+        // IDLE behavior
+        // uml: TOGGLE_PAUSE_RESUME / { this.actions.startNewStoryProcess(); } TransitionTo(LOADING)
+        {
+            // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
+            this.#IDLE_exit();
+            
+            // Step 2: Transition action: `this.actions.startNewStoryProcess();`.
+            this.actions.startNewStoryProcess();
+            
+            // Step 3: Enter/move towards transition target `LOADING`.
+            this.#LOADING_enter();
             
             // Step 4: complete transition. Ends event dispatch. No other behaviors are checked.
             return;
@@ -221,10 +238,10 @@ class AudioStateMachine
         this.stateId = AudioStateMachine.StateId.LOADING;
         
         // LOADING behavior
-        // uml: enter / { this.actions.showLoadingAnimation(); this.actions.uiLoadingButtons(); this.actions.lockTitleSend(); this.actions.toggleView(); }
+        // uml: enter / { this.actions.showLoadingAnimation(); this.actions.uiLoadingButtons(); this.actions.toggleView(); }
         {
-            // Step 1: execute action `this.actions.showLoadingAnimation(); this.actions.uiLoadingButtons(); this.actions.lockTitleSend(); this.actions.toggleView();`
-            this.actions.showLoadingAnimation(); this.actions.uiLoadingButtons(); this.actions.lockTitleSend(); this.actions.toggleView();
+            // Step 1: execute action `this.actions.showLoadingAnimation(); this.actions.uiLoadingButtons(); this.actions.toggleView();`
+            this.actions.showLoadingAnimation(); this.actions.uiLoadingButtons(); this.actions.toggleView();
         } // end of behavior for LOADING
     }
     
@@ -236,13 +253,13 @@ class AudioStateMachine
     #LOADING_cancel()
     {
         // LOADING behavior
-        // uml: CANCEL / { this.actions.abortProcess(); this.actions.unlockTitleSend(); } TransitionTo(IDLE)
+        // uml: CANCEL / { this.actions.abortProcess(); } TransitionTo(IDLE)
         {
             // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
             this.#LOADING_exit();
             
-            // Step 2: Transition action: `this.actions.abortProcess(); this.actions.unlockTitleSend();`.
-            this.actions.abortProcess(); this.actions.unlockTitleSend();
+            // Step 2: Transition action: `this.actions.abortProcess();`.
+            this.actions.abortProcess();
             
             // Step 3: Enter/move towards transition target `IDLE`.
             this.#IDLE_enter();
@@ -469,38 +486,16 @@ class AudioStateMachine
         // No ancestor handles this event.
     }
     
-    #PLAYING_input_changed()
-    {
-        // PLAYING behavior
-        // uml: INPUT_CHANGED [this.actions.inputIsValid()] TransitionTo(READY)
-        if (this.actions.inputIsValid())
-        {
-            // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
-            this.#PLAYING_exit();
-            
-            // Step 2: Transition action: ``.
-            
-            // Step 3: Enter/move towards transition target `READY`.
-            this.#READY_enter();
-            
-            // Step 4: complete transition. Ends event dispatch. No other behaviors are checked.
-            return;
-        } // end of behavior for PLAYING
-        
-        // No ancestor handles this event.
-    }
-    
     #PLAYING_music_over()
     {
         // PLAYING behavior
-        // uml: MUSIC_OVER [this.actions.bothTracksEnded()] / { this.actions.unlockTitleSend(); } TransitionTo(IDLE)
+        // uml: MUSIC_OVER [this.actions.bothTracksEnded()] TransitionTo(IDLE)
         if (this.actions.bothTracksEnded())
         {
             // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
             this.#PLAYING_exit();
             
-            // Step 2: Transition action: `this.actions.unlockTitleSend();`.
-            this.actions.unlockTitleSend();
+            // Step 2: Transition action: ``.
             
             // Step 3: Enter/move towards transition target `IDLE`.
             this.#IDLE_enter();
@@ -515,10 +510,31 @@ class AudioStateMachine
     #PLAYING_speech_over()
     {
         // PLAYING behavior
-        // uml: SPEECH_OVER / { this.actions.unlockTitleSend(); this.actions.toggleView(); }
+        // uml: SPEECH_OVER / { this.actions.toggleView(); }
         {
-            // Step 1: execute action `this.actions.unlockTitleSend(); this.actions.toggleView();`
-            this.actions.unlockTitleSend(); this.actions.toggleView();
+            // Step 1: execute action `this.actions.toggleView();`
+            this.actions.toggleView();
+        } // end of behavior for PLAYING
+        
+        // No ancestor handles this event.
+    }
+    
+    #PLAYING_square_clicked()
+    {
+        // PLAYING behavior
+        // uml: SQUARE_CLICKED / { this.actions.startNewStoryProcess(); } TransitionTo(LOADING)
+        {
+            // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
+            this.#PLAYING_exit();
+            
+            // Step 2: Transition action: `this.actions.startNewStoryProcess();`.
+            this.actions.startNewStoryProcess();
+            
+            // Step 3: Enter/move towards transition target `LOADING`.
+            this.#LOADING_enter();
+            
+            // Step 4: complete transition. Ends event dispatch. No other behaviors are checked.
+            return;
         } // end of behavior for PLAYING
         
         // No ancestor handles this event.
@@ -553,81 +569,11 @@ class AudioStateMachine
     #READY_enter()
     {
         this.stateId = AudioStateMachine.StateId.READY;
-        
-        // READY behavior
-        // uml: enter / { this.actions.uiReadyButtons(); }
-        {
-            // Step 1: execute action `this.actions.uiReadyButtons();`
-            this.actions.uiReadyButtons();
-        } // end of behavior for READY
     }
     
     #READY_exit()
     {
         this.stateId = AudioStateMachine.StateId.ROOT;
-    }
-    
-    #READY_cancel()
-    {
-        // READY behavior
-        // uml: CANCEL / { this.actions.stopAndResetAllAudio(); } TransitionTo(IDLE)
-        {
-            // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
-            this.#READY_exit();
-            
-            // Step 2: Transition action: `this.actions.stopAndResetAllAudio();`.
-            this.actions.stopAndResetAllAudio();
-            
-            // Step 3: Enter/move towards transition target `IDLE`.
-            this.#IDLE_enter();
-            
-            // Step 4: complete transition. Ends event dispatch. No other behaviors are checked.
-            return;
-        } // end of behavior for READY
-        
-        // No ancestor handles this event.
-    }
-    
-    #READY_form_submitted()
-    {
-        // READY behavior
-        // uml: FORM_SUBMITTED / { this.actions.startNewStoryProcess(); } TransitionTo(LOADING)
-        {
-            // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
-            this.#READY_exit();
-            
-            // Step 2: Transition action: `this.actions.startNewStoryProcess();`.
-            this.actions.startNewStoryProcess();
-            
-            // Step 3: Enter/move towards transition target `LOADING`.
-            this.#LOADING_enter();
-            
-            // Step 4: complete transition. Ends event dispatch. No other behaviors are checked.
-            return;
-        } // end of behavior for READY
-        
-        // No ancestor handles this event.
-    }
-    
-    #READY_toggle_pause_resume()
-    {
-        // READY behavior
-        // uml: TOGGLE_PAUSE_RESUME / { this.actions.startNewStoryProcess(); } TransitionTo(LOADING)
-        {
-            // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
-            this.#READY_exit();
-            
-            // Step 2: Transition action: `this.actions.startNewStoryProcess();`.
-            this.actions.startNewStoryProcess();
-            
-            // Step 3: Enter/move towards transition target `LOADING`.
-            this.#LOADING_enter();
-            
-            // Step 4: complete transition. Ends event dispatch. No other behaviors are checked.
-            return;
-        } // end of behavior for READY
-        
-        // No ancestor handles this event.
     }
     
     // Thread safe.
@@ -652,12 +598,12 @@ class AudioStateMachine
         {
             case AudioStateMachine.EventId.CANCEL: return "CANCEL";
             case AudioStateMachine.EventId.CHAT_HISTORY_CLICKED: return "CHAT_HISTORY_CLICKED";
-            case AudioStateMachine.EventId.FORM_SUBMITTED: return "FORM_SUBMITTED";
             case AudioStateMachine.EventId.FROM_START_CLICKED: return "FROM_START_CLICKED";
             case AudioStateMachine.EventId.INPUT_CHANGED: return "INPUT_CHANGED";
             case AudioStateMachine.EventId.MUSIC_OVER: return "MUSIC_OVER";
             case AudioStateMachine.EventId.SPEECH_OVER: return "SPEECH_OVER";
             case AudioStateMachine.EventId.SPEECH_READY: return "SPEECH_READY";
+            case AudioStateMachine.EventId.SQUARE_CLICKED: return "SQUARE_CLICKED";
             case AudioStateMachine.EventId.TOGGLE_PAUSE_RESUME: return "TOGGLE_PAUSE_RESUME";
             default: return "?";
         }

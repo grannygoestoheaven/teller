@@ -43,8 +43,8 @@ def generate_story_with_mistralai(subject, narrative_style: None, difficulty: No
                 },
                 
             ],
-            max_tokens=1300,
-            temperature=0.2,
+            max_tokens=1220,
+            temperature=0.4,
             presence_penalty=0.3,
             stream=False)
         

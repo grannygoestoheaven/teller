@@ -53,10 +53,7 @@ import {
   createGridOfSquares,
   mapValuesToSquares,
   getSquareElements,
-  lockTitleSend,
-  unlockTitleSend
 } from "/static/js/uiInit.js";
-import { applyDotsViewStyle, applyGridViewStyle } from "./ui";
 
 export const localActions = {
     // Story and Process Actions
@@ -112,6 +109,4 @@ export const localActions = {
     createGridOfSquares,
     mapValuesToSquares,
     getSquareElements,
-    lockTitleSend,
-    unlockTitleSend
   };

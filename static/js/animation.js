@@ -44,6 +44,13 @@ export function getGreenColor() {
   // return "#e01818dd";
 }
 
+export function getLoadingColor() {
+  let loadingGrey = "#888888";
+  return loadingGrey;
+  // let loadingBlue = "#3498db";
+  // return loadingBlue;
+}
+
 export function redDots() {
   const color = getRedColor(); // generate a color
   console.log("Generated Red Color:", color);
@@ -52,7 +59,12 @@ export function redDots() {
 
 export function greenDots() {
   const color = getGreenColor(); // generate a color
-  elements.dots.style.setProperty("--period-color", color); // set CSS variable to make the dots turn red
+  elements.dots.style.setProperty("--period-color", color); // set CSS variable to make the dots turn green
+}
+
+export function loadingDots() {
+  const color = getLoadingColor(); // generate a color
+  elements.dots.style.setProperty("--period-color", color); // set CSS variable to make the dots turn grey
 }
 
 export function addBlurr() {

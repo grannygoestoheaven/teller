@@ -43,8 +43,10 @@ import {
   hideLoadingAnimation,
   getRedColor,
   getGreenColor,
+  getLoadingColor,
   redDots,
   greenDots,
+  loadingDots,
   addBlurr,
   removeBlurr
 } from "/static/js/animation.js";
@@ -100,8 +102,10 @@ export const localActions = {
     hideLoadingAnimation,
     getRedColor,
     getGreenColor,
+    getLoadingColor,
     redDots,
     greenDots,
+    loadingDots,
     addBlurr,
     removeBlurr,
 

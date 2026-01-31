@@ -267,7 +267,7 @@ LOADING
 
 LOADING : LOADING
 
-LOADING : enter / #123; this.actions.showLoadingAnimation()#59; this.actions.uiLoadingButtons()#59; this.actions.toggleView()#59; #125;
+LOADING : enter / #123; this.actions.showLoadingAnimation()#59; this.actions.loadingDots()#59; this.actions.uiLoadingButtons()#59; this.actions.toggleView()#59; #125;
 
 PLAYING
 
@@ -618,10 +618,10 @@ evaluateGuard = null;
         } // end of behavior for LOADING
         
         // LOADING behavior
-        // uml: enter / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.showLoadingAnimation(); this.actions.uiLoadingButtons(); this.actions.toggleView();"); }
+        // uml: enter / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.showLoadingAnimation(); this.actions.loadingDots(); this.actions.uiLoadingButtons(); this.actions.toggleView();"); }
         {
-            // Step 1: execute action `this.tracer?.log("⚡ FSM would execute action: " + "this.actions.showLoadingAnimation(); this.actions.uiLoadingButtons(); this.actions.toggleView();");`
-            this.tracer?.log("⚡ FSM would execute action: " + "this.actions.showLoadingAnimation(); this.actions.uiLoadingButtons(); this.actions.toggleView();");
+            // Step 1: execute action `this.tracer?.log("⚡ FSM would execute action: " + "this.actions.showLoadingAnimation(); this.actions.loadingDots(); this.actions.uiLoadingButtons(); this.actions.toggleView();");`
+            this.tracer?.log("⚡ FSM would execute action: " + "this.actions.showLoadingAnimation(); this.actions.loadingDots(); this.actions.uiLoadingButtons(); this.actions.toggleView();");
         } // end of behavior for LOADING
     }
     

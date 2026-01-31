@@ -17,9 +17,9 @@ def new_story(data: StoryRequest) -> StoryResponse:
         subject = data.subject
         print(f"Hello Server {data.subject}")  # Debug print to verify subject
         narrative_style = data.narrative_style or DEFAULT_PROMPT_PATH
-        # difficulty = data.difficulty or "beginner"
+        difficulty = data.difficulty or "beginner"
         # difficulty = data.difficulty or "intermediate"
-        difficulty = data.difficulty or "expert"
+        # difficulty = data.difficulty or "expert"
         
         if data.subject.lower().strip() == "test":
             # Return a random existing story/speech URL

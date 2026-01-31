@@ -38,12 +38,12 @@ def generate_story_with_mistralai(subject, narrative_style: None, difficulty: No
                     "role": "system"
                 },
                 {
-                    "content": f"generate a **850 char MAXIMUM** text about {subject}.",
+                    "content": f"generate a **1100 char MAXIMUM** text about {subject}.",
                     "role": "user"
                 },
                 
             ],
-            max_tokens=1220,
+            max_tokens=400,
             temperature=0.4,
             presence_penalty=0.3,
             stream=False)

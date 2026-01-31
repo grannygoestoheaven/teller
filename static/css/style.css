@@ -126,7 +126,7 @@ body {
     font-size: 1.9em; /* Base font size for the header container */
     z-index: 10;
     background: none;
-    padding: 20px 25px 25px;
+    padding: 20px 25px 15px;
     flex-shrink: 0; /* Prevent header from shrinking */
 }
 
@@ -177,10 +177,14 @@ body {
 .toggle-button {
     /* display: none; */
     font-size: 0.8em;
-    margin-bottom: 20px;
-    padding: 0, 10, 10px;
-    color: rgb(200, 200, 200);
+    border: none;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    padding: 5px 10px;
+    background-color: #353432;
+    color: rgb(79, 78, 77);
     opacity: 0.7;
+    font-size: 0.6em;
 }
 
 .toggle-button .button {
@@ -193,7 +197,6 @@ body {
     display: flex;
     position: relative;
     aspect-ratio: 3/1;
-    /* border: solid 1px red; */
     justify-content: center;
     align-items: center;
     width: 75%;
@@ -205,15 +208,15 @@ body {
     position: absolute;
     width: 100%;
     height: 100%;
-    transition: opacity 0.5s ease, visibility 1s ease;
+    transition: opacity 0.3s ease, visibility 1s ease;
 }
 
-.grid-container.hidden, .chat-history-container.hidden {
+.grid-container.hidden, .chat-history.hidden {
   opacity: 0;
   visibility: hidden; /* Hides element but keeps space */
 }
 
-.grid-container.visible, .chat-history-container.visible {
+.grid-container.visible, .chat-history.visible {
   opacity: 1;
   visibility: visible;
 }
@@ -249,9 +252,6 @@ body {
     transition: 150ms;
 }
 
-.chat-history.hidden {
-    display: none; /* Hide chat when grid is visible */
-}
 
 /* Hide scrollbar for Webkit browsers (Chrome, Safari, Opera) */
 .chat-history::-webkit-scrollbar {
@@ -291,9 +291,14 @@ body {
     align-items: center;
     /* overflow: hidden; */
     border-radius: 5px;
-    /* opacity: 0;
-    visibility: hidden; */
+    /* Ensure proper spacing between words (adjusting chat-history directly) */
+    /* This is better applied to the #chatHistory itself if you want global word spacing */
+    white-space: normal;
+    word-spacing: -0.1em; /* Tighter word spacing */
+    letter-spacing: normal;
+    transition: all 0.3s ease-in-out;
 }
+
 
 .chat-inner {
     max-width: 60ch;
@@ -332,14 +337,6 @@ body {
     z-index: 1;
     padding: 0 0.1em; /* Reduced horizontal padding */
     margin: 0 -0.1em; /* Compensate for padding to reduce word spacing */
-}
-
-/* Ensure proper spacing between words (adjusting chat-history directly) */
-/* This is better applied to the #chatHistory itself if you want global word spacing */
-.chat-history {
-    white-space: normal;
-    word-spacing: -0.1em; /* Tighter word spacing */
-    letter-spacing: normal;
 }
 
 /* Hover effect for words */
@@ -434,8 +431,8 @@ footer.chat-input-area {
     /* width: 100%; */
     width: 100vw;
     max-height: auto;
-    margin: 15px auto 10px auto;
-    padding: 0 20px;
+    margin: 5px auto 10px auto;
+    padding: 0 15px;
     box-sizing: border-box;
     background: none;
     display: flex;
@@ -451,7 +448,8 @@ footer.chat-input-area {
     align-items: center;
     width: 530px;
     height: 100%;
-    gap: 10px;
+    padding: 5px;
+    gap: 12px;
 }
 
 #story-form {
@@ -461,13 +459,17 @@ footer.chat-input-area {
     margin-bottom: 0.5em;
 }
 
+.form-group {
+    margin-top: 10px;
+}
+
 .subject-input-group {
     position: relative;
     display: flex;
     align-items: center;
     height: 100%;
     width: 100%;
-    margin: 25px 0 5px;
+    margin: 10px 0 5px;
     padding: 0;
     border: 10px solid rgb(27, 27, 27);
     box-sizing: border-box;
@@ -488,7 +490,7 @@ footer.chat-input-area {
     min-height: 1.5em;
     line-height: 1.2em;
     border: none !important ;
-    padding: 18px 5px;
+    padding: 12px 5px;
     box-sizing: border-box;
     font-size: 1.6em;
     letter-spacing: 0cqmin;
@@ -541,7 +543,7 @@ footer.chat-input-area {
     display: flex;
     justify-content: center;
     gap: 1rem;
-    padding-bottom: 2rem;
+    padding-bottom: 1.5rem;
   }
 
 /* Pixel PLAY style */

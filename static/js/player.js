@@ -137,7 +137,7 @@ export function bothTracksEnded() {
   return elements.speech.ended && elements.backgroundTrack.ended;
 }
 
-export function setBgVolume(volume = 0.04) {
+export function setBgVolume(volume = 0.07) {
   elements.backgroundTrack.volume = volume;
 }
 

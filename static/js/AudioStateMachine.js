@@ -238,10 +238,10 @@ class AudioStateMachine
         this.stateId = AudioStateMachine.StateId.LOADING;
         
         // LOADING behavior
-        // uml: enter / { this.actions.showLoadingAnimation(); this.actions.uiLoadingButtons(); this.actions.toggleView(); }
+        // uml: enter / { this.actions.showLoadingAnimation(); this.actions.loadingDots(); this.actions.uiLoadingButtons(); this.actions.toggleView(); }
         {
-            // Step 1: execute action `this.actions.showLoadingAnimation(); this.actions.uiLoadingButtons(); this.actions.toggleView();`
-            this.actions.showLoadingAnimation(); this.actions.uiLoadingButtons(); this.actions.toggleView();
+            // Step 1: execute action `this.actions.showLoadingAnimation(); this.actions.loadingDots(); this.actions.uiLoadingButtons(); this.actions.toggleView();`
+            this.actions.showLoadingAnimation(); this.actions.loadingDots(); this.actions.uiLoadingButtons(); this.actions.toggleView();
         } // end of behavior for LOADING
     }
     

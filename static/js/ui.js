@@ -147,16 +147,14 @@ export function updateStoryText() {
 // }
 
 export function toggleView() {
-  const isGridVisible = getIsGridVisible();
+  const visible = getIsGridVisible();
   // Reverse the logic for hidden/visible
-  elements.gridContainer.classList.toggle("hidden", isGridVisible);    // Hide if visible
-  elements.gridContainer.classList.toggle("visible", !isGridVisible);  // Show if hidden
-  elements.chatHistoryContainer.classList.toggle("hidden", !isGridVisible);  // Hide if grid is hidden
-  elements.chatHistoryContainer.classList.toggle("visible", isGridVisible);   // Show if grid is visible
-  setIsGridVisible(!isGridVisible);
+  elements.gridContainer.classList.toggle("hidden", visible);    // Hide if visible
+  elements.gridContainer.classList.toggle("visible", !visible);  // Show if hidden
+  elements.chatHistoryContainer.classList.toggle("hidden", !visible);  // Hide if grid is hidden
+  elements.chatHistoryContainer.classList.toggle("visible", visible);   // Show if grid is visible
+  setIsGridVisible(!visible);
 }
-
-
 
 // Activate: Show text on hover, no background change
 // export function activateSquareTextHover() {
@@ -178,6 +176,15 @@ export function toggleView() {
 export function applyGridViewStyle() {
   elements.formInput.style.opacity = 0.5;
 }
+
 export function applyDotsViewStyle() {
   elements.formInput.style.opacity = 1;
+}
+
+export function dotsViewTitle() {
+  if (elements.activeSquare) {
+    elements.formInput.value = elements.activeSquare.dataset.compactSubject;
+    console.log(elements.activeSquare.dataset.compactSubject);
+    console.log('elements.formInput.value set to:', elements.formInput.value);
+  }
 }

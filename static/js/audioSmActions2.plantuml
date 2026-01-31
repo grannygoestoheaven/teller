@@ -26,6 +26,8 @@
     PLAYING --> IDLE : MUSIC_OVER [this.actions.bothTracksEnded()]
     PLAYING --> LOADING : SQUARE_CLICKED / this.actions.startNewStoryProcess();
     PLAYING --> IDLE: CANCEL / this.actions.stopAndResetAllAudio();
+    PLAYING : VIEW_TOGGLED / this.actions.toggleView()
+    PLAYING : VIEW_TOGGLED [this.actions.getIsGridVisible] / this.actions.dotsViewTitle();
     PLAYING : CHAT_HISTORY_CLICKED / this.actions.toggleTextVisibility();
     PLAYING : FROM_START_CLICKED / this.actions.pauseAllAudio(); this.actions.resetAllAudio(); this.actions.setUpAndStartAllAudio();
     PLAYING : SPEECH_OVER / this.actions.toggleView();

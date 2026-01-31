@@ -1,5 +1,7 @@
 import { startNewStoryProcess } from "/static/js/storyService.js";
 
+import { getIsGridVisible } from "/static/js/config.js";
+
 import {
   loadPlayer,
   startSpeech,
@@ -32,6 +34,7 @@ import {
   toggleTextVisibility,
   updateStoryText,
   toggleView,
+  dotsViewTitle,
   applyDotsViewStyle,
   applyGridViewStyle,
   // activateSquareTextHover,
@@ -60,6 +63,9 @@ import {
 export const localActions = {
     // Story and Process Actions
     startNewStoryProcess,
+
+    // check grid visibility
+    getIsGridVisible,
 
     // Player Actions
     loadPlayer,
@@ -92,6 +98,7 @@ export const localActions = {
     toggleTextVisibility,
     updateStoryText,
     toggleView,
+    dotsViewTitle,
     applyDotsViewStyle,
     applyGridViewStyle,
     // activateSquareTextHover,

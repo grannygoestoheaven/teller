@@ -90,10 +90,10 @@ export function stateMachineEvents(sm) {
 
   elements.toggleButton?.addEventListener('click', () => {
     console.log('Toggling grid visibility');
-    // sm.dispatchEvent(AudioStateMachine.EventId.VIEW_TOGGLED);
+    console.log(elements.activeSquare.dataset.compactSubject)
+    sm.dispatchEvent(AudioStateMachine.EventId.VIEW_TOGGLED);
     toggleView();
   });
-  
 }
 
 export function staticListeners() {

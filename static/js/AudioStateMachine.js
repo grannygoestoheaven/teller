@@ -15,10 +15,11 @@ class AudioStateMachine
         SPEECH_READY : 6,
         SQUARE_CLICKED : 7,
         TOGGLE_PAUSE_RESUME : 8,
+        VIEW_TOGGLED : 9,
     }
     static { Object.freeze(this.EventId); }
     
-    static EventIdCount = 9;
+    static EventIdCount = 10;
     static { Object.freeze(this.EventIdCount); }
     
     static StateId = 
@@ -102,6 +103,7 @@ class AudioStateMachine
             case AudioStateMachine.StateId.PAUSED:
                 switch (eventId)
                 {
+                    case AudioStateMachine.EventId.VIEW_TOGGLED: this.#PAUSED_view_toggled(); break;
                     case AudioStateMachine.EventId.TOGGLE_PAUSE_RESUME: this.#PAUSED_toggle_pause_resume(); break;
                     case AudioStateMachine.EventId.FROM_START_CLICKED: this.#PAUSED_from_start_clicked(); break;
                     case AudioStateMachine.EventId.INPUT_CHANGED: this.#PAUSED_input_changed(); break;
@@ -113,6 +115,7 @@ class AudioStateMachine
             case AudioStateMachine.StateId.PLAYING:
                 switch (eventId)
                 {
+                    case AudioStateMachine.EventId.VIEW_TOGGLED: this.#PLAYING_view_toggled(); break;
                     case AudioStateMachine.EventId.CHAT_HISTORY_CLICKED: this.#PLAYING_chat_history_clicked(); break;
                     case AudioStateMachine.EventId.FROM_START_CLICKED: this.#PLAYING_from_start_clicked(); break;
                     case AudioStateMachine.EventId.SPEECH_OVER: this.#PLAYING_speech_over(); break;
@@ -419,6 +422,26 @@ class AudioStateMachine
         // No ancestor handles this event.
     }
     
+    #PAUSED_view_toggled()
+    {
+        // PAUSED behavior
+        // uml: VIEW_TOGGLED / { this.actions.toggleView() }
+        {
+            // Step 1: execute action `this.actions.toggleView()`
+            this.actions.toggleView()
+        } // end of behavior for PAUSED
+        
+        // PAUSED behavior
+        // uml: VIEW_TOGGLED [this.actions.getIsGridVisible] / { this.actions.dotsViewTitle(); }
+        if (this.actions.getIsGridVisible)
+        {
+            // Step 1: execute action `this.actions.dotsViewTitle();`
+            this.actions.dotsViewTitle();
+        } // end of behavior for PAUSED
+        
+        // No ancestor handles this event.
+    }
+    
     
     ////////////////////////////////////////////////////////////////////////////////
     // event handlers for state PLAYING
@@ -561,6 +584,26 @@ class AudioStateMachine
         // No ancestor handles this event.
     }
     
+    #PLAYING_view_toggled()
+    {
+        // PLAYING behavior
+        // uml: VIEW_TOGGLED / { this.actions.toggleView() }
+        {
+            // Step 1: execute action `this.actions.toggleView()`
+            this.actions.toggleView()
+        } // end of behavior for PLAYING
+        
+        // PLAYING behavior
+        // uml: VIEW_TOGGLED [this.actions.getIsGridVisible] / { this.actions.dotsViewTitle(); }
+        if (this.actions.getIsGridVisible)
+        {
+            // Step 1: execute action `this.actions.dotsViewTitle();`
+            this.actions.dotsViewTitle();
+        } // end of behavior for PLAYING
+        
+        // No ancestor handles this event.
+    }
+    
     
     ////////////////////////////////////////////////////////////////////////////////
     // event handlers for state READY
@@ -605,6 +648,7 @@ class AudioStateMachine
             case AudioStateMachine.EventId.SPEECH_READY: return "SPEECH_READY";
             case AudioStateMachine.EventId.SQUARE_CLICKED: return "SQUARE_CLICKED";
             case AudioStateMachine.EventId.TOGGLE_PAUSE_RESUME: return "TOGGLE_PAUSE_RESUME";
+            case AudioStateMachine.EventId.VIEW_TOGGLED: return "VIEW_TOGGLED";
             default: return "?";
         }
     }

@@ -81,7 +81,7 @@ export function stateMachineEvents(sm) {
   // });
 
   elements.gridSquares.forEach(square => {
-    square.addEventListener('click', () => {
+    square.addEventListener('click', () => { // we need to get sure the click happens only inside the grid - to prevent triggering reassigment of activeSquare when clicking outside, like when choosing a new topic.
       elements.activeSquare = square; // Store reference
       console.log('Square clicked:', elements.activeSquare.dataset.fullSubject);
       sm.dispatchEvent(AudioStateMachine.EventId.SQUARE_CLICKED);
@@ -90,9 +90,8 @@ export function stateMachineEvents(sm) {
 
   elements.toggleButton?.addEventListener('click', () => {
     console.log('Toggling grid visibility');
-    console.log(elements.activeSquare.dataset.compactSubject)
     sm.dispatchEvent(AudioStateMachine.EventId.VIEW_TOGGLED);
-    toggleView();
+    // toggleView();
   });
 }
 

@@ -275,6 +275,10 @@ PLAYING : PLAYING
 
 PLAYING : enter / #123; this.actions.uiPlayingButtons()#59; this.actions.removeBlurr()#59; this.actions.greenDots()#59; #125;
 
+PLAYING : VIEW_TOGGLED / #123; this.actions.toggleView() #125;
+
+PLAYING : VIEW_TOGGLED [this.actions.getIsGridVisible] / #123; this.actions.dotsViewTitle()#59; #125;
+
 PLAYING : CHAT_HISTORY_CLICKED / #123; this.actions.toggleTextVisibility()#59; #125;
 
 PLAYING : FROM_START_CLICKED / #123; this.actions.pauseAllAudio()#59; this.actions.resetAllAudio()#59; this.actions.setUpAndStartAllAudio()#59; #125;
@@ -286,6 +290,10 @@ PAUSED
 PAUSED : PAUSED
 
 PAUSED : enter / #123; this.actions.uiPausedButtons()#59; this.actions.addBlurr()#59; #125;
+
+PAUSED : VIEW_TOGGLED / #123; this.actions.toggleView() #125;
+
+PAUSED : VIEW_TOGGLED [this.actions.getIsGridVisible] / #123; this.actions.dotsViewTitle()#59; #125;
 
 ROOT.(InitialState) --> IDLE
 
@@ -373,10 +381,11 @@ evaluateGuard = null;
         SPEECH_READY : 6,
         SQUARE_CLICKED : 7,
         TOGGLE_PAUSE_RESUME : 8,
+        VIEW_TOGGLED : 9,
     }
     static { Object.freeze(this.EventId); }
     
-    static EventIdCount = 9;
+    static EventIdCount = 10;
     static { Object.freeze(this.EventIdCount); }
     
     static StateId = 
@@ -461,6 +470,7 @@ evaluateGuard = null;
             case AudioStateMachine.StateId.PAUSED:
                 switch (eventId)
                 {
+                    case AudioStateMachine.EventId.VIEW_TOGGLED: this.#PAUSED_view_toggled(); break;
                     case AudioStateMachine.EventId.TOGGLE_PAUSE_RESUME: this.#PAUSED_toggle_pause_resume(); break;
                     case AudioStateMachine.EventId.FROM_START_CLICKED: this.#PAUSED_from_start_clicked(); break;
                     case AudioStateMachine.EventId.INPUT_CHANGED: this.#PAUSED_input_changed(); break;
@@ -472,6 +482,7 @@ evaluateGuard = null;
             case AudioStateMachine.StateId.PLAYING:
                 switch (eventId)
                 {
+                    case AudioStateMachine.EventId.VIEW_TOGGLED: this.#PLAYING_view_toggled(); break;
                     case AudioStateMachine.EventId.CHAT_HISTORY_CLICKED: this.#PLAYING_chat_history_clicked(); break;
                     case AudioStateMachine.EventId.FROM_START_CLICKED: this.#PLAYING_from_start_clicked(); break;
                     case AudioStateMachine.EventId.SPEECH_OVER: this.#PLAYING_speech_over(); break;
@@ -821,6 +832,26 @@ evaluateGuard = null;
         // No ancestor handles this event.
     }
     
+    #PAUSED_view_toggled()
+    {
+        // PAUSED behavior
+        // uml: VIEW_TOGGLED / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.toggleView()"); }
+        {
+            // Step 1: execute action `this.tracer?.log("⚡ FSM would execute action: " + "this.actions.toggleView()");`
+            this.tracer?.log("⚡ FSM would execute action: " + "this.actions.toggleView()");
+        } // end of behavior for PAUSED
+        
+        // PAUSED behavior
+        // uml: VIEW_TOGGLED [this.tracer?.log("🛡️ User evaluating guard: " + "this.actions.getIsGridVisible") || this.evaluateGuard("PAUSED","VIEW_TOGGLED [this.actions.getIsGridVisible] / { this.actions.dotsViewTitle(); }")] / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.dotsViewTitle();"); }
+        if (this.tracer?.log("🛡️ User evaluating guard: " + "this.actions.getIsGridVisible") || this.evaluateGuard("PAUSED","VIEW_TOGGLED [this.actions.getIsGridVisible] / { this.actions.dotsViewTitle(); }"))
+        {
+            // Step 1: execute action `this.tracer?.log("⚡ FSM would execute action: " + "this.actions.dotsViewTitle();");`
+            this.tracer?.log("⚡ FSM would execute action: " + "this.actions.dotsViewTitle();");
+        } // end of behavior for PAUSED
+        
+        // No ancestor handles this event.
+    }
+    
     
     ////////////////////////////////////////////////////////////////////////////////
     // event handlers for state PLAYING
@@ -978,6 +1009,26 @@ evaluateGuard = null;
         // No ancestor handles this event.
     }
     
+    #PLAYING_view_toggled()
+    {
+        // PLAYING behavior
+        // uml: VIEW_TOGGLED / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.toggleView()"); }
+        {
+            // Step 1: execute action `this.tracer?.log("⚡ FSM would execute action: " + "this.actions.toggleView()");`
+            this.tracer?.log("⚡ FSM would execute action: " + "this.actions.toggleView()");
+        } // end of behavior for PLAYING
+        
+        // PLAYING behavior
+        // uml: VIEW_TOGGLED [this.tracer?.log("🛡️ User evaluating guard: " + "this.actions.getIsGridVisible") || this.evaluateGuard("PLAYING","VIEW_TOGGLED [this.actions.getIsGridVisible] / { this.actions.dotsViewTitle(); }")] / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.dotsViewTitle();"); }
+        if (this.tracer?.log("🛡️ User evaluating guard: " + "this.actions.getIsGridVisible") || this.evaluateGuard("PLAYING","VIEW_TOGGLED [this.actions.getIsGridVisible] / { this.actions.dotsViewTitle(); }"))
+        {
+            // Step 1: execute action `this.tracer?.log("⚡ FSM would execute action: " + "this.actions.dotsViewTitle();");`
+            this.tracer?.log("⚡ FSM would execute action: " + "this.actions.dotsViewTitle();");
+        } // end of behavior for PLAYING
+        
+        // No ancestor handles this event.
+    }
+    
     
     ////////////////////////////////////////////////////////////////////////////////
     // event handlers for state READY
@@ -1036,6 +1087,7 @@ evaluateGuard = null;
             case AudioStateMachine.EventId.SPEECH_READY: return "SPEECH_READY";
             case AudioStateMachine.EventId.SQUARE_CLICKED: return "SQUARE_CLICKED";
             case AudioStateMachine.EventId.TOGGLE_PAUSE_RESUME: return "TOGGLE_PAUSE_RESUME";
+            case AudioStateMachine.EventId.VIEW_TOGGLED: return "VIEW_TOGGLED";
             default: return "?";
         }
     }
@@ -1074,7 +1126,7 @@ evaluateGuard = null;
             center: true
         });
 
-        const diagramEventNamesArray = ['CANCEL', 'CHAT_HISTORY_CLICKED', 'FROM_START_CLICKED', 'INPUT_CHANGED', 'MUSIC_OVER', 'SPEECH_OVER', 'SPEECH_READY', 'SQUARE_CLICKED', 'TOGGLE_PAUSE_RESUME', ];
+        const diagramEventNamesArray = ['CANCEL', 'CHAT_HISTORY_CLICKED', 'FROM_START_CLICKED', 'INPUT_CHANGED', 'MUSIC_OVER', 'SPEECH_OVER', 'SPEECH_READY', 'SQUARE_CLICKED', 'TOGGLE_PAUSE_RESUME', 'VIEW_TOGGLED', ];
 
         // Mapping from state to available events
         const stateEventsMapping = {
@@ -1095,13 +1147,15 @@ evaluateGuard = null;
     "MUSIC_OVER",
     "SPEECH_OVER",
     "SQUARE_CLICKED",
-    "TOGGLE_PAUSE_RESUME"
+    "TOGGLE_PAUSE_RESUME",
+    "VIEW_TOGGLED"
   ],
   "PAUSED": [
     "CANCEL",
     "FROM_START_CLICKED",
     "INPUT_CHANGED",
-    "TOGGLE_PAUSE_RESUME"
+    "TOGGLE_PAUSE_RESUME",
+    "VIEW_TOGGLED"
   ]
 };
 

@@ -7,6 +7,7 @@ const topics = Object.keys(defaultFields); // gets the list of topics from the d
 // Topic cycling variables
 let currentTopicData = defaultFields[topics[0]];
 let currentTopicIndex = 0;
+let remainingSubjects = [];
 
 const fragment = document.createDocumentFragment(); // Create a document fragment to optimize DOM updates
 

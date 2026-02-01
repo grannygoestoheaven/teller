@@ -26,11 +26,11 @@ export function stateMachineEvents(sm) {
     sm.dispatchEvent(AudioStateMachine.EventId.INPUT_CHANGED); // leads to READY state
   });
 
-  // elements.form?.addEventListener("submit", (e) => {
-  //   e.preventDefault();
-  //   console.log('Form submitted');
-  //   sm.dispatchEvent(AudioStateMachine.EventId.FORM_SUBMITTED) // leads to LOADING state
-  // });
+  elements.form?.addEventListener("submit", (e) => {
+    e.preventDefault();
+    console.log('Form submitted');
+    sm.dispatchEvent(AudioStateMachine.EventId.FORM_SUBMITTED) // leads to LOADING state
+  });
 
   elements.chatHistoryContainer?.addEventListener('click', () => {
     console.log('Chat history clicked');

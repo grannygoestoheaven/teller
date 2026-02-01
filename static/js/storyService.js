@@ -34,6 +34,7 @@ export async function startNewStoryProcess() {
   abortController = new AbortController();
   // const subjectData = new FormData(elements.form);
   let subject = elements.activeSquare.dataset.compactSubject
+  let formSubject = elements.formInput.value.trim();
   console.log("Subject from form input:", subject);
 
   // store and clean subject before sending to backend

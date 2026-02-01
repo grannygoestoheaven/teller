@@ -1,5 +1,5 @@
-import { elements } from "./config.js";
-import { uiIdle } from "./ui.js";
+import { elements } from "/static/js/config.js";
+import { uiIdle } from "/static/js/ui.js";
 
 let speechTimeout = null;
 let speechStartDelay = 5000; // Default 5 second delay
@@ -49,7 +49,7 @@ export function pauseBackgroundOnly() {
   elements.backgroundTrack.pause();
 }
 export function resumeBackgroundOnly() {
-  elements.backgroundTrack.volume = 0.04;
+  elements.backgroundTrack.volume = 0.03;
   elements.backgroundTrack.play();
 }
 

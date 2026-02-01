@@ -43,9 +43,9 @@ def generate_story_with_mistralai(subject, narrative_style: None, difficulty: No
                 },
                 
             ],
-            max_tokens=450,
-            temperature=0.6,
-            presence_penalty=0.3,
+            max_tokens=700,
+            temperature=0.4,
+            presence_penalty=0.5,
             stream=False)
         
         print(f"Response type: {type(response)}")

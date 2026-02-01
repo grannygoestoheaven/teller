@@ -470,14 +470,15 @@ footer.chat-input-area {
     align-items: center;
     height: 100%;
     width: 100%;
-    margin: 10px 0 5px;
+    margin: 0px 5px;
+    margin-top: 5px;
     padding: 0;
     border: 10px solid rgb(27, 27, 27);
     box-sizing: border-box;
     border: transparent !important ;
     /* background: #2c2c2caf; */
     /* background: #0c0c0c; */
-    background: var(--subject-bg-color, #171717e8);
+    background-color: var(--subject-bg-color, transparent);
     border-radius: 25px;
 }
 
@@ -491,9 +492,9 @@ footer.chat-input-area {
     min-height: 1.5em;
     line-height: 1.2em;
     border: none !important ;
-    padding: 12px 5px;
+    padding: 0px 5px 5px;
     box-sizing: border-box;
-    font-size: 1.6em;
+    font-size: 1.7em;
     letter-spacing: 0cqmin;
     font-family: 'Inika', serif;
     color: rgba(245, 245, 245, 0.9);

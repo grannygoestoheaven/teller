@@ -8,9 +8,12 @@ app = FastAPI()
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
-app.include_router(story.router, prefix="/v1/stories")
 app.include_router(ui_home.router)
+app.include_router(ui_home.router, prefix="/v1/fields")
+app.include_router(story.router, prefix="/v1/stories")
 
 @app.on_event("startup")
 def startup_event():
     load_prompts()  # Load all prompts once at startup
+
+print("Server running at: http://127.0.0.1:8000")

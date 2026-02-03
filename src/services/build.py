@@ -7,7 +7,7 @@ from src.services.storage import save_subjects_to_json_file, save_txt_to_json_fi
 
 from src.config.settings import FIELDS_DIR, GENERATED_STORIES_DIR, LOCAL_TRACKS_DIR
 
-def create_subjects(field: str) -> dict:
+def generate_subjects(field: str) -> dict:
     print(field)
     subjects_foldername = field
     
@@ -22,7 +22,7 @@ def create_subjects(field: str) -> dict:
     
     return frontend_payload
 
-def load_field_subjects(field: str) -> dict:
+def load_subjects(field: str) -> dict:
     
     field_subjects_foldername = field
     full_subjects, compact_subjects = get_subjects_from_subjects_list(field) # returns a list of subjects from the stored subjects list

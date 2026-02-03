@@ -12,7 +12,7 @@ let isGridVisible = true; // Default visibility
 let isChatVisible = false; // Default chat visibility
 let squareValues = []; // Array to hold values for each square
 let currentPlayingSquare = null;
-let userInput = ""
+let isGridFilled = false; // To track if the grid is filled
 
 // Getters
 export function getGridSize() { return gridSize; }
@@ -22,7 +22,6 @@ export function getIsGridVisible() { return isGridVisible; }
 export function getIsChatVisible() { return isChatVisible; }
 export function getSquaresValuesList() { return squareValues; }
 export function getCurrentPlayingSquare() { return currentPlayingSquare; }
-export function getUserInput() { return userInput; }
 
 // Setters
 export function setGridSize(value) { gridSize = value; }

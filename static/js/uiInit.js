@@ -5,14 +5,20 @@ import { defaultFields } from "/static/fields/defaultFieldsDemo.js";
 const topics = Object.keys(defaultFields); // gets the list of topics from the defaultFields object
 
 // Topic cycling variables
+let currentUserTopicData = '';
 let currentTopicData = defaultFields[topics[0]];
 let currentTopicIndex = 0;
 let remainingSubjects = [];
 
 const fragment = document.createDocumentFragment(); // Create a document fragment to optimize DOM updates
 
+// const userSubjects = getCurrentUserTopicData();
 const compactSubjects = getCurrentTopicSubjects('compact'); // the list of compact subjects (for display)
 const fullSubjects = getCurrentTopicSubjects('full'); // the list of full subjects (for backend)
+
+export function getCurrentUserTopicData() {
+
+}
 
 // Get the current main topic's (teller-subtitle) subjects, e.g 'Architecture' or 'Science'
 export function getCurrentTopicSubjects(type = 'compact') {

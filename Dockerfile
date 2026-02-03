@@ -58,10 +58,10 @@ RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir -r requirements-minimal.txt
 
 # Expose the port your Flask application listens on.
-EXPOSE 7860
+EXPOSE 8000
 
 # Command to run the application when the container starts (as appuser)
-CMD ["python", "flask_ui_app_new.py"]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
 
 # --- Cache-busting comment ---
 # Ultimate permission fix attempt: 20250531-FINAL%                                              

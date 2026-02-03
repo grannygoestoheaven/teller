@@ -1,10 +1,39 @@
 from fastapi import HTTPException
 
+from src.services.modes.story.subjects_creation import generate_subjects_with_mistralai
 from src.services.modes.story.text import generate_story_with_openai_jinja, generate_story_with_mistralai
 from src.services.modes.story.tts import openai_tts
-from src.services.storage import save_txt_to_json_file, save_mp3_speech_file, get_clean_text_from_json_file, get_tagged_text_from_json_file, get_text_title_from_json_file, get_speech_url, get_random_track_url
+from src.services.storage import save_subjects_to_json_file, save_txt_to_json_file, save_mp3_speech_file, get_clean_text_from_json_file, get_tagged_text_from_json_file, get_text_title_from_json_file, get_speech_url, get_random_track_url, get_subjects_from_subjects_list
 
-from src.config.settings import GENERATED_STORIES_DIR, LOCAL_TRACKS_DIR
+from src.config.settings import FIELDS_DIR, GENERATED_STORIES_DIR, LOCAL_TRACKS_DIR
+
+def create_subjects(field: str) -> dict:
+    print(field)
+    subjects_foldername = field
+    
+    full_subjects, compact_subjects = generate_subjects_with_mistralai(field) # returns text files
+    subjects_filepath = save_subjects_to_json_file(field, full_subjects, compact_subjects, FIELDS_DIR) # store the subjects parameters on the server and returns the subjects file
+    
+    frontend_payload = {
+        "subjectsFoldername": subjects_foldername,
+        "fullSubjects": full_subjects,
+        "compactSubjects": compact_subjects
+    }
+    
+    return frontend_payload
+
+def load_field_subjects(field: str) -> dict:
+    
+    field_subjects_foldername = field
+    full_subjects, compact_subjects = get_subjects_from_subjects_list(field) # returns a list of subjects from the stored subjects list
+    
+    frontend_payload = {
+        "fieldSubjectsFoldername": field_subjects_foldername,
+        "full_subjects": full_subjects,
+        "compact_subjects": compact_subjects
+    }
+
+    return frontend_payload
 
 def build_story(subject: str, narrative_style: str, difficulty: str) -> dict:
     print(subject)
@@ -46,8 +75,6 @@ def build_story(subject: str, narrative_style: str, difficulty: str) -> dict:
         "trackTitle": track_title
     }
     
-    print(f"Payload constructed: {frontend_payload}")
-    
     return frontend_payload
 
 def load_story(subject: str, regenerate_mp3: bool) -> dict:
@@ -87,7 +114,6 @@ def load_story(subject: str, regenerate_mp3: bool) -> dict:
             "trackTitle": track_title
         }
 
-        print(f"Payload constructed: {frontend_payload}")
         return frontend_payload
 
     except Exception as e:

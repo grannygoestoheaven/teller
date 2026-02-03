@@ -14,5 +14,3 @@ app.include_router(ui_home.router)
 @app.on_event("startup")
 def startup_event():
     load_prompts()  # Load all prompts once at startup
-
-print("Server running at: http://127.0.0.1:8000")

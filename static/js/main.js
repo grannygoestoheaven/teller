@@ -5,8 +5,6 @@ import { createGridOfSquares, initializeGrid, initTopicCycling, mapValuesToSquar
 import { stateMachineEvents, staticListeners } from "/static/js/listeners.js";
 // import the actions object that will be assigned to the state machine
 import { localActions } from "/static/js/actions.js";
-// import { mainFields } from '../subjectsMainFields/mainFields.js';
-// import { fullSubjects, compactSubjects } from '../fields/subjects/science.js';
 
 document.addEventListener('DOMContentLoaded', () => {
 

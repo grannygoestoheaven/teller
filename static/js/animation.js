@@ -37,18 +37,26 @@ export function getRedColor() {
   // return Math.random(arrayOfRedShades) < 0.5 ? arrayOfRedShades[Math.floor(Math.random() * arrayOfRedShades.length)] : "#FF0000";
 }
 
+export function getPurpleColor() {
+  let lavenderPurple = "#b57edc";
+  let vibrantPurple = "#9b30ff";
+  let deepPurple = "#4e004f";
+  return deepPurple;
+}
+
 export function getGreenColor() {
   let gardenGnomeGreen = "#6d9778";
   let flashGreen = "#00ff00"
-  return flashGreen;
+  let loadingBlue = "#0021f3";
+  return loadingBlue;
   // return "#e01818dd";
 }
 
 export function getLoadingColor() {
   let loadingGrey = "#888888";
-  return loadingGrey;
-  // let loadingBlue = "#3498db";
-  // return loadingBlue;
+  // return loadingGrey;
+  let loadingBlue = "#3498db";
+  return loadingBlue;
 }
 
 export function redDots() {
@@ -58,12 +66,12 @@ export function redDots() {
 }
 
 export function greenDots() {
-  const color = getGreenColor(); // generate a color
+  const color = getLoadingColor(); // generate a color
   elements.dots.style.setProperty("--period-color", color); // set CSS variable to make the dots turn green
 }
 
 export function loadingDots() {
-  const color = getLoadingColor(); // generate a color
+  const color = getGreenColor(); // generate a color
   elements.dots.style.setProperty("--period-color", color); // set CSS variable to make the dots turn grey
 }
 

@@ -2,8 +2,8 @@ import os
 import math  # For character-to-token conversion
 import re
 
-from fastapi import APIRouter
-from pydantic import BaseModel
+# from fastapi import APIRouter
+# from pydantic import BaseModel
 
 from mistralai import Mistral
 from openai import OpenAI
@@ -31,21 +31,21 @@ def generate_story_with_mistralai(subject, narrative_style: None, difficulty: No
         print(f" Let's see : {narrative_style_rendered[:50]}")
 
         response = mistral_client.chat.complete(
-            model="mistral-small-latest",
+            model="mistral-medium-latest",
             messages=[
                 {
                     "content": narrative_style_rendered,
                     "role": "system"
                 },
                 {
-                    "content": f"generate a **1150 char MAXIMUM** text about {subject}.",
+                    "content": f"generate a **1200 char MAXIMUM** text about {subject}.",
                     "role": "user"
                 },
                 
             ],
-            max_tokens=700,
-            temperature=0.4,
-            presence_penalty=0.5,
+            max_tokens=800,
+            temperature=0.1,
+            presence_penalty=1.2,
             stream=False)
         
         print(f"Response type: {type(response)}")
@@ -54,8 +54,9 @@ def generate_story_with_mistralai(subject, narrative_style: None, difficulty: No
         #     raise ValueError("Empty response from Mistral API")
 
         tagged_story_for_tts = response.choices[0].message.content if response else "" # get the story text with punctuation tags
+        print(f"Generated tagged story for TTS: {tagged_story_for_tts}")
         clean_story = _clean_story_text(tagged_story_for_tts) # remove punctuation tags to have a clean version to display
-        print(clean_story[:50])
+        print(f"CLEAN STORY: {clean_story}")
         clean_story_title = _clean_story_title(subject)
     
         return clean_story_title, tagged_story_for_tts, clean_story

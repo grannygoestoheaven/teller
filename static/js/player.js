@@ -49,7 +49,7 @@ export function pauseBackgroundOnly() {
   elements.backgroundTrack.pause();
 }
 export function resumeBackgroundOnly() {
-  elements.backgroundTrack.volume = 0.03;
+  elements.backgroundTrack.volume = 0.02;
   elements.backgroundTrack.play();
 }
 

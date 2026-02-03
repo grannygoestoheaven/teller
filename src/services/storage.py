@@ -9,9 +9,29 @@ from pathlib import Path
 from fastapi import Request
 from datetime import datetime
 
-from src.config.settings import STATIC_DIR, GENERATED_STORIES_DIR, LOCAL_TRACKS_DIR
+from src.config.settings import STATIC_DIR, FIELDS_DIR, GENERATED_STORIES_DIR, LOCAL_TRACKS_DIR
 
 # ==== STORING FUNCTIONS =====
+def save_subjects_to_json_file(field: str, full_subjects: list[str], compact_subjects: list[str], save_dir: Path) -> str:
+    """
+    Saves the subjects list to a JSON file in the specified directory.
+    """
+    subject_dir = save_dir / field
+    subject_dir.mkdir(parents=True, exist_ok=True)
+    filepath = subject_dir / f"{field}_subjects.json"  # e.g., "science_subjects.json"
+    timestamp = datetime.utcnow().strftime('%Y%m%dT%H%M%SZ')
+
+    # Prepare payload that will be stored, then fetched later for replay, or when user sends existing subject.
+    payload = {
+        "field": field,
+        "full_subjects": full_subjects,
+        "compact_subjects": compact_subjects,
+        "timestamp": timestamp
+    }
+    with open(filepath, 'w', encoding='utf-8') as f:
+        json.dump(payload, f, ensure_ascii=False, indent=2)
+        
+    return str(filepath.resolve())
 
 def save_txt_to_json_file(story_filename: str, story_title: str, tagged_story_for_tts: str, clean_story: str, save_dir: Path) -> Path:
     """
@@ -50,6 +70,21 @@ def save_mp3_speech_file(story_foldername: str, speech_filename: str, speech_aud
     return str(audio_fullpath)
 
 # ==== FETCHING FUNCTIONS =====
+
+def get_subjects_from_subjects_list(field: str) -> list[str]:
+    """
+    Extracts subjects from the saved subjects list file.
+    """
+    subjects_filepath = STATIC_DIR / "fields" / f"{field}.js"
+    print(f"Retrieving subjects from: {subjects_filepath}")
+    
+    with open(subjects_filepath, "r", encoding="utf-8") as f:
+        subjects_data = f.read()
+        # Assuming the file contains a JSON array of subjects
+        full_subjects = json.loads(subjects_data[0]["fullSubjects"])
+        compact_subjects = json.loads(subjects_data[0]["compactSubjects"])
+    
+    return full_subjects, compact_subjects
 
 def get_tagged_text_from_json_file(story_filename) -> str:
     """

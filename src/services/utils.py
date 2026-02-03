@@ -34,7 +34,7 @@ def _clean_story_text(story: str) -> str:
     """
     if not story:
         return story
-    cleaned = re.sub(r'<\[silence]>(\s*)', lambda m: ' ' if m.group(1) else '', story)
+    cleaned = re.sub(r'<\[silence:1200]>(\s*)', lambda m: ' ' if m.group(1) else '', story)
     cleaned = re.sub(r'([a-z])(\s*\n|$)', r'\1.\2', cleaned, flags=re.IGNORECASE)
     cleaned = re.sub(r'\.\.+', '.', cleaned)
     cleaned = re.sub(r'\.([^ \n])', r'. \1', cleaned)

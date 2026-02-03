@@ -287,9 +287,9 @@ PLAYING : CHAT_HISTORY_CLICKED / #123; this.actions.toggleTextVisibility()#59; #
 
 PLAYING : FROM_START_CLICKED / #123; this.actions.pauseAllAudio()#59; this.actions.resetAllAudio()#59; this.actions.setUpAndStartAllAudio()#59; #125;
 
-PLAYING : SPEECH_OVER / #123; this.actions.toggleView()#59; #125;
+PLAYING : SPEECH_OVER [!this.actions.getIsGridVisible()] / #123; this.actions.toggleView()#59; #125;
 
-PLAYING : VIEW_TOGGLED / #123; this.actions.toggleView() #125;
+PLAYING : VIEW_TOGGLED / #123; this.actions.toggleView()#59; #125;
 
 PLAYING : VIEW_TOGGLED [this.actions.getIsGridVisible] / #123; this.actions.dotsViewTitle()#59; #125;
 
@@ -299,7 +299,7 @@ PAUSED : PAUSED
 
 PAUSED : enter / #123; this.actions.uiPausedButtons()#59; this.actions.addBlurr()#59; #125;
 
-PAUSED : VIEW_TOGGLED / #123; this.actions.toggleView() #125;
+PAUSED : VIEW_TOGGLED / #123; this.actions.toggleView()#59; #125;
 
 PAUSED : VIEW_TOGGLED [this.actions.getIsGridVisible] / #123; this.actions.dotsViewTitle()#59; #125;
 
@@ -884,10 +884,10 @@ evaluateGuard = null;
     #PAUSED_view_toggled()
     {
         // PAUSED behavior
-        // uml: VIEW_TOGGLED / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.toggleView()"); }
+        // uml: VIEW_TOGGLED / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.toggleView();"); }
         {
-            // Step 1: execute action `this.tracer?.log("⚡ FSM would execute action: " + "this.actions.toggleView()");`
-            this.tracer?.log("⚡ FSM would execute action: " + "this.actions.toggleView()");
+            // Step 1: execute action `this.tracer?.log("⚡ FSM would execute action: " + "this.actions.toggleView();");`
+            this.tracer?.log("⚡ FSM would execute action: " + "this.actions.toggleView();");
         } // end of behavior for PAUSED
         
         // PAUSED behavior
@@ -1007,7 +1007,8 @@ evaluateGuard = null;
     #PLAYING_speech_over()
     {
         // PLAYING behavior
-        // uml: SPEECH_OVER / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.toggleView();"); }
+        // uml: SPEECH_OVER [this.tracer?.log("🛡️ User evaluating guard: " + "!this.actions.getIsGridVisible()") || this.evaluateGuard("PLAYING","SPEECH_OVER [!this.actions.getIsGridVisible()] / { this.actions.toggleView(); }")] / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.toggleView();"); }
+        if (this.tracer?.log("🛡️ User evaluating guard: " + "!this.actions.getIsGridVisible()") || this.evaluateGuard("PLAYING","SPEECH_OVER [!this.actions.getIsGridVisible()] / { this.actions.toggleView(); }"))
         {
             // Step 1: execute action `this.tracer?.log("⚡ FSM would execute action: " + "this.actions.toggleView();");`
             this.tracer?.log("⚡ FSM would execute action: " + "this.actions.toggleView();");
@@ -1061,10 +1062,10 @@ evaluateGuard = null;
     #PLAYING_view_toggled()
     {
         // PLAYING behavior
-        // uml: VIEW_TOGGLED / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.toggleView()"); }
+        // uml: VIEW_TOGGLED / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.toggleView();"); }
         {
-            // Step 1: execute action `this.tracer?.log("⚡ FSM would execute action: " + "this.actions.toggleView()");`
-            this.tracer?.log("⚡ FSM would execute action: " + "this.actions.toggleView()");
+            // Step 1: execute action `this.tracer?.log("⚡ FSM would execute action: " + "this.actions.toggleView();");`
+            this.tracer?.log("⚡ FSM would execute action: " + "this.actions.toggleView();");
         } // end of behavior for PLAYING
         
         // PLAYING behavior

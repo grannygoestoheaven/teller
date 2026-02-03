@@ -19,5 +19,12 @@ package.json
 wrappers.py.envrc
 *.egg-info
 speech_test.py
+migrate_stories.py
+script_default_fields.py
+script_philosophy.py
+scripts.py
 /static/audio/main2.js
 /static/audio/webAudioAPI.js
+/tests
+/files_to_pick_from/
+/function_factory/

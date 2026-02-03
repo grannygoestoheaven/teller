@@ -1,5 +1,5 @@
-import { elements, getIsGridVisible, setIsGridVisible, getIsChatVisible } from "./config.js";
-import { lastStoryData } from "./config.js";
+import { elements, getIsGridVisible, setIsGridVisible, getIsChatVisible } from "/static/js/config.js";
+import { lastStoryData } from "/static/js/config.js";
 
 export function uiIdle() {
   // Clear past story

@@ -14,6 +14,7 @@ print(f"BASE_DIR set to: {BASE_DIR}")
 
 # Directories for storing generated stories
 STATIC_DIR = BASE_DIR / "static"
+FIELDS_DIR = STATIC_DIR / "fields"
 GENERATED_STORIES_DIR = STATIC_DIR / "stories"
 
 # Directories for retrieval augmented generation sources
@@ -26,7 +27,6 @@ LOCAL_TRACKS_DIR = STATIC_DIR / "audio" / "local_ambient_tracks"
 
 # Remaining subjects list
 
-
 # Fields and subjects
 DEFAULT_FIELDS = STATIC_DIR / "fields" / "defaultFieldsSmall.js"
 
@@ -35,6 +35,7 @@ DEFAULT_DURATION = 1
 
 PROMPTS_DIR = BASE_DIR / "src" / "config" / "patterns"
 DEFAULT_PROMPT_PATH = BASE_DIR / "src" / "config"/ "patterns" / "precision_narrative_mistral.md"
+# DEFAULT_PROMPT_PATH = BASE_DIR / "src" / "config"/ "patterns" / "precision_narrative_mistral_2.md"
 # DEFAULT_PROMPT_PATH = BASE_DIR / "src" / "config"/ "patterns" / "schizophrenic.md"
 
 DEFAULT_PROMPT = DEFAULT_PROMPT_PATH.read_text()

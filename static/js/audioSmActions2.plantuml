@@ -32,8 +32,8 @@
     PLAYING --> IDLE: CANCEL / this.actions.stopAndResetAllAudio();
     PLAYING : CHAT_HISTORY_CLICKED / this.actions.toggleTextVisibility();
     PLAYING : FROM_START_CLICKED / this.actions.pauseAllAudio(); this.actions.resetAllAudio(); this.actions.setUpAndStartAllAudio();
-    PLAYING : SPEECH_OVER / this.actions.toggleView();
-    PLAYING : VIEW_TOGGLED / this.actions.toggleView()
+    PLAYING : SPEECH_OVER [!this.actions.getIsGridVisible()] / this.actions.toggleView();
+    PLAYING : VIEW_TOGGLED / this.actions.toggleView();
     PLAYING : VIEW_TOGGLED [this.actions.getIsGridVisible] / this.actions.dotsViewTitle();
 
     PAUSED: enter / this.actions.uiPausedButtons(); this.actions.addBlurr();
@@ -41,7 +41,7 @@
     PAUSED --> PLAYING : TOGGLE_PAUSE_RESUME / this.actions.resumeAllAudio();
     PAUSED --> PLAYING : FROM_START_CLICKED / this.actions.resetAllAudio(); this.actions.setUpAndStartAllAudio();
     PAUSED --> IDLE: CANCEL / this.actions.setUpAndStartAllAudio();
-    PAUSED : VIEW_TOGGLED / this.actions.toggleView()
+    PAUSED : VIEW_TOGGLED / this.actions.toggleView();
     PAUSED : VIEW_TOGGLED [this.actions.getIsGridVisible] / this.actions.dotsViewTitle();
 
 /'! $CONFIG : toml

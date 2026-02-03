@@ -467,10 +467,10 @@ class AudioStateMachine
     #PAUSED_view_toggled()
     {
         // PAUSED behavior
-        // uml: VIEW_TOGGLED / { this.actions.toggleView() }
+        // uml: VIEW_TOGGLED / { this.actions.toggleView(); }
         {
-            // Step 1: execute action `this.actions.toggleView()`
-            this.actions.toggleView()
+            // Step 1: execute action `this.actions.toggleView();`
+            this.actions.toggleView();
         } // end of behavior for PAUSED
         
         // PAUSED behavior
@@ -575,7 +575,8 @@ class AudioStateMachine
     #PLAYING_speech_over()
     {
         // PLAYING behavior
-        // uml: SPEECH_OVER / { this.actions.toggleView(); }
+        // uml: SPEECH_OVER [!this.actions.getIsGridVisible()] / { this.actions.toggleView(); }
+        if (!this.actions.getIsGridVisible())
         {
             // Step 1: execute action `this.actions.toggleView();`
             this.actions.toggleView();
@@ -629,10 +630,10 @@ class AudioStateMachine
     #PLAYING_view_toggled()
     {
         // PLAYING behavior
-        // uml: VIEW_TOGGLED / { this.actions.toggleView() }
+        // uml: VIEW_TOGGLED / { this.actions.toggleView(); }
         {
-            // Step 1: execute action `this.actions.toggleView()`
-            this.actions.toggleView()
+            // Step 1: execute action `this.actions.toggleView();`
+            this.actions.toggleView();
         } // end of behavior for PLAYING
         
         // PLAYING behavior

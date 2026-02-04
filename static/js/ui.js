@@ -1,4 +1,5 @@
-import { elements, getIsGridVisible, setIsGridVisible, getIsChatVisible, currentFormInputValue, lastStoryData } from "/static/js/config.js";
+import { elements, getIsGridVisible, setIsGridVisible, getIsChatVisible } from "/static/js/config.js";
+import { lastStoryData } from "/static/js/config.js";
 
 export function uiIdle() {
   // Clear past story
@@ -47,11 +48,6 @@ export function initInputAdjustments() {
 //   }
 // }
 
-export function setCurrentInputValue() {
-  // Update the currentFormInputValue in config.js
-  currentFormInputValue = elements.formInput.value.trim();
-}
-
 export function inputIsValid() {
   return elements.formInput.value.trim().length > 0;
 }
@@ -64,7 +60,8 @@ export function uiReadyButtons() {
   // Enable buttons when input is at least one character long
   elements.fromStartButton.disabled = false;
   elements.playPauseButton.disabled = false;
-  elements.chatHistoryContainer.disabled = !getIsChatVisible();
+  elements.playPauseButton.textContent = 'Start';
+  // elements.chatHistoryContainer.disabled = !getIsChatVisible();
 }
 
 export function uiClearInput() {
@@ -160,6 +157,18 @@ export function toggleView() {
   setIsGridVisible(!visible);
 }
 
+export function lockGrid() {
+  elements.gridSquares.forEach(square => {
+    square.style.pointerEvents = 'none';
+  });
+}
+
+export function unlockGrid() {
+  elements.gridSquares.forEach(square => {
+    square.style.pointerEvents = 'auto';
+  });
+}
+
 // Activate: Show text on hover, no background change
 // export function activateSquareTextHover() {
 //   elements.gridSquares.forEach(square => {
@@ -191,6 +200,6 @@ export function dotsViewTitle() {
     console.log(elements.activeSquare.dataset.compactSubject);
     console.log('elements.formInput.value set to:', elements.formInput.value);
   } else {
-    elements.formInput.value = formSubject;
+    elements.formInput.value = lastStoryData.storyTitle;
   }
 }

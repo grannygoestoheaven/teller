@@ -1,6 +1,5 @@
 import { generateSubjectsListFromTopic } from "/static/js/subjectsService.js";
 import { startNewStoryProcess, startNewStoryProcessForm } from "/static/js/storyService.js";
-
 import { getIsGridVisible, getIsGridFilled } from "/static/js/config.js";
 
 import {
@@ -35,6 +34,8 @@ import {
   toggleTextVisibility,
   updateStoryText,
   toggleView,
+  lockGrid,
+  unlockGrid,
   dotsViewTitle,
   applyDotsViewStyle,
   applyGridViewStyle,
@@ -102,6 +103,8 @@ export const localActions = {
     toggleTextVisibility,
     updateStoryText,
     toggleView,
+    lockGrid,
+    unlockGrid,
     dotsViewTitle,
     applyDotsViewStyle,
     applyGridViewStyle,

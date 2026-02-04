@@ -6,15 +6,21 @@ import { sanitizeSubject } from "./utils.js";
 export async function generateSubjectsListFromTopic() {
 
   let topic = elements.formInput.value.trim();
+  console.log("Topic from form input:", topic);
   topic = sanitizeSubject(topic);
+  console.log("Sanitized topic:", topic);
 
   // ==== API CALL 1: check if topic exists ====
+
+  console.log(JSON.stringify({topic}));
 
   const response =  await fetch('/v1/topic/check_topic', {
     method: 'POST',
     headers: { 'Content-Type' : 'application/json' },
     body: JSON.stringify({topic})
   })
+
+  console.log("Response from check_topic:", response);
 
   if (!response.ok) {
     const errorTopicData = await response.json();

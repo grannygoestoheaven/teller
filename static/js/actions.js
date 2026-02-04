@@ -1,5 +1,5 @@
 import { generateSubjectsListFromTopic } from "/static/js/subjectsService.js";
-import { startNewStoryProcess } from "/static/js/storyService.js";
+import { startNewStoryProcess, startNewStoryProcessForm } from "/static/js/storyService.js";
 
 import { getIsGridVisible, getIsGridFilled } from "/static/js/config.js";
 
@@ -65,6 +65,7 @@ export const localActions = {
     // Story and Process Actions
     generateSubjectsListFromTopic,
     startNewStoryProcess,
+    startNewStoryProcessForm,
 
     // check grid visibility
     getIsGridVisible,

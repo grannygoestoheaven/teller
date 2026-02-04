@@ -1,6 +1,7 @@
 export const elements = {}; // the elements object is defined in main.js
 export let lastStoryData = {}; // the lastStoryData object is assigned in storyService.js
 export let lastTopicData = {}; // the lastTopicData object is assigned in storyService.js
+export let currentFormInputValue = ''; // to track the current value of the form input, will be updated on input events in ui.js
 
 // export let fullSubjects = []; // for later use, will be populated from subjects files in relation to the Topic the user would have clicked onto.
 // export let compactSubjects = []; // for later use, will be populated from subjects files - in a compacted version - in relation to the Topic the user would have clicked onto.

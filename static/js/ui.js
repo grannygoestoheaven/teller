@@ -1,5 +1,4 @@
-import { elements, getIsGridVisible, setIsGridVisible, getIsChatVisible } from "/static/js/config.js";
-import { lastStoryData } from "/static/js/config.js";
+import { elements, getIsGridVisible, setIsGridVisible, getIsChatVisible, currentFormInputValue, lastStoryData } from "/static/js/config.js";
 
 export function uiIdle() {
   // Clear past story
@@ -47,6 +46,11 @@ export function initInputAdjustments() {
 //       }
 //   }
 // }
+
+export function setCurrentInputValue() {
+  // Update the currentFormInputValue in config.js
+  currentFormInputValue = elements.formInput.value.trim();
+}
 
 export function inputIsValid() {
   return elements.formInput.value.trim().length > 0;
@@ -186,5 +190,7 @@ export function dotsViewTitle() {
     elements.formInput.value = elements.activeSquare.dataset.compactSubject;
     console.log(elements.activeSquare.dataset.compactSubject);
     console.log('elements.formInput.value set to:', elements.formInput.value);
+  } else {
+    elements.formInput.value = formSubject;
   }
 }

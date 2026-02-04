@@ -7,12 +7,25 @@ from src.services.storage import save_subjects_to_json_file, save_txt_to_json_fi
 
 from src.config.settings import FIELDS_DIR, GENERATED_STORIES_DIR, LOCAL_TRACKS_DIR
 
-def generate_subjects(field: str) -> dict:
-    print(field)
-    subjects_foldername = field
+def load_subjects(topic: str) -> dict:
     
-    full_subjects, compact_subjects = generate_subjects_with_mistralai(field) # returns text files
-    subjects_filepath = save_subjects_to_json_file(field, full_subjects, compact_subjects, FIELDS_DIR) # store the subjects parameters on the server and returns the subjects file
+    topic_subjects_foldername = topic
+    full_subjects, compact_subjects = get_subjects_from_subjects_list(topic_subjects_folername) # returns a list of subjects from the stored subjects list
+    
+    frontend_payload = {
+        "topicSubjectsFoldername": topic_subjects_foldername,
+        "full_subjects": full_subjects,
+        "compact_subjects": compact_subjects
+    }
+
+    return frontend_payload
+
+def generate_subjects(topic: str) -> dict:
+    print(topic)
+    subjects_foldername = topic
+    
+    full_subjects, compact_subjects = generate_subjects_with_mistralai(topic)
+    subjects_filepath = save_subjects_to_json_file(topic, full_subjects, compact_subjects, FIELDS_DIR) # store the subjects parameters on the server and returns the subjects file
     
     frontend_payload = {
         "subjectsFoldername": subjects_foldername,
@@ -20,19 +33,6 @@ def generate_subjects(field: str) -> dict:
         "compactSubjects": compact_subjects
     }
     
-    return frontend_payload
-
-def load_subjects(field: str) -> dict:
-    
-    field_subjects_foldername = field
-    full_subjects, compact_subjects = get_subjects_from_subjects_list(field) # returns a list of subjects from the stored subjects list
-    
-    frontend_payload = {
-        "fieldSubjectsFoldername": field_subjects_foldername,
-        "full_subjects": full_subjects,
-        "compact_subjects": compact_subjects
-    }
-
     return frontend_payload
 
 def build_story(subject: str, narrative_style: str, difficulty: str) -> dict:

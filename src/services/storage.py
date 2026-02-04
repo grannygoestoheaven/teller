@@ -81,8 +81,8 @@ def get_subjects_from_subjects_list(field: str) -> list[str]:
     with open(subjects_filepath, "r", encoding="utf-8") as f:
         subjects_data = f.read()
         # Assuming the file contains a JSON array of subjects
-        full_subjects = json.loads(subjects_data[0]["fullSubjects"])
-        compact_subjects = json.loads(subjects_data[0]["compactSubjects"])
+        full_subjects = json.loads(subjects_data["fullSubjects"])
+        compact_subjects = json.loads(subjects_data["compactSubjects"])
     
     return full_subjects, compact_subjects
 

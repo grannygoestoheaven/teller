@@ -3,8 +3,6 @@ from fastapi import APIRouter, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 
-from src.schemas.story import StoryRequest, StoryResponse, StoryCheckResponse
-
 # Initialize router and templates
 router = APIRouter()
 templates = Jinja2Templates(directory="templates")

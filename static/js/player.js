@@ -21,6 +21,7 @@ export function loadPlayer(data) {
 
 export function startSpeech() {
   elements.speech.currentTime = 0;
+  elements.speech.volume = 1.8;
   elements.speech.play();
 }
 
@@ -49,7 +50,7 @@ export function pauseBackgroundOnly() {
   elements.backgroundTrack.pause();
 }
 export function resumeBackgroundOnly() {
-  elements.backgroundTrack.volume = 0.2;
+  elements.backgroundTrack.volume = 0.05;
   elements.backgroundTrack.play();
 }
 

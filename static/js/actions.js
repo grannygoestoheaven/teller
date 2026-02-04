@@ -1,6 +1,7 @@
+import { generateSubjectsListFromTopic } from "/static/js/subjectsService.js";
 import { startNewStoryProcess } from "/static/js/storyService.js";
 
-import { getIsGridVisible } from "/static/js/config.js";
+import { getIsGridVisible, getIsGridFilled } from "/static/js/config.js";
 
 import {
   loadPlayer,
@@ -62,10 +63,12 @@ import {
 
 export const localActions = {
     // Story and Process Actions
+    generateSubjectsListFromTopic,
     startNewStoryProcess,
 
     // check grid visibility
     getIsGridVisible,
+    getIsGridFilled,
 
     // Player Actions
     loadPlayer,

@@ -9,7 +9,7 @@ app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 app.include_router(ui_home.router)
-app.include_router(ui_home.router, prefix="/v1/fields")
+# app.include_router(topic.router, prefix="/v1/topic")
 app.include_router(story.router, prefix="/v1/stories")
 
 @app.on_event("startup")

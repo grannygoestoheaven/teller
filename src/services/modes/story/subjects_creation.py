@@ -23,11 +23,11 @@ def generate_subjects_with_mistralai(topic: str) -> dict:
     try:
         # Define a simple prompt template for subject generation
         prompt_template = f'''Generate a list of 25 engaging and diverse subjects related to the topic: {topic}.
-                          Each subject should be concise and suitable for storytelling.
-                          If the {topic}'s length is detailed, compact it cleverly before generating the subjects.
+                          Each subject should be concise and relevant compared to each other for conceptual learning.
+                          If the {topic}'s length is >100 char, compact it cleverly before generating the subjects.
                           ## OUTPUT FORMAT:
                           a JSON dictionary with two keys: -'full_subjects:' -'compact_subjects:' containing each a list of 25 subjects as strings,
-                          each one of the subjects corresponding to the full and compact versions respectively.
+                          each list represents the subjects in their full and compact versions respectively.
                           ** ex format **:
                           {{
                             'full_subjects': ['subject 1', 'subject 2', ..., 'subject 25'],

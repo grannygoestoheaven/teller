@@ -1,35 +1,9 @@
 // storyService.js
-import { elements, lastFieldData, lastStoryData } from "./config.js";
+import { elements, lastStoryData } from "./config.js";
 import { loadPlayer } from "./player.js";
-import { mapValuesToSquares } from "./uiInit.js";
 import { sanitizeSubject } from "./utils.js";
 
 let abortController;
-
-// send a topic to backend for it to returns a list of related subjects
-export async function createSubjectsListFromField() {
-  let fieldData = new FormData(elements.field)
-  let field = fieldData.get('field')
-  const response =  await fetch('/v1/stories/subjects', {
-    method: POST,
-    headers: { "Content-Type" : "application.json" },
-    body: JSON.stringify({field})
-  })
-
-  if (!response.ok) {
-    const errorFieldData = await response.json();
-    throw new Error(errorFieldData.error || `Error ${response.status}`);
-  }
-
-  const { exists, subjectsList } = await response.json();
-  
-  if (exists) {
-    Object.assign(lastFieldData, subjectsList);
-    mapValuesToSquares(lastFieldData.fullSubjects, lastFieldData.compactSubjects);
-  }
-
-  return lastFieldData;
-}
 
 export async function startNewStoryProcess() {
   console.log("new story process started");
@@ -45,7 +19,8 @@ export async function startNewStoryProcess() {
   subject = sanitizeSubject(subject);
   console.log("Sanitized subject:", subject);
 
-  // Check if story exists
+  // ==== API CALL 1: Check if story exists ====
+  
   const responseCheck = await fetch('/v1/stories/check_story', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

@@ -2,11 +2,12 @@ from pathlib import Path
 from fastapi import APIRouter, Request
 
 from src.services.build import generate_subjects, load_subjects
+from src.schemas.story import TopicCheckResponse, TopicRequest
 
 router = APIRouter()
 
 @router.post("/check_topic")
-async def check_topic(data: StoryRequest):
+async def check_topic(data):
     try:
         topic = data.topic
         topic_dir_path = STATIC_DIR / topics / f"{topic}.js"
@@ -14,7 +15,7 @@ async def check_topic(data: StoryRequest):
         if not topic_dir_path.exists():
             return {"exists": False, "topics": None}
 
-        payload = load_subjects(topic) # The load topic function holds the condition to generate tts if missing.
+        payload = load_subjects(topic)
         
         return {"exists": True, "topic": payload}
     
@@ -26,7 +27,7 @@ async def check_topic(data: StoryRequest):
             content={"detail": str(e)})
 
 @router.post("/generate_subjects")
-async def get_subjects(data: StoryRequest):
+async def generate_subjects(data):
     try:
         topic = data.topic
         print(f"Hello Server {data.topic}")  # Debug print to verify topic

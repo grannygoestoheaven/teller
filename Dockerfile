@@ -61,7 +61,7 @@ RUN pip install --no-cache-dir --upgrade pip && \
 EXPOSE 8000
 
 # Command to run the application when the container starts (as appuser)
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8080"]
 
 # --- Cache-busting comment ---
 # Ultimate permission fix attempt: 20250531-FINAL%                                              

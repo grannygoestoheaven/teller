@@ -58,7 +58,7 @@ RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir -r requirements-minimal.txt
 
 # Expose the port your Flask application listens on.
-EXPOSE 8000
+EXPOSE 8080
 
 # Command to run the application when the container starts (as appuser)
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8080"]

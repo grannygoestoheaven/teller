@@ -41,7 +41,7 @@ If you prefer to use Docker directly:
 
 2. Run the container:
    ```bash
-   docker run -p 8000:8000 --env-file .env teller
+   docker run -p 8080:8080 --env-file .env teller
    ```
 
 ## Environment Variables
@@ -49,7 +49,7 @@ If you prefer to use Docker directly:
 Make sure to set the following environment variables in your `.env` file:
 
 ```
-FASTAPI_APP=flask_ui_app.py
+FASTAPI_APP=main.py
 FASTAPI_ENV=production
 # Add other required environment variables here
 ```

@@ -52,7 +52,6 @@ scripts.py
 /static/generated_stories/
 /static/extra_functions.txt
 /src/teaicher/other_llms_functions/
-/src/config/patterns/*
 /tests/.cache
 summary_3.rtf
 paths_to_remove.txt

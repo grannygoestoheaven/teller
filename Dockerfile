@@ -55,9 +55,9 @@ RUN git config --global user.email "grannygoestoheaven@users.noreply.huggingface
 
 # Install Python dependencies (as appuser)
 RUN pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir -r requirements-minimal.txt
+    pip install --no-cache-dir -r requirements.txt
 
-# Expose the port your Flask application listens on.
+# Expose the port the FastAPI application listens on.
 EXPOSE 8080
 
 # Command to run the application when the container starts (as appuser)

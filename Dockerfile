@@ -55,7 +55,7 @@ RUN git config --global user.email "grannygoestoheaven@users.noreply.huggingface
 
 # Install Python dependencies (as appuser)
 RUN pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir -r requirements.txt
+    pip install --no-cache-dir -r requirements-minimal.txt
 
 # Expose the port the FastAPI application listens on.
 EXPOSE 8080

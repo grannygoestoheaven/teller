@@ -11,4 +11,5 @@ def with_static_path(func):
 
 @with_static_path
 def openai_text_to_speech(story, static_audio_path):
+    pass
     # init + call API + save to static_audio_path

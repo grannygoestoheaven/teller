@@ -1,31 +1,13 @@
-# Core Dependencies
-flask==3.1.0
-python-dotenv==1.1.0
-requests==2.32.1
-regex==2024.11.6
-
-# Audio Processing
-pydub==0.25.1
-soundfile==0.13.1
-librosa==0.10.0
-numpy==1.22.0
-mutagen==1.47.0
-python-vlc==3.0.21203
-pytube==15.0.0
-
-# Natural Language Processing
-nltk==3.9.1
-transformers==4.50.3
-torch==2.2.2
-
-# completion services
-openai==1.70.0
-mistralai
-
-# tts services
 elevenlabs==1.56.0
-TTS==0.22.0
-
-# audio streaming services
-spotipy==2.25.1
+fastapi==0.121.2
+Flask==3.1.0
 google-api-python-client==2.166.0
+Jinja2==3.1.6
+mistralai==1.8.2
+openai==1.70.0
+pydantic==2.11.5
+pydantic-settings==2.12.0
+python-dotenv==1.1.0
+python-vlc==3.0.21203
+spotipy==2.25.1
+uvicorn==0.31.0

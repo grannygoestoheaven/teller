@@ -4,7 +4,7 @@ from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 # import isodate
 
-def get_youtube_transcript()
+def get_youtube_transcript():
     # Get the raw transcript
     transcript_list = YouTubeTranscriptApi.get_transcript('VIDEO_ID')
     # Combine the transcript pieces into a single string

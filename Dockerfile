@@ -35,7 +35,7 @@ WORKDIR /app
 ENV PATH="/app/.local/bin:${PATH}"
 
 COPY . .
-RUN ls -R /app/src/config/patterns/  # <-- Add this line
+RUN ls -la /app/src/config/patterns/
 
 # CRITICAL FIX: Explicitly and recursively force ownership and permissions for ALL files in /app
 # This runs as root, ensuring it has the power to change anything.

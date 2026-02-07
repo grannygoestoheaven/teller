@@ -34,8 +34,8 @@ WORKDIR /app
 # Copy all project files into /app (still owned by root potentially by default after COPY)
 ENV PATH="/app/.local/bin:${PATH}"
 
+COPY ./src/config/patterns/ /app/src/config/patterns/
 COPY . .
-RUN ls -la /app/src/config/patterns/
 
 # CRITICAL FIX: Explicitly and recursively force ownership and permissions for ALL files in /app
 # This runs as root, ensuring it has the power to change anything.

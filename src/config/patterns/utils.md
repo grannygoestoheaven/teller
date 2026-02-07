@@ -1,0 +1,1 @@
+   - **Tagged version for TTS:** insert `<[silence]>` after the Opening Concepts. Insert `<[silence]>` after each major phrase or sentence. Add ";" to make the text breathe and longer some silences, **especially** in the beginning.

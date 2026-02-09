@@ -1,11 +1,12 @@
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
+from fastapi.middleware.cors import CORSMiddleware
 
 from src.routers import ui_home, topic, story
 from src.config.settings import env_settings, load_prompts
 
 app = FastAPI()
-
+app.add_middleware(CORSMiddleware, allow_origins=["*"])
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 app.include_router(ui_home.router)

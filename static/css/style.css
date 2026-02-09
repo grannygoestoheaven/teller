@@ -95,14 +95,14 @@ html, body {
 /* Add Inika font */
 @font-face {
     font-family: 'Inika';
-    src: url('static/css/fonts/inika/Inika-Regular.ttf') format('truetype'); /* Ensure path is correct if you have this font */
+    src: url('/static/css/fonts/inika/Inika-Regular.ttf') format('truetype'); /* Ensure path is correct if you have this font */
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'Inika';
-    src: url('static/css/fonts/inika/Inika-Bold.ttf') format('truetype'); /* Ensure path is correct if you have this font */
+    src: url('/static/css/fonts/inika/Inika-Bold.ttf') format('truetype'); /* Ensure path is correct if you have this font */
     font-weight: bold;
     font-style: normal;
 }

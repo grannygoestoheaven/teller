@@ -96,6 +96,7 @@ html, body {
 @font-face {
     font-family: 'Inika';
     src: url('/static/css/fonts/inika/Inika-Regular.ttf') format('truetype'); /* Ensure path is correct if you have this font */
+    font-display: swap; /* Force immediate use */
     font-weight: normal;
     font-style: normal;
 }
@@ -103,6 +104,7 @@ html, body {
 @font-face {
     font-family: 'Inika';
     src: url('/static/css/fonts/inika/Inika-Bold.ttf') format('truetype'); /* Ensure path is correct if you have this font */
+    font-display: swap; /* Force immediate use */
     font-weight: bold;
     font-style: normal;
 }

@@ -27,4 +27,4 @@ app.include_router(story.router, prefix="/v1/stories")
 def startup_event():
     load_prompts()  # Load all prompts once at startup
 
-print("Server running at: http://127.0.0.1:8080")
+print("Server running at: http://127.0.0.1:8000")

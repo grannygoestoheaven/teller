@@ -11,6 +11,7 @@ from openai import OpenAI
 from jinja2 import Template
 
 from src.config.settings import env_settings
+from src.config.pacing_engine_functions import _apply_silence_tags, silence_map
 from src.services.utils import _clean_story_text, _format_text_filename, _clean_story_title
 
 mistral_client = Mistral(api_key=env_settings.mistral_api_key)
@@ -38,28 +39,36 @@ def generate_story_with_mistralai(subject, narrative_style: None, difficulty: No
                     "role": "system"
                 },
                 {
-                    "content": f"generate a **875 char MAXIMUM** text about {subject}.",
+                    "content": f"generate a **850 char MAXIMUM** text about {subject}.",
                     "role": "user"
                 },
                 
             ],
-            max_tokens=600,
-            temperature=0.3,
-            presence_penalty=1.3,
+            max_tokens=950,
+            temperature=0.2,
+            presence_penalty=1.2,
             stream=False)
         
         print(f"Response type: {type(response)}")
 
-        # if not response or not response.choices:
-        #     raise ValueError("Empty response from Mistral API")
+        if not response or not response.choices:
+            raise ValueError("Empty response from Mistral API")
 
-        tagged_story_for_tts = response.choices[0].message.content if response else "" # get the story text with punctuation tags
-        print(f"Generated tagged story for TTS: {tagged_story_for_tts}")
-        clean_story = _clean_story_text(tagged_story_for_tts) # remove punctuation tags to have a clean version to display
-        print(f"CLEAN STORY: {clean_story}")
+        clean_ori_story = response.choices[0].message.content if response else ""
+        print(f"Generated clean story: {clean_ori_story}")
+        silences = silence_map
+        # tagged_story_for_tts = response.choices[0].message.content if response else "" (if the tags are in the response)
+        # print(f"Generated tagged story for TTS: {tagged_story_for_tts}")
+        tts_text = _apply_silence_tags(clean_ori_story, silences)
+        # print(f"Generated tagged story for TTS: {tts_text}")
+        # Output: "Cliff Young won.<[silence:600]> Against all odds.<[silence:600]>"
+        # clean_story = _clean_story_text(tagged_story_for_tts) # remove punctuation tags to have a clean version to display
+        # print(f"CLEAN STORY: {clean_story}")
+        print(f"CLEAN STORY: {clean_ori_story}")
         clean_story_title = _clean_story_title(subject)
     
-        return clean_story_title, tagged_story_for_tts, clean_story
+        # return clean_story_title, tagged_story_for_tts, clean_story
+        return clean_story_title, tts_text, clean_ori_story
     
     except Exception as e:
         print(f"Full error: {e[:10]}")  # Log both error and response

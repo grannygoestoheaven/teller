@@ -44,20 +44,9 @@ def new_story(data: StoryRequest) -> StoryResponse:
         difficulty = data.difficulty or "beginner"
         # difficulty = data.difficulty or "intermediate"
         # difficulty = data.difficulty or "expert"
-        
-        # if data.subject.lower().strip() == "test":
-        #     # Return a random existing story/speech URL
-        #     return StoryResponse(
-        #         story_filename = f"the_role_of_touch_in_emotional_connection.txt",
-        #         story_title = f"The Role of Touch in Emotional Connection",
-        #         story = f"static/audio/generated_stories/{subject}/the_role_of_touch_in_emotional_connection.txt",
-        #         speech_url = f"static/audio/generated_stories_audio/the_role_of_touch_in_emotional_connection.mp3",
-        #         track_url = f"static/audio/local_ambient_tracks/abstract_aprils_hold.mp3",
-        #         track_filename = "abstract_aprils_hold.mp3"
-        #     )
 
         payload = build_story(subject, narrative_style, difficulty) # the build story function generates both text then sends it to tts.
-        print(f"Payload from build_story: {payload}")  # Debug print to verify payload
+        # print(f"Payload from build_story: {payload}")  # Debug print to verify payload
         return StoryResponse(**payload, by_alias=True)
     
     except Exception as e:

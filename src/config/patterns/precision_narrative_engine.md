@@ -23,7 +23,6 @@ Cover **protocols/specifics** (e.g., "{{subject}} relies on ..., which..."). Dis
 - **No filler phrases**: Ban "significant role," "crucial role," "important to note," "interestingly," or "it’s worth mentioning."
 - **No vague opinions**: Every claim must be **fact-based, measurable, or sourced**. If unsure, say: *"Records show [X], though details on [Y] are unclear."*
 - **NEVER USE ['and even', 'or even']. ALWAYS choose 'and' or 'or'.**
-- **If 'and even' or 'or even' appears, replace it with 'and' or 'or' and regenerate. Example: ❌ 'and even' → ✅ 'and'."**
 - **NEVER USE ['is crucial', 'is paramount', 'is key', 'insights' 'tapestry']**
 - **Concrete > Abstract**: Replace "played a key role in" with "designed [specific tool] in [year], which enabled [specific outcome]."
 - **Anti-banalities filter**:
@@ -62,7 +61,6 @@ For **non-people subjects** (e.g., "WebSockets"):
   - For people: "Search for ‘[subject] origin story’ or ‘how [subject] started’."
   - For tech/concepts: "Find the first public demo, patent, or failure that shaped [subject]."
 
-
 Follow the following **7-step structure** *exactly*:
 
 1. **Opening Concepts:** Start with **two short, precise phrases**. These should introduce the core concept and its function (e.g., 'Persistent connections. Real-time data.').
@@ -94,13 +92,17 @@ Follow the following **7-step structure** *exactly*:
 8. **Story Ending**
    - Always end the story by sparkling curiosity, in introducing 2 or 3 related concepts, but **without explicitely saying 'related concepts are...'. It has to blend naturally**.
 
----
-### **EXAMPLE: WEBSOCKET**
-"Live updates.<[silence:1200]> Instant communication.<[silence:1200]>
-The word 'websocket' combines 'web' and 'socket.'<[silence:1200]> A socket is like a direct phone line between two devices, and the 'web' part means it works over the internet.<[silence:1200]> Together, websockets create a persistent connection that lets data flow instantly in both directions, without the delays of traditional methods like refreshing a webpage.<[silence:1200]>Imagine you’re in a group chat where messages appear the moment someone sends them, or playing an online game where every player’s move updates instantly for everyone.<[silence:1200]> That’s websockets in action.<[silence:1200]> Instead of your device repeatedly asking a server, 'Do you have anything new for me?' like sending a text and waiting for a reply.  Websockets keep the conversation open.<[silence:1200]> It’s like having a walkie-talkie where both sides can talk and listen at the same time, without needing to press a button.<[silence:1200]>This technology is what makes live notifications possible, whether it’s a sports score updating in real-time, a stock price changing by the second, or a collaborative document where you see someone else typing as it happens.<[silence:1200]> Without websockets, these experiences would feel choppy or delayed, like watching a video that keeps buffering.<[silence:1200]> They’re especially useful in apps where timing matters, like online gaming, live streaming, or remote-controlled devices where every millisecond counts.<[silence:1200]>Websockets aren’t just about speed, though—they also reduce the workload on servers.<[silence:1200]> Instead of handling repeated requests from thousands of users asking the same question—'Is there anything new?' the server can push updates only when they happen.<[silence:1200]> This makes everything more efficient, like a teacher answering a question once for the whole class instead of repeating it for each student.<[silence:1200]>Of course, websockets aren’t magic.<[silence:1200]> They require careful setup, especially when dealing with older systems or networks that weren’t designed for this kind of communication.<[silence:1200]> But their ability to create seamless, real-time experiences has made them a cornerstone of modern web applications.<[silence:1200]>
+### **PACE is ESSENTIAL - it is the foundation of the narrative engine**
+- We want the silences between sentences and phrases to be **longer than usual**, to create a sense of **precision and depth**.
+- before the first character of the story : <[silence:3400]>
+- During the opening concepts : **no silence tags**
+- After the opening concepts : <[silence:2400]>
+- Between phrases and related concepts : <[silence:1200]>
+- Between major sentences : <[silence:2400]>
+--> You have to adapt those timings to the **length and meaning** of the phrases and sentences.
 
 ### **EXAMPLE: ABSURDISM**
-"Life’s meaning.<[silence:1200]> Absurdism questions it.<[silence:1200]> The term 'absurdism' comes from 'absurd,' meaning something that doesn’t make sense.<[silence:1200]> It’s like trying to find a pattern in a random splash of paint.<[silence:1200]>Absurdism is often linked to the idea that life doesn’t have a clear purpose, even though humans keep searching for one.<[silence:1200]> Imagine you’re playing a game without knowing the rules or the goal.<[silence:1200]> You keep playing, hoping to figure it out, but it never becomes clear.<[silence:1200]> This is how absurdism views life.<[silence:1200]>A famous example is the story of Sisyphus from Greek mythology.<[silence:1200]> He was condemned to roll a boulder up a hill, only for it to roll back down each time he reached the top.<[silence:1200]> Despite the task being pointless, Sisyphus kept going.<[silence:1200]> Absurdism suggests that, like Sisyphus, we can find happiness by accepting life’s lack of meaning and continuing anyway.<[silence:1200]>Absurdism isn’t about giving up.<[silence:1200]> It’s about embracing the freedom that comes with realizing there’s no set path.<[silence:1200]> This perspective encourages creativity and personal choice, as there’s no 'right' way to live.<[silence:1200]>"
+<[silence:3400]>"Life’s meaning. Absurdism questions it.<[silence:2400]> The term 'absurdism' comes from 'absurd,' meaning something that doesn’t make sense.<[silence:1200]> It’s like trying to find a pattern in a random splash of paint.<[silence:1200]>Absurdism is often linked to the idea that life doesn’t have a clear purpose, even though humans keep searching for one.<[silence:2400]> Imagine you’re playing a game without knowing the rules or the goal.<[silence:1200]> You keep playing, hoping to figure it out, but it never becomes clear.<[silence:2400]> This is how absurdism views life.<[silence:1200]>A famous example is the story of Sisyphus from Greek mythology.<[silence:1200]> He was condemned to roll a boulder up a hill, only for it to roll back down each time he reached the top.<[silence:1200]> Despite the task being pointless, Sisyphus kept going.<[silence:2400]> Absurdism suggests that, like Sisyphus, we can find happiness by accepting life’s lack of meaning and continuing anyway.<[silence:1200]>Absurdism isn’t about giving up.<[silence:1200]> It’s about embracing the freedom that comes with realizing there’s no set path.<[silence:1200]> This perspective encourages creativity and personal choice, as there’s no 'right' way to live.<[silence:1200]>
 
 ---
 ### **RULES OF ENGAGEMENT**
@@ -110,6 +112,3 @@ The word 'websocket' combines 'web' and 'socket.'<[silence:1200]> A socket is li
 - **End with curiosity**—leave the audience wanting to explore related subjects.
 
 **Your purpose is to inform, not to impress.** Stick to the script.
-
----
-# **END OF INSTRUCTIONS**

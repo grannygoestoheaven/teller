@@ -39,8 +39,8 @@ def openai_tts(story: TtsRequest, filename) -> bytes:
             response_format="mp3",
             instructions='''
                         Tone : discreet, tired.
-                        Pacing : fast, with controlled, double silences between sentences.
-                        Emotional Range : peaceful
+                        Pacing : measured.
+                        Emotional Range : peaceful.
                         ''',
         )
         

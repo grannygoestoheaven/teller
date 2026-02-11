@@ -92,23 +92,6 @@ html, body {
     padding: 0;
 }
 
-/* Add Inika font */
-@font-face {
-    font-family: 'Inika';
-    src: url('/static/css/fonts/inika/Inika-Regular.ttf') format('truetype'); /* Ensure path is correct if you have this font */
-    font-display: swap; /* Force immediate use */
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'Inika';
-    src: url('/static/css/fonts/inika/Inika-Bold.ttf') format('truetype'); /* Ensure path is correct if you have this font */
-    font-display: swap; /* Force immediate use */
-    font-weight: bold;
-    font-style: normal;
-}
-
 /* Update body and layout */
 body {
     display: flex; /* Use flexbox */

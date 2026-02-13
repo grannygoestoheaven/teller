@@ -30,7 +30,7 @@ def generate_story_with_mistralai(subject, narrative_style: None, difficulty: No
             )
 
         print(f" Let's see : {narrative_style_rendered[:50]}")
-
+            
         response = mistral_client.chat.complete(
             model="mistral-medium-latest",
             messages=[
@@ -39,13 +39,15 @@ def generate_story_with_mistralai(subject, narrative_style: None, difficulty: No
                     "role": "system"
                 },
                 {
-                    "content": f"generate a **850 char MAXIMUM** text about {subject}.",
+                    # "content": f"generate a 1050 char MAXIMUM text about {subject}.",
+                    "content": f"generate a 250 char MAXIMUM text about {subject}.", # etymology text.
                     "role": "user"
                 },
                 
             ],
-            max_tokens=950,
-            temperature=0.2,
+            # max_tokens=1350,
+            max_tokens=400, # etymology text.
+            temperature=0.1,
             presence_penalty=1.2,
             stream=False)
         
@@ -54,21 +56,21 @@ def generate_story_with_mistralai(subject, narrative_style: None, difficulty: No
         if not response or not response.choices:
             raise ValueError("Empty response from Mistral API")
 
-        clean_ori_story = response.choices[0].message.content if response else ""
-        print(f"Generated clean story: {clean_ori_story}")
-        silences = silence_map
-        # tagged_story_for_tts = response.choices[0].message.content if response else "" (if the tags are in the response)
-        # print(f"Generated tagged story for TTS: {tagged_story_for_tts}")
-        tts_text = _apply_silence_tags(clean_ori_story, silences)
         # print(f"Generated tagged story for TTS: {tts_text}")
         # Output: "Cliff Young won.<[silence:600]> Against all odds.<[silence:600]>"
-        # clean_story = _clean_story_text(tagged_story_for_tts) # remove punctuation tags to have a clean version to display
-        # print(f"CLEAN STORY: {clean_story}")
-        print(f"CLEAN STORY: {clean_ori_story}")
+        original_output = response.choices[0].message.content if response else ""
+        original_output = original_output.replace("*", "").replace("**", "")
+        print(f"GENERATED OUTPUT: {original_output}")
+        
+        silences = silence_map # Define your silence mapping here or import it from config
+        
         clean_story_title = _clean_story_title(subject)
+        # tts_text = _apply_silence_tags(original_output, silences)
+        clean_story = _clean_story_text(original_output) # remove punctuation tags to have a clean version to display
+        # print(f"CLEAN STORY: {clean_story}")
     
         # return clean_story_title, tagged_story_for_tts, clean_story
-        return clean_story_title, tts_text, clean_ori_story
+        return clean_story_title, original_output, clean_story
     
     except Exception as e:
         print(f"Full error: {e[:10]}")  # Log both error and response

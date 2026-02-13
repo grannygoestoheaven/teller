@@ -201,13 +201,13 @@ class AudioStateMachine
     #IDLE_form_submitted()
     {
         // IDLE behavior
-        // uml: FORM_SUBMITTED / { this.actions.startNewStoryProcessForm(); } TransitionTo(LOADING)
+        // uml: FORM_SUBMITTED / { this.actions.startNewStoryProcessForm(); this.actions.addSquareToPlayed(); } TransitionTo(LOADING)
         {
             // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
             this.#IDLE_exit();
             
-            // Step 2: Transition action: `this.actions.startNewStoryProcessForm();`.
-            this.actions.startNewStoryProcessForm();
+            // Step 2: Transition action: `this.actions.startNewStoryProcessForm(); this.actions.addSquareToPlayed();`.
+            this.actions.startNewStoryProcessForm(); this.actions.addSquareToPlayed();
             
             // Step 3: Enter/move towards transition target `LOADING`.
             this.#LOADING_enter();
@@ -234,13 +234,13 @@ class AudioStateMachine
     #IDLE_square_clicked()
     {
         // IDLE behavior
-        // uml: SQUARE_CLICKED / { this.actions.startNewStoryProcess(); } TransitionTo(LOADING)
+        // uml: SQUARE_CLICKED / { this.actions.startNewStoryProcess(); this.actions.addSquareToPlayed(); this.actions.fixSquareColor(); } TransitionTo(LOADING)
         {
             // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
             this.#IDLE_exit();
             
-            // Step 2: Transition action: `this.actions.startNewStoryProcess();`.
-            this.actions.startNewStoryProcess();
+            // Step 2: Transition action: `this.actions.startNewStoryProcess(); this.actions.addSquareToPlayed(); this.actions.fixSquareColor();`.
+            this.actions.startNewStoryProcess(); this.actions.addSquareToPlayed(); this.actions.fixSquareColor();
             
             // Step 3: Enter/move towards transition target `LOADING`.
             this.#LOADING_enter();
@@ -330,13 +330,13 @@ class AudioStateMachine
     #LOADING_speech_ready()
     {
         // LOADING behavior
-        // uml: SPEECH_READY / { this.actions.setUpAndStartAllAudio(); } TransitionTo(PLAYING)
+        // uml: SPEECH_READY / { this.actions.setUpAndStartAllAudio(); this.actions.displayStoryText(); } TransitionTo(PLAYING)
         {
             // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
             this.#LOADING_exit();
             
-            // Step 2: Transition action: `this.actions.setUpAndStartAllAudio();`.
-            this.actions.setUpAndStartAllAudio();
+            // Step 2: Transition action: `this.actions.setUpAndStartAllAudio(); this.actions.displayStoryText();`.
+            this.actions.setUpAndStartAllAudio(); this.actions.displayStoryText();
             
             // Step 3: Enter/move towards transition target `PLAYING`.
             this.#PLAYING_enter();
@@ -435,13 +435,13 @@ class AudioStateMachine
     #PAUSED_form_submitted()
     {
         // PAUSED behavior
-        // uml: FORM_SUBMITTED / { this.actions.startNewStoryProcessForm(); } TransitionTo(LOADING)
+        // uml: FORM_SUBMITTED / { this.actions.startNewStoryProcessForm(); this.actions.addSquareToPlayed(); } TransitionTo(LOADING)
         {
             // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
             this.#PAUSED_exit();
             
-            // Step 2: Transition action: `this.actions.startNewStoryProcessForm();`.
-            this.actions.startNewStoryProcessForm();
+            // Step 2: Transition action: `this.actions.startNewStoryProcessForm(); this.actions.addSquareToPlayed();`.
+            this.actions.startNewStoryProcessForm(); this.actions.addSquareToPlayed();
             
             // Step 3: Enter/move towards transition target `LOADING`.
             this.#LOADING_enter();
@@ -489,13 +489,13 @@ class AudioStateMachine
     #PAUSED_square_clicked()
     {
         // PAUSED behavior
-        // uml: SQUARE_CLICKED / { this.actions.startNewStoryProcess(); } TransitionTo(LOADING)
+        // uml: SQUARE_CLICKED / { this.actions.startNewStoryProcess(); this.actions.addSquareToPlayed(); this.actions.fixSquareColor(); } TransitionTo(LOADING)
         {
             // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
             this.#PAUSED_exit();
             
-            // Step 2: Transition action: `this.actions.startNewStoryProcess();`.
-            this.actions.startNewStoryProcess();
+            // Step 2: Transition action: `this.actions.startNewStoryProcess(); this.actions.addSquareToPlayed(); this.actions.fixSquareColor();`.
+            this.actions.startNewStoryProcess(); this.actions.addSquareToPlayed(); this.actions.fixSquareColor();
             
             // Step 3: Enter/move towards transition target `LOADING`.
             this.#LOADING_enter();
@@ -606,13 +606,13 @@ class AudioStateMachine
     #PLAYING_form_submitted()
     {
         // PLAYING behavior
-        // uml: FORM_SUBMITTED / { this.actions.startNewStoryProcessForm(); } TransitionTo(LOADING)
+        // uml: FORM_SUBMITTED / { this.actions.startNewStoryProcessForm(); this.actions.addSquareToPlayed(); } TransitionTo(LOADING)
         {
             // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
             this.#PLAYING_exit();
             
-            // Step 2: Transition action: `this.actions.startNewStoryProcessForm();`.
-            this.actions.startNewStoryProcessForm();
+            // Step 2: Transition action: `this.actions.startNewStoryProcessForm(); this.actions.addSquareToPlayed();`.
+            this.actions.startNewStoryProcessForm(); this.actions.addSquareToPlayed();
             
             // Step 3: Enter/move towards transition target `LOADING`.
             this.#LOADING_enter();
@@ -685,13 +685,13 @@ class AudioStateMachine
     #PLAYING_square_clicked()
     {
         // PLAYING behavior
-        // uml: SQUARE_CLICKED / { this.actions.startNewStoryProcess(); } TransitionTo(LOADING)
+        // uml: SQUARE_CLICKED / { this.actions.startNewStoryProcess(); this.actions.addSquareToPlayed(); this.actions.fixSquareColor(); } TransitionTo(LOADING)
         {
             // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
             this.#PLAYING_exit();
             
-            // Step 2: Transition action: `this.actions.startNewStoryProcess();`.
-            this.actions.startNewStoryProcess();
+            // Step 2: Transition action: `this.actions.startNewStoryProcess(); this.actions.addSquareToPlayed(); this.actions.fixSquareColor();`.
+            this.actions.startNewStoryProcess(); this.actions.addSquareToPlayed(); this.actions.fixSquareColor();
             
             // Step 3: Enter/move towards transition target `LOADING`.
             this.#LOADING_enter();

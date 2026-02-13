@@ -62,43 +62,42 @@ import re
 
 #     return cleaned.strip()
 
-
-# def _clean_story_text(story: str) -> str:
-#     """
-#     Clean the story text by removing <[silence]> tags and ensuring proper punctuation. The goal is to have
-#     a well-formed story with sentences ending in periods, and to remove unnecessary whitespace.
-#     """
-#     if not story:
-#         return story
-#     # cleaned = re.sub(r'<\[silence:1200]>(\s*)', story)
-#     cleaned = re.sub(r'<\[silence:1200]>(\s*)', lambda m: ' ' if m.group(1) else '', story)
-#     cleaned = re.sub(r'([a-z])(\s*\n|$)', r'\1.\2', cleaned, flags=re.IGNORECASE)
-#     cleaned = re.sub(r'\.\.+', '.', cleaned)
-#     cleaned = re.sub(r'\.([^ \n])', r'. \1', cleaned)
-#     return cleaned.strip()
-
-def _clean_story_text(tts_text: str) -> str:
+def _clean_story_text(story: str) -> str:
     """
-    Cleans TTS-tagged text for display by:
-    1. Removing all <[silence:1200]> tags.
-    2. Normalizing whitespace (collapsing multiple spaces/newlines).
-    3. Ensuring punctuation is properly spaced (e.g., "word ." → "word.").
-    4. Trimming leading/trailing whitespace.
+    Clean the story text by removing <[silence]> tags and ensuring proper punctuation. The goal is to have
+    a well-formed story with sentences ending in periods, and to remove unnecessary whitespace.
     """
-    # Step 1: Remove TTS tags and asterisks
-    cleaned = re.sub(r'<\[silence:\d+\]>', '', tts_text)
-    cleaned = re.sub(r'\*', '', cleaned)
+    if not story:
+        return story
+    # cleaned = re.sub(r'<\[silence:1200]>(\s*)', story)
+    cleaned = re.sub(r'<\[silence:1200]>(\s*)', lambda m: ' ' if m.group(1) else '', story)
+    cleaned = re.sub(r'([a-z])(\s*\n|$)', r'\1.\2', cleaned, flags=re.IGNORECASE)
+    cleaned = re.sub(r'\.\.+', '.', cleaned)
+    cleaned = re.sub(r'\.([^ \n])', r'. \1', cleaned)
+    return cleaned.strip()
+
+# def _clean_story_text(tts_text: str) -> str:
+#     """
+#     Cleans TTS-tagged text for display by:
+#     1. Removing all <[silence:1200]> tags.
+#     2. Normalizing whitespace (collapsing multiple spaces/newlines).
+#     3. Ensuring punctuation is properly spaced (e.g., "word ." → "word.").
+#     4. Trimming leading/trailing whitespace.
+#     """
+#     # Step 1: Remove TTS tags and asterisks
+#     cleaned = re.sub(r'<\[silence:\d+\]>', '', tts_text)
+#     cleaned = re.sub(r'\*', '', cleaned)
     
-    # Step 2: Normalize whitespace and punctuation
-    cleaned = re.sub(r'\s+', ' ', cleaned)  # Collapse all whitespace to single space
-    cleaned = re.sub(r'\s+([?.!,;])', r'\1', cleaned)  # Remove space before punctuation
-    cleaned = re.sub(r'([?.!,;])(\w)', r'\1 \2', cleaned)  # Add space after punctuation if missing
-    cleaned = cleaned.strip()
+#     # Step 2: Normalize whitespace and punctuation
+#     cleaned = re.sub(r'\s+', ' ', cleaned)  # Collapse all whitespace to single space
+#     cleaned = re.sub(r'\s+([?.!,;])', r'\1', cleaned)  # Remove space before punctuation
+#     cleaned = re.sub(r'([?.!,;])(\w)', r'\1 \2', cleaned)  # Add space after punctuation if missing
+#     cleaned = cleaned.strip()
 
-    # Step 3: Ensure sentences start with a capital letter after tags
-    cleaned = re.sub(r'(^|\.\s*)([a-z])', lambda m: m.group(1) + m.group(2).upper(), cleaned)
+#     # Step 3: Ensure sentences start with a capital letter after tags
+#     cleaned = re.sub(r'(^|\.\s*)([a-z])', lambda m: m.group(1) + m.group(2).upper(), cleaned)
 
-    return cleaned
+#     return cleaned
 
 # def _clean_story_text(story: str) -> str:
 #     if not story:
@@ -107,10 +106,12 @@ def _clean_story_text(tts_text: str) -> str:
 #     cleaned = re.sub(r'[\n\\n]+', ' ', cleaned)       # Remove all newlines (actual or escaped)
 #     cleaned = re.sub(r'\s+', ' ', cleaned)            # Collapse all whitespace
 #     cleaned = re.sub(r'\.\s*([A-Z])', r'. \1', cleaned)  # Fix spacing after periods
+    
 #     return cleaned.strip()                            # Trim leading/trailing spaces
 
 def _clean_story_title(subject: str) -> str:
     """Generate a clean story filename with spaces from an underscored filename."""
     if not subject or not isinstance(subject, str):
         return "Mistral Story"
+    
     return subject.replace("_", " ").title()

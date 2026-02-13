@@ -3,6 +3,7 @@ import { elements } from '/static/js/config.js';
 import { defaultFields } from "/static/fields/defaultFieldsDemo.js";
 
 const topics = Object.keys(defaultFields); // gets the list of topics from the defaultFields object
+export let playedSquares = new Set(); // Set to track played squares
 
 // Topic cycling variables
 let currentUserTopicData = '';

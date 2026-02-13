@@ -1,15 +1,18 @@
 import { elements, getIsGridVisible, setIsGridVisible, getIsChatVisible } from "/static/js/config.js";
 import { lastStoryData } from "/static/js/config.js";
+import { playedSquares } from "/static/js/uiInit.js";
 
 export function uiIdle() {
-  // Clear past story
-  elements.storyText.innerHTML = '';
   // Reset buttons
   elements.fromStartButton.disabled = true;
   elements.playPauseButton.disabled = true;
   elements.playPauseButton.textContent = 'Pause';
   elements.chatHistoryContainer.disabled = !getIsChatVisible();
   inputIsValid();
+}
+
+export function clearStoryText() {
+  elements.storyText.innerHTML = '';
 }
 
 export function initInputAdjustments() {
@@ -202,4 +205,31 @@ export function dotsViewTitle() {
   } else {
     elements.formInput.value = lastStoryData.storyTitle;
   }
+}
+
+export function addSquareToPlayed() {
+  let square = elements.activeSquare;
+  playedSquares.add(square);
+  // elements.activeSquare.style.backgroundColor = 'rgba(204, 6, 6, 0.5)';
+}
+
+
+export function removeSquareFromPlayed() {
+  let square = elements.activeSquare;
+  playedSquares.delete(square);
+  // elements.activeSquare.style.backgroundColor = 'transparent';
+}
+
+export function fixSquareColor() {
+  // Set the background color to a fixed color
+  let square = elements.activeSquare;
+  if (playedSquares.has(square)) {
+    square.style.setProperty('--square-border', '1px dashed white')
+    // square.style.backgroundColor = 'rgba(204, 6, 6, 0.2)';
+    // square.style.borderColor = 'rgba(204, 6, 6)';
+  }
+}
+
+export function removeFixedColorFromSquare() {
+  elements.activSquare.style.backgroundColor = 'transparent';
 }

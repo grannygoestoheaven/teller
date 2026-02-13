@@ -13,14 +13,14 @@
     '############################ Handlers ############################
 
     IDLE: enter / this.actions.pauseAllAudio(); this.actions.resetAllAudio(); this.actions.uiIdle(); this.actions.hideLoadingAnimation(); this.actions.initInputAdjustments();
-    IDLE --> LOADING : SQUARE_CLICKED / this.actions.startNewStoryProcess();
-    IDLE --> LOADING : FORM_SUBMITTED / this.actions.startNewStoryProcessForm();
+    IDLE --> LOADING : SQUARE_CLICKED / this.actions.startNewStoryProcess(); this.actions.addSquareToPlayed(); this.actions.fixSquareColor();
+    IDLE --> LOADING : FORM_SUBMITTED / this.actions.startNewStoryProcessForm(); this.actions.addSquareToPlayed();
     IDLE : VIEW_TOGGLED / this.actions.toggleView();
     IDLE : VIEW_TOGGLED [this.actions.getIsGridVisible] / this.actions.dotsViewTitle();
     IDLE : INPUT_CHANGED / this.actions.uiReadyButtons();
 
     LOADING: enter / this.actions.showLoadingAnimation(); this.actions.loadingDots(); this.actions.uiLoadingButtons(); this.actions.toggleView();
-    LOADING --> PLAYING : SPEECH_READY / this.actions.setUpAndStartAllAudio();
+    LOADING --> PLAYING : SPEECH_READY / this.actions.setUpAndStartAllAudio(); this.actions.displayStoryText();
     LOADING --> PAUSED : TOGGLE_PAUSE_RESUME / this.actions.pauseAllAudio();
     LOADING --> IDLE : CANCEL / this.actions.abortProcess();
     LOADING : VIEW_TOGGLED / this.actions.toggleView();
@@ -31,8 +31,8 @@
     PLAYING --> PAUSED : TOGGLE_PAUSE_RESUME / this.actions.pauseAllAudio();
     PLAYING --> IDLE : MUSIC_OVER [this.actions.bothTracksEnded()]
     PLAYING --> IDLE: CANCEL / this.actions.stopAndResetAllAudio();
-    PLAYING --> LOADING : SQUARE_CLICKED / this.actions.startNewStoryProcess();
-    PLAYING --> LOADING : FORM_SUBMITTED / this.actions.startNewStoryProcessForm();
+    PLAYING --> LOADING : SQUARE_CLICKED / this.actions.startNewStoryProcess(); this.actions.addSquareToPlayed(); this.actions.fixSquareColor();
+    PLAYING --> LOADING : FORM_SUBMITTED / this.actions.startNewStoryProcessForm(); this.actions.addSquareToPlayed();
     PLAYING : CHAT_HISTORY_CLICKED / this.actions.toggleTextVisibility();
     PLAYING : FROM_START_CLICKED / this.actions.pauseAllAudio(); this.actions.resetAllAudio(); this.actions.setUpAndStartAllAudio();
     PLAYING : SPEECH_OVER [!this.actions.getIsGridVisible()] / this.actions.toggleView();
@@ -41,11 +41,12 @@
     PLAYING : INPUT_CHANGED / this.actions.uiReadyButtons();
 
     PAUSED: enter / this.actions.uiPausedButtons(); this.actions.addBlurr();
-    PAUSED --> LOADING : SQUARE_CLICKED / this.actions.startNewStoryProcess();
-    PAUSED --> LOADING : FORM_SUBMITTED / this.actions.startNewStoryProcessForm();
+    PAUSED --> LOADING : SQUARE_CLICKED / this.actions.startNewStoryProcess(); this.actions.addSquareToPlayed(); this.actions.fixSquareColor();
+    PAUSED --> LOADING : FORM_SUBMITTED / this.actions.startNewStoryProcessForm(); this.actions.addSquareToPlayed();
     PAUSED --> PLAYING : TOGGLE_PAUSE_RESUME / this.actions.resumeAllAudio();
     PAUSED --> PLAYING : FROM_START_CLICKED / this.actions.resetAllAudio(); this.actions.setUpAndStartAllAudio();
     PAUSED --> IDLE: CANCEL / this.actions.setUpAndStartAllAudio();
+    PAUSED : CHAT_HISTORY_CLICKED / this.actions.toggleTextVisibility();
     PAUSED : VIEW_TOGGLED / this.actions.toggleView();
     PAUSED : VIEW_TOGGLED [this.actions.getIsGridVisible] / this.actions.dotsViewTitle();
     PAUSED : INPUT_CHANGED / this.actions.uiReadyButtons();

@@ -313,11 +313,11 @@ PAUSED : INPUT_CHANGED / #123; this.actions.uiReadyButtons()#59; #125;
 
 ROOT.(InitialState) --> IDLE
 
-IDLE --> LOADING : SQUARE_CLICKED / #123; this.actions.startNewStoryProcess()#59; #125;
+IDLE --> LOADING : SQUARE_CLICKED / #123; this.actions.startNewStoryProcess()#59; this.actions.addSquareToPlayed()#59; this.actions.fixSquareColor()#59; #125;
 
-IDLE --> LOADING : FORM_SUBMITTED / #123; this.actions.startNewStoryProcessForm()#59; #125;
+IDLE --> LOADING : FORM_SUBMITTED / #123; this.actions.startNewStoryProcessForm()#59; this.actions.addSquareToPlayed()#59; #125;
 
-LOADING --> PLAYING : SPEECH_READY / #123; this.actions.setUpAndStartAllAudio()#59; #125;
+LOADING --> PLAYING : SPEECH_READY / #123; this.actions.setUpAndStartAllAudio()#59; this.actions.displayStoryText()#59; #125;
 
 LOADING --> PAUSED : TOGGLE_PAUSE_RESUME / #123; this.actions.pauseAllAudio()#59; #125;
 
@@ -329,13 +329,13 @@ PLAYING --> IDLE : MUSIC_OVER [this.actions.bothTracksEnded()]
 
 PLAYING --> IDLE : CANCEL / #123; this.actions.stopAndResetAllAudio()#59; #125;
 
-PLAYING --> LOADING : SQUARE_CLICKED / #123; this.actions.startNewStoryProcess()#59; #125;
+PLAYING --> LOADING : SQUARE_CLICKED / #123; this.actions.startNewStoryProcess()#59; this.actions.addSquareToPlayed()#59; this.actions.fixSquareColor()#59; #125;
 
-PLAYING --> LOADING : FORM_SUBMITTED / #123; this.actions.startNewStoryProcessForm()#59; #125;
+PLAYING --> LOADING : FORM_SUBMITTED / #123; this.actions.startNewStoryProcessForm()#59; this.actions.addSquareToPlayed()#59; #125;
 
-PAUSED --> LOADING : SQUARE_CLICKED / #123; this.actions.startNewStoryProcess()#59; #125;
+PAUSED --> LOADING : SQUARE_CLICKED / #123; this.actions.startNewStoryProcess()#59; this.actions.addSquareToPlayed()#59; this.actions.fixSquareColor()#59; #125;
 
-PAUSED --> LOADING : FORM_SUBMITTED / #123; this.actions.startNewStoryProcessForm()#59; #125;
+PAUSED --> LOADING : FORM_SUBMITTED / #123; this.actions.startNewStoryProcessForm()#59; this.actions.addSquareToPlayed()#59; #125;
 
 PAUSED --> PLAYING : TOGGLE_PAUSE_RESUME / #123; this.actions.resumeAllAudio()#59; #125;
 
@@ -602,13 +602,13 @@ evaluateGuard = null;
     #IDLE_form_submitted()
     {
         // IDLE behavior
-        // uml: FORM_SUBMITTED / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.startNewStoryProcessForm();");this.tracer?.edgeTransition("edge2"); } TransitionTo(LOADING)
+        // uml: FORM_SUBMITTED / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.startNewStoryProcessForm(); this.actions.addSquareToPlayed();");this.tracer?.edgeTransition("edge2"); } TransitionTo(LOADING)
         {
             // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
             this.#IDLE_exit();
             
-            // Step 2: Transition action: `this.tracer?.log("⚡ FSM would execute action: " + "this.actions.startNewStoryProcessForm();");this.tracer?.edgeTransition("edge2");`.
-            this.tracer?.log("⚡ FSM would execute action: " + "this.actions.startNewStoryProcessForm();");this.tracer?.edgeTransition("edge2");
+            // Step 2: Transition action: `this.tracer?.log("⚡ FSM would execute action: " + "this.actions.startNewStoryProcessForm(); this.actions.addSquareToPlayed();");this.tracer?.edgeTransition("edge2");`.
+            this.tracer?.log("⚡ FSM would execute action: " + "this.actions.startNewStoryProcessForm(); this.actions.addSquareToPlayed();");this.tracer?.edgeTransition("edge2");
             
             // Step 3: Enter/move towards transition target `LOADING`.
             this.#LOADING_enter();
@@ -635,13 +635,13 @@ evaluateGuard = null;
     #IDLE_square_clicked()
     {
         // IDLE behavior
-        // uml: SQUARE_CLICKED / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.startNewStoryProcess();");this.tracer?.edgeTransition("edge1"); } TransitionTo(LOADING)
+        // uml: SQUARE_CLICKED / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.startNewStoryProcess(); this.actions.addSquareToPlayed(); this.actions.fixSquareColor();");this.tracer?.edgeTransition("edge1"); } TransitionTo(LOADING)
         {
             // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
             this.#IDLE_exit();
             
-            // Step 2: Transition action: `this.tracer?.log("⚡ FSM would execute action: " + "this.actions.startNewStoryProcess();");this.tracer?.edgeTransition("edge1");`.
-            this.tracer?.log("⚡ FSM would execute action: " + "this.actions.startNewStoryProcess();");this.tracer?.edgeTransition("edge1");
+            // Step 2: Transition action: `this.tracer?.log("⚡ FSM would execute action: " + "this.actions.startNewStoryProcess(); this.actions.addSquareToPlayed(); this.actions.fixSquareColor();");this.tracer?.edgeTransition("edge1");`.
+            this.tracer?.log("⚡ FSM would execute action: " + "this.actions.startNewStoryProcess(); this.actions.addSquareToPlayed(); this.actions.fixSquareColor();");this.tracer?.edgeTransition("edge1");
             
             // Step 3: Enter/move towards transition target `LOADING`.
             this.#LOADING_enter();
@@ -745,13 +745,13 @@ evaluateGuard = null;
     #LOADING_speech_ready()
     {
         // LOADING behavior
-        // uml: SPEECH_READY / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.setUpAndStartAllAudio();");this.tracer?.edgeTransition("edge3"); } TransitionTo(PLAYING)
+        // uml: SPEECH_READY / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.setUpAndStartAllAudio(); this.actions.displayStoryText();");this.tracer?.edgeTransition("edge3"); } TransitionTo(PLAYING)
         {
             // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
             this.#LOADING_exit();
             
-            // Step 2: Transition action: `this.tracer?.log("⚡ FSM would execute action: " + "this.actions.setUpAndStartAllAudio();");this.tracer?.edgeTransition("edge3");`.
-            this.tracer?.log("⚡ FSM would execute action: " + "this.actions.setUpAndStartAllAudio();");this.tracer?.edgeTransition("edge3");
+            // Step 2: Transition action: `this.tracer?.log("⚡ FSM would execute action: " + "this.actions.setUpAndStartAllAudio(); this.actions.displayStoryText();");this.tracer?.edgeTransition("edge3");`.
+            this.tracer?.log("⚡ FSM would execute action: " + "this.actions.setUpAndStartAllAudio(); this.actions.displayStoryText();");this.tracer?.edgeTransition("edge3");
             
             // Step 3: Enter/move towards transition target `PLAYING`.
             this.#PLAYING_enter();
@@ -864,13 +864,13 @@ evaluateGuard = null;
     #PAUSED_form_submitted()
     {
         // PAUSED behavior
-        // uml: FORM_SUBMITTED / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.startNewStoryProcessForm();");this.tracer?.edgeTransition("edge12"); } TransitionTo(LOADING)
+        // uml: FORM_SUBMITTED / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.startNewStoryProcessForm(); this.actions.addSquareToPlayed();");this.tracer?.edgeTransition("edge12"); } TransitionTo(LOADING)
         {
             // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
             this.#PAUSED_exit();
             
-            // Step 2: Transition action: `this.tracer?.log("⚡ FSM would execute action: " + "this.actions.startNewStoryProcessForm();");this.tracer?.edgeTransition("edge12");`.
-            this.tracer?.log("⚡ FSM would execute action: " + "this.actions.startNewStoryProcessForm();");this.tracer?.edgeTransition("edge12");
+            // Step 2: Transition action: `this.tracer?.log("⚡ FSM would execute action: " + "this.actions.startNewStoryProcessForm(); this.actions.addSquareToPlayed();");this.tracer?.edgeTransition("edge12");`.
+            this.tracer?.log("⚡ FSM would execute action: " + "this.actions.startNewStoryProcessForm(); this.actions.addSquareToPlayed();");this.tracer?.edgeTransition("edge12");
             
             // Step 3: Enter/move towards transition target `LOADING`.
             this.#LOADING_enter();
@@ -918,13 +918,13 @@ evaluateGuard = null;
     #PAUSED_square_clicked()
     {
         // PAUSED behavior
-        // uml: SQUARE_CLICKED / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.startNewStoryProcess();");this.tracer?.edgeTransition("edge11"); } TransitionTo(LOADING)
+        // uml: SQUARE_CLICKED / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.startNewStoryProcess(); this.actions.addSquareToPlayed(); this.actions.fixSquareColor();");this.tracer?.edgeTransition("edge11"); } TransitionTo(LOADING)
         {
             // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
             this.#PAUSED_exit();
             
-            // Step 2: Transition action: `this.tracer?.log("⚡ FSM would execute action: " + "this.actions.startNewStoryProcess();");this.tracer?.edgeTransition("edge11");`.
-            this.tracer?.log("⚡ FSM would execute action: " + "this.actions.startNewStoryProcess();");this.tracer?.edgeTransition("edge11");
+            // Step 2: Transition action: `this.tracer?.log("⚡ FSM would execute action: " + "this.actions.startNewStoryProcess(); this.actions.addSquareToPlayed(); this.actions.fixSquareColor();");this.tracer?.edgeTransition("edge11");`.
+            this.tracer?.log("⚡ FSM would execute action: " + "this.actions.startNewStoryProcess(); this.actions.addSquareToPlayed(); this.actions.fixSquareColor();");this.tracer?.edgeTransition("edge11");
             
             // Step 3: Enter/move towards transition target `LOADING`.
             this.#LOADING_enter();
@@ -1049,13 +1049,13 @@ evaluateGuard = null;
     #PLAYING_form_submitted()
     {
         // PLAYING behavior
-        // uml: FORM_SUBMITTED / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.startNewStoryProcessForm();");this.tracer?.edgeTransition("edge10"); } TransitionTo(LOADING)
+        // uml: FORM_SUBMITTED / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.startNewStoryProcessForm(); this.actions.addSquareToPlayed();");this.tracer?.edgeTransition("edge10"); } TransitionTo(LOADING)
         {
             // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
             this.#PLAYING_exit();
             
-            // Step 2: Transition action: `this.tracer?.log("⚡ FSM would execute action: " + "this.actions.startNewStoryProcessForm();");this.tracer?.edgeTransition("edge10");`.
-            this.tracer?.log("⚡ FSM would execute action: " + "this.actions.startNewStoryProcessForm();");this.tracer?.edgeTransition("edge10");
+            // Step 2: Transition action: `this.tracer?.log("⚡ FSM would execute action: " + "this.actions.startNewStoryProcessForm(); this.actions.addSquareToPlayed();");this.tracer?.edgeTransition("edge10");`.
+            this.tracer?.log("⚡ FSM would execute action: " + "this.actions.startNewStoryProcessForm(); this.actions.addSquareToPlayed();");this.tracer?.edgeTransition("edge10");
             
             // Step 3: Enter/move towards transition target `LOADING`.
             this.#LOADING_enter();
@@ -1129,13 +1129,13 @@ evaluateGuard = null;
     #PLAYING_square_clicked()
     {
         // PLAYING behavior
-        // uml: SQUARE_CLICKED / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.startNewStoryProcess();");this.tracer?.edgeTransition("edge9"); } TransitionTo(LOADING)
+        // uml: SQUARE_CLICKED / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.startNewStoryProcess(); this.actions.addSquareToPlayed(); this.actions.fixSquareColor();");this.tracer?.edgeTransition("edge9"); } TransitionTo(LOADING)
         {
             // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
             this.#PLAYING_exit();
             
-            // Step 2: Transition action: `this.tracer?.log("⚡ FSM would execute action: " + "this.actions.startNewStoryProcess();");this.tracer?.edgeTransition("edge9");`.
-            this.tracer?.log("⚡ FSM would execute action: " + "this.actions.startNewStoryProcess();");this.tracer?.edgeTransition("edge9");
+            // Step 2: Transition action: `this.tracer?.log("⚡ FSM would execute action: " + "this.actions.startNewStoryProcess(); this.actions.addSquareToPlayed(); this.actions.fixSquareColor();");this.tracer?.edgeTransition("edge9");`.
+            this.tracer?.log("⚡ FSM would execute action: " + "this.actions.startNewStoryProcess(); this.actions.addSquareToPlayed(); this.actions.fixSquareColor();");this.tracer?.edgeTransition("edge9");
             
             // Step 3: Enter/move towards transition target `LOADING`.
             this.#LOADING_enter();

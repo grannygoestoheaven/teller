@@ -43,9 +43,10 @@ export async function startNewStoryProcess() {
     console.log("Story exists, loading directly:", story);
     Object.assign(lastStoryData, story);
     loadPlayer(lastStoryData);
-
+    console.log("lastStoryData after assignment:", lastStoryData);
+    
     return lastStoryData;
-
+    
   } else {
     // If story does not exist, generate a new one
     const response = await fetch('/v1/stories/new_story', {
@@ -64,6 +65,7 @@ export async function startNewStoryProcess() {
     console.log("Full data from backend:", newStoryData);
     Object.assign(lastStoryData, newStoryData);
     loadPlayer(lastStoryData);
+    console.log("lastStoryData after assignment:", lastStoryData);
     
     return lastStoryData;
   }

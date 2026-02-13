@@ -39,7 +39,7 @@ def openai_tts(story: TtsRequest, filename) -> bytes:
             response_format="mp3",
             instructions='''
                         Tone : discreet, tired.
-                        Pacing : measured.
+                        Pacing : slow.
                         Emotional Range : peaceful.
                         ''',
         )
@@ -59,7 +59,7 @@ def openai_tts(story: TtsRequest, filename) -> bytes:
 # def elevenlabs_text_to_speech(story: str) -> bytes:
     
 #     # Initialize client
-#     client = ElevenLabs(api_key=os.environ.get("ELEVEN_LABS_API_KEY"))
+#     client = ElevenLabs(api_key=env_settings.elevenlabs_api_key)
 
 #     # Define the text and parameters
 #     text = story

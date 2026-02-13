@@ -36,7 +36,6 @@ def generate_subjects(topic: str) -> dict:
     return frontend_payload
 
 def build_story(subject: str, narrative_style: str, difficulty: str) -> dict:
-    print(subject)
     # the goal of this function is to call the generation functions, group their respective outputs (text files, audio files),
     # store them for later use and send their data and urls to the frontend.
     story_foldername = subject

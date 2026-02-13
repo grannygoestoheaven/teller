@@ -39,9 +39,18 @@ import {
   dotsViewTitle,
   applyDotsViewStyle,
   applyGridViewStyle,
+  addSquareToPlayed,
+  removeSquareFromPlayed,
+  fixSquareColor,
+  removeFixedColorFromSquare,
   // activateSquareTextHover,
   // deactivateSquareTextHover
 } from "/static/js/ui.js";
+
+import {
+  displayStoryText
+}
+from "/static/js/textDisplay.js";
 
 import {
   showLoadingAnimation,
@@ -108,8 +117,15 @@ export const localActions = {
     dotsViewTitle,
     applyDotsViewStyle,
     applyGridViewStyle,
+    addSquareToPlayed,
+    removeSquareFromPlayed,
+    fixSquareColor,
+    removeFixedColorFromSquare,
     // activateSquareTextHover,
     // deactivateSquareTextHover,
+
+    // Text Display Actions
+    displayStoryText,
     
     // Animation Actions
     showLoadingAnimation,

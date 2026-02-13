@@ -1,4 +1,5 @@
 import { elements } from "./config.js";
+import { playedSquares } from "/static/js/uiInit.js";
 
 export function showLoadingAnimation() {
   
@@ -9,7 +10,7 @@ export function showLoadingAnimation() {
   const period2 = elements.period2;
   const period3 = elements.period3;
   
-  // 1. Show the containers
+  // 1. Show the container
   dotsContainer.style.display = 'flex';
   dots.style.display = 'flex'; 
   
@@ -47,7 +48,7 @@ export function getPurpleColor() {
 export function getGreenColor() {
   let gardenGnomeGreen = "#6d9778";
   let flashGreen = "#00ff00"
-  let loadingBlue = "#0021f3";
+  let loadingBlue = "#3498db";
   return loadingBlue;
   // return "#e01818dd";
 }
@@ -55,7 +56,7 @@ export function getGreenColor() {
 export function getLoadingColor() {
   let loadingGrey = "#888888";
   // return loadingGrey;
-  let loadingBlue = "#3498db";
+  let loadingBlue = "#0021f3";
   return loadingBlue;
 }
 

@@ -36,10 +36,10 @@ DEFAULT_DURATION = 1
 PROMPTS_DIR = BASE_DIR / "src" / "config" / "patterns"
 # DEFAULT_PROMPT_PATH = BASE_DIR / "src" / "config"/ "patterns" / "precision_narrative_engine_silence_tags.md"
 # DEFAULT_PROMPT_PATH = BASE_DIR / "src" / "config"/ "patterns" / "precision_narrative_engine_clean.md"
-# DEFAULT_PROMPT_PATH = BASE_DIR / "src" / "config"/ "patterns" / "precision_narrative_engine.md"
+DEFAULT_PROMPT_PATH = BASE_DIR / "src" / "config"/ "patterns" / "precision_narrative_engine.md"
 # DEFAULT_PROMPT_PATH = BASE_DIR / "src" / "config"/ "patterns" / "precision_narrative_mistral.md"
 # DEFAULT_PROMPT_PATH = BASE_DIR / "src" / "config"/ "patterns" / "prec_mist_comp.md"
-DEFAULT_PROMPT_PATH = BASE_DIR / "src" / "config"/ "patterns" / "default_narrative.md"
+# DEFAULT_PROMPT_PATH = BASE_DIR / "src" / "config"/ "patterns" / "default_narrative.md"
 # DEFAULT_PROMPT_PATH = BASE_DIR / "src" / "config"/ "patterns" / "precision_narrative_mistral_2.md"
 # DEFAULT_PROMPT_PATH = BASE_DIR / "src" / "config"/ "patterns" / "schizophrenic.md"
 

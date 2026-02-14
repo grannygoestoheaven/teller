@@ -305,6 +305,8 @@ PAUSED : PAUSED
 
 PAUSED : enter / #123; this.actions.uiPausedButtons()#59; this.actions.addBlurr()#59; #125;
 
+PAUSED : CHAT_HISTORY_CLICKED / #123; this.actions.toggleTextVisibility()#59; #125;
+
 PAUSED : VIEW_TOGGLED / #123; this.actions.toggleView()#59; #125;
 
 PAUSED : VIEW_TOGGLED [this.actions.getIsGridVisible] / #123; this.actions.dotsViewTitle()#59; #125;
@@ -317,7 +319,7 @@ IDLE --> LOADING : SQUARE_CLICKED / #123; this.actions.startNewStoryProcess()#59
 
 IDLE --> LOADING : FORM_SUBMITTED / #123; this.actions.startNewStoryProcessForm()#59; this.actions.addSquareToPlayed()#59; #125;
 
-LOADING --> PLAYING : SPEECH_READY / #123; this.actions.setUpAndStartAllAudio()#59; this.actions.displayStoryText()#59; #125;
+LOADING --> PLAYING : SPEECH_READY / #123; this.actions.setUpAndStartAllAudio()#59; this.actions.displayStoryText()#59; this.actions.wrapWordsInSpans()#59; #125;
 
 LOADING --> PAUSED : TOGGLE_PAUSE_RESUME / #123; this.actions.pauseAllAudio()#59; #125;
 
@@ -495,6 +497,7 @@ evaluateGuard = null;
             case AudioStateMachine.StateId.PAUSED:
                 switch (eventId)
                 {
+                    case AudioStateMachine.EventId.CHAT_HISTORY_CLICKED: this.#PAUSED_chat_history_clicked(); break;
                     case AudioStateMachine.EventId.VIEW_TOGGLED: this.#PAUSED_view_toggled(); break;
                     case AudioStateMachine.EventId.INPUT_CHANGED: this.#PAUSED_input_changed(); break;
                     case AudioStateMachine.EventId.SQUARE_CLICKED: this.#PAUSED_square_clicked(); break;
@@ -745,13 +748,13 @@ evaluateGuard = null;
     #LOADING_speech_ready()
     {
         // LOADING behavior
-        // uml: SPEECH_READY / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.setUpAndStartAllAudio(); this.actions.displayStoryText();");this.tracer?.edgeTransition("edge3"); } TransitionTo(PLAYING)
+        // uml: SPEECH_READY / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.setUpAndStartAllAudio(); this.actions.displayStoryText(); this.actions.wrapWordsInSpans();");this.tracer?.edgeTransition("edge3"); } TransitionTo(PLAYING)
         {
             // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
             this.#LOADING_exit();
             
-            // Step 2: Transition action: `this.tracer?.log("⚡ FSM would execute action: " + "this.actions.setUpAndStartAllAudio(); this.actions.displayStoryText();");this.tracer?.edgeTransition("edge3");`.
-            this.tracer?.log("⚡ FSM would execute action: " + "this.actions.setUpAndStartAllAudio(); this.actions.displayStoryText();");this.tracer?.edgeTransition("edge3");
+            // Step 2: Transition action: `this.tracer?.log("⚡ FSM would execute action: " + "this.actions.setUpAndStartAllAudio(); this.actions.displayStoryText(); this.actions.wrapWordsInSpans();");this.tracer?.edgeTransition("edge3");`.
+            this.tracer?.log("⚡ FSM would execute action: " + "this.actions.setUpAndStartAllAudio(); this.actions.displayStoryText(); this.actions.wrapWordsInSpans();");this.tracer?.edgeTransition("edge3");
             
             // Step 3: Enter/move towards transition target `PLAYING`.
             this.#PLAYING_enter();
@@ -856,6 +859,18 @@ evaluateGuard = null;
             
             // Step 4: complete transition. Ends event dispatch. No other behaviors are checked.
             return;
+        } // end of behavior for PAUSED
+        
+        // No ancestor handles this event.
+    }
+    
+    #PAUSED_chat_history_clicked()
+    {
+        // PAUSED behavior
+        // uml: CHAT_HISTORY_CLICKED / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.toggleTextVisibility();"); }
+        {
+            // Step 1: execute action `this.tracer?.log("⚡ FSM would execute action: " + "this.actions.toggleTextVisibility();");`
+            this.tracer?.log("⚡ FSM would execute action: " + "this.actions.toggleTextVisibility();");
         } // end of behavior for PAUSED
         
         // No ancestor handles this event.
@@ -1318,6 +1333,7 @@ evaluateGuard = null;
   ],
   "PAUSED": [
     "CANCEL",
+    "CHAT_HISTORY_CLICKED",
     "FORM_SUBMITTED",
     "FROM_START_CLICKED",
     "INPUT_CHANGED",

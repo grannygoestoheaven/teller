@@ -1,6 +1,7 @@
 import os
 import tempfile
 import random
+# import pyttsx3  # Local TTS library for testing purposes
 
 from src.schemas.tts import TtsRequest # Pydantic model for TTS request
 from src.config.settings import env_settings # Environment settings like API keys
@@ -54,6 +55,40 @@ def openai_tts(story: TtsRequest, filename) -> bytes:
     except Exception as e:
         # Log the error appropriately in a real application
         print(f"Error in openai_tts: {e}")
+        return None
+    
+def local_pyttsx3_tts(story: str, filename: str = "story.wav") -> str:
+    """
+    Generates speech from text using pyttsx3 and saves it to a static directory.
+
+    Args:
+        story: The text content of the story.
+        filename: The desired filename for the audio (e.g., 'my_story.wav').
+
+    Returns:
+        The path to the saved audio file relative to the 'static' directory,
+        or None if an error occurs.
+    """
+    try:
+        # Initialize pyttsx3 engine
+        engine = pyttsx3.init()
+        
+        # Create output directory if it doesn't exist
+        if not filename.lower().endswith('.wav'):
+            filename = f"{os.path.splitext(filename)[0]}.wav"
+            
+        output_path = os.path.join('static', GENERATED_STORIES_SUBDIR, filename)
+        os.makedirs(os.path.dirname(output_path), exist_ok=True)
+        
+        # Generate and save speech
+        engine.save_to_file(story, output_path)
+        engine.runAndWait()
+        
+        # Return path relative to static directory
+        return os.path.join(GENERATED_STORIES_SUBDIR, filename)
+        
+    except Exception as e:
+        print(f"Error in local pyttsx3 TTS: {str(e)}")
         return None
 
 # def elevenlabs_text_to_speech(story: str) -> bytes:

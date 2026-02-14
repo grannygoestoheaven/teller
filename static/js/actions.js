@@ -53,6 +53,11 @@ import {
 from "/static/js/textDisplay.js";
 
 import {
+  wrapWordsInSpans
+}
+from "/static/js/textInteractionSystem.js";
+
+import {
   showLoadingAnimation,
   hideLoadingAnimation,
   getRedColor,
@@ -126,6 +131,7 @@ export const localActions = {
 
     // Text Display Actions
     displayStoryText,
+    wrapWordsInSpans,
     
     // Animation Actions
     showLoadingAnimation,

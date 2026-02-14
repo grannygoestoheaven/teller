@@ -273,10 +273,11 @@ body {
     color: rgb(199, 191, 191); /* Text color */
     flex: 1;
     display: flex;
-    max-width: 60ch;
+    max-width: 110ch;
     justify-content: center;
     align-items: center;
     font-family: pixelify sans, serif;
+    font-size: 1.5em;
     /* overflow: hidden; */
     border-radius: 5px;
     /* Ensure proper spacing between words (adjusting chat-history directly) */
@@ -288,9 +289,10 @@ body {
 }
 
 .chat-inner {
-    max-width: 60ch;
+    max-width: 100ch;
     max-height: 100%;
     margin: 0 auto;
+    word-spacing: 1em;
     box-sizing: border-box;
     overflow-y: auto;
     scrollbar-width: auto;

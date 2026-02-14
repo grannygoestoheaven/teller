@@ -20,7 +20,7 @@
     IDLE : INPUT_CHANGED / this.actions.uiReadyButtons();
 
     LOADING: enter / this.actions.showLoadingAnimation(); this.actions.loadingDots(); this.actions.uiLoadingButtons(); this.actions.toggleView();
-    LOADING --> PLAYING : SPEECH_READY / this.actions.setUpAndStartAllAudio(); this.actions.displayStoryText();
+    LOADING --> PLAYING : SPEECH_READY / this.actions.setUpAndStartAllAudio(); this.actions.displayStoryText(); this.actions.wrapWordsInSpans();
     LOADING --> PAUSED : TOGGLE_PAUSE_RESUME / this.actions.pauseAllAudio();
     LOADING --> IDLE : CANCEL / this.actions.abortProcess();
     LOADING : VIEW_TOGGLED / this.actions.toggleView();

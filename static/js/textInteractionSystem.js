@@ -1,3 +1,5 @@
+import { elements } from './config.js';
+
 let currentlyHighlightedWords = [];
 
         // Main setup function
@@ -68,6 +70,13 @@ let currentlyHighlightedWords = [];
             if (!event.relatedTarget || !event.currentTarget.contains(event.relatedTarget)) {
                 clearHighlights();
             }
+        }
+
+        export function wrapWordsInSpans() {
+            const text = elements.storyText.textContent;
+            elements.storyText.innerHTML = text.split(/\s+/).map(word =>
+                `<span class="word">${word}</span>`
+            ).join(' ');
         }
 
         // Initialize after DOM loads

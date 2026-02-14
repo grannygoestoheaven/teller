@@ -108,6 +108,7 @@ class AudioStateMachine
             case AudioStateMachine.StateId.PAUSED:
                 switch (eventId)
                 {
+                    case AudioStateMachine.EventId.CHAT_HISTORY_CLICKED: this.#PAUSED_chat_history_clicked(); break;
                     case AudioStateMachine.EventId.VIEW_TOGGLED: this.#PAUSED_view_toggled(); break;
                     case AudioStateMachine.EventId.INPUT_CHANGED: this.#PAUSED_input_changed(); break;
                     case AudioStateMachine.EventId.SQUARE_CLICKED: this.#PAUSED_square_clicked(); break;
@@ -330,13 +331,13 @@ class AudioStateMachine
     #LOADING_speech_ready()
     {
         // LOADING behavior
-        // uml: SPEECH_READY / { this.actions.setUpAndStartAllAudio(); this.actions.displayStoryText(); } TransitionTo(PLAYING)
+        // uml: SPEECH_READY / { this.actions.setUpAndStartAllAudio(); this.actions.displayStoryText(); this.actions.wrapWordsInSpans(); } TransitionTo(PLAYING)
         {
             // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
             this.#LOADING_exit();
             
-            // Step 2: Transition action: `this.actions.setUpAndStartAllAudio(); this.actions.displayStoryText();`.
-            this.actions.setUpAndStartAllAudio(); this.actions.displayStoryText();
+            // Step 2: Transition action: `this.actions.setUpAndStartAllAudio(); this.actions.displayStoryText(); this.actions.wrapWordsInSpans();`.
+            this.actions.setUpAndStartAllAudio(); this.actions.displayStoryText(); this.actions.wrapWordsInSpans();
             
             // Step 3: Enter/move towards transition target `PLAYING`.
             this.#PLAYING_enter();
@@ -427,6 +428,18 @@ class AudioStateMachine
             
             // Step 4: complete transition. Ends event dispatch. No other behaviors are checked.
             return;
+        } // end of behavior for PAUSED
+        
+        // No ancestor handles this event.
+    }
+    
+    #PAUSED_chat_history_clicked()
+    {
+        // PAUSED behavior
+        // uml: CHAT_HISTORY_CLICKED / { this.actions.toggleTextVisibility(); }
+        {
+            // Step 1: execute action `this.actions.toggleTextVisibility();`
+            this.actions.toggleTextVisibility();
         } // end of behavior for PAUSED
         
         // No ancestor handles this event.

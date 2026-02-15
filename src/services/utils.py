@@ -76,6 +76,14 @@ def _clean_story_text(story: str) -> str:
     cleaned = re.sub(r'\.([^ \n])', r'. \1', cleaned)
     return cleaned.strip()
 
+def _remove_silence_tags(story: str) -> str:
+    """Remove <[silence:1200]> tags from the story text."""
+    if not story:
+        return story
+    cleaned = re.sub(r'<\[silence:\d+\]>', '', story).strip()
+    cleaned = re.sub(r'\.([^ \n])', r'. \1', cleaned)
+    return cleaned.strip()
+
 # def _clean_story_text(tts_text: str) -> str:
 #     """
 #     Cleans TTS-tagged text for display by:

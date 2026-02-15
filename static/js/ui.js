@@ -2,6 +2,8 @@ import { elements, getIsGridVisible, setIsGridVisible, getIsChatVisible } from "
 import { lastStoryData } from "/static/js/config.js";
 import { playedSquares } from "/static/js/uiInit.js";
 
+let currentView = 'grid' // Default view is grid, can be 'text' or 'dots'
+
 export function uiIdle() {
   // Reset buttons
   elements.fromStartButton.disabled = true;
@@ -102,36 +104,83 @@ export function uiPausedButtons() {
   elements.playPauseButton.textContent = 'Resume';
 }
 
-export function showStoryText() {
+export function showText() {
   // Show text by setting opacity to 1
-  elements.chatHistory.style.opacity = 1;
-  elements.dotsContainer.style.display = 'none'; 
+  elements.storyText.classList.add('visible'); // Sets opacity to 1 in CSS
+  elements.storyText.classList.remove('hidden'); // Removes display and pointer-events to none in CSS
 }
 
-export function hideStoryText() {
-  // Hide text by setting opacity to 0 (matches your default CSS)
-  elements.chatHistory.style.opacity = 0;
-  elements.dotsContainer.style.display = 'flex'; 
+export function hideText() {
+  elements.storyText.classList.add('hidden'); // Sets display and pointer-events to none in CSS
+  elements.storyText.classList.remove('visible'); // Sets opacity to 1 and pointer-events to auto in CSS
 }
+
+export function showGrid() {
+  elements.gridContainer.classList.add('visible');
+  elements.gridContainer.classList.remove('hidden');
+}
+
+export function hideGrid() {
+  elements.gridContainer.classList.add('hidden');
+  elements.gridContainer.classList.remove('visible');
+}
+
+export function showDots() {
+  elements.dotsContainer.classList.add('visible');
+  elements.dotsContainer.classList.remove('hidden');
+}
+
+export function hideDots() {
+  elements.dotsContainer.classList.add('hidden');
+  elements.dotsContainer.classList.remove('visible');
+}
+
+// export function toggleTextVisibility() {
+//   const isTextVisible = elements.storyText.style.opacity === '1';
+
+//   if (isTextVisible) {
+//       // Hide Text (set opacity to 0) and Show Dots (set display to flex)
+//       elements.storyText.style.opacity = '0';
+//       elements.dotsContainer.style.display = 'flex';
+//   } else {
+//       // Show Text (set opacity to 1) and Hide Dots (set display to none)
+//       elements.storyText.style.opacity = '1';
+//       elements.dotsContainer.style.display = 'none';
+//   }
+// }
 
 export function toggleTextVisibility() {
-  const isTextVisible = elements.storyText.style.opacity === '1';
-
-  if (isTextVisible) {
-      // Hide Text (set opacity to 0) and Show Dots (set display to flex)
-      elements.storyText.style.opacity = '0';
-      elements.dotsContainer.style.display = 'flex';
-  } else {
-      // Show Text (set opacity to 1) and Hide Dots (set display to none)
-      elements.storyText.style.opacity = '1';
-      elements.dotsContainer.style.display = 'none';
-  }
+  const isTextVisible = elements.storyText.classList.contains('visible');
+  if (isTextVisible) hideStoryText();
+  else showStoryText();
 }
 
 export function updateStoryText() {
   elements.storyText.innerHTML = lastStoryData.story;
   console.log(elements.storyText.innerHTML);
 }
+
+export function toggleView() {
+  switch (currentView) {
+    case 'grid': toDotsView(); break;
+    case 'dots': toTextView(); break;
+    case 'text': toGridView(); break;
+  }
+}
+
+function toDotsView() {
+  hideGrid(); showDots();
+  currentView = 'dots';
+}
+function toTextView() {
+  hideDots(); showText();
+  currentView = 'text';
+}
+function toGridView() {
+  hideText(); showGrid();
+  currentView = 'grid';
+}
+
 
 // Toggle function
 // export function toggleView() {
@@ -150,15 +199,15 @@ export function updateStoryText() {
 //   setIsGridVisible(!isGridVisible);
 // }
 
-export function toggleView() {
-  const visible = getIsGridVisible();
-  // Reverse the logic for hidden/visible
-  elements.gridContainer.classList.toggle("hidden", visible);    // Hide if visible
-  elements.gridContainer.classList.toggle("visible", !visible);  // Show if hidden
-  elements.chatHistoryContainer.classList.toggle("hidden", !visible);  // Hide if grid is hidden
-  elements.chatHistoryContainer.classList.toggle("visible", visible);   // Show if grid is visible
-  setIsGridVisible(!visible);
-}
+// export function toggleView() {
+//   const visible = getIsGridVisible();
+//   // Reverse the logic for hidden/visible
+//   elements.gridContainer.classList.toggle("hidden", visible);    // Hide if visible
+//   elements.gridContainer.classList.toggle("visible", !visible);  // Show if hidden
+//   elements.chatHistoryContainer.classList.toggle("hidden", !visible);  // Hide if grid is hidden
+//   elements.chatHistoryContainer.classList.toggle("visible", visible);   // Show if grid is visible
+//   setIsGridVisible(!visible);
+// }
 
 export function lockGrid() {
   elements.gridSquares.forEach(square => {
@@ -189,6 +238,7 @@ export function unlockGrid() {
 // }
 
 // In your state machine's actions:
+
 export function applyGridViewStyle() {
   elements.formInput.style.opacity = 0.5;
 }

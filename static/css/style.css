@@ -396,7 +396,8 @@ body {
     opacity: 0; /* Start invisible for animation */
     animation: period-fade 2.2s infinite ease-in-out; /* Main animation */
     margin: 0 -0.17em;
-    font-size: 5em;
+    font-family: 'Inika', serif;
+    font-size: 3em;
     font-weight: bold;
     color: var(--period-color);
     line-height: 0.8;

@@ -145,6 +145,9 @@ export function staticListeners() {
   });
 }
 
+  elements.storyText?.addEventListener('mousemove', (e) => handleMouseMove(e, elements.storyText, inputElement));
+  elements.storyText?.addEventListener('mouseout', handleMouseOut);
+
 // export function toggleDifficulty() {
 //   elements.difficultySelector.addEventListener("click", () => {
 //     let currentIndex = 0;

@@ -12,7 +12,7 @@ from jinja2 import Template
 
 from src.config.settings import env_settings
 from src.config.pacing_engine_functions import _apply_silence_tags, silence_map
-from src.services.utils import _clean_story_text, _format_text_filename, _clean_story_title
+from src.services.utils import _clean_story_text, _remove_silence_tags, _format_text_filename, _clean_story_title
 
 mistral_client = Mistral(api_key=env_settings.mistral_api_key)
 openai_client = OpenAI(api_key=env_settings.openai_api_key)
@@ -40,13 +40,13 @@ def generate_story_with_mistralai(subject, narrative_style: None, difficulty: No
                 },
                 {
                     # "content": f"generate a 1050 char MAXIMUM text about {subject}.",
-                    "content": f"generate a 500 char MAXIMUM text about {subject}.", # etymology text.
+                    "content": f"generate a 650 char MAXIMUM text about {subject}.", # etymology text.
                     "role": "user"
                 },
                 
             ],
             # max_tokens=1350,
-            max_tokens=600, # etymology text.
+            max_tokens=675,
             temperature=0.1,
             presence_penalty=1.2,
             stream=False)
@@ -66,7 +66,8 @@ def generate_story_with_mistralai(subject, narrative_style: None, difficulty: No
         
         clean_story_title = _clean_story_title(subject)
         # tts_text = _apply_silence_tags(original_output, silences)
-        clean_story = _clean_story_text(original_output) # remove punctuation tags to have a clean version to display
+        clean_story = _remove_silence_tags(original_output) # remove silence tags to have a clean version to display
+        # clean_story = _clean_story_text(original_output) # remove punctuation tags to have a clean version to display
         # print(f"CLEAN STORY: {clean_story}")
     
         # return clean_story_title, tagged_story_for_tts, clean_story

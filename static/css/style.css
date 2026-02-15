@@ -82,6 +82,13 @@
     --topic-7-sub7: #F7C9D1;
 }
 
+.hidden {
+    opacity: 0;
+    pointer-events: none; /* Disables interaction */
+    visibility: hidden;   /* Optional: Collapses space if needed */
+  }
+  
+
 /* Hide scrollbars for the entire page */
 html, body {
     width: 100vw;
@@ -181,35 +188,38 @@ body {
 }
 
 .toggle-container {
-    display: flex;
     position: relative;
     aspect-ratio: 3/1;
     justify-content: center;
     align-items: center;
     width: 85%;
-    height: 100%; /* Ensure it fills the available space */
-    /* overflow: hidden; */
+    height: 60vh; /* Ensure it fills the available space */
+    overflow: hidden;
+    display: block;
   }
 
-.grid-container, .chat-history {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    transition: opacity 0.3s ease, visibility 1s ease;
+.grid-container, .chat-history, .loading-animation-container {
+    opacity: 1;
+    pointer-events: auto;
+    visibility: visible;
+    /* transition: opacity 0.3s ease, visibility 1s ease; */
 }
 
-.grid-container.hidden, .chat-history.hidden {
+/* .grid-container.hidden, .chat-history.hidden {
   opacity: 0;
-  visibility: hidden; /* Hides element but keeps space */
-}
+  visibility: hidden; 
+} */
 
-.grid-container.visible, .chat-history.visible {
+/* .grid-container.visible, .chat-history.visible {
   opacity: 1;
   visibility: visible;
-}
+} */
 
 .grid-container {   
+    position: absolute;
     display: grid;
+    width: 100%;
+    height: 100%;
     border: 1px dashed rgb(237, 230, 212, 3);
     border: none;
     border-radius: 25px;
@@ -218,6 +228,12 @@ body {
     transition: 1s;
     /* opacity: 1;
     visibility: visible; */
+}
+
+.grid-container.hidden {
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
 }
 
 .grid-container > .square {
@@ -256,9 +272,8 @@ body {
 #chatHistory { 
     top: 0; 
     left: 0; 
-    width: 100%; 
     height: 100%; 
-    opacity: 0; /* Hidden by default */
+    /* opacity: 0; */
 }
 
 /* New: For text fully visible (e.g., when toggled) */
@@ -271,11 +286,11 @@ body {
 .chat-history {
     position: relative;
     color: rgb(199, 191, 191); /* Text color */
-    flex: 1;
-    display: flex;
+    /* flex: 1; */
+    display: block;
     max-width: 110ch;
-    justify-content: center;
-    align-items: center;
+    /* justify-content: center; */
+    /* align-items: center; */
     font-family: pixelify sans, serif;
     font-size: 1.5em;
     /* overflow: hidden; */
@@ -286,11 +301,18 @@ body {
     word-spacing: -0.1em; /* Tighter word spacing */
     letter-spacing: normal;
     transition: all 0.3s ease-in-out;
+    overflow-y: auto; /* Enable vertical scrolling if content exceeds height */
+}
+
+.chat-history.hidden {
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
 }
 
 .chat-inner {
     max-width: 100ch;
-    max-height: 100%;
+    height: auto;
     margin: 0 auto;
     word-spacing: 1em;
     box-sizing: border-box;
@@ -298,6 +320,12 @@ body {
     scrollbar-width: auto;
     scrollbar-color: rgba(201, 200, 200, 0.691) transparent;
     /* padding: 1rem; */
+  }
+
+  .chat-inner.hidden {
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
   }
   
   .chat-inner::-webkit-scrollbar {

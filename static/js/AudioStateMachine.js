@@ -7,20 +7,18 @@ class AudioStateMachine
     static EventId = 
     {
         CANCEL : 0,
-        CHAT_HISTORY_CLICKED : 1,
-        FORM_SUBMITTED : 2,
-        FROM_START_CLICKED : 3,
-        INPUT_CHANGED : 4,
-        MUSIC_OVER : 5,
-        SPEECH_OVER : 6,
-        SPEECH_READY : 7,
-        SQUARE_CLICKED : 8,
-        TOGGLE_PAUSE_RESUME : 9,
-        VIEW_TOGGLED : 10,
+        FORM_SUBMITTED : 1,
+        FROM_START_CLICKED : 2,
+        INPUT_CHANGED : 3,
+        MUSIC_OVER : 4,
+        SPEECH_READY : 5,
+        SQUARE_CLICKED : 6,
+        TOGGLE_PAUSE_RESUME : 7,
+        VIEW_TOGGLED : 8,
     }
     static { Object.freeze(this.EventId); }
     
-    static EventIdCount = 11;
+    static EventIdCount = 9;
     static { Object.freeze(this.EventIdCount); }
     
     static StateId = 
@@ -108,7 +106,6 @@ class AudioStateMachine
             case AudioStateMachine.StateId.PAUSED:
                 switch (eventId)
                 {
-                    case AudioStateMachine.EventId.CHAT_HISTORY_CLICKED: this.#PAUSED_chat_history_clicked(); break;
                     case AudioStateMachine.EventId.VIEW_TOGGLED: this.#PAUSED_view_toggled(); break;
                     case AudioStateMachine.EventId.INPUT_CHANGED: this.#PAUSED_input_changed(); break;
                     case AudioStateMachine.EventId.SQUARE_CLICKED: this.#PAUSED_square_clicked(); break;
@@ -123,9 +120,7 @@ class AudioStateMachine
             case AudioStateMachine.StateId.PLAYING:
                 switch (eventId)
                 {
-                    case AudioStateMachine.EventId.CHAT_HISTORY_CLICKED: this.#PLAYING_chat_history_clicked(); break;
                     case AudioStateMachine.EventId.FROM_START_CLICKED: this.#PLAYING_from_start_clicked(); break;
-                    case AudioStateMachine.EventId.SPEECH_OVER: this.#PLAYING_speech_over(); break;
                     case AudioStateMachine.EventId.VIEW_TOGGLED: this.#PLAYING_view_toggled(); break;
                     case AudioStateMachine.EventId.INPUT_CHANGED: this.#PLAYING_input_changed(); break;
                     case AudioStateMachine.EventId.TOGGLE_PAUSE_RESUME: this.#PLAYING_toggle_pause_resume(); break;
@@ -283,10 +278,10 @@ class AudioStateMachine
         this.stateId = AudioStateMachine.StateId.LOADING;
         
         // LOADING behavior
-        // uml: enter / { this.actions.showLoadingAnimation(); this.actions.loadingDots(); this.actions.uiLoadingButtons(); this.actions.toggleView(); }
+        // uml: enter / { this.actions.hideText(); this.actions.toggleView(); this.actions.showLoadingAnimation(); this.actions.loadingDots(); this.actions.uiLoadingButtons(); }
         {
-            // Step 1: execute action `this.actions.showLoadingAnimation(); this.actions.loadingDots(); this.actions.uiLoadingButtons(); this.actions.toggleView();`
-            this.actions.showLoadingAnimation(); this.actions.loadingDots(); this.actions.uiLoadingButtons(); this.actions.toggleView();
+            // Step 1: execute action `this.actions.hideText(); this.actions.toggleView(); this.actions.showLoadingAnimation(); this.actions.loadingDots(); this.actions.uiLoadingButtons();`
+            this.actions.hideText(); this.actions.toggleView(); this.actions.showLoadingAnimation(); this.actions.loadingDots(); this.actions.uiLoadingButtons();
         } // end of behavior for LOADING
     }
     
@@ -379,14 +374,6 @@ class AudioStateMachine
             this.actions.toggleView();
         } // end of behavior for LOADING
         
-        // LOADING behavior
-        // uml: VIEW_TOGGLED [this.actions.getIsGridVisible] / { this.actions.dotsViewTitle(); }
-        if (this.actions.getIsGridVisible)
-        {
-            // Step 1: execute action `this.actions.dotsViewTitle();`
-            this.actions.dotsViewTitle();
-        } // end of behavior for LOADING
-        
         // No ancestor handles this event.
     }
     
@@ -428,18 +415,6 @@ class AudioStateMachine
             
             // Step 4: complete transition. Ends event dispatch. No other behaviors are checked.
             return;
-        } // end of behavior for PAUSED
-        
-        // No ancestor handles this event.
-    }
-    
-    #PAUSED_chat_history_clicked()
-    {
-        // PAUSED behavior
-        // uml: CHAT_HISTORY_CLICKED / { this.actions.toggleTextVisibility(); }
-        {
-            // Step 1: execute action `this.actions.toggleTextVisibility();`
-            this.actions.toggleTextVisibility();
         } // end of behavior for PAUSED
         
         // No ancestor handles this event.
@@ -550,14 +525,6 @@ class AudioStateMachine
             this.actions.toggleView();
         } // end of behavior for PAUSED
         
-        // PAUSED behavior
-        // uml: VIEW_TOGGLED [this.actions.getIsGridVisible] / { this.actions.dotsViewTitle(); }
-        if (this.actions.getIsGridVisible)
-        {
-            // Step 1: execute action `this.actions.dotsViewTitle();`
-            this.actions.dotsViewTitle();
-        } // end of behavior for PAUSED
-        
         // No ancestor handles this event.
     }
     
@@ -599,18 +566,6 @@ class AudioStateMachine
             
             // Step 4: complete transition. Ends event dispatch. No other behaviors are checked.
             return;
-        } // end of behavior for PLAYING
-        
-        // No ancestor handles this event.
-    }
-    
-    #PLAYING_chat_history_clicked()
-    {
-        // PLAYING behavior
-        // uml: CHAT_HISTORY_CLICKED / { this.actions.toggleTextVisibility(); }
-        {
-            // Step 1: execute action `this.actions.toggleTextVisibility();`
-            this.actions.toggleTextVisibility();
         } // end of behavior for PLAYING
         
         // No ancestor handles this event.
@@ -682,19 +637,6 @@ class AudioStateMachine
         // No ancestor handles this event.
     }
     
-    #PLAYING_speech_over()
-    {
-        // PLAYING behavior
-        // uml: SPEECH_OVER [!this.actions.getIsGridVisible()] / { this.actions.toggleView(); }
-        if (!this.actions.getIsGridVisible())
-        {
-            // Step 1: execute action `this.actions.toggleView();`
-            this.actions.toggleView();
-        } // end of behavior for PLAYING
-        
-        // No ancestor handles this event.
-    }
-    
     #PLAYING_square_clicked()
     {
         // PLAYING behavior
@@ -746,14 +688,6 @@ class AudioStateMachine
             this.actions.toggleView();
         } // end of behavior for PLAYING
         
-        // PLAYING behavior
-        // uml: VIEW_TOGGLED [this.actions.getIsGridVisible] / { this.actions.dotsViewTitle(); }
-        if (this.actions.getIsGridVisible)
-        {
-            // Step 1: execute action `this.actions.dotsViewTitle();`
-            this.actions.dotsViewTitle();
-        } // end of behavior for PLAYING
-        
         // No ancestor handles this event.
     }
     
@@ -793,12 +727,10 @@ class AudioStateMachine
         switch (id)
         {
             case AudioStateMachine.EventId.CANCEL: return "CANCEL";
-            case AudioStateMachine.EventId.CHAT_HISTORY_CLICKED: return "CHAT_HISTORY_CLICKED";
             case AudioStateMachine.EventId.FORM_SUBMITTED: return "FORM_SUBMITTED";
             case AudioStateMachine.EventId.FROM_START_CLICKED: return "FROM_START_CLICKED";
             case AudioStateMachine.EventId.INPUT_CHANGED: return "INPUT_CHANGED";
             case AudioStateMachine.EventId.MUSIC_OVER: return "MUSIC_OVER";
-            case AudioStateMachine.EventId.SPEECH_OVER: return "SPEECH_OVER";
             case AudioStateMachine.EventId.SPEECH_READY: return "SPEECH_READY";
             case AudioStateMachine.EventId.SQUARE_CLICKED: return "SQUARE_CLICKED";
             case AudioStateMachine.EventId.TOGGLE_PAUSE_RESUME: return "TOGGLE_PAUSE_RESUME";

@@ -106,33 +106,33 @@ export function uiPausedButtons() {
 
 export function showText() {
   // Show text by setting opacity to 1
-  elements.storyText.classList.add('visible'); // Sets opacity to 1 in CSS
+  // elements.storyText.classList.add('visible'); // Sets opacity to 1 in CSS
   elements.storyText.classList.remove('hidden'); // Removes display and pointer-events to none in CSS
 }
 
 export function hideText() {
-  elements.storyText.classList.add('hidden'); // Sets display and pointer-events to none in CSS
+  // elements.storyText.classList.add('hidden'); // Sets display and pointer-events to none in CSS
   elements.storyText.classList.remove('visible'); // Sets opacity to 1 and pointer-events to auto in CSS
 }
 
 export function showGrid() {
-  elements.gridContainer.classList.add('visible');
+  // elements.gridContainer.classList.add('visible');
   elements.gridContainer.classList.remove('hidden');
 }
 
 export function hideGrid() {
   elements.gridContainer.classList.add('hidden');
-  elements.gridContainer.classList.remove('visible');
+  // elements.gridContainer.classList.remove('visible');
 }
 
 export function showDots() {
-  elements.dotsContainer.classList.add('visible');
+  // elements.dotsContainer.classList.add('visible');
   elements.dotsContainer.classList.remove('hidden');
 }
 
 export function hideDots() {
   elements.dotsContainer.classList.add('hidden');
-  elements.dotsContainer.classList.remove('visible');
+  // elements.dotsContainer.classList.remove('visible');
 }
 
 // export function toggleTextVisibility() {

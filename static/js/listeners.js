@@ -1,5 +1,6 @@
 import { elements } from '/static/js/config.js';
 import { cycleToNextTopic, mapValuesToSquares } from '/static/js/uiInit.js';
+import { handleMouseMove, handleMouseOut, currentlyHighlightedWords } from '/static/js/textInteractionSystem.js';
 import { toggleView } from '/static/js/ui.js';
 // import { uiClearInput } from 'static/js/ui.js';
 
@@ -32,10 +33,10 @@ export function stateMachineEvents(sm) {
     sm.dispatchEvent(AudioStateMachine.EventId.FORM_SUBMITTED) // leads to LOADING state
   });
 
-  elements.chatHistoryContainer?.addEventListener('click', () => {
-    console.log('Chat history clicked');
-    sm.dispatchEvent(AudioStateMachine.EventId.CHAT_HISTORY_CLICKED); // leads to TEXT_DISPLAYED internal event
-  });
+  // elements.chatHistoryContainer?.addEventListener('click', () => {
+  //   console.log('Chat history clicked');
+  //   sm.dispatchEvent(AudioStateMachine.EventId.CHAT_HISTORY_CLICKED); // leads to TEXT_DISPLAYED internal event
+  // });
 
   elements.speech?.addEventListener('canplaythrough', () => {
     console.log('Audio ready to play');
@@ -106,6 +107,41 @@ export function staticListeners() {
       console.log(square.dataset.fullSubject);
   }));
 
+  elements.storyText?.addEventListener('mousemove', (e) => {
+    if (e.target.classList.contains('word')) {
+      handleMouseMove(e, elements.storyText, elements.formInput);
+      elements.formInput.dispatchEvent(new Event('input', { bubbles: true }));
+    }
+  });
+
+  // Click: Paste highlighted words
+  elements.storyText?.addEventListener('click', (e) => {
+    if (e.target.classList.contains('highlight-word')) {
+      const allWords = currentlyHighlightedWords.map(span => span.textContent.trim());
+      elements.formInput.value = allWords.join(' ');
+      console.log("Pasted:", allWords); // Debug
+      elements.formInput.dispatchEvent(new Event('input', { bubbles: true }));
+    }
+  });
+  
+  elements.storyText?.addEventListener('mouseout', (e) => {
+        handleMouseOut(e);
+  });
+
+  // elements.storyText?.forEach(span => {
+  //   span.addEventListener('mousemove', () => {
+  //     handleMouseMove(span, elements.formInput);
+  //     // elements.formInput.dispatchEvent(new Event('input', { bubbles: true }));
+  //   });
+  // })
+
+  // elements.storyText?.forEach(span => {
+  //   span.addEventListener('mouseout', () => {
+  //     handleMouseOut();
+  //     // elements.formInput.dispatchEvent(new Event('input', { bubbles: true }));
+  //   });
+  // });
+
   // elements.gridSquares.forEach(square => {
   //   square.addEventListener('mouseenter', () => {
   //     if (elements.formInput.dataset.locked !== 'true') {
@@ -145,8 +181,8 @@ export function staticListeners() {
   });
 }
 
-  elements.storyText?.addEventListener('mousemove', (e) => handleMouseMove(e, elements.storyText, inputElement));
-  elements.storyText?.addEventListener('mouseout', handleMouseOut);
+  // elements.storyText?.addEventListener('mousemove', (e) => handleMouseMove(e, elements.storyText, inputElement));
+  // elements.storyText?.addEventListener('mouseout', handleMouseOut);
 
 // export function toggleDifficulty() {
 //   elements.difficultySelector.addEventListener("click", () => {

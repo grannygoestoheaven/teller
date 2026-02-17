@@ -53,7 +53,7 @@ import {
 from "/static/js/textDisplay.js";
 
 import {
-  wrapWordsInSpans
+  wrapWordsInSpans,
 }
 from "/static/js/textInteractionSystem.js";
 

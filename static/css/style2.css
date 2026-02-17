@@ -188,22 +188,21 @@ body {
 }
 
 .toggle-container {
-    display: block;
     position: relative;
-    aspect-ratio: 3/1;
-    justify-content: center;
-    align-items: center;
     width: 85%;
     height: 60vh;
-    overflow: auto;
+    overflow: hidden; /* Critical: Hide overflow for layers */
   }
 
-.grid-container, .chat-history, .loading-animation-container {
-    opacity: 1;
-    pointer-events: auto;
-    visibility: visible;
-    /* transition: opacity 0.3s ease, visibility 1s ease; */
-}
+  .grid-container,
+  .loading-animation-container,
+  .chat-history {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
 
 /* .grid-container.hidden, .chat-history.hidden {
   opacity: 0;
@@ -284,25 +283,12 @@ body {
 }
 
 .chat-history {
-    position: absolute;
-    color: rgb(199, 191, 191); /* Text color */
-    /* flex: 1; */
-    display: flex;
-    max-width: 110ch;
-    justify-content: center;
-    /* align-items: center; */
+    display: block; /* Remove flex */
+    overflow-y: auto; /* Enable scrolling */
+    color: rgb(199, 191, 191);
     font-family: pixelify sans, serif;
     font-size: 1.5em;
-    /* overflow: hidden; */
-    border-radius: 5px;
-    /* Ensure proper spacing between words (adjusting chat-history directly) */
-    /* This is better applied to the #chatHistory itself if you want global word spacing */
-    white-space: normal;
-    word-spacing: -0.1em; /* Tighter word spacing */
-    letter-spacing: normal;
-    transition: all 0.3s ease-in-out;
-    overflow-y: auto; /* Enable vertical scrolling if content exceeds height */
-}
+  }
 
 .chat-history.hidden {
     opacity: 0;
@@ -312,15 +298,9 @@ body {
 
 .chat-inner {
     max-width: 100ch;
-    width: 100%;
-    max-height: 100%;
     margin: 0 auto;
-    word-spacing: 1em;
-    box-sizing: border-box;
-    overflow-y: auto;
-    scrollbar-width: auto;
-    scrollbar-color: rgba(201, 200, 200, 0.691) transparent;
-    /* padding: 1rem; */
+    padding: 1rem;
+    overflow-y: auto; /* Ensure text scrolls */
   }
 
   .chat-inner.hidden {
@@ -380,28 +360,23 @@ body {
 }
 
 /* --- NEW LOADING ANIMATION & CONTROLS STYLES --- */
-#loadingAnimationContainer {
+.loading-animation-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     display: none;
     justify-content: center;
     align-items: center;
-    position: absolute; /* Position it on top of chat-history */
-    top: 35%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 100%;
-    height: 100%;
-    /* z-index: 100; Ensure it's on top */
-    pointer-events: none; /* Allows clicks to pass through when hidden */
-}
+    pointer-events: none;
+    z-index: 100;
+    overflow: hidden;
+  }
 
-#loadingAnimationContainer.visible {
+.loading-animation-container.visible {
     display: flex;
-    pointer-events: auto; /* Re-enable pointer events when visible */
-}
-
-.loading-animation {
-    filter: none;
-    transition: filter .25s ease-in-out;
+    pointer-events: none; /* Re-enable pointer events when visible */
 }
 
 .loading-animation.blur-overlay{
@@ -409,16 +384,17 @@ body {
 }
 
 .loading-animation {
-    display: flex; /* Flex container for the dots */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
     justify-content: center;
     align-items: center;
-    position: absolute;
-    color: var(--period-color); /* Use the dynamically set color, fallback to #888 */
-    border: #0f0f0f;
-    font-size: 100px; /* Overall size of the dots */
-    line-height: 0.5; /* Align dots vertically */
-    gap: 0;
-}
+    pointer-events: none;
+    font-size: 500%;
+  }
 
 .loading-animation .period {
     display: inline-block;
@@ -426,7 +402,7 @@ body {
     animation: period-fade 2.2s infinite ease-in-out; /* Main animation */
     margin: 0 -0.17em;
     font-family: 'Inika', serif;
-    font-size: 100px;
+    /* font-size: 9em; */
     font-weight: bold;
     color: var(--period-color);
     line-height: 0.8;

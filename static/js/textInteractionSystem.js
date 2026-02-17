@@ -1,51 +1,95 @@
 import { elements } from './config.js';
 
-const container = elements.storyText;
-const input = document.getElementById('selected-words');
-
 // Cache the last processed text to avoid redundant work
 let lastProcessedText = null;
-let currentlyHighlightedWords = [];
+export let currentlyHighlightedWords = [];
 
 // Main setup function
-function setupZoneSelection(container, inputElement) {
-    container.addEventListener('mousemove', (e) => handleMouseMove(e, container, inputElement));
-    container.addEventListener('mouseout', handleMouseOut);
-}
+// function setupZoneSelection(container, inputElement) {
+//     container.addEventListener('mousemove', (e) => handleMouseMove(e, container, inputElement));
+//     container.addEventListener('mouseout', handleMouseOut);
+// }
 
 // Core logic: Vertical zone-based highlighting
-export function handleMouseMove(event, container, inputElement) {
+let lastZone = null; // Track the last zone
+let lastSpan = null;  // Track the last span
+
+export function handleMouseMove(event, inputElement) {
     const target = event.target;
-    if (!target.classList?.contains('word')) {
+    if (!target.classList.contains('word')) {
         clearHighlights();
+        lastSpan = null;
+        lastZone = 0;
         return;
     }
 
-    clearHighlights();
+    // Reset if the span changed
+    if (target !== lastSpan) {
+        clearHighlights();
+        lastSpan = target;
+        lastZone = 0;
+    }
+
     const rect = target.getBoundingClientRect();
     const mouseYRelativeToSpanTop = event.clientY - rect.top;
-    const zone = 7 - Math.floor((mouseYRelativeToSpanTop / rect.height) * 10);
-    const wordsToHighlight = Math.max(1, Math.min(zone, 10));
+    const zone = 7 - Math.floor((mouseYRelativeToSpanTop / rect.height) * 7); // Zone 1 (bottom) to 7 (top)
 
-    highlightWords(target, wordsToHighlight, inputElement);
+    // Only update if zone changed
+    if (zone === lastZone) return;
+    lastZone = zone;
+
+    // Highlight 'zone' words (zone 1 = 1 word, zone 7 = 7 words)
+    highlightWords(target, zone, inputElement);
 }
 
+
+// export function handleMouseMove(event, inputElement) {
+//     const target = event.target;
+//     if (!target.classList?.contains('word')) {
+//         clearHighlights();
+//         lastZone = null; // Reset on new target
+//         return;
+//     }
+
+//     const rect = target.getBoundingClientRect();
+//     const mouseYRelativeToSpanTop = event.clientY - rect.top;
+//     const zone = 7 - Math.floor((mouseYRelativeToSpanTop / rect.height) * 10);
+
+//     // Only update if zone changed
+//     if (zone === lastZone) return;
+//     lastZone = zone;
+
+//     clearHighlights();
+//     const wordsToHighlight = Math.max(1, Math.min(zone, 10));
+//     highlightWords(target, wordsToHighlight, inputElement);
+// }
+
+
+// export function handleMouseMove(event, inputElement) {
+//     const target = event.target;
+//     if (!target.classList?.contains('word')) {
+//         clearHighlights();
+//         return;
+//     }
+
+//     clearHighlights();
+//     const rect = target.getBoundingClientRect();
+//     const mouseYRelativeToSpanTop = event.clientY - rect.top;
+//     const zone = 7 - Math.floor((mouseYRelativeToSpanTop / rect.height) * 10);
+//     const wordsToHighlight = Math.max(1, Math.min(zone, 10));
+
+//     highlightWords(target, wordsToHighlight, inputElement);
+// }
+
 // Highlight adjacent words
-export function highlightWords(startSpan, count, inputElement) {
+
+function highlightWords(startSpan, count, inputElement) {
+    clearHighlights(); // Clear previous highlights
     let currentSpan = startSpan;
-    for (let i = 0; i < count; i++) {
-        if (currentSpan) {
-            currentSpan.classList.add('highlight-word');
-            currentlyHighlightedWords.push(currentSpan);
-
-            // Paste all highlighted words on click
-            currentSpan.onclick = () => {
-                const allWords = currentlyHighlightedWords.map(span => span.textContent.trim());
-                inputElement.value = allWords.join(' ');
-            };
-
-            currentSpan = findNextWordSpan(currentSpan);
-        }
+    for (let i = 0; i < count && currentSpan; i++) {
+        currentSpan.classList.add('highlight-word');
+        currentlyHighlightedWords.push(currentSpan);
+        currentSpan = findNextWordSpan(currentSpan);
     }
 }
 
@@ -62,7 +106,7 @@ export function findNextWordSpan(currentSpan) {
 }
 
 // Helper: Clear all highlights
-export function clearHighlights() {
+function clearHighlights() {
     currentlyHighlightedWords.forEach(span => {
         span.classList.remove('highlight-word');
         span.onclick = null;
@@ -97,7 +141,6 @@ export function wrapWordsInSpans() {
 
     lastProcessedText = text;  // Update cache
 }
-
 
 // // Demo function -> Initialize after DOM loads
 // document.addEventListener('DOMContentLoaded', () => {

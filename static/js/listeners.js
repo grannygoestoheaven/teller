@@ -120,7 +120,9 @@ export function staticListeners() {
       const allWords = currentlyHighlightedWords.map(span => span.textContent.trim());
       elements.formInput.value = allWords.join(' ');
       console.log("Pasted:", allWords); // Debug
-      elements.formInput.dispatchEvent(new Event('input', { bubbles: true }));
+      // elements.formInput.dispatchEvent(new Event('input', { bubbles: true }));
+      elements.formInput.focus(); // Focus input after pasting
+      // elements.formInput.blur(); // Remove focus (hides cursor)
     }
   });
   

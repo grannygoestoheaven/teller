@@ -6,7 +6,8 @@
     --square-hover-bg-color: rgb(204, 6, 6); /* color for hovered squares */
     --square-hover-content-color: transparent; /* Default: hide text */
     --square-border: none;
-    --subject-bg-color: transparent; /* Background for subject input group */
+    --subject-bg-color: rgb(20, 20, 20); /* Background for subject input group */
+    --input-highlight-color: rgb(43, 111, 55); /* Border color for focused input */
 
     /* Grain texture */
     --grain-texture: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="none"/><rect width="100" height="100" fill="rgba(0,0,0,0.03)" filter="url(%23noise)"/></svg>');
@@ -298,6 +299,7 @@ body {
 
 .chat-inner {
     max-width: 100ch;
+    height: 100%;
     margin: 0 auto;
     padding: 1rem;
     overflow-y: auto; /* Ensure text scrolls */
@@ -458,6 +460,10 @@ footer.chat-input-area {
     margin-top: 10px;
 }
 
+.subject-input-group:focus-within {
+    outline: 2px solid var(--input-highlight-color);
+}
+
 .subject-input-group {
     position: relative;
     display: flex;
@@ -467,9 +473,9 @@ footer.chat-input-area {
     margin: 0px 5px;
     margin-top: 5px;
     padding: 5px;
-    border: 10px solid rgb(27, 27, 27);
     box-sizing: border-box;
-    border: transparent !important ;
+    border: greenyellow !important ;
+    /* border: transparent !important ; */
     /* background: #2c2c2caf; */
     /* background: #0c0c0c; */
     background-color: var(--subject-bg-color, transparent);
@@ -497,11 +503,34 @@ footer.chat-input-area {
     text-align: center;
 }
 
-#subject:focus, #subject:active {
+/* #subject:focus {
     outline: none !important;
+    border: 2px solid var(--input-highlight-color);
+    caret-color: transparent;
     box-shadow: none !important;
     border: none !important;
 }
+
+#subject:focus, #subject:active {
+    /* outline: none !important; */
+    /* border: 2px solid var(--input-highlight-color); */
+    /* caret-color: transparent; */
+    /* box-shadow: none !important; */
+    /* border: none !important; */
+/* } */
+
+/* Focus: Highlight border (persistent) */
+#subject:focus {
+    outline: none;
+    caret-color: grey;
+    box-shadow: none !important;
+  }
+  
+  /* Active: Optional click effect (temporary) */
+  #subject:active {
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+  
 
 #subject::placeholder {
     color: rgba(157, 155, 155, 0.521);

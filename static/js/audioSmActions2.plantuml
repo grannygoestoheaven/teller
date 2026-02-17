@@ -16,7 +16,6 @@
     IDLE --> LOADING : SQUARE_CLICKED / this.actions.startNewStoryProcess(); this.actions.addSquareToPlayed(); this.actions.fixSquareColor();
     IDLE --> LOADING : FORM_SUBMITTED / this.actions.startNewStoryProcessForm(); this.actions.addSquareToPlayed();
     IDLE : VIEW_TOGGLED / this.actions.toggleView();
-    IDLE : VIEW_TOGGLED [this.actions.getIsGridVisible] / this.actions.dotsViewTitle();
     IDLE : INPUT_CHANGED / this.actions.uiReadyButtons();
 
     LOADING: enter / this.actions.hideText(); this.actions.toggleView(); this.actions.showLoadingAnimation(); this.actions.loadingDots(); this.actions.uiLoadingButtons();

@@ -42,7 +42,6 @@ export function handleMouseMove(event, inputElement) {
     highlightWords(target, zone, inputElement);
 }
 
-
 // export function handleMouseMove(event, inputElement) {
 //     const target = event.target;
 //     if (!target.classList?.contains('word')) {

@@ -393,7 +393,7 @@ body {
     justify-content: center;
     align-items: center;
     pointer-events: none;
-    font-size: 500%;
+    font-size: 100px;
   }
 
 .loading-animation .period {
@@ -402,7 +402,7 @@ body {
     animation: period-fade 2.2s infinite ease-in-out; /* Main animation */
     margin: 0 -0.17em;
     font-family: 'Inika', serif;
-    /* font-size: 9em; */
+    font-size: 3em;
     font-weight: bold;
     color: var(--period-color);
     line-height: 0.8;

@@ -1,4 +1,4 @@
-import { elements, lastTopicData, getSquaresWithData } from "/static/js/config.js";
+import { elements, lastTopicData, lastStoryData, getLastFilledSquares } from "/static/js/config.js";
 import { mapValuesToSquares } from "/static/js/uiInit.js";
 import { sanitizeSubject } from "/static/js/utils.js";
 
@@ -58,10 +58,22 @@ export async function generateSubjectsListFromTopic() {
   }
 }
 
-export function addDataToSquare(data) {
-  let square = elements.gridSquares.random(); // Get a random square from the grid
-  let squareArray = getSquaresWithData();
+  export function addTitleToSquare() {
+  'after storing the current story in /static/stories,'
+  'we get the current story title from the form input '
+  'and add it to a random square in the grid as a dataset attribute,'
+  'so that when the user hovers over that square, the title of the story they just played'
+  'will be displayed in the input field.'
 
-  square.dataset = data
-  squareArray.push(square)
+  const availableSquares = Array.from(elements.gridSquares)
+    .filter(square => !getLastFilledSquares().has(square));
+
+  if (availableSquares.length === 0) {
+    console.warn("All squares are filled!");
+    return;
   }
+
+  const square = availableSquares[Math.floor(Math.random() * availableSquares.length)];
+  square.dataset.compactSubject = lastStoryData.storyTitle;
+  getLastFilledSquares().add(square); // Track it
+}

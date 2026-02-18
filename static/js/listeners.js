@@ -1,4 +1,4 @@
-import { elements, getSquaresWithData } from '/static/js/config.js';
+import { elements, getLastFilledSquares } from '/static/js/config.js';
 import { cycleToNextTopic, mapValuesToSquares } from '/static/js/uiInit.js';
 import { handleMouseMove, handleMouseOut, currentlyHighlightedWords } from '/static/js/textInteractionSystem.js';
 import { toggleView, uiReadyButtons } from '/static/js/ui.js';
@@ -110,8 +110,7 @@ export function staticListeners() {
 
   elements.gridSquares.forEach(square => {
     square.addEventListener('mouseenter', () => {
-      let squaresArray = getSquaresWithData();
-      if (squaresArray.includes(square)) {
+      if (getLastFilledSquares().has(square)) {
         elements.formInput.value = square.dataset.compactSubject;
         console.log("Hovered over square with compact subject:", square.dataset.compactSubject);
         // elements.formInput.dispatchEvent(new Event('input', { bubbles: true }));
@@ -135,7 +134,6 @@ export function staticListeners() {
         .map(word => word.charAt(0).toUpperCase() + word.slice(1).replace(/\.$/, ''))
         .join(' ');
       elements.formInput.value = cleanTitle;
-
 
       console.log("Pasted:", cleanTitle); // Debug
       // elements.formInput.dispatchEvent(new Event('input', { bubbles: true }));

@@ -1,4 +1,4 @@
-import { generateSubjectsListFromTopic } from "/static/js/subjectsService.js";
+import { generateSubjectsListFromTopic, addTitleToSquare } from "/static/js/subjectsService.js";
 import { startNewStoryProcess, startNewStoryProcessForm } from "/static/js/storyService.js";
 import { getIsGridVisible, getIsGridFilled } from "/static/js/config.js";
 
@@ -83,6 +83,7 @@ import {
 export const localActions = {
     // Story and Process Actions
     generateSubjectsListFromTopic,
+    addTitleToSquare,
     startNewStoryProcess,
     startNewStoryProcessForm,
 

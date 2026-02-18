@@ -101,6 +101,7 @@ export async function startNewStoryProcessForm() {
     console.log("Story exists, loading directly:", story);
     Object.assign(lastStoryData, story);
     loadPlayer(lastStoryData);
+    console.log("lastStoryData after assignment:", lastStoryData);
 
     return lastStoryData;
 

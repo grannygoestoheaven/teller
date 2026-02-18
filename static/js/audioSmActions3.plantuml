@@ -30,7 +30,7 @@
     PLAYING --> LOADING : FORM_SUBMITTED / this.actions.startNewStoryProcessForm();
     PLAYING --> LOADING : TOGGLE_PAUSE_RESUME / this.actions.startNewStoryProcess();
     PLAYING : FROM_START_CLICKED / this.actions.pauseAllAudio(); this.actions.resetAllAudio(); this.actions.setUpAndStartAllAudio();
-    PLAYING : SPEECH_OVER / this.actions.textView();
+    PLAYING : SPEECH_OVER / this.actions.addTitleToSquare(); this.actions.textView();
 
     PAUSED: enter / this.actions.uiPausedButtons(); this.actions.addBlurr();
     PAUSED --> LOADING : SQUARE_CLICKED / this.actions.startNewStoryProcess();

@@ -277,7 +277,7 @@ PLAYING : enter / #123; this.actions.uiPlayingButtons()#59; this.actions.removeB
 
 PLAYING : FROM_START_CLICKED / #123; this.actions.pauseAllAudio()#59; this.actions.resetAllAudio()#59; this.actions.setUpAndStartAllAudio()#59; #125;
 
-PLAYING : SPEECH_OVER / #123; this.actions.textView()#59; #125;
+PLAYING : SPEECH_OVER / #123; this.actions.addTitleToSquare()#59; this.actions.textView()#59; #125;
 
 PAUSED
 
@@ -985,10 +985,10 @@ evaluateGuard = null;
     #PLAYING_speech_over()
     {
         // PLAYING behavior
-        // uml: SPEECH_OVER / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.textView();"); }
+        // uml: SPEECH_OVER / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.addTitleToSquare(); this.actions.textView();"); }
         {
-            // Step 1: execute action `this.tracer?.log("⚡ FSM would execute action: " + "this.actions.textView();");`
-            this.tracer?.log("⚡ FSM would execute action: " + "this.actions.textView();");
+            // Step 1: execute action `this.tracer?.log("⚡ FSM would execute action: " + "this.actions.addTitleToSquare(); this.actions.textView();");`
+            this.tracer?.log("⚡ FSM would execute action: " + "this.actions.addTitleToSquare(); this.actions.textView();");
         } // end of behavior for PLAYING
         
         // No ancestor handles this event.

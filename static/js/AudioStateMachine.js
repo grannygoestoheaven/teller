@@ -561,10 +561,10 @@ class AudioStateMachine
     #PLAYING_speech_over()
     {
         // PLAYING behavior
-        // uml: SPEECH_OVER / { this.actions.textView(); }
+        // uml: SPEECH_OVER / { this.actions.addTitleToSquare(); this.actions.textView(); }
         {
-            // Step 1: execute action `this.actions.textView();`
-            this.actions.textView();
+            // Step 1: execute action `this.actions.addTitleToSquare(); this.actions.textView();`
+            this.actions.addTitleToSquare(); this.actions.textView();
         } // end of behavior for PLAYING
         
         // No ancestor handles this event.

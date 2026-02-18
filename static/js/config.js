@@ -13,6 +13,7 @@ let isGridVisible = true; // Default visibility
 let isGridFilled = false; // To track if the grid is filled
 let isChatVisible = false; // Default chat visibility
 let squareValues = []; // Array to hold values for each square
+let squaresWithData = []; // Array to track if each square has data
 let currentPlayingSquare = null;
 
 // Getters
@@ -23,6 +24,7 @@ export function getIsGridVisible() { return isGridVisible; }
 export function getIsGridFilled() { return isGridFilled; }
 export function getIsChatVisible() { return isChatVisible; }
 export function getSquaresValuesList() { return squareValues; }
+export function getSquaresWithData() { return squaresWithData; }
 export function getCurrentPlayingSquare() { return currentPlayingSquare; }
 
 // Setters

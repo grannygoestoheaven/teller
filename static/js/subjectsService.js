@@ -1,6 +1,6 @@
-import { elements, lastTopicData } from "./config.js";
-import { mapValuesToSquares } from "./uiInit.js";
-import { sanitizeSubject } from "./utils.js";
+import { elements, lastTopicData, getSquaresWithData } from "/static/js/config.js";
+import { mapValuesToSquares } from "/static/js/uiInit.js";
+import { sanitizeSubject } from "/static/js/utils.js";
 
 // send a topic to backend for it to returns a list of related subjects
 export async function generateSubjectsListFromTopic() {
@@ -57,3 +57,11 @@ export async function generateSubjectsListFromTopic() {
     return lastTopicData;
   }
 }
+
+export function addDataToSquare(data) {
+  let square = elements.gridSquares.random(); // Get a random square from the grid
+  let squareArray = getSquaresWithData();
+
+  square.dataset = data
+  squareArray.push(square)
+  }

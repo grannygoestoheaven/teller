@@ -4,14 +4,14 @@ import { playedSquares } from "/static/js/uiInit.js";
 
 let currentView = 'grid' // Default view is grid, can be 'text' or 'dots'
 
-export function uiIdle() {
-  // Reset buttons
-  elements.fromStartButton.disabled = true;
-  elements.playPauseButton.disabled = true;
-  elements.playPauseButton.textContent = 'Pause';
-  elements.chatHistoryContainer.disabled = !getIsChatVisible();
-  inputIsValid();
-}
+// export function uiIdle() {
+//   // Reset buttons
+//   elements.fromStartButton.disabled = true;
+//   elements.playPauseButton.disabled = true;
+//   elements.playPauseButton.textContent = 'Start';
+//   // elements.chatHistoryContainer.disabled = !getIsChatVisible();
+//   // inputIsValid();
+// }
 
 export function clearStoryText() {
   elements.storyText.innerHTML = '';
@@ -61,6 +61,12 @@ export function inputIsEmpty() {
   return elements.formInput.value.trim().length === 0;
 }
 
+export function uiIdleButtons() {
+  elements.fromStartButton.disabled = true;
+  elements.playPauseButton.disabled = true;
+  elements.playPauseButton.textContent = 'Start';
+}
+
 export function uiReadyButtons() {
   // Enable buttons when input is at least one character long
   elements.fromStartButton.disabled = false;
@@ -72,12 +78,6 @@ export function uiReadyButtons() {
 export function uiClearInput() {
   // This function only handles the UI change
   elements.formInput.value = ''; 
-}
-
-export function uiIdleButtons() {
-  elements.fromStartButton.disabled = true;
-  elements.playPauseButton.disabled = true;
-  elements.playPauseButton.textContent = 'Start';
 }
 
 export function uiLoadingButtons() {
@@ -106,8 +106,8 @@ export function uiPausedButtons() {
 
 export function showText() {
   // Show text by setting opacity to 1
-  elements.storyText.classList.add('visible'); // Sets opacity to 1 in CSS
   elements.storyText.classList.remove('hidden'); // Removes display and pointer-events to none in CSS
+  elements.storyText.classList.add('visible'); // Sets opacity to 1 in CSS
 }
 
 export function hideText() {
@@ -116,8 +116,8 @@ export function hideText() {
 }
 
 export function showGrid() {
-  elements.gridContainer.classList.add('visible');
   elements.gridContainer.classList.remove('hidden');
+  elements.gridContainer.classList.add('visible');
 }
 
 export function hideGrid() {
@@ -126,8 +126,8 @@ export function hideGrid() {
 }
 
 export function showDots() {
-  elements.dotsContainer.classList.add('visible');
   elements.dotsContainer.classList.remove('hidden');
+  elements.dotsContainer.classList.add('visible');
 }
 
 export function hideDots() {
@@ -162,23 +162,23 @@ export function updateStoryText() {
 
 export function toggleView() {
   switch (currentView) {
-    case 'grid': toTextView(); break;
-    case 'dots': toGridView(); break;
-    case 'text': toDotsView(); break;
+    case 'grid': dotsView(); break;
+    case 'dots': textView(); break;
+    case 'text': gridView(); break;
   }
 }
 
-function toDotsView() {
-  hideText(); showDots();
+export function gridView() {
+  hideText(), hideDots(); showGrid();
+  currentView = 'grid';
+}
+export function dotsView() {
+  hideGrid(); hideText(); showDots();
   currentView = 'dots';
 }
-function toTextView() {
-  hideGrid(); showText();
+export function textView() {
+  hideDots(); hideGrid(); showText();
   currentView = 'text';
-}
-function toGridView() {
-  hideDots(); showGrid();
-  currentView = 'grid';
 }
 
 

@@ -1,35 +1,35 @@
 import { elements } from "./config.js";
 import { playedSquares } from "/static/js/uiInit.js";
 
-export function showLoadingAnimation() {
+// export function showLoadingAnimation() {
   
-  // Access elements via the imported 'elements' store
-  const dotsContainer = elements.dotsContainer;
-  const dots = elements.dots;
-  const period1 = elements.period1;
-  const period2 = elements.period2;
-  const period3 = elements.period3;
+//   // Access elements via the imported 'elements' store
+//   const dotsContainer = elements.dotsContainer;
+//   const dots = elements.dots;
+//   const period1 = elements.period1;
+//   const period2 = elements.period2;
+//   const period3 = elements.period3;
   
-  // 1. Show the container
-  dotsContainer.style.display = 'flex';
-  dots.style.display = 'flex'; 
+//   // 1. Show the container
+//   dotsContainer.style.display = 'flex';
+//   dots.style.display = 'flex'; 
   
-  // 2. Reset dot classes (assuming these keys exist in 'elements')
-  period1.className = 'period period-1';
-  period2.className = 'period period-2';
-  period3.className = 'period period-3';
+//   // 2. Reset dot classes (assuming these keys exist in 'elements')
+//   period1.className = 'period period-1';
+//   period2.className = 'period period-2';
+//   period3.className = 'period period-3';
   
-  // 3. Remove listeners (using the correct element references)
-  period1.onclick = null;
-  period2.onclick = null;
-  period3.onclick = null;
-}
+//   // 3. Remove listeners (using the correct element references)
+//   period1.onclick = null;
+//   period2.onclick = null;
+//   period3.onclick = null;
+// }
 
 // Function to hide the loading animation
-export function hideLoadingAnimation() {
-  elements.dotsContainer.style.display = 'none'; // Hide the entire container
-  elements.dots.style.display = 'none'; // Hide the animation dots
-}
+// export function hideLoadingAnimation() {
+//   elements.dotsContainer.style.display = 'none'; // Hide the entire container
+//   elements.dots.style.display = 'none'; // Hide the animation dots
+// }
 
 export function getRedColor() {
   let arrayOfRedShades = ["#fb2943", "#e2253c", "#c92136", "#b01d2f", "#971928"];
@@ -48,16 +48,19 @@ export function getPurpleColor() {
 export function getGreenColor() {
   let gardenGnomeGreen = "#6d9778";
   let flashGreen = "#00ff00"
-  let loadingBlue = "#3498db";
-  return loadingBlue;
   // return "#e01818dd";
+  return gardenGnomeGreen;
+}
+
+export function getBlueColor() {
+  let loadingBlue = "#3498db";
+  // let loadingBlue = "#0021f3";
+  return loadingBlue;
 }
 
 export function getLoadingColor() {
   let loadingGrey = "#888888";
-  // return loadingGrey;
-  let loadingBlue = "#0021f3";
-  return loadingBlue;
+  return loadingGrey;
 }
 
 export function redDots() {
@@ -67,12 +70,12 @@ export function redDots() {
 }
 
 export function greenDots() {
-  const color = getLoadingColor(); // generate a color
+  const color = getGreenColor(); // generate a color
   elements.dots.style.setProperty("--period-color", color); // set CSS variable to make the dots turn green
 }
 
 export function loadingDots() {
-  const color = getGreenColor(); // generate a color
+  const color = getLoadingColor(); // generate a color
   elements.dots.style.setProperty("--period-color", color); // set CSS variable to make the dots turn grey
 }
 

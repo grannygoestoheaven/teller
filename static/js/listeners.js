@@ -1,7 +1,8 @@
-import { elements } from '/static/js/config.js';
+import { elements, getSquaresWithData } from '/static/js/config.js';
 import { cycleToNextTopic, mapValuesToSquares } from '/static/js/uiInit.js';
 import { handleMouseMove, handleMouseOut, currentlyHighlightedWords } from '/static/js/textInteractionSystem.js';
-import { toggleView } from '/static/js/ui.js';
+import { toggleView, uiReadyButtons } from '/static/js/ui.js';
+import { formatTitle } from '/static/js/utils.js';
 // import { uiClearInput } from 'static/js/ui.js';
 
 export function stateMachineEvents(sm) {
@@ -21,11 +22,6 @@ export function stateMachineEvents(sm) {
     console.log("Stop clicked")
     sm.dispatchEvent(AudioStateMachine.EventId.CANCEL); // Leads to IDLE state
   })
-
-  elements.formInput?.addEventListener('input', () => {
-    console.log('Form input changed');
-    sm.dispatchEvent(AudioStateMachine.EventId.INPUT_CHANGED); // leads to READY state
-  });
 
   elements.form?.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -55,7 +51,7 @@ export function stateMachineEvents(sm) {
 
   elements.fromStartButton?.addEventListener("click", () => {
     console.log('Replay clicked');
-    sm.dispatchEvent(AudioStateMachine.EventId.FROM_START_CLICKED); // leads to REPLAYING state
+    sm.dispatchEvent(AudioStateMachine.EventId.FROM_START_CLICKED); // leads to PLAYING state
   });
 
   elements.backgroundTrack?.addEventListener('ended', () => {
@@ -88,24 +84,40 @@ export function stateMachineEvents(sm) {
       sm.dispatchEvent(AudioStateMachine.EventId.SQUARE_CLICKED);
     });
   });
-
-  elements.toggleButton?.addEventListener('click', () => {
-    console.log('Toggling grid visibility');
-    sm.dispatchEvent(AudioStateMachine.EventId.VIEW_TOGGLED);
-    // toggleView();
-  });
 }
 
 export function staticListeners() {
+
+  elements.toggleButton?.addEventListener('click', () => {
+    console.log('Toggling grid visibility');
+    // sm.dispatchEvent(AudioStateMachine.EventId.VIEW_TOGGLED);
+    toggleView();
+  });
+
+    elements.formInput?.addEventListener('input', () => {
+    console.log('Form input changed');
+    uiReadyButtons();
+  });
   
-  elements.gridSquares.forEach(square =>
+  // elements.gridSquares.forEach(square =>
+  //   square.addEventListener('mouseenter', () => {
+  //     if (elements.formInput.dataset.locked !== 'true') {
+  //       elements.formInput.value = square.dataset.compactSubject;
+  //     }
+  //     // elements.formInput.dispatchEvent(new Event('input', { bubbles: true }));
+  //     console.log(square.dataset.fullSubject);
+  // }));
+
+  elements.gridSquares.forEach(square => {
     square.addEventListener('mouseenter', () => {
-      if (elements.formInput.dataset.locked !== 'true') {
+      let squaresArray = getSquaresWithData();
+      if (squaresArray.includes(square)) {
         elements.formInput.value = square.dataset.compactSubject;
+        console.log("Hovered over square with compact subject:", square.dataset.compactSubject);
+        // elements.formInput.dispatchEvent(new Event('input', { bubbles: true }));
       }
-      // elements.formInput.dispatchEvent(new Event('input', { bubbles: true }));
-      console.log(square.dataset.fullSubject);
-  }));
+    })
+  });
 
   elements.storyText?.addEventListener('mousemove', (e) => {
     if (e.target.classList.contains('word')) {
@@ -117,9 +129,15 @@ export function staticListeners() {
   // Click: Paste highlighted words
   elements.storyText?.addEventListener('click', (e) => {
     if (e.target.classList.contains('highlight-word')) {
-      const allWords = currentlyHighlightedWords.map(span => span.textContent.trim());
-      elements.formInput.value = allWords.join(' ');
-      console.log("Pasted:", allWords); // Debug
+      // const allWords = currentlyHighlightedWords.map(span => span.textContent.trim());
+      const cleanTitle = currentlyHighlightedWords
+        .map(span => span.textContent.trim())
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1).replace(/\.$/, ''))
+        .join(' ');
+      elements.formInput.value = cleanTitle;
+
+
+      console.log("Pasted:", cleanTitle); // Debug
       // elements.formInput.dispatchEvent(new Event('input', { bubbles: true }));
       elements.formInput.focus(); // Focus input after pasting
       // elements.formInput.blur(); // Remove focus (hides cursor)

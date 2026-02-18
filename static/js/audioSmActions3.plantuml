@@ -1,0 +1,46 @@
+@startuml AudioStateMachine
+
+    '############################ States ############################
+
+    [*] --> IDLE
+
+    state IDLE
+    state READY
+    state LOADING
+    state PLAYING
+    state PAUSED
+
+    '############################ Handlers ############################
+
+    IDLE: enter / this.actions.gridView(); this.actions.pauseAllAudio(); this.actions.resetAllAudio(); this.actions.uiIdleButtons(); this.actions.initInputAdjustments();
+    IDLE --> LOADING : SQUARE_CLICKED [this.actions.squareHasData()] / this.actions.startNewStoryProcess();
+    IDLE --> LOADING : FORM_SUBMITTED / this.actions.startNewStoryProcessForm();
+    IDLE --> LOADING : TOGGLE_PAUSE_RESUME / this.actions.startNewStoryProcess();
+
+    LOADING: enter / this.actions.dotsView(); this.actions.loadingDots(); this.actions.uiLoadingButtons();
+    LOADING --> PLAYING : SPEECH_READY / this.actions.setUpAndStartAllAudio(); this.actions.displayStoryText(); this.actions.wrapWordsInSpans();
+    LOADING --> PAUSED : TOGGLE_PAUSE_RESUME / this.actions.pauseAllAudio();
+    LOADING --> IDLE : CANCEL / this.actions.abortProcess();
+
+    PLAYING: enter / this.actions.uiPlayingButtons(); this.actions.removeBlurr(); this.actions.greenDots();
+    PLAYING --> PAUSED : TOGGLE_PAUSE_RESUME / this.actions.pauseAllAudio();
+    PLAYING --> IDLE : MUSIC_OVER [this.actions.bothTracksEnded()]
+    PLAYING --> IDLE: CANCEL
+    PLAYING --> LOADING : SQUARE_CLICKED / this.actions.startNewStoryProcess();
+    PLAYING --> LOADING : FORM_SUBMITTED / this.actions.startNewStoryProcessForm();
+    PLAYING --> LOADING : TOGGLE_PAUSE_RESUME / this.actions.startNewStoryProcess();
+    PLAYING : FROM_START_CLICKED / this.actions.pauseAllAudio(); this.actions.resetAllAudio(); this.actions.setUpAndStartAllAudio();
+    PLAYING : SPEECH_OVER / this.actions.textView();
+
+    PAUSED: enter / this.actions.uiPausedButtons(); this.actions.addBlurr();
+    PAUSED --> LOADING : SQUARE_CLICKED / this.actions.startNewStoryProcess();
+    PAUSED --> LOADING : FORM_SUBMITTED / this.actions.startNewStoryProcessForm();
+    PAUSED --> PLAYING : TOGGLE_PAUSE_RESUME / this.actions.resumeAllAudio();
+    PAUSED --> PLAYING : FROM_START_CLICKED / this.actions.resetAllAudio(); this.actions.setUpAndStartAllAudio();
+    PAUSED --> IDLE: CANCEL
+
+/'! $CONFIG : toml
+SmRunnerSettings.transpilerId = "JavaScript"
+'/
+
+@enduml

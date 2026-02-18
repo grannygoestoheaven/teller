@@ -1,5 +1,5 @@
 import { elements } from "/static/js/config.js";
-import { uiIdle } from "/static/js/ui.js";
+// import { uiIdle } from "/static/js/ui.js";
 
 let speechTimeout = null;
 let speechStartDelay = 5000; // Default 5 second delay
@@ -126,7 +126,7 @@ export function resetAllAudio(){
 export function stopAndResetAllAudio() {
   pauseAllAudio();
   resetAllAudio();
-  uiIdle();
+  // uiIdle();
 }
 
 export function setUpAndStartAllAudio() {

@@ -14,11 +14,11 @@
 
     IDLE: enter / this.actions.pauseAllAudio(); this.actions.resetAllAudio(); this.actions.uiIdle(); this.actions.hideLoadingAnimation(); this.actions.initInputAdjustments();
     IDLE --> LOADING : SQUARE_CLICKED / this.actions.startNewStoryProcess(); this.actions.addSquareToPlayed(); this.actions.fixSquareColor();
-    IDLE --> LOADING : FORM_SUBMITTED / this.actions.startNewStoryProcessForm(); this.actions.addSquareToPlayed();
+    IDLE --> LOADING : FORM_SUBMITTED / this.actions.startNewStoryProcessForm(); this.actions.addSquareToPlayed(); this.actions.toggleView();
     IDLE : VIEW_TOGGLED / this.actions.toggleView();
     IDLE : INPUT_CHANGED / this.actions.uiReadyButtons();
 
-    LOADING: enter / this.actions.hideText(); this.actions.toggleView(); this.actions.showLoadingAnimation(); this.actions.loadingDots(); this.actions.uiLoadingButtons();
+    LOADING: enter / this.actions.toggleView(); this.actions.showLoadingAnimation(); this.actions.loadingDots(); this.actions.uiLoadingButtons();
     LOADING --> PLAYING : SPEECH_READY / this.actions.setUpAndStartAllAudio(); this.actions.displayStoryText(); this.actions.wrapWordsInSpans();
     LOADING --> PAUSED : TOGGLE_PAUSE_RESUME / this.actions.pauseAllAudio();
     LOADING --> IDLE : CANCEL / this.actions.abortProcess();

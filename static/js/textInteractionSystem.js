@@ -32,7 +32,7 @@ export function handleMouseMove(event, inputElement) {
 
     const rect = target.getBoundingClientRect();
     const mouseYRelativeToSpanTop = event.clientY - rect.top;
-    const zone = 7 - Math.floor((mouseYRelativeToSpanTop / rect.height) * 7); // Zone 1 (bottom) to 7 (top)
+    const zone = 10 - Math.floor((mouseYRelativeToSpanTop / rect.height) * 10); // Zone 1 (bottom) to 7 (top)
 
     // Only update if zone changed
     if (zone === lastZone) return;

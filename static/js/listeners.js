@@ -78,10 +78,22 @@ export function stateMachineEvents(sm) {
   // });
 
   elements.gridSquares.forEach(square => {
+    square.addEventListener('mouseenter', () => {
+      if (getLastFilledSquares().has(square)) {
+        elements.formInput.value = square.dataset.compactSubject;
+        console.log("Hovered over square with compact subject:", square.dataset.compactSubject);
+        // elements.formInput.dispatchEvent(new Event('input', { bubbles: true }));
+      }
+    })
+  });
+
+  elements.gridSquares.forEach(square => {
     square.addEventListener('click', () => { // we need to get sure the click happens only inside the grid - to prevent triggering reassigment of activeSquare when clicking outside, like when choosing a new topic.
       elements.activeSquare = square; // Store reference
       console.log('Square clicked:', elements.activeSquare.dataset.fullSubject);
-      sm.dispatchEvent(AudioStateMachine.EventId.SQUARE_CLICKED);
+      if (getLastFilledSquares().has(square)) {
+        sm.dispatchEvent(AudioStateMachine.EventId.SQUARE_CLICKED);
+      }
     });
   });
 }
@@ -107,16 +119,6 @@ export function staticListeners() {
   //     // elements.formInput.dispatchEvent(new Event('input', { bubbles: true }));
   //     console.log(square.dataset.fullSubject);
   // }));
-
-  elements.gridSquares.forEach(square => {
-    square.addEventListener('mouseenter', () => {
-      if (getLastFilledSquares().has(square)) {
-        elements.formInput.value = square.dataset.compactSubject;
-        console.log("Hovered over square with compact subject:", square.dataset.compactSubject);
-        // elements.formInput.dispatchEvent(new Event('input', { bubbles: true }));
-      }
-    })
-  });
 
   elements.storyText?.addEventListener('mousemove', (e) => {
     if (e.target.classList.contains('word')) {

@@ -24,7 +24,7 @@
 
     PLAYING: enter / this.actions.uiPlayingButtons(); this.actions.removeBlurr(); this.actions.greenDots();
     PLAYING --> PAUSED : TOGGLE_PAUSE_RESUME / this.actions.pauseAllAudio();
-    PLAYING --> IDLE : MUSIC_OVER [this.actions.bothTracksEnded()]
+    PLAYING --> PAUSED : MUSIC_OVER [this.actions.bothTracksEnded()] / this.actions.resetAllAudio();
     PLAYING --> IDLE: CANCEL
     PLAYING --> LOADING : SQUARE_CLICKED / this.actions.startNewStoryProcess();
     PLAYING --> LOADING : FORM_SUBMITTED / this.actions.startNewStoryProcessForm();

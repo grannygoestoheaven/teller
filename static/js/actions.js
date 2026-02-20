@@ -69,6 +69,7 @@ import {
   getLoadingColor,
   redDots,
   greenDots,
+  blueDots,
   loadingDots,
   addBlurr,
   removeBlurr
@@ -150,6 +151,7 @@ export const localActions = {
     getLoadingColor,
     redDots,
     greenDots,
+    blueDots,
     loadingDots,
     addBlurr,
     removeBlurr,

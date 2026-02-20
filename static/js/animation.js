@@ -49,13 +49,13 @@ export function getGreenColor() {
   let gardenGnomeGreen = "#6d9778";
   let flashGreen = "#00ff00"
   // return "#e01818dd";
-  return gardenGnomeGreen;
+  return flashGreen;
 }
 
 export function getBlueColor() {
-  let loadingBlue = "#3498db";
-  // let loadingBlue = "#0021f3";
-  return loadingBlue;
+  // let loadingBlue = "#3498db";
+  let playingBlue = "#0021f3";
+  return playingBlue;
 }
 
 export function getLoadingColor() {
@@ -72,6 +72,11 @@ export function redDots() {
 export function greenDots() {
   const color = getGreenColor(); // generate a color
   elements.dots.style.setProperty("--period-color", color); // set CSS variable to make the dots turn green
+}
+
+export function blueDots() {
+  const color = getBlueColor(); // generate a color
+  elements.dots.style.setProperty("--period-color", color); // set CSS variable to make the dots turn blue
 }
 
 export function loadingDots() {

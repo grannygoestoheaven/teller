@@ -9,8 +9,11 @@
     --subject-bg-color: rgb(20, 20, 20); /* Background for subject input group */
     /* --subject-bg-color: #3D5253; */
     /* --subject-bg-color: rgb(61, 46, 70); */
-    --input-highlight-color: rgb(43, 111, 55); /* Border color for focused input */
     --input-highlight-color: #5ECC67; /* Border color for focused input */
+    --input-highlight-color: rgb(43, 111, 55); /* Border color for focused input */
+    --input-highlight-color: rgb(63, 29, 137); /* Border color for focused input */
+    --input-highlight-color: rgb(160, 25, 25); /* Border color for focused input */
+    --input-highlight-color: goldenrod; /* Border color for focused input */
     /* #5ECC67 • #3D5253 */
 
     /* Grain texture */
@@ -206,8 +209,7 @@ body {
   }
 
   .grid-container,
-  .loading-animation-container,
-  .chat-history {
+  .loading-animation-container{
     position: absolute;
     top: 0;
     left: 0;
@@ -273,13 +275,6 @@ body {
     overflow-wrap: break-word; /* Modern equivalent */
 }
 
-#chatHistory { 
-    top: 0; 
-    left: 0; 
-    height: 100%; 
-    /* opacity: 0; */
-}
-
 /* New: For text fully visible (e.g., when toggled) */
 #chatHistory.text-full {
     opacity: 1 !important;/* Full opacity */
@@ -288,33 +283,41 @@ body {
 }
 
 .chat-history {
-    display: block; /* Remove flex */
+    top: 0; 
+    left: 0; 
+    display: flex; /* Remove flex */
+    position: relative;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
     overflow-y: auto; /* Enable scrolling */
     color: rgb(199, 191, 191);
     font-family: pixelify sans, serif;
     font-size: 1.5em;
-  }
+}
 
 .chat-inner {
+    display: block; /* Change to inline-block for better text handling */
     max-width: 100ch;
-    height: 100%;
-    margin: 0 auto;
-    padding: 1rem;
+    /* height: 100%; */
+    margin: auto;
+    padding: 1rem 3rem;
     overflow-y: auto; /* Ensure text scrolls */
+    text-align: center;
   }
-  
-  .chat-inner::-webkit-scrollbar {
-    width: 16px;
-  }
-  
-  .chat-inner::-webkit-scrollbar-thumb {
-    background-color: rgba(0, 0, 0, 0.5);
-  }
-  
-  .chat-inner .word {
-    display: inline;
-    margin: 0 .05em;
-  }
+
+.chat-inner::-webkit-scrollbar {
+width: 16px;
+}
+
+.chat-inner::-webkit-scrollbar-thumb {
+background-color: rgba(0, 0, 0, 0.5);
+}
+
+.chat-inner .word {
+display: inline-block;
+margin: 0 .05em;
+}
   
 /* Style for interactive words */
 .chat-history .word {
@@ -453,7 +456,8 @@ footer.chat-input-area {
 }
 
 .subject-input-group:focus-within {
-    outline: 2px solid var(--input-highlight-color);
+    outline: 4px solid var(--input-highlight-color);
+    
 }
 
 .subject-input-group {

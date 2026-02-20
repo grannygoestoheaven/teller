@@ -472,10 +472,10 @@ class AudioStateMachine
         this.stateId = AudioStateMachine.StateId.PLAYING;
         
         // PLAYING behavior
-        // uml: enter / { this.actions.uiPlayingButtons(); this.actions.removeBlurr(); this.actions.greenDots(); }
+        // uml: enter / { this.actions.uiPlayingButtons(); this.actions.removeBlurr(); this.actions.blueDots(); }
         {
-            // Step 1: execute action `this.actions.uiPlayingButtons(); this.actions.removeBlurr(); this.actions.greenDots();`
-            this.actions.uiPlayingButtons(); this.actions.removeBlurr(); this.actions.greenDots();
+            // Step 1: execute action `this.actions.uiPlayingButtons(); this.actions.removeBlurr(); this.actions.blueDots();`
+            this.actions.uiPlayingButtons(); this.actions.removeBlurr(); this.actions.blueDots();
         } // end of behavior for PLAYING
     }
     

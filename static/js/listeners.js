@@ -100,6 +100,12 @@ export function stateMachineEvents(sm) {
 
 export function staticListeners() {
 
+  // window.addEventListener('click', () => {
+  //   if (document.activeElement.tagName !== 'INPUT') {
+      
+  //   }
+  // })
+
   elements.toggleButton?.addEventListener('click', () => {
     console.log('Toggling grid visibility');
     // sm.dispatchEvent(AudioStateMachine.EventId.VIEW_TOGGLED);
@@ -123,7 +129,7 @@ export function staticListeners() {
   elements.storyText?.addEventListener('mousemove', (e) => {
     if (e.target.classList.contains('word')) {
       handleMouseMove(e, elements.storyText, elements.formInput);
-      elements.formInput.dispatchEvent(new Event('input', { bubbles: true }));
+      // elements.formInput.dispatchEvent(new Event('input', { bubbles: true }));
     }
   });
 

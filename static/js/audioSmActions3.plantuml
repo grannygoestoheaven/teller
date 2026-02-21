@@ -20,6 +20,7 @@
     READY --> LOADING : SQUARE_CLICKED [this.actions.squareHasTitle()] / this.actions.startNewStoryProcessForm();
     READY --> LOADING : FORM_SUBMITTED / this.actions.removeBlurr(); this.actions.startNewStoryProcessForm();
     READY --> LOADING : TOGGLE_PAUSE_RESUME / this.actions.startNewStoryProcessForm();
+    READY --> PLAYING : INPUT_DEFOCUSED
     READY --> IDLE : CANCEL
 
     LOADING: enter / this.actions.uiLoadingButtons(); this.actions.dotsView(); this.actions.loadingDots();

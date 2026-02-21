@@ -32,9 +32,10 @@ export function stateMachineEvents(sm) {
     sm.dispatchEvent(AudioStateMachine.EventId.TOGGLE_PAUSE_RESUME); // leads to PLAYING state or PAUSED state
   });
 
-  // elements.formInput.addEventListener('blur', () => {
-  //   sm.dispatchEvent(AudioStateMachine.EventId.INPUT_DEFOCUSED);
-  // });  
+  elements.formInput.addEventListener('blur', () => {
+    console.log('Blur fired!'); // Will log on click outside
+    sm.dispatchEvent(AudioStateMachine.EventId.INPUT_DEFOCUSED);
+  }); 
 
   elements.stopButton?.addEventListener("click", () => {
     console.log("Stop clicked")
@@ -44,13 +45,13 @@ export function stateMachineEvents(sm) {
   elements.form?.addEventListener("submit", (e) => {
     e.preventDefault();
     const value = elements.formInput.value.trim();
-    if (!value) {
-      elements.formInput.blur(); // Remove focus
-      return; // Block submission
-    }
+    // if (!value) {
+    //   elements.formInput.blur(); // Remove focus
+    //   return; // Block submission
+    // }
     console.log('Form submitted');
-    elements.formInput.blur(); // Remove focus from input (hides cursor)
     sm.dispatchEvent(AudioStateMachine.EventId.FORM_SUBMITTED) // leads to LOADING state
+    elements.formInput.blur(); // Remove focus from input (hides cursor)
   });
 
   // elements.chatHistoryContainer?.addEventListener('click', () => {

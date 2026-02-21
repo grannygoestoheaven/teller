@@ -10,15 +10,16 @@ class AudioStateMachine
         FORM_SUBMITTED : 1,
         FROM_START_CLICKED : 2,
         INPUT_CHANGED : 3,
-        MUSIC_OVER : 4,
-        SPEECH_OVER : 5,
-        SPEECH_READY : 6,
-        SQUARE_CLICKED : 7,
-        TOGGLE_PAUSE_RESUME : 8,
+        INPUT_DEFOCUSED : 4,
+        MUSIC_OVER : 5,
+        SPEECH_OVER : 6,
+        SPEECH_READY : 7,
+        SQUARE_CLICKED : 8,
+        TOGGLE_PAUSE_RESUME : 9,
     }
     static { Object.freeze(this.EventId); }
     
-    static EventIdCount = 9;
+    static EventIdCount = 10;
     static { Object.freeze(this.EventIdCount); }
     
     static StateId = 
@@ -131,6 +132,7 @@ class AudioStateMachine
                     case AudioStateMachine.EventId.SQUARE_CLICKED: this.#READY_square_clicked(); break;
                     case AudioStateMachine.EventId.FORM_SUBMITTED: this.#READY_form_submitted(); break;
                     case AudioStateMachine.EventId.TOGGLE_PAUSE_RESUME: this.#READY_toggle_pause_resume(); break;
+                    case AudioStateMachine.EventId.INPUT_DEFOCUSED: this.#READY_input_defocused(); break;
                     case AudioStateMachine.EventId.CANCEL: this.#READY_cancel(); break;
                 }
                 break;
@@ -196,13 +198,12 @@ class AudioStateMachine
     #IDLE_input_changed()
     {
         // IDLE behavior
-        // uml: INPUT_CHANGED / { this.actions.addBorderToInput(); } TransitionTo(READY)
+        // uml: INPUT_CHANGED TransitionTo(READY)
         {
             // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
             this.#IDLE_exit();
             
-            // Step 2: Transition action: `this.actions.addBorderToInput();`.
-            this.actions.addBorderToInput();
+            // Step 2: Transition action: ``.
             
             // Step 3: Enter/move towards transition target `READY`.
             this.#READY_enter();
@@ -217,14 +218,14 @@ class AudioStateMachine
     #IDLE_square_clicked()
     {
         // IDLE behavior
-        // uml: SQUARE_CLICKED [this.actions.squareHasTitle()] / { this.actions.pasteSquareTitleInInput(); this.actions.addBorderToInput(); } TransitionTo(READY)
+        // uml: SQUARE_CLICKED [this.actions.squareHasTitle()] / { this.actions.pasteSquareTitleInInput(); } TransitionTo(READY)
         if (this.actions.squareHasTitle())
         {
             // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
             this.#IDLE_exit();
             
-            // Step 2: Transition action: `this.actions.pasteSquareTitleInInput(); this.actions.addBorderToInput();`.
-            this.actions.pasteSquareTitleInInput(); this.actions.addBorderToInput();
+            // Step 2: Transition action: `this.actions.pasteSquareTitleInInput();`.
+            this.actions.pasteSquareTitleInInput();
             
             // Step 3: Enter/move towards transition target `READY`.
             this.#READY_enter();
@@ -386,13 +387,12 @@ class AudioStateMachine
     #PAUSED_input_changed()
     {
         // PAUSED behavior
-        // uml: INPUT_CHANGED / { this.actions.addBorderToInput(); } TransitionTo(READY)
+        // uml: INPUT_CHANGED TransitionTo(READY)
         {
             // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
             this.#PAUSED_exit();
             
-            // Step 2: Transition action: `this.actions.addBorderToInput();`.
-            this.actions.addBorderToInput();
+            // Step 2: Transition action: ``.
             
             // Step 3: Enter/move towards transition target `READY`.
             this.#READY_enter();
@@ -407,14 +407,14 @@ class AudioStateMachine
     #PAUSED_square_clicked()
     {
         // PAUSED behavior
-        // uml: SQUARE_CLICKED [this.actions.squareHasTitle()] / { this.actions.pasteSquareTitleInInput(); this.actions.addBorderToInput(); } TransitionTo(READY)
+        // uml: SQUARE_CLICKED [this.actions.squareHasTitle()] / { this.actions.pasteSquareTitleInInput(); } TransitionTo(READY)
         if (this.actions.squareHasTitle())
         {
             // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
             this.#PAUSED_exit();
             
-            // Step 2: Transition action: `this.actions.pasteSquareTitleInInput(); this.actions.addBorderToInput();`.
-            this.actions.pasteSquareTitleInInput(); this.actions.addBorderToInput();
+            // Step 2: Transition action: `this.actions.pasteSquareTitleInInput();`.
+            this.actions.pasteSquareTitleInInput();
             
             // Step 3: Enter/move towards transition target `READY`.
             this.#READY_enter();
@@ -504,13 +504,12 @@ class AudioStateMachine
     #PLAYING_input_changed()
     {
         // PLAYING behavior
-        // uml: INPUT_CHANGED / { this.actions.addBorderToInput(); } TransitionTo(READY)
+        // uml: INPUT_CHANGED TransitionTo(READY)
         {
             // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
             this.#PLAYING_exit();
             
-            // Step 2: Transition action: `this.actions.addBorderToInput();`.
-            this.actions.addBorderToInput();
+            // Step 2: Transition action: ``.
             
             // Step 3: Enter/move towards transition target `READY`.
             this.#READY_enter();
@@ -559,14 +558,14 @@ class AudioStateMachine
     #PLAYING_square_clicked()
     {
         // PLAYING behavior
-        // uml: SQUARE_CLICKED [this.actions.squareHasTitle()] / { this.actions.pasteSquareTitleInInput(); this.actions.addBorderToInput(); } TransitionTo(READY)
+        // uml: SQUARE_CLICKED [this.actions.squareHasTitle()] / { this.actions.pasteSquareTitleInInput(); } TransitionTo(READY)
         if (this.actions.squareHasTitle())
         {
             // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
             this.#PLAYING_exit();
             
-            // Step 2: Transition action: `this.actions.pasteSquareTitleInInput(); this.actions.addBorderToInput();`.
-            this.actions.pasteSquareTitleInInput(); this.actions.addBorderToInput();
+            // Step 2: Transition action: `this.actions.pasteSquareTitleInInput();`.
+            this.actions.pasteSquareTitleInInput();
             
             // Step 3: Enter/move towards transition target `READY`.
             this.#READY_enter();
@@ -644,13 +643,13 @@ class AudioStateMachine
     #READY_form_submitted()
     {
         // READY behavior
-        // uml: FORM_SUBMITTED / { this.actions.startNewStoryProcessForm(); } TransitionTo(LOADING)
+        // uml: FORM_SUBMITTED / { this.actions.removeBlurr(); this.actions.startNewStoryProcessForm(); } TransitionTo(LOADING)
         {
             // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
             this.#READY_exit();
             
-            // Step 2: Transition action: `this.actions.startNewStoryProcessForm();`.
-            this.actions.startNewStoryProcessForm();
+            // Step 2: Transition action: `this.actions.removeBlurr(); this.actions.startNewStoryProcessForm();`.
+            this.actions.removeBlurr(); this.actions.startNewStoryProcessForm();
             
             // Step 3: Enter/move towards transition target `LOADING`.
             this.#LOADING_enter();
@@ -662,17 +661,39 @@ class AudioStateMachine
         // No ancestor handles this event.
     }
     
+    #READY_input_defocused()
+    {
+        // READY behavior
+        // uml: INPUT_DEFOCUSED TransitionTo(PLAYING)
+        {
+            // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
+            this.#READY_exit();
+            
+            // Step 2: Transition action: ``.
+            
+            // Step 3: Enter/move towards transition target `PLAYING`.
+            this.#PLAYING_enter();
+            
+            // Step 4: complete transition. Ends event dispatch. No other behaviors are checked.
+            return;
+        } // end of behavior for READY
+        
+        // unreachable behavior: `INPUT_DEFOCUSED TransitionTo(PAUSED)` due to unconditional transition above
+        
+        // No ancestor handles this event.
+    }
+    
     #READY_square_clicked()
     {
         // READY behavior
-        // uml: SQUARE_CLICKED [this.actions.squareHasTitle()] / { this.actions.startNewStoryProcessForm(); this.actions.addBorderToInput(); } TransitionTo(LOADING)
+        // uml: SQUARE_CLICKED [this.actions.squareHasTitle()] / { this.actions.startNewStoryProcessForm(); } TransitionTo(LOADING)
         if (this.actions.squareHasTitle())
         {
             // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
             this.#READY_exit();
             
-            // Step 2: Transition action: `this.actions.startNewStoryProcessForm(); this.actions.addBorderToInput();`.
-            this.actions.startNewStoryProcessForm(); this.actions.addBorderToInput();
+            // Step 2: Transition action: `this.actions.startNewStoryProcessForm();`.
+            this.actions.startNewStoryProcessForm();
             
             // Step 3: Enter/move towards transition target `LOADING`.
             this.#LOADING_enter();
@@ -729,6 +750,7 @@ class AudioStateMachine
             case AudioStateMachine.EventId.FORM_SUBMITTED: return "FORM_SUBMITTED";
             case AudioStateMachine.EventId.FROM_START_CLICKED: return "FROM_START_CLICKED";
             case AudioStateMachine.EventId.INPUT_CHANGED: return "INPUT_CHANGED";
+            case AudioStateMachine.EventId.INPUT_DEFOCUSED: return "INPUT_DEFOCUSED";
             case AudioStateMachine.EventId.MUSIC_OVER: return "MUSIC_OVER";
             case AudioStateMachine.EventId.SPEECH_OVER: return "SPEECH_OVER";
             case AudioStateMachine.EventId.SPEECH_READY: return "SPEECH_READY";

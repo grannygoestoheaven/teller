@@ -1,5 +1,5 @@
-import { generateSubjectsListFromTopic, addTitleToSquare } from "/static/js/subjectsService.js";
-import { startNewStoryProcess, startNewStoryProcessForm } from "/static/js/storyService.js";
+import { generateSubjectsListFromTopic, addTitleToSquare, squareHasTitle, pasteSquareTitleInInput } from "/static/js/subjectsService.js";
+import { startNewStoryProcess, startNewStoryProcessForm, abortProcess } from "/static/js/storyService.js";
 import { getIsGridVisible, getIsGridFilled } from "/static/js/config.js";
 
 import {
@@ -72,7 +72,8 @@ import {
   blueDots,
   loadingDots,
   addBlurr,
-  removeBlurr
+  removeBlurr,
+  addBorderToInput
 } from "/static/js/animation.js";
 
 import {
@@ -85,8 +86,11 @@ export const localActions = {
     // Story and Process Actions
     generateSubjectsListFromTopic,
     addTitleToSquare,
+    squareHasTitle,
+    pasteSquareTitleInInput,
     startNewStoryProcess,
     startNewStoryProcessForm,
+    abortProcess,
 
     // check grid visibility
     getIsGridVisible,
@@ -155,6 +159,7 @@ export const localActions = {
     loadingDots,
     addBlurr,
     removeBlurr,
+    addBorderToInput,
 
     // Grid Actions
     createGridOfSquares,

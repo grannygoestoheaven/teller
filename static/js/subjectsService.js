@@ -77,3 +77,13 @@ export async function generateSubjectsListFromTopic() {
   square.dataset.compactSubject = lastStoryData.storyTitle;
   getLastFilledSquares().add(square); // Track it
 }
+
+export function squareHasTitle(square) {
+  return getLastFilledSquares().has(square);
+}
+
+export function pasteSquareTitleInInput(square) {
+  if (squareHasTitle(square)) {
+    elements.formInput.value = square.dataset.compactSubject;
+  }
+}

@@ -1,9 +1,18 @@
 import { elements, getLastFilledSquares } from '/static/js/config.js';
+import { squareHasTitle } from '/static/js/subjectsService.js';
 import { cycleToNextTopic, mapValuesToSquares } from '/static/js/uiInit.js';
 import { handleMouseMove, handleMouseOut, currentlyHighlightedWords } from '/static/js/textInteractionSystem.js';
 import { toggleView, uiReadyButtons } from '/static/js/ui.js';
 import { formatTitle } from '/static/js/utils.js';
 // import { uiClearInput } from 'static/js/ui.js';
+
+// On page load, check if input has cached value
+window.addEventListener('DOMContentLoaded', () => {
+  if (elements.formInput.value.trim()) {
+    elements.formInput.dispatchEvent(new Event('input', { bubbles: true }));
+    // elements.formInput.focus(); // Optional: Auto-focus if needed
+  }
+});
 
 export function stateMachineEvents(sm) {
   window.addEventListener('keydown', (event) => {
@@ -13,10 +22,19 @@ export function stateMachineEvents(sm) {
     }
   });
 
+  elements.formInput?.addEventListener('input', () => {
+    console.log('Form input changed');
+    sm.dispatchEvent(AudioStateMachine.EventId.INPUT_CHANGED); // leads to READY state if input is valid (guard is in statemachine), otherwise stays in IDLE
+  });
+
   elements.playPauseButton?.addEventListener("click", () => {
     console.log('Play/Pause clicked');
     sm.dispatchEvent(AudioStateMachine.EventId.TOGGLE_PAUSE_RESUME); // leads to PLAYING state or PAUSED state
   });
+
+  // elements.formInput.addEventListener('blur', () => {
+  //   sm.dispatchEvent(AudioStateMachine.EventId.INPUT_DEFOCUSED);
+  // });  
 
   elements.stopButton?.addEventListener("click", () => {
     console.log("Stop clicked")
@@ -25,7 +43,13 @@ export function stateMachineEvents(sm) {
 
   elements.form?.addEventListener("submit", (e) => {
     e.preventDefault();
+    const value = elements.formInput.value.trim();
+    if (!value) {
+      elements.formInput.blur(); // Remove focus
+      return; // Block submission
+    }
     console.log('Form submitted');
+    elements.formInput.blur(); // Remove focus from input (hides cursor)
     sm.dispatchEvent(AudioStateMachine.EventId.FORM_SUBMITTED) // leads to LOADING state
   });
 
@@ -79,7 +103,7 @@ export function stateMachineEvents(sm) {
 
   elements.gridSquares.forEach(square => {
     square.addEventListener('mouseenter', () => {
-      if (getLastFilledSquares().has(square)) {
+      if (squareHasTitle(square)) {
         elements.formInput.value = square.dataset.compactSubject;
         console.log("Hovered over square with compact subject:", square.dataset.compactSubject);
         // elements.formInput.dispatchEvent(new Event('input', { bubbles: true }));
@@ -90,8 +114,8 @@ export function stateMachineEvents(sm) {
   elements.gridSquares.forEach(square => {
     square.addEventListener('click', () => { // we need to get sure the click happens only inside the grid - to prevent triggering reassigment of activeSquare when clicking outside, like when choosing a new topic.
       elements.activeSquare = square; // Store reference
-      console.log('Square clicked:', elements.activeSquare.dataset.fullSubject);
-      if (getLastFilledSquares().has(square)) {
+      console.log('Square clicked:', elements.activeSquare.dataset.compactSubject);
+      if (squareHasTitle(square)) {
         sm.dispatchEvent(AudioStateMachine.EventId.SQUARE_CLICKED);
       }
     });
@@ -110,11 +134,6 @@ export function staticListeners() {
     console.log('Toggling grid visibility');
     // sm.dispatchEvent(AudioStateMachine.EventId.VIEW_TOGGLED);
     toggleView();
-  });
-
-    elements.formInput?.addEventListener('input', () => {
-    console.log('Form input changed');
-    uiReadyButtons();
   });
   
   // elements.gridSquares.forEach(square =>
@@ -144,8 +163,8 @@ export function staticListeners() {
       elements.formInput.value = cleanTitle;
 
       console.log("Pasted:", cleanTitle); // Debug
-      // elements.formInput.dispatchEvent(new Event('input', { bubbles: true }));
-      elements.formInput.focus(); // Focus input after pasting
+      elements.formInput.dispatchEvent(new Event('input'));
+      elements.formInput.focus();
       // elements.formInput.blur(); // Remove focus (hides cursor)
     }
   });

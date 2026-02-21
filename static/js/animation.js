@@ -63,6 +63,11 @@ export function getLoadingColor() {
   return loadingGrey;
 }
 
+export function getInputBorderColor() {
+  let inputBorderColor = "#daa520"; // Goldenrod color for input border
+  return inputBorderColor;
+}
+
 export function redDots() {
   const color = getRedColor(); // generate a color
   console.log("Generated Red Color:", color);
@@ -87,6 +92,12 @@ export function loadingDots() {
 export function addBlurr() {
   elements.dots.classList.add('blur-overlay')
 }
+
 export function removeBlurr() { 
   elements.dots.classList.remove('blur-overlay')
+}
+
+export function addBorderToInput() {
+  const color = getInputBorderColor(); // generate a color
+  elements.storyText.style.setProperty('--input-highlight-color', color)
 }

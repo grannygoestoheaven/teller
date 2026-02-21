@@ -13,7 +13,7 @@
     --input-highlight-color: rgb(43, 111, 55); /* Border color for focused input */
     --input-highlight-color: rgb(63, 29, 137); /* Border color for focused input */
     --input-highlight-color: rgb(160, 25, 25); /* Border color for focused input */
-    --input-highlight-color: goldenrod; /* Border color for focused input */
+    --input-highlight-color: #daa520; /* Border color for focused input */
     /* #5ECC67 • #3D5253 */
 
     /* Grain texture */
@@ -92,12 +92,14 @@
 
 .hidden {
     opacity: 0 !important;
+    visibility: hidden !important;
     pointer-events: none !important; /* Disables clicks immediately */
     transition: opacity 0.3s ease; /* Smooth fade-out */
   }
   
   .visible {
     opacity: 1 !important;
+    visibility: visible !important;
     pointer-events: auto !important; /* Enables clicks */
     transition: opacity 0.3s ease; /* Smooth fade-in */
   }
@@ -455,10 +457,9 @@ footer.chat-input-area {
     margin-top: 10px;
 }
 
-.subject-input-group:focus-within {
+/* .subject-input-group:focus-within {
     outline: 4px solid var(--input-highlight-color);
-    
-}
+} */
 
 .subject-input-group {
     position: relative;
@@ -468,52 +469,52 @@ footer.chat-input-area {
     width: 100%;
     margin: 0px 10px;
     /* margin-top: 5px; */
-    padding: 5px;
+    /* padding: 5px; */
     box-sizing: border-box;
-    border: greenyellow !important ;
+    /* border: greenyellow !important ; */
     /* border: transparent !important ; */
     /* background: #2c2c2caf; */
     /* background: #0c0c0c; */
-    background-color: var(--subject-bg-color, transparent);
     border-radius: 25px;
 }
 
 /* Subject input specific styles */
 #subject {
-    background: transparent;
-    width: 800px;
+    /* background: transparent; */
+    background-color: var(--subject-bg-color, transparent);
+    /* width: 800px; */
+    height: 100%;
     width: 100%;
     overflow: hidden;
     /* resize: none; */
     min-height: 1.5em;
     line-height: 1.2em;
-    border: none !important ;
-    padding: 5px;
+    border: none;
+    border-radius: 25px;
+    padding: 10px;
     box-sizing: border-box;
     font-size: 1.7em;
     letter-spacing: 0cqmin;
     font-family: 'Inika', serif;
     color: rgba(245, 245, 245, 0.9);
     transition: none;
-    box-shadow: none !important;
+    /* box-shadow: none !important; */
     text-align: center;
 }
 
-/* #subject:focus {
-    outline: none !important;
-    border: 2px solid var(--input-highlight-color);
+#subject:focus {
+    border: 4px solid var(--input-highlight-color);
     caret-color: transparent;
-    box-shadow: none !important;
-    border: none !important;
+    /* box-shadow: none !important; */
 }
 
-#subject:focus, #subject:active {
+/* #subject:focus, #subject:active { */
     /* outline: none !important; */
     /* border: 2px solid var(--input-highlight-color); */
     /* caret-color: transparent; */
     /* box-shadow: none !important; */
     /* border: none !important; */
-/* } */
+/* }
 
 /* Focus: Highlight border (persistent) */
 #subject:focus {
@@ -522,12 +523,11 @@ footer.chat-input-area {
     box-shadow: none !important;
   }
   
-  /* Active: Optional click effect (temporary) */
-  #subject:active {
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
-  }
+/* Active: Optional click effect (temporary) */
+#subject:active {
+box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
   
-
 #subject::placeholder {
     color: rgba(152, 152, 152, 0.342);
     font-style: regular;
@@ -565,7 +565,7 @@ footer.chat-input-area {
     justify-content: center;
     gap: 1rem;
     padding-bottom: 1rem;
-    padding-top: 0.5rem;
+    /* padding-top: 0.5rem; */
   }
 
 /* Pixel PLAY style */

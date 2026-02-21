@@ -12,29 +12,33 @@
 
     '############################ Handlers ############################
 
-    IDLE: enter / this.actions.gridView(); this.actions.pauseAllAudio(); this.actions.resetAllAudio(); this.actions.uiIdleButtons(); this.actions.initInputAdjustments();
-    IDLE --> LOADING : SQUARE_CLICKED [this.actions.squareHasData()] / this.actions.startNewStoryProcess();
-    IDLE --> LOADING : FORM_SUBMITTED / this.actions.startNewStoryProcessForm();
-    IDLE --> LOADING : TOGGLE_PAUSE_RESUME / this.actions.startNewStoryProcess();
+    IDLE: enter / this.actions.abortProcess(); this.actions.gridView(); this.actions.pauseAllAudio(); this.actions.resetAllAudio(); this.actions.uiIdleButtons(); this.actions.initInputAdjustments();
+    IDLE --> READY : SQUARE_CLICKED [this.actions.squareHasTitle()] / this.actions.pasteSquareTitleInInput();
+    IDLE --> READY : INPUT_CHANGED
 
-    LOADING: enter / this.actions.dotsView(); this.actions.loadingDots(); this.actions.uiLoadingButtons();
+    READY: enter / this.actions.uiReadyButtons();
+    READY --> LOADING : SQUARE_CLICKED [this.actions.squareHasTitle()] / this.actions.startNewStoryProcessForm();
+    READY --> LOADING : FORM_SUBMITTED / this.actions.removeBlurr(); this.actions.startNewStoryProcessForm();
+    READY --> LOADING : TOGGLE_PAUSE_RESUME / this.actions.startNewStoryProcessForm();
+    READY --> IDLE : CANCEL
+
+    LOADING: enter / this.actions.uiLoadingButtons(); this.actions.dotsView(); this.actions.loadingDots();
     LOADING --> PLAYING : SPEECH_READY / this.actions.setUpAndStartAllAudio(); this.actions.displayStoryText(); this.actions.wrapWordsInSpans();
     LOADING --> PAUSED : TOGGLE_PAUSE_RESUME / this.actions.pauseAllAudio();
-    LOADING --> IDLE : CANCEL / this.actions.abortProcess();
+    LOADING --> IDLE : CANCEL
 
     PLAYING: enter / this.actions.uiPlayingButtons(); this.actions.removeBlurr(); this.actions.blueDots();
     PLAYING --> PAUSED : TOGGLE_PAUSE_RESUME / this.actions.pauseAllAudio();
     PLAYING --> PAUSED : MUSIC_OVER [this.actions.bothTracksEnded()] / this.actions.resetAllAudio();
+    PLAYING --> READY : SQUARE_CLICKED [this.actions.squareHasTitle()] / this.actions.pasteSquareTitleInInput();
+    PLAYING --> READY : INPUT_CHANGED /
     PLAYING --> IDLE : CANCEL
-    PLAYING --> LOADING : SQUARE_CLICKED / this.actions.startNewStoryProcess();
-    PLAYING --> LOADING : FORM_SUBMITTED / this.actions.startNewStoryProcessForm();
-    PLAYING --> LOADING : TOGGLE_PAUSE_RESUME / this.actions.startNewStoryProcess();
     PLAYING : FROM_START_CLICKED / this.actions.pauseAllAudio(); this.actions.resetAllAudio(); this.actions.setUpAndStartAllAudio();
     PLAYING : SPEECH_OVER / this.actions.addTitleToSquare(); this.actions.textView();
 
     PAUSED: enter / this.actions.uiPausedButtons(); this.actions.addBlurr();
-    PAUSED --> LOADING : SQUARE_CLICKED / this.actions.startNewStoryProcess();
-    PAUSED --> LOADING : FORM_SUBMITTED / this.actions.startNewStoryProcessForm();
+    PAUSED --> READY : SQUARE_CLICKED [this.actions.squareHasTitle()] / this.actions.pasteSquareTitleInInput();
+    PAUSED --> READY : INPUT_CHANGED /
     PAUSED --> PLAYING : TOGGLE_PAUSE_RESUME / this.actions.resumeAllAudio();
     PAUSED --> PLAYING : FROM_START_CLICKED / this.actions.resetAllAudio(); this.actions.setUpAndStartAllAudio();
     PAUSED --> IDLE: CANCEL

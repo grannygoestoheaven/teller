@@ -1,4 +1,4 @@
-import { elements, getLastFilledSquares } from '/static/js/config.js';
+import { elements, lastStoryData, getLastFilledSquares } from '/static/js/config.js';
 import { squareHasTitle } from '/static/js/subjectsService.js';
 import { cycleToNextTopic, mapValuesToSquares } from '/static/js/uiInit.js';
 import { handleMouseMove, handleMouseOut, currentlyHighlightedWords } from '/static/js/textInteractionSystem.js';
@@ -9,8 +9,8 @@ import { formatTitle } from '/static/js/utils.js';
 // On page load, check if input has cached value
 window.addEventListener('DOMContentLoaded', () => {
   if (elements.formInput.value.trim()) {
-    elements.formInput.dispatchEvent(new Event('input', { bubbles: true }));
-    // elements.formInput.focus(); // Optional: Auto-focus if needed
+    // elements.formInput.dispatchEvent(new Event('input', { bubbles: true }));
+    elements.formInput.focus(); // Optional: Auto-focus if needed
   }
 });
 
@@ -22,20 +22,25 @@ export function stateMachineEvents(sm) {
     }
   });
 
+  elements.formInput.addEventListener('focus', () => {
+    sm.dispatchEvent(AudioStateMachine.EventId.INPUT_CHANGED); // leads to READY state if input is valid (guard is in statemachine), otherwise stays in IDLE
+  })
+
   elements.formInput?.addEventListener('input', () => {
     console.log('Form input changed');
     sm.dispatchEvent(AudioStateMachine.EventId.INPUT_CHANGED); // leads to READY state if input is valid (guard is in statemachine), otherwise stays in IDLE
   });
 
+  elements.formInput.addEventListener('blur', (e) => {
+    console.log('Blur fired!'); // Will log on click outside
+    if (e.relatedTarget === elements.playPauseButton) return; // Skip if focus moved to the button
+    sm.dispatchEvent(AudioStateMachine.EventId.INPUT_DEFOCUSED);
+  }); 
+
   elements.playPauseButton?.addEventListener("click", () => {
     console.log('Play/Pause clicked');
     sm.dispatchEvent(AudioStateMachine.EventId.TOGGLE_PAUSE_RESUME); // leads to PLAYING state or PAUSED state
   });
-
-  elements.formInput.addEventListener('blur', () => {
-    console.log('Blur fired!'); // Will log on click outside
-    sm.dispatchEvent(AudioStateMachine.EventId.INPUT_DEFOCUSED);
-  }); 
 
   elements.stopButton?.addEventListener("click", () => {
     console.log("Stop clicked")
@@ -107,7 +112,10 @@ export function stateMachineEvents(sm) {
       if (squareHasTitle(square)) {
         elements.formInput.value = square.dataset.compactSubject;
         console.log("Hovered over square with compact subject:", square.dataset.compactSubject);
-        // elements.formInput.dispatchEvent(new Event('input', { bubbles: true }));
+        elements.formInput.dispatchEvent(new Event('input'));
+        // elements.formInput.focus(); // Optional: Focus input to show cursor
+      } else {
+        return; // No title, do nothing
       }
     })
   });
@@ -130,6 +138,14 @@ export function staticListeners() {
       
   //   }
   // })
+
+  document.addEventListener('viewChanged', (e) => {
+    console.log('View changed to:', e.detail.view);
+    if (e.detail.view === 'dots' || e.detail.view === 'text') {
+      elements.formInput.value = lastStoryData.storyTitle;
+      console.log('Updated form input to story title:', lastStoryData);
+    }
+  });  
 
   elements.toggleButton?.addEventListener('click', () => {
     console.log('Toggling grid visibility');

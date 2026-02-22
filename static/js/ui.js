@@ -75,6 +75,10 @@ export function uiReadyButtons() {
   // elements.chatHistoryContainer.disabled = !getIsChatVisible();
 }
 
+export function blurInput() {
+  elements.formInput.blur();
+}
+
 export function uiClearInput() {
   // This function only handles the UI change
   elements.formInput.value = ''; 
@@ -166,6 +170,7 @@ export function toggleView() {
     case 'dots': textView(); break;
     case 'text': gridView(); break;
   }
+  document.dispatchEvent(new CustomEvent('viewChanged', { detail: { view: currentView } }));
 }
 
 export function gridView() {
@@ -257,11 +262,11 @@ export function dotsViewTitle() {
   }
 }
 
-export function addSquareToPlayed() {
-  let square = elements.activeSquare;
-  playedSquares.add(square);
-  // elements.activeSquare.style.backgroundColor = 'rgba(204, 6, 6, 0.5)';
-}
+// export function addSquareToPlayed() {
+//   let square = elements.activeSquare;
+//   playedSquares.add(square);
+//   // elements.activeSquare.style.backgroundColor = 'rgba(204, 6, 6, 0.5)';
+// }
 
 
 export function removeSquareFromPlayed() {

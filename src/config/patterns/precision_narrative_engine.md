@@ -90,15 +90,15 @@ Follow the following **7-step structure** *exactly*:
    - Include **1-2 vivid real-world examples** (e.g., live chat, shark hunting).
    - Highlight **precision, impact, or uniqueness** with measurable details.
 8. **Story Ending**
-   - Always end the story by sparkling curiosity, in introducing 2 or 3 related concepts, but **without explicitely saying 'related concepts are...'. It has to blend naturally**.
+   - Always end the story by sparkling curiosity, in introducing 3 related concepts, **explicitely saying, witht this EXACT structure and punctuation: 'three related subject are {subject one}, {subject two} and {subject 3}.'. Make them 5 words long maximum**.
 
 ### **PACE is ESSENTIAL - it is the foundation of the narrative engine**
 - We want the silences between sentences and phrases to be **longer than usual**, to create a sense of **precision and depth**.
-- before the first character of the story : <[silence:3400]>
-- During the opening concepts : **no silence tags**
-- After the opening concepts : <[silence:2400]>
-- Between phrases and related concepts : <[silence:1200]>
-- Between major sentences : <[silence:2400]>
+- before the first character of the story : '<[silence:3400]>'
+- During the opening concepts : <[silence:1000]>
+- After the opening concepts : '<[silence:2400]>'
+- Between phrases and related concepts : '<[silence:1200]>'
+- Between major sentences : '<[silence:2400]>'
 --> You have to adapt those timings to the **length and meaning** of the phrases and sentences.
 --> Always check the format of the tags ('<[]>') is well respected.
 

@@ -8,6 +8,9 @@ import { localActions } from "/static/js/actions.js";
 
 document.addEventListener('DOMContentLoaded', () => {
 
+  document.documentElement.style.visibility = 'visible';
+  setTimeout(() => document.querySelector('*').style.transition = '', 0.5);
+
   // A single object to hold all HTML elements.
   const domElements = {
     title: document.getElementById('teller-title'),

@@ -84,7 +84,6 @@ class AudioStateMachine
             case AudioStateMachine.StateId.IDLE:
                 switch (eventId)
                 {
-                    case AudioStateMachine.EventId.SQUARE_CLICKED: this.#IDLE_square_clicked(); break;
                     case AudioStateMachine.EventId.INPUT_CHANGED: this.#IDLE_input_changed(); break;
                 }
                 break;
@@ -204,28 +203,6 @@ class AudioStateMachine
             this.#IDLE_exit();
             
             // Step 2: Transition action: ``.
-            
-            // Step 3: Enter/move towards transition target `READY`.
-            this.#READY_enter();
-            
-            // Step 4: complete transition. Ends event dispatch. No other behaviors are checked.
-            return;
-        } // end of behavior for IDLE
-        
-        // No ancestor handles this event.
-    }
-    
-    #IDLE_square_clicked()
-    {
-        // IDLE behavior
-        // uml: SQUARE_CLICKED [this.actions.squareHasTitle()] / { this.actions.pasteSquareTitleInInput(); } TransitionTo(READY)
-        if (this.actions.squareHasTitle())
-        {
-            // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
-            this.#IDLE_exit();
-            
-            // Step 2: Transition action: `this.actions.pasteSquareTitleInInput();`.
-            this.actions.pasteSquareTitleInInput();
             
             // Step 3: Enter/move towards transition target `READY`.
             this.#READY_enter();
@@ -524,17 +501,17 @@ class AudioStateMachine
     #PLAYING_music_over()
     {
         // PLAYING behavior
-        // uml: MUSIC_OVER [this.actions.bothTracksEnded()] / { this.actions.resetAllAudio(); } TransitionTo(PAUSED)
+        // uml: MUSIC_OVER [this.actions.bothTracksEnded()] / { this.actions.resetAllAudio(); this.actions.uiIdleButtons(); } TransitionTo(IDLE)
         if (this.actions.bothTracksEnded())
         {
             // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
             this.#PLAYING_exit();
             
-            // Step 2: Transition action: `this.actions.resetAllAudio();`.
-            this.actions.resetAllAudio();
+            // Step 2: Transition action: `this.actions.resetAllAudio(); this.actions.uiIdleButtons();`.
+            this.actions.resetAllAudio(); this.actions.uiIdleButtons();
             
-            // Step 3: Enter/move towards transition target `PAUSED`.
-            this.#PAUSED_enter();
+            // Step 3: Enter/move towards transition target `IDLE`.
+            this.#IDLE_enter();
             
             // Step 4: complete transition. Ends event dispatch. No other behaviors are checked.
             return;
@@ -677,8 +654,6 @@ class AudioStateMachine
             // Step 4: complete transition. Ends event dispatch. No other behaviors are checked.
             return;
         } // end of behavior for READY
-        
-        // unreachable behavior: `INPUT_DEFOCUSED TransitionTo(PAUSED)` due to unconditional transition above
         
         // No ancestor handles this event.
     }

@@ -128,6 +128,7 @@ export function handleMouseOut(event) {
 // }
 
 export function wrapWordsInSpans() {
+    clearHighlights(); // Clear highlights before updating text
     if (!elements.storyText) return;
 
     const text = elements.storyText.textContent.trim();

@@ -94,14 +94,14 @@
     opacity: 0 !important;
     /* visibility: hidden !important; */
     pointer-events: none !important; /* Disables clicks immediately */
-    transition: opacity 1s ease; /* Smooth fade-out */
+    transition: opacity 0.5s ease-in-out !important; /* Smooth fade-out */
   }
   
   .visible {
     opacity: 1 !important;
     /* visibility: visible !important; */
     pointer-events: auto !important; /* Enables clicks */
-    transition: opacity 1s ease; /* Smooth fade-in */
+    transition: opacity 0.5s ease-in-out !important; /* Smooth fade-in */
   }
   
 
@@ -512,6 +512,8 @@ footer.chat-input-area {
     transition: none;
     /* box-shadow: none !important; */
     text-align: center;
+    transition: border 0.8s ease-in-out, box-shadow 0.8s ease-in-out !important;
+    transition: 0.8s ease-in-out, box-shadow 0.8s ease-in-out !important;
 }
 
 #subject:focus {

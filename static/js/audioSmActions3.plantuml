@@ -21,7 +21,7 @@
     READY_DURING_IDLE --> LOADING : SQUARE_CLICKED [this.actions.squareHasTitle()] / this.actions.startNewStoryProcessForm();
     READY_DURING_IDLE --> LOADING : FORM_SUBMITTED / this.actions.startNewStoryProcessForm();
     READY_DURING_IDLE --> LOADING : TOGGLE_PAUSE_RESUME / this.actions.startNewStoryProcessForm();
-    READY_DURING_IDLE --> IDLE : INPUT_DEFOCUSED
+    READY_DURING_IDLE --> IDLE : INPUT_DEFOCUSED [!this.actions.getIsChatVisible()]
     READY_DURING_IDLE --> IDLE : CANCEL
 
     READY_DURING_PLAYBACK: enter / this.actions.uiReadyButtons();

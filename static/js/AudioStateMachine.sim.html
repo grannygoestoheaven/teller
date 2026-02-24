@@ -309,7 +309,7 @@ READY_DURING_IDLE --> LOADING : FORM_SUBMITTED / #123; this.actions.startNewStor
 
 READY_DURING_IDLE --> LOADING : TOGGLE_PAUSE_RESUME / #123; this.actions.startNewStoryProcessForm()#59; #125;
 
-READY_DURING_IDLE --> IDLE : INPUT_DEFOCUSED
+READY_DURING_IDLE --> IDLE : INPUT_DEFOCUSED [!this.actions.getIsChatVisible()]
 
 READY_DURING_IDLE --> IDLE : CANCEL
 
@@ -1101,7 +1101,8 @@ evaluateGuard = null;
     #READY_DURING_IDLE_input_defocused()
     {
         // READY_DURING_IDLE behavior
-        // uml: INPUT_DEFOCUSED / { this.tracer?.edgeTransition("edge5"); } TransitionTo(IDLE)
+        // uml: INPUT_DEFOCUSED [this.tracer?.log("🛡️ User evaluating guard: " + "!this.actions.getIsChatVisible()") || this.evaluateGuard("READY_DURING_IDLE","INPUT_DEFOCUSED [!this.actions.getIsChatVisible()] TransitionTo(IDLE)")] / { this.tracer?.edgeTransition("edge5"); } TransitionTo(IDLE)
+        if (this.tracer?.log("🛡️ User evaluating guard: " + "!this.actions.getIsChatVisible()") || this.evaluateGuard("READY_DURING_IDLE","INPUT_DEFOCUSED [!this.actions.getIsChatVisible()] TransitionTo(IDLE)"))
         {
             // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
             this.#READY_DURING_IDLE_exit();

@@ -1,5 +1,4 @@
-import { elements, getIsGridVisible, setIsGridVisible, getIsChatVisible } from "/static/js/config.js";
-import { lastStoryData } from "/static/js/config.js";
+import { elements, lastStoryData } from "/static/js/config.js";
 import { playedSquares } from "/static/js/uiInit.js";
 
 let currentView = 'grid' // Default view is grid, can be 'text' or 'dots'
@@ -61,6 +60,15 @@ export function inputIsEmpty() {
   return elements.formInput.value.trim().length === 0;
 }
 
+export function blurInput() {
+  elements.formInput.blur();
+}
+
+export function uiClearInput() {
+  // This function only handles the UI change
+  elements.formInput.value = ''; 
+}
+
 export function uiIdleButtons() {
   elements.fromStartButton.disabled = true;
   elements.playPauseButton.disabled = true;
@@ -73,15 +81,6 @@ export function uiReadyButtons() {
   elements.playPauseButton.disabled = false;
   elements.playPauseButton.textContent = 'Start';
   // elements.chatHistoryContainer.disabled = !getIsChatVisible();
-}
-
-export function blurInput() {
-  elements.formInput.blur();
-}
-
-export function uiClearInput() {
-  // This function only handles the UI change
-  elements.formInput.value = ''; 
 }
 
 export function uiLoadingButtons() {
@@ -243,6 +242,14 @@ export function unlockGrid() {
 // }
 
 // In your state machine's actions:
+
+export function redSquare(square) {
+  square.style.setProperty('background-color', '#cc0606');
+}
+
+export function transparentDashedSquare(square) {
+  square.style.setProperty('border', '1px dashed rgb(254, 245, 222);');
+}
 
 export function applyGridViewStyle() {
   elements.formInput.style.opacity = 0.5;

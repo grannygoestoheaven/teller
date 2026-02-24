@@ -625,7 +625,8 @@ class AudioStateMachine
     #READY_DURING_IDLE_input_defocused()
     {
         // READY_DURING_IDLE behavior
-        // uml: INPUT_DEFOCUSED TransitionTo(IDLE)
+        // uml: INPUT_DEFOCUSED [!this.actions.getIsChatVisible()] TransitionTo(IDLE)
+        if (!this.actions.getIsChatVisible())
         {
             // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
             this.#READY_DURING_IDLE_exit();

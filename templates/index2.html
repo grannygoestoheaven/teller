@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- we have to remove this later to prevent FOUC, but for development it's really annoying -->
     <style>
-        * { transition: none !important; }
-        html { visibility: hidden; }
-      </style>
-      
+    * { transition: none !important; }
+    html { visibility: hidden; }
+    </style>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>teller - AI storytelling, Knowledge drifting</title>
@@ -31,7 +32,7 @@
                 <span id ="period3" class="period period-3">.</span>
             </div>
         </div>
-        <div class="chat-history">
+        <div class="chat-history" id="chatHistory">
             <div class="chat-inner" id="story"></div>
         </div>
     </div>

@@ -1,4 +1,4 @@
-import { elements } from './config.js';
+import { elements } from '/static/js/config.js';
 
 // Cache the last processed text to avoid redundant work
 let lastProcessedText = null;

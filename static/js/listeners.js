@@ -1,9 +1,10 @@
-import { elements, lastStoryData, getLastFilledSquares } from '/static/js/config.js';
+import { elements, lastStoryData, getLastFilledSquares, setIsChatVisible } from '/static/js/config.js';
 import { squareHasTitle } from '/static/js/subjectsService.js';
 import { cycleToNextTopic, mapValuesToSquares } from '/static/js/uiInit.js';
 import { handleMouseMove, handleMouseOut, currentlyHighlightedWords } from '/static/js/textInteractionSystem.js';
-import { toggleView, uiReadyButtons } from '/static/js/ui.js';
+import { toggleView, redSquare, transparentDashedSquare, uiReadyButtons } from '/static/js/ui.js';
 import { formatTitle } from '/static/js/utils.js';
+import { getIsChatVisible } from '/static/js/config.js';
 // import { uiClearInput } from 'static/js/ui.js';
 
 // On page load, check if input has cached value
@@ -33,7 +34,7 @@ export function stateMachineEvents(sm) {
 
   elements.formInput.addEventListener('blur', (e) => {
     console.log('Blur fired!'); // Will log on click outside
-    if (e.relatedTarget === elements.playPauseButton) return; // Skip if focus moved to the button
+    if (e.relatedTarget === elements.playPauseButton || e.detail.view === 'text') return; // Skip if focus moved to the button
     sm.dispatchEvent(AudioStateMachine.EventId.INPUT_DEFOCUSED);
   }); 
 
@@ -71,7 +72,7 @@ export function stateMachineEvents(sm) {
 
   elements.speech?.addEventListener('ended', () => {
     console.log('Audio ended');
-    sm.dispatchEvent(AudioStateMachine.EventId.SPEECH_OVER); // leads to TEXT_DISPLAYED state
+    sm.dispatchEvent(AudioStateMachine.EventId.SPEECH_OVER);
   });
 
   elements.backgroundTrack?.addEventListener('ended', () => {
@@ -84,9 +85,9 @@ export function stateMachineEvents(sm) {
     sm.dispatchEvent(AudioStateMachine.EventId.FROM_START_CLICKED); // leads to PLAYING state
   });
 
-  elements.backgroundTrack?.addEventListener('ended', () => {
-    sm.dispatchEvent(AudioStateMachine.EventId.MUSIC_OVER);
-  });
+  // elements.backgroundTrack?.addEventListener('ended', () => {
+  //   sm.dispatchEvent(AudioStateMachine.EventId.MUSIC_OVER);
+  // });
 
   // elements.gridSquares.forEach(square => {
   //   square.addEventListener('mouseenter', () => {
@@ -109,13 +110,16 @@ export function stateMachineEvents(sm) {
 
   elements.gridSquares.forEach(square => {
     square.addEventListener('mouseenter', () => {
+      console.log('Hovered over square:', square.dataset.compactSubject);
       if (squareHasTitle(square)) {
+        redSquare(square); // Change background to red on hover if it has a title
         elements.formInput.value = square.dataset.compactSubject;
         console.log("Hovered over square with compact subject:", square.dataset.compactSubject);
         elements.formInput.dispatchEvent(new Event('input'));
         // elements.formInput.focus(); // Optional: Focus input to show cursor
       } else {
-        return; // No title, do nothing
+        transparentDashedSquare(square); // Change background to dashed border on hover if no Title
+        // return; // No title, do nothing
       }
     })
   });
@@ -141,7 +145,8 @@ export function staticListeners() {
 
   document.addEventListener('viewChanged', (e) => {
     console.log('View changed to:', e.detail.view);
-    if (e.detail.view === 'dots' || e.detail.view === 'text') {
+    if (e.detail.view === 'text' && lastStoryData?.storyTitle) {
+      setIsChatVisible(true);
       elements.formInput.value = lastStoryData.storyTitle;
       console.log('Updated form input to story title:', lastStoryData);
     }

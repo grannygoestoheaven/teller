@@ -1,8 +1,10 @@
 // import the elements object that will point to all HTML elements
 import { elements, getSquaresPerWidth } from "/static/js/config.js";
 import { createGridOfSquares, initializeGrid, initTopicCycling, mapValuesToSquares } from "/static/js/uiInit.js";
+import { TextInteractionSystem } from "/static/js/textInteractionSystem2.js";
 // import the listeners function to load the state machine events
-import { stateMachineEvents, staticListeners } from "/static/js/listeners.js";
+// import { stateMachineEvents, staticListeners } from "/static/js/listeners.js";
+import { stateMachineEvents, staticListeners } from "/static/js/listeners2.js";
 // import the actions object that will be assigned to the state machine
 import { localActions } from "/static/js/actions.js";
 
@@ -19,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
     backgroundTrack: document.getElementById('backgroundAudio'),
     toggleContainer: document.getElementById('toggleContainer'),
     gridContainer: document.getElementById('gridContainer'),
-    chatHistoryContainer: document.querySelector('.chat-history'),
+    chatHistoryContainer: document.getElementById('chatHistory'),
     storyText: document.getElementById('story'),
     dotsContainer: document.getElementById('loadingAnimationContainer'),
     dots: document.getElementById('loadingAnimation'),
@@ -54,6 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
   sm.actions = localActions;
   
   createGridOfSquares(getSquaresPerWidth(), sm);
+  TextInteractionSystem.init(elements.storyText);
   
   // call the event function to set up event listeners for the state machine
   stateMachineEvents(sm);

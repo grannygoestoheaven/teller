@@ -3,9 +3,10 @@
     --grid-background-color: rgb(31, 31, 31); /* Background color for the grid */
     --square-bg-color: transparent; /* color for squares */
     --square-content-color: transparent; /* Default: hide text */
-    --square-hover-bg-color: rgb(204, 6, 6); /* color for hovered squares */
+    --square-hover-bg-color: #cc0606; /* color for hovered squares */
     --square-hover-content-color: transparent; /* Default: hide text */
     --square-border: none;
+    --square-dashed-border: 1px dashed rgb(254, 245, 222);
     --subject-bg-color: rgb(20, 20, 20); /* Background for subject input group */
     /* --subject-bg-color: #3D5253; */
     /* --subject-bg-color: rgb(61, 46, 70); */
@@ -90,6 +91,10 @@
     --topic-7-sub7: #F7C9D1;
 }
 
+/* html:not(.loaded) * {
+    transition: none !important;
+  } */
+
 .hidden {
     opacity: 0 !important;
     /* visibility: hidden !important; */
@@ -104,7 +109,6 @@
     transition: opacity 0.5s ease-in-out !important; /* Smooth fade-in */
   }
   
-
 /* Hide scrollbars for the entire page */
 html, body {
     width: 100vw;
@@ -209,7 +213,7 @@ body {
     height: 60vh;
     overflow: hidden; /* Critical: Hide overflow for layers */
     /* transition: none !important; */ /* Disable transitions for container */
-    transition: opacity 1s ease, visibility 1s ease !important; /* Smooth fade + visibility */
+    transition: opacity 1s ease, visibility 1s ease; /* Smooth fade + visibility */
   }
 
   html.loaded .toggle-container {
@@ -257,16 +261,17 @@ body {
     /* aspect-ratio: 1/1; */
     /* background-color: hsla(116, 75%, 16%, 0.107); */
     background-color: var(--square-bg-color);
-    border: var(--square-border);
-    color: var(--square-content-color);
+    /* border: var(--square-border); */
+    /* color: var(--square-content-color); */
     opacity: 75%;
     /* border: 0.01px dashed rgb(255, 255, 255); */
+    border: var(--square-border);
     border-radius: 25px;
     transition: all 750ms ease !important; /* TODO: Refactor when time allows—find why !important is needed. */
 }
   
 .grid-container > .square:hover {
-    background-color: var(--square-hover-bg-color);
+    background-color: var(--square-bg-color);
     color: transparent;
     transition: background-color 150ms ease, color 150ms ease !important; /* TODO: Refactor when time allows—find why !important is needed. */
 }

@@ -1,4 +1,4 @@
-import { elements } from "./config.js";
+import { elements } from "/static/js/config.js";
 import { playedSquares } from "/static/js/uiInit.js";
 
 // export function showLoadingAnimation() {

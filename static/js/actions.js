@@ -1,6 +1,6 @@
 import { generateSubjectsListFromTopic, addTitleToSquare, squareHasTitle, pasteSquareTitleInInput } from "/static/js/subjectsService.js";
 import { startNewStoryProcess, startNewStoryProcessForm, abortProcess } from "/static/js/storyService.js";
-import { getIsGridVisible, getIsGridFilled } from "/static/js/config.js";
+import { getIsGridVisible, getIsGridFilled, getIsChatVisible } from "/static/js/config.js";
 
 import {
   loadPlayer,
@@ -96,6 +96,7 @@ export const localActions = {
     // check grid visibility
     getIsGridVisible,
     getIsGridFilled,
+    getIsChatVisible,
 
     // Player Actions
     loadPlayer,

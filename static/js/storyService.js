@@ -1,5 +1,5 @@
 // storyService.js
-import { elements, lastStoryData, currentFormInputValue } from "./config.js";
+import { elements, lastStoryData, currentFormInputValue } from "/static/js/config.js";
 import { loadPlayer } from "./player.js";
 import { sanitizeSubject } from "./utils.js";
 

@@ -31,3 +31,4 @@ export function getCurrentPlayingSquare() { return currentPlayingSquare; }
 export function setGridSize(value) { gridSize = value; }
 export function setGridValues(value) { gridValues = value; }
 export function setIsGridVisible(value) { isGridVisible = value; }
+export function setIsChatVisible(value) { isChatVisible = value; }

@@ -9,7 +9,7 @@ You're gonna treat the following subject: {{subject}}.
 ## **LEVEL OF DIFFICULTY**
 (Tier: {{ difficulty }})
 {%- if difficulty == "beginner" %}
-Explain like I’m 11. Use **simple analogies** (e.g., "like [common everyday action] instead of [slower alternative]"). Avoid jargon.
+Explain like I’m 10. Use **simple analogies** (e.g., "like [common everyday action] instead of [slower alternative]"). Avoid jargon.
 {%- elif difficulty == "intermediate" %}
 Introduce **key terms** with 1-sentence definitions. Link to **practical tools** (e.g., "Tools like ... help with...").
 {%- elif difficulty == "expert" %}
@@ -18,8 +18,19 @@ Cover **protocols/specifics** (e.g., "{{subject}} relies on ..., which..."). Dis
 
 ### **CORE DIRECTIVES**
 **Structure Adherence:**
+--> **PACE is ESSENTIAL - it is the foundation of the narrative engine**
+- We want the silences between sentences and phrases to be **longer than usual**, to create a sense of **precision and depth**.
+- before the first character of the story : '<[silence:3400ms]>'
+- During the opening concepts : '<[silence:1000ms]>'
+- After the opening concepts : '<[silence:2400ms]>'
+- Between phrases and related concepts : '<[silence:1200ms]>'
+- Between major sentences : '<[silence:2400ms]>'
+--> You have to adapt those timings to the **length and meaning** of the phrases and sentences.
+--> Always check the format of the tags ('<[]>') is well respected.
 
-### **🚨 STRICT CONTENT RULES**
+### **🚨 STRICT CONTENT RULES - NO DEVIATION**
+- **reputation or main traits must be HUMBLE** --> must **NEVER** include "most people think that"
+- Analogies **MUST** be unexpected. When using analogies, **invent analogies using only elements from the subject itself. Example: For ‘WebSockets’, use ‘telephone switchboard’ (persistent + bidirectional), not ‘kitchen’**.
 - **No filler phrases**: Ban "significant role," "crucial role," "important to note," "interestingly," or "it’s worth mentioning."
 - **No vague opinions**: Every claim must be **fact-based, measurable, or sourced**. If unsure, say: *"Records show [X], though details on [Y] are unclear."*
 - **NEVER USE ['and even', 'or even']. ALWAYS choose 'and' or 'or'.**
@@ -36,7 +47,6 @@ Cover **protocols/specifics** (e.g., "{{subject}} relies on ..., which..."). Dis
     ❌ "The Knicks' performance during these years was marked by challenges"
     ---> it's too obvious and everybody knows life is challenging.
     ---> Choose a fact or something concrete to say instead, or say nothing.
-- When using analogies, **invent analogies using only elements from the subject itself. Example: For ‘WebSockets’, use ‘telephone switchboard’ (persistent + bidirectional), not ‘kitchen’**.
 
 ### **🎯 CONTEXTUAL ANCHORING**
 For **people/subjects with a backstory**:
@@ -84,26 +94,18 @@ Follow the following **7-step structure** *exactly*:
    - If the subject is **technical/obscure**, prioritize etymology to clarify.
    - If the subject is **well-known**, focus on the **lesser-known adaptation/mechanism**.
    - For related subjects, choose **intriguing themes** but prefer unexpected against too niche or too complex.
-7. **Story Flow:**
+7. **Story Flow:**es
    - Start with the subject’s **common perception**, then pivot to its **lesser-known aspect**.
-   - Explain mechanisms in **clear, concrete terms** (avoid jargon; use analogies if helpful).
+   - Explain mechanisms in **clear, concrete terms** (avoid jargon; use **UNEXPECTED** analogies if helpful).
    - Include **1-2 vivid real-world examples** (e.g., live chat, shark hunting).
    - Highlight **precision, impact, or uniqueness** with measurable details.
 8. **Story Ending**
-   - Always end the story by sparkling curiosity, in introducing 3 related concepts, **explicitely saying, witht this EXACT structure and punctuation: 'three related subject are {subject one}, {subject two} and {subject 3}.'. Make them 5 words long maximum**.
-
-### **PACE is ESSENTIAL - it is the foundation of the narrative engine**
-- We want the silences between sentences and phrases to be **longer than usual**, to create a sense of **precision and depth**.
-- before the first character of the story : '<[silence:3400]>'
-- During the opening concepts : <[silence:1000]>
-- After the opening concepts : '<[silence:2400]>'
-- Between phrases and related concepts : '<[silence:1200]>'
-- Between major sentences : '<[silence:2400]>'
---> You have to adapt those timings to the **length and meaning** of the phrases and sentences.
---> Always check the format of the tags ('<[]>') is well respected.
+   - Always end the story by sparkling curiosity, in introducing 3 related concepts --> **2 that are pretty close, 1 a bit broader**, **explicitely saying, with this EXACT structure and punctuation: 'three related subject are {subject one}, {subject two} and {subject 3}.'. Make them 4 words long maximum**.
 
 ### **EXAMPLE: ABSURDISM**
-<[silence:3400]>"Life’s meaning. Absurdism questions it.<[silence:2400]> The term 'absurdism' comes from 'absurd,' meaning something that doesn’t make sense.<[silence:1200]> It’s like trying to find a pattern in a random splash of paint.<[silence:1200]>Absurdism is often linked to the idea that life doesn’t have a clear purpose, even though humans keep searching for one.<[silence:2400]> Imagine you’re playing a game without knowing the rules or the goal.<[silence:1200]> You keep playing, hoping to figure it out, but it never becomes clear.<[silence:2400]> This is how absurdism views life.<[silence:1200]>A famous example is the story of Sisyphus from Greek mythology.<[silence:1200]> He was condemned to roll a boulder up a hill, only for it to roll back down each time he reached the top.<[silence:1200]> Despite the task being pointless, Sisyphus kept going.<[silence:2400]> Absurdism suggests that, like Sisyphus, we can find happiness by accepting life’s lack of meaning and continuing anyway.<[silence:1200]>Absurdism isn’t about giving up.<[silence:1200]> It’s about embracing the freedom that comes with realizing there’s no set path.<[silence:1200]> This perspective encourages creativity and personal choice, as there’s no 'right' way to live.<[silence:1200]>
+<[silence:3400ms]>"Life’s meaning. Absurdism questions it.<[silence:2400ms]> The term 'absurdism' comes from 'absurd,' meaning something that doesn’t make sense.<[silence:1200ms]> It’s like trying to find a pattern in a random splash of paint.<[silence:1200ms]>Absurdism is often linked to the idea that life doesn’t have a clear purpose, even though humans keep searching for one.<[silence:2400ms]> Imagine you’re playing a game without knowing the rules or the goal.<[silence:1200ms]> You keep playing, hoping to figure it out, but it never becomes clear.<[silence:2400ms]> This is how absurdism views life.<[silence:1200ms]>A famous example is the story of Sisyphus from Greek mythology.<[silence:1200ms]> He was condemned to roll a boulder up a hill, only for it to roll back down each time he reached the top.<[silence:1200ms]> Despite the task being pointless, Sisyphus kept going.<[silence:2400ms]> Absurdism suggests that, like Sisyphus, we can find happiness by accepting life’s lack of meaning and continuing anyway.<[silence:1200ms]>Absurdism isn’t about giving up.<[silence:1200ms]> It’s about embracing the freedom that comes with realizing there’s no set path.<[silence:1200ms]> This perspective encourages creativity and personal choice, as there’s no 'right' way to live.<[silence:1200ms]>
+Three related subjects are Three related subjects are existentialism, the search for meaning in philosophy, and how art reflects the absurdity of life.<[silence:1200ms]>
+Three related subjects are existentialism, the search for meaning in philosophy, and how art reflects the absurdity of life.
 
 ---
 ### **RULES OF ENGAGEMENT**

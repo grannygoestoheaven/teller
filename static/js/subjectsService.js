@@ -1,3 +1,4 @@
+import { redSquare, goldenSquares } from "/static/js/ui.js";
 import { elements, lastTopicData, lastStoryData, getLastFilledSquares } from "/static/js/config.js";
 import { mapValuesToSquares } from "/static/js/uiInit.js";
 import { sanitizeSubject } from "/static/js/utils.js";
@@ -75,6 +76,8 @@ export async function generateSubjectsListFromTopic() {
 
   const square = availableSquares[Math.floor(Math.random() * availableSquares.length)];
   square.dataset.compactSubject = lastStoryData.storyTitle;
+  // redSquare(square); // Change background to red to indicate it has a title
+  goldenSquares(square); // Change background to red to indicate it has a title
   getLastFilledSquares().add(square); // Track it
 }
 

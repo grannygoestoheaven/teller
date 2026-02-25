@@ -13,7 +13,7 @@
 - insert <[silence:3600]> after the end of the text.
 
 ## PACE:
-- The narrative pace is: measured
+- The narrative pace is: very measured and calm.
 
 ### Text length:
 - make the output 3 lines maximum.

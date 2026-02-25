@@ -1,22 +1,25 @@
 :root {
-    --period-color: #888; /* Default color for periods */
+    --period-color: #fffcf4;  /* Default color for periods */
+    /* --period-color: hsl(0, 73%, 36%); */
     --grid-background-color: rgb(31, 31, 31); /* Background color for the grid */
     --square-bg-color: transparent; /* color for squares */
     --square-content-color: transparent; /* Default: hide text */
-    --square-hover-bg-color: #cc0606; /* color for hovered squares */
+    --square-hover-bg-color: #d3cdba; /* color for hovered squares */
+    /* --square-hover-bg-color: #cc0606; */
     --square-hover-content-color: transparent; /* Default: hide text */
     --square-border: none;
     --square-dashed-border: 1px dashed rgb(254, 245, 222);
+    --square-hover-dashed-border: 1px dashed #d3cdba;
     --subject-bg-color: rgb(20, 20, 20); /* Background for subject input group */
     /* --subject-bg-color: #3D5253; */
     /* --subject-bg-color: rgb(61, 46, 70); */
     --input-highlight-color: #5ECC67; /* Border color for focused input */
-    --input-highlight-color: rgb(43, 111, 55); /* Border color for focused input */
+    --input-highlight-color: hsl(131, 44%, 30%); /* Border color for focused input */
     --input-highlight-color: rgb(63, 29, 137); /* Border color for focused input */
-    --input-highlight-color: rgb(160, 25, 25); /* Border color for focused input */
+    --input-highlight-color: hsl(0, 73%, 36%); /* Border color for focused input */
     --input-highlight-color: #daa520; /* Border color for focused input */
     /* #5ECC67 • #3D5253 */
-
+    --input-border-color: 4px hsl(131, 44%, 30%); /* Border color for input */
     /* Grain texture */
     --grain-texture: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="none"/><rect width="100" height="100" fill="rgba(0,0,0,0.03)" filter="url(%23noise)"/></svg>');
     
@@ -261,19 +264,19 @@ body {
     /* aspect-ratio: 1/1; */
     /* background-color: hsla(116, 75%, 16%, 0.107); */
     background-color: var(--square-bg-color);
-    /* border: var(--square-border); */
     /* color: var(--square-content-color); */
     opacity: 75%;
     /* border: 0.01px dashed rgb(255, 255, 255); */
-    border: var(--square-border);
+    border: solid var(--square-border);
     border-radius: 25px;
     transition: all 750ms ease !important; /* TODO: Refactor when time allows—find why !important is needed. */
 }
   
 .grid-container > .square:hover {
-    background-color: var(--square-bg-color);
+    background-color: var(--square-hover-bg-color);
+    /* border: var(--square-hover-dashed-border); */
     color: transparent;
-    transition: background-color 150ms ease, color 150ms ease !important; /* TODO: Refactor when time allows—find why !important is needed. */
+    transition: background-color, 150ms ease, color 150ms ease !important; /* TODO: Refactor when time allows—find why !important is needed. */
 }
 
 /* Hide scrollbar for Webkit browsers (Chrome, Safari, Opera) */
@@ -499,6 +502,7 @@ footer.chat-input-area {
 #subject {
     /* background: transparent; */
     background-color: var(--subject-bg-color, transparent);
+    /* border: solid var(--input-border-color, transparent); */
     /* width: 800px; */
     height: 100%;
     width: 100%;

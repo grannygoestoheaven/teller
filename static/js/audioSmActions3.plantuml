@@ -28,22 +28,22 @@
     READY_DURING_PLAYBACK --> LOADING : SQUARE_CLICKED [this.actions.squareHasTitle()] / this.actions.startNewStoryProcessForm();
     READY_DURING_PLAYBACK --> LOADING : FORM_SUBMITTED / this.actions.startNewStoryProcessForm();
     READY_DURING_PLAYBACK --> LOADING : TOGGLE_PAUSE_RESUME / this.actions.startNewStoryProcessForm();
-    READY_DURING_PLAYBACK --> PLAYING : INPUT_DEFOCUSED
+    READY_DURING_PLAYBACK --> PLAYING : INPUT_DEFOCUSED [!this.actions.squareHasTitle()]
     READY_DURING_PLAYBACK --> IDLE : CANCEL
 
     READY_DURING_PAUSED: enter / this.actions.uiReadyButtons();
     READY_DURING_PAUSED --> LOADING : SQUARE_CLICKED [this.actions.squareHasTitle()] / this.actions.startNewStoryProcessForm();
     READY_DURING_PAUSED --> LOADING : FORM_SUBMITTED / this.actions.startNewStoryProcessForm();
     READY_DURING_PAUSED --> LOADING : TOGGLE_PAUSE_RESUME / this.actions.startNewStoryProcessForm();
-    READY_DURING_PAUSED --> PAUSED : INPUT_DEFOCUSED
+    READY_DURING_PAUSED --> PAUSED : INPUT_DEFOCUSED [!this.actions.squareHasTitle]
     READY_DURING_PAUSED --> IDLE : CANCEL
 
-    LOADING: enter / this.actions.uiLoadingButtons(); this.actions.removeBlurr(); this.actions.dotsView(); this.actions.loadingDots();
+    LOADING: enter / this.actions.uiLoadingButtons(); this.actions.removeBlurr(); this.actions.dotsView(); this.actions.redDots();
     LOADING --> PLAYING : SPEECH_READY / this.actions.setUpAndStartAllAudio(); this.actions.displayStoryText(); this.actions.wrapWordsInSpans();
     LOADING --> PAUSED : TOGGLE_PAUSE_RESUME / this.actions.pauseAllAudio();
     LOADING --> IDLE : CANCEL
 
-    PLAYING: enter / this.actions.uiPlayingButtons(); this.actions.removeBlurr(); this.actions.blueDots();
+    PLAYING: enter / this.actions.uiPlayingButtons(); this.actions.removeBlurr(); this.actions.greenDots();
     PLAYING --> PAUSED : TOGGLE_PAUSE_RESUME / this.actions.pauseAllAudio();
     PLAYING --> READY_DURING_PLAYBACK : INPUT_CHANGED
     PLAYING --> IDLE : MUSIC_OVER [this.actions.bothTracksEnded()] / this.actions.resetAllAudio(); this.actions.uiIdleButtons();

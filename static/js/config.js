@@ -15,6 +15,7 @@ let isChatVisible = false; // Default chat visibility
 let squareValues = []; // Array to hold values for each square
 let lastFilledSquares = new Set(); // Set to track if each square has data
 let currentPlayingSquare = null;
+let squareClickAuthorized = false; // To control when squares can be clicked
 
 // Getters
 export function getGridSize() { return gridSize; }
@@ -26,9 +27,11 @@ export function getIsChatVisible() { return isChatVisible; }
 export function getSquaresValuesList() { return squareValues; }
 export function getLastFilledSquares() { return lastFilledSquares; }
 export function getCurrentPlayingSquare() { return currentPlayingSquare; }
+export function getSquareClickAuthorized() { return squareClickAuthorized; }
 
 // Setters
 export function setGridSize(value) { gridSize = value; }
 export function setGridValues(value) { gridValues = value; }
 export function setIsGridVisible(value) { isGridVisible = value; }
 export function setIsChatVisible(value) { isChatVisible = value; }
+export function setSquareClickAuthorized(value) { squareClickAuthorized = value; }

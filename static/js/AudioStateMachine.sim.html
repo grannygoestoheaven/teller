@@ -281,13 +281,13 @@ LOADING
 
 LOADING : LOADING
 
-LOADING : enter / #123; this.actions.uiLoadingButtons()#59; this.actions.removeBlurr()#59; this.actions.dotsView()#59; this.actions.loadingDots()#59; #125;
+LOADING : enter / #123; this.actions.uiLoadingButtons()#59; this.actions.removeBlurr()#59; this.actions.dotsView()#59; this.actions.redDots()#59; #125;
 
 PLAYING
 
 PLAYING : PLAYING
 
-PLAYING : enter / #123; this.actions.uiPlayingButtons()#59; this.actions.removeBlurr()#59; this.actions.blueDots()#59; #125;
+PLAYING : enter / #123; this.actions.uiPlayingButtons()#59; this.actions.removeBlurr()#59; this.actions.greenDots()#59; #125;
 
 PLAYING : FROM_START_CLICKED / #123; this.actions.pauseAllAudio()#59; this.actions.resetAllAudio()#59; this.actions.setUpAndStartAllAudio()#59; #125;
 
@@ -319,7 +319,7 @@ READY_DURING_PLAYBACK --> LOADING : FORM_SUBMITTED / #123; this.actions.startNew
 
 READY_DURING_PLAYBACK --> LOADING : TOGGLE_PAUSE_RESUME / #123; this.actions.startNewStoryProcessForm()#59; #125;
 
-READY_DURING_PLAYBACK --> PLAYING : INPUT_DEFOCUSED
+READY_DURING_PLAYBACK --> PLAYING : INPUT_DEFOCUSED [!this.actions.squareHasTitle]
 
 READY_DURING_PLAYBACK --> IDLE : CANCEL
 
@@ -329,7 +329,7 @@ READY_DURING_PAUSED --> LOADING : FORM_SUBMITTED / #123; this.actions.startNewSt
 
 READY_DURING_PAUSED --> LOADING : TOGGLE_PAUSE_RESUME / #123; this.actions.startNewStoryProcessForm()#59; #125;
 
-READY_DURING_PAUSED --> PAUSED : INPUT_DEFOCUSED
+READY_DURING_PAUSED --> PAUSED : INPUT_DEFOCUSED [!this.actions.squareHasTitle]
 
 READY_DURING_PAUSED --> IDLE : CANCEL
 
@@ -673,10 +673,10 @@ evaluateGuard = null;
         } // end of behavior for LOADING
         
         // LOADING behavior
-        // uml: enter / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.uiLoadingButtons(); this.actions.removeBlurr(); this.actions.dotsView(); this.actions.loadingDots();"); }
+        // uml: enter / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.uiLoadingButtons(); this.actions.removeBlurr(); this.actions.dotsView(); this.actions.redDots();"); }
         {
-            // Step 1: execute action `this.tracer?.log("⚡ FSM would execute action: " + "this.actions.uiLoadingButtons(); this.actions.removeBlurr(); this.actions.dotsView(); this.actions.loadingDots();");`
-            this.tracer?.log("⚡ FSM would execute action: " + "this.actions.uiLoadingButtons(); this.actions.removeBlurr(); this.actions.dotsView(); this.actions.loadingDots();");
+            // Step 1: execute action `this.tracer?.log("⚡ FSM would execute action: " + "this.actions.uiLoadingButtons(); this.actions.removeBlurr(); this.actions.dotsView(); this.actions.redDots();");`
+            this.tracer?.log("⚡ FSM would execute action: " + "this.actions.uiLoadingButtons(); this.actions.removeBlurr(); this.actions.dotsView(); this.actions.redDots();");
         } // end of behavior for LOADING
     }
     
@@ -892,10 +892,10 @@ evaluateGuard = null;
         } // end of behavior for PLAYING
         
         // PLAYING behavior
-        // uml: enter / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.uiPlayingButtons(); this.actions.removeBlurr(); this.actions.blueDots();"); }
+        // uml: enter / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.uiPlayingButtons(); this.actions.removeBlurr(); this.actions.greenDots();"); }
         {
-            // Step 1: execute action `this.tracer?.log("⚡ FSM would execute action: " + "this.actions.uiPlayingButtons(); this.actions.removeBlurr(); this.actions.blueDots();");`
-            this.tracer?.log("⚡ FSM would execute action: " + "this.actions.uiPlayingButtons(); this.actions.removeBlurr(); this.actions.blueDots();");
+            // Step 1: execute action `this.tracer?.log("⚡ FSM would execute action: " + "this.actions.uiPlayingButtons(); this.actions.removeBlurr(); this.actions.greenDots();");`
+            this.tracer?.log("⚡ FSM would execute action: " + "this.actions.uiPlayingButtons(); this.actions.removeBlurr(); this.actions.greenDots();");
         } // end of behavior for PLAYING
     }
     
@@ -1244,7 +1244,8 @@ evaluateGuard = null;
     #READY_DURING_PAUSED_input_defocused()
     {
         // READY_DURING_PAUSED behavior
-        // uml: INPUT_DEFOCUSED / { this.tracer?.edgeTransition("edge15"); } TransitionTo(PAUSED)
+        // uml: INPUT_DEFOCUSED [this.tracer?.log("🛡️ User evaluating guard: " + "!this.actions.squareHasTitle") || this.evaluateGuard("READY_DURING_PAUSED","INPUT_DEFOCUSED [!this.actions.squareHasTitle] TransitionTo(PAUSED)")] / { this.tracer?.edgeTransition("edge15"); } TransitionTo(PAUSED)
+        if (this.tracer?.log("🛡️ User evaluating guard: " + "!this.actions.squareHasTitle") || this.evaluateGuard("READY_DURING_PAUSED","INPUT_DEFOCUSED [!this.actions.squareHasTitle] TransitionTo(PAUSED)"))
         {
             // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
             this.#READY_DURING_PAUSED_exit();
@@ -1386,7 +1387,8 @@ evaluateGuard = null;
     #READY_DURING_PLAYBACK_input_defocused()
     {
         // READY_DURING_PLAYBACK behavior
-        // uml: INPUT_DEFOCUSED / { this.tracer?.edgeTransition("edge10"); } TransitionTo(PLAYING)
+        // uml: INPUT_DEFOCUSED [this.tracer?.log("🛡️ User evaluating guard: " + "!this.actions.squareHasTitle") || this.evaluateGuard("READY_DURING_PLAYBACK","INPUT_DEFOCUSED [!this.actions.squareHasTitle] TransitionTo(PLAYING)")] / { this.tracer?.edgeTransition("edge10"); } TransitionTo(PLAYING)
+        if (this.tracer?.log("🛡️ User evaluating guard: " + "!this.actions.squareHasTitle") || this.evaluateGuard("READY_DURING_PLAYBACK","INPUT_DEFOCUSED [!this.actions.squareHasTitle] TransitionTo(PLAYING)"))
         {
             // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
             this.#READY_DURING_PLAYBACK_exit();

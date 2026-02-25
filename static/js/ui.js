@@ -1,3 +1,4 @@
+import { getBluePinkColor, getRedGoldenrodColor, makeFlashy } from "/static/js/colors.js";
 import { elements, lastStoryData } from "/static/js/config.js";
 import { playedSquares } from "/static/js/uiInit.js";
 
@@ -244,11 +245,26 @@ export function unlockGrid() {
 // In your state machine's actions:
 
 export function redSquare(square) {
-  square.style.setProperty('background-color', '#cc0606');
+  const color = getBluePinkColor();
+  const borderColor = makeFlashy(color);
+  // square.style.setProperty('background-color', '#cc0606');
+  square.style.setProperty('background-color', color);
+  square.style.setProperty('border', borderColor);
+}
+
+export function goldenSquares(square) {
+  const color = getRedGoldenrodColor();
+  const borderColor = makeFlashy(color);
+  square.style.setProperty('background-color', color);
+  square.style.setProperty('border', `4px solid ${borderColor}`);
 }
 
 export function transparentDashedSquare(square) {
-  square.style.setProperty('border', '1px dashed rgb(254, 245, 222);');
+  square.style.setProperty('border', '1px dashed rgb(254, 245, 222)');
+}
+
+export function defaultSquare(square) {
+  square.style.setProperty('border', 'none');
 }
 
 export function applyGridViewStyle() {

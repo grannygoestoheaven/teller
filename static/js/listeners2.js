@@ -1,8 +1,8 @@
-import { elements, lastStoryData, getLastFilledSquares, setIsChatVisible } from '/static/js/config.js';
+import { elements, lastStoryData, getLastFilledSquares, setIsChatVisible, setClickAuthorized } from '/static/js/config.js';
 import { squareHasTitle } from '/static/js/subjectsService.js';
 import { cycleToNextTopic, mapValuesToSquares } from '/static/js/uiInit.js';
 import { TextInteractionSystem } from '/static/js/textInteractionSystem2.js';
-import { toggleView, redSquare, transparentDashedSquare, uiReadyButtons } from '/static/js/ui.js';
+import { toggleView, redSquare, transparentDashedSquare, defaultSquare, uiReadyButtons } from '/static/js/ui.js';
 import { formatTitle } from '/static/js/utils.js';
 import { getIsChatVisible } from '/static/js/config.js';
 // import { uiClearInput } from 'static/js/ui.js';
@@ -81,17 +81,20 @@ export function stateMachineEvents(sm) {
     square.addEventListener('mouseenter', () => {
       console.log('Hovered over square:', square.dataset.compactSubject);
       if (squareHasTitle(square)) {
-        redSquare(square); // Change background to red on hover if it has a title
         elements.formInput.value = square.dataset.compactSubject;
+        elements.formInput.focus();
         console.log("Hovered over square with compact subject:", square.dataset.compactSubject);
         elements.formInput.dispatchEvent(new Event('input'));
         // elements.formInput.focus(); // Optional: Focus input to show cursor
-      } else {
-        transparentDashedSquare(square); // Change background to dashed border on hover if no Title
-        // return; // No title, do nothing
       }
     })
   });
+
+  // elements.gridSquares.forEach(square => {
+  //   square.addEventListener('mouseout', () => {
+  //     defaultSquare(square); // Revert to default background on mouse out
+  //   })
+  // })
 
   elements.gridSquares.forEach(square => {
     square.addEventListener('click', () => { // we need to get sure the click happens only inside the grid - to prevent triggering reassigment of activeSquare when clicking outside, like when choosing a new topic.

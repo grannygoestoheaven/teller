@@ -1,4 +1,4 @@
-import { elements, lastStoryData, getLastFilledSquares, setIsChatVisible, setClickAuthorized } from '/static/js/config.js';
+import { elements, lastStoryData, getLastFilledSquares, setIsChatVisible, setSquareClickAuthorized } from '/static/js/config.js';
 import { squareHasTitle } from '/static/js/subjectsService.js';
 import { cycleToNextTopic, mapValuesToSquares } from '/static/js/uiInit.js';
 import { TextInteractionSystem } from '/static/js/textInteractionSystem2.js';
@@ -82,7 +82,7 @@ export function stateMachineEvents(sm) {
       console.log('Hovered over square:', square.dataset.compactSubject);
       if (squareHasTitle(square)) {
         elements.formInput.value = square.dataset.compactSubject;
-        elements.formInput.focus();
+        // elements.formInput.focus();
         console.log("Hovered over square with compact subject:", square.dataset.compactSubject);
         elements.formInput.dispatchEvent(new Event('input'));
         // elements.formInput.focus(); // Optional: Focus input to show cursor

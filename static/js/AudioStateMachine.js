@@ -252,10 +252,10 @@ class AudioStateMachine
         this.stateId = AudioStateMachine.StateId.LOADING;
         
         // LOADING behavior
-        // uml: enter / { this.actions.uiLoadingButtons(); this.actions.removeBlurr(); this.actions.dotsView(); this.actions.redDots(); }
+        // uml: enter / { this.actions.uiLoadingButtons(); this.actions.removeBlurr(); this.actions.dotsView(); this.actions.loadingDots(); }
         {
-            // Step 1: execute action `this.actions.uiLoadingButtons(); this.actions.removeBlurr(); this.actions.dotsView(); this.actions.redDots();`
-            this.actions.uiLoadingButtons(); this.actions.removeBlurr(); this.actions.dotsView(); this.actions.redDots();
+            // Step 1: execute action `this.actions.uiLoadingButtons(); this.actions.removeBlurr(); this.actions.dotsView(); this.actions.loadingDots();`
+            this.actions.uiLoadingButtons(); this.actions.removeBlurr(); this.actions.dotsView(); this.actions.loadingDots();
         } // end of behavior for LOADING
     }
     
@@ -440,10 +440,10 @@ class AudioStateMachine
         this.stateId = AudioStateMachine.StateId.PLAYING;
         
         // PLAYING behavior
-        // uml: enter / { this.actions.uiPlayingButtons(); this.actions.removeBlurr(); this.actions.greenDots(); }
+        // uml: enter / { this.actions.uiPlayingButtons(); this.actions.removeBlurr(); this.actions.blueDots(); }
         {
-            // Step 1: execute action `this.actions.uiPlayingButtons(); this.actions.removeBlurr(); this.actions.greenDots();`
-            this.actions.uiPlayingButtons(); this.actions.removeBlurr(); this.actions.greenDots();
+            // Step 1: execute action `this.actions.uiPlayingButtons(); this.actions.removeBlurr(); this.actions.blueDots();`
+            this.actions.uiPlayingButtons(); this.actions.removeBlurr(); this.actions.blueDots();
         } // end of behavior for PLAYING
     }
     
@@ -752,8 +752,7 @@ class AudioStateMachine
     #READY_DURING_PAUSED_input_defocused()
     {
         // READY_DURING_PAUSED behavior
-        // uml: INPUT_DEFOCUSED [!this.actions.squareHasTitle] TransitionTo(PAUSED)
-        if (!this.actions.squareHasTitle)
+        // uml: INPUT_DEFOCUSED TransitionTo(PAUSED)
         {
             // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
             this.#READY_DURING_PAUSED_exit();
@@ -879,8 +878,7 @@ class AudioStateMachine
     #READY_DURING_PLAYBACK_input_defocused()
     {
         // READY_DURING_PLAYBACK behavior
-        // uml: INPUT_DEFOCUSED [!this.actions.squareHasTitle] TransitionTo(PLAYING)
-        if (!this.actions.squareHasTitle)
+        // uml: INPUT_DEFOCUSED TransitionTo(PLAYING)
         {
             // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
             this.#READY_DURING_PLAYBACK_exit();

@@ -21,10 +21,10 @@ Cover **protocols/specifics** (e.g., "{{subject}} relies on ..., which..."). Dis
 --> **PACE is ESSENTIAL - it is the foundation of the narrative engine**
 - We want the silences between sentences and phrases to be **longer than usual**, to create a sense of **precision and depth**.
 - before the first character of the story : '<[silence:3400ms]>'
-- During the opening concepts : '<[silence:1000ms]>'
-- After the opening concepts : '<[silence:2400ms]>'
-- Between phrases and related concepts : '<[silence:1200ms]>'
-- Between major sentences : '<[silence:2400ms]>'
+- Between each opening concept : '<[silence:1000ms]>'
+- After the opening concepts : '<[silence:2800ms]>'
+- Between phrases and related subjects : '<[silence:1600ms]>'
+- Between major sentences : '<[silence:2800ms]>'
 --> You have to adapt those timings to the **length and meaning** of the phrases and sentences.
 --> Always check the format of the tags ('<[]>') is well respected.
 
@@ -103,8 +103,8 @@ Follow the following **7-step structure** *exactly*:
    - Always end the story by sparkling curiosity, in introducing 3 related concepts --> **2 that are pretty close, 1 a bit broader**, **explicitely saying, with this EXACT structure and punctuation: 'three related subject are {subject one}, {subject two} and {subject 3}.'. Make them 4 words long maximum**.
 
 ### **EXAMPLE: ABSURDISM**
-<[silence:3400ms]>"Life’s meaning. Absurdism questions it.<[silence:2400ms]> The term 'absurdism' comes from 'absurd,' meaning something that doesn’t make sense.<[silence:1200ms]> It’s like trying to find a pattern in a random splash of paint.<[silence:1200ms]>Absurdism is often linked to the idea that life doesn’t have a clear purpose, even though humans keep searching for one.<[silence:2400ms]> Imagine you’re playing a game without knowing the rules or the goal.<[silence:1200ms]> You keep playing, hoping to figure it out, but it never becomes clear.<[silence:2400ms]> This is how absurdism views life.<[silence:1200ms]>A famous example is the story of Sisyphus from Greek mythology.<[silence:1200ms]> He was condemned to roll a boulder up a hill, only for it to roll back down each time he reached the top.<[silence:1200ms]> Despite the task being pointless, Sisyphus kept going.<[silence:2400ms]> Absurdism suggests that, like Sisyphus, we can find happiness by accepting life’s lack of meaning and continuing anyway.<[silence:1200ms]>Absurdism isn’t about giving up.<[silence:1200ms]> It’s about embracing the freedom that comes with realizing there’s no set path.<[silence:1200ms]> This perspective encourages creativity and personal choice, as there’s no 'right' way to live.<[silence:1200ms]>
-Three related subjects are Three related subjects are existentialism, the search for meaning in philosophy, and how art reflects the absurdity of life.<[silence:1200ms]>
+<[silence:3400ms]>"Life’s meaning. Absurdism questions it.<[silence:2800ms]> The term 'absurdism' comes from 'absurd,' meaning something that doesn’t make sense.<[silence:1600ms]> It’s like trying to find a pattern in a random splash of paint.<[silence:1600ms]>Absurdism is often linked to the idea that life doesn’t have a clear purpose, even though humans keep searching for one.<[silence:2800ms]> Imagine you’re playing a game without knowing the rules or the goal.<[silence:1600ms]> You keep playing, hoping to figure it out, but it never becomes clear.<[silence:2800ms]> This is how absurdism views life.<[silence:1600ms]>A famous example is the story of Sisyphus from Greek mythology.<[silence:1600ms]> He was condemned to roll a boulder up a hill, only for it to roll back down each time he reached the top.<[silence:1600ms]> Despite the task being pointless, Sisyphus kept going.<[silence:2800ms]> Absurdism suggests that, like Sisyphus, we can find happiness by accepting life’s lack of meaning and continuing anyway.<[silence:1600ms]>Absurdism isn’t about giving up.<[silence:1600ms]> It’s about embracing the freedom that comes with realizing there’s no set path.<[silence:1600ms]> This perspective encourages creativity and personal choice, as there’s no 'right' way to live.<[silence:1600ms]>
+Three related subjects are Three related subjects are existentialism, the search for meaning in philosophy, and how art reflects the absurdity of life.<[silence:1600ms]>
 Three related subjects are existentialism, the search for meaning in philosophy, and how art reflects the absurdity of life.
 
 ---

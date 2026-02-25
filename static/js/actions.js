@@ -1,6 +1,6 @@
-import { generateSubjectsListFromTopic, addTitleToSquare, squareHasTitle, pasteSquareTitleInInput, clickAuthorized } from "/static/js/subjectsService.js";
+import { generateSubjectsListFromTopic, addTitleToSquare, squareHasTitle, pasteSquareTitleInInput } from "/static/js/subjectsService.js";
 import { startNewStoryProcess, startNewStoryProcessForm, abortProcess } from "/static/js/storyService.js";
-import { getIsGridVisible, getIsGridFilled, getIsChatVisible } from "/static/js/config.js";
+import { getIsGridVisible, getIsGridFilled, getIsChatVisible, getSquareClickAuthorized } from "/static/js/config.js";
 
 import {
   loadPlayer,
@@ -89,7 +89,7 @@ export const localActions = {
     addTitleToSquare,
     squareHasTitle,
     pasteSquareTitleInInput,
-    clickAuthorized,
+    getSquareClickAuthorized,
     startNewStoryProcess,
     startNewStoryProcessForm,
     abortProcess,

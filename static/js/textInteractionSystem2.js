@@ -30,6 +30,10 @@ export const TextInteractionSystem = (function() {
 
     function wrapWordsInSpans() {
         clearHighlights(); // Clear highlights before updating text
+        currentlyHighlightedWords = [];
+        lastSpan = null;
+        lastZone = 0;    
+
         if (!textContainer) {
             console.error('TextInteractionSystem: Container not initialized');
             return;
@@ -80,6 +84,10 @@ export const TextInteractionSystem = (function() {
       }
 
     function _highlightWords(startSpan, count) {
+        if (!startSpan) {
+          console.error("No valid span to highlight!");
+          return;
+        }
         clearHighlights();
         let currentSpan = startSpan;
         for (let i = 0; i < count && currentSpan; i++) {

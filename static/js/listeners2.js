@@ -1,4 +1,4 @@
-import { elements, lastStoryData, getLastFilledSquares, setIsChatVisible, setSquareClickAuthorized } from '/static/js/config.js';
+import { elements, lastStoryData, getLastFilledSquares, setIsChatVisible, setSquareClickAuthorized, setIsTextHighlighted } from '/static/js/config.js';
 import { squareHasTitle } from '/static/js/subjectsService.js';
 import { cycleToNextTopic, mapValuesToSquares } from '/static/js/uiInit.js';
 import { TextInteractionSystem } from '/static/js/textInteractionSystem2.js';
@@ -38,6 +38,12 @@ export function stateMachineEvents(sm) {
 
   elements.playPauseButton?.addEventListener("click", () => {
     console.log('Play/Pause clicked');
+    const input = elements.formInput;
+    // if (input.value.trim() === "") {
+    //   input.setCustomValidity("Input's empty my Dear, please choose something, anything");
+    //   input.reportValidity(); // Triggers the browser's validation UI
+    //   return; // Stop further execution
+    // }
     sm.dispatchEvent(AudioStateMachine.EventId.TOGGLE_PAUSE_RESUME); // leads to PLAYING state or PAUSED state
   });
 
@@ -48,7 +54,6 @@ export function stateMachineEvents(sm) {
 
   elements.form?.addEventListener("submit", (e) => {
     e.preventDefault();
-    const value = elements.formInput.value.trim();
 
     console.log('Form submitted');
     sm.dispatchEvent(AudioStateMachine.EventId.FORM_SUBMITTED) // leads to LOADING state
@@ -80,18 +85,20 @@ export function stateMachineEvents(sm) {
       console.log('Hovered over square:', square.dataset.compactSubject);
       if (squareHasTitle(square)) {
         greenSquare(square); // Change background to green on hover if it has a title
+        setSquareClickAuthorized(true); // Allow clicking this square
         elements.formInput.value = square.dataset.compactSubject;
         elements.formInput.focus();
         console.log("Hovered over square with compact subject:", square.dataset.compactSubject);
-        elements.formInput.dispatchEvent(new Event('input'));
+        elements.formInput.dispatchEvent(new Event('input')); // Trigger input event to update state machine and potentially other listeners
         // elements.formInput.focus(); // Optional: Focus input to show cursor
       }
     })
   });
-
+  
   elements.gridSquares.forEach(square => {
     square.addEventListener('mouseout', () => {
       if (squareHasTitle(square)) {
+        setSquareClickAuthorized(false); // Prevent clicking when not hovered
         defaultSquare(square); // Revert to default background on mouse out
         elements.formInput.value = ''; // Clear input on mouse out
       }
@@ -114,7 +121,7 @@ export function staticListeners() {
     document.addEventListener('viewChanged', (e) => {
         let view = e.detail.view;
         console.log('View changed to:', view);
-        if (view === 'text' && lastStoryData?.storyTitle) {
+        if ((view === 'text' || view == 'dots') && lastStoryData?.storyTitle) {
         elements.formInput.value = lastStoryData.storyTitle;
         console.log('Updated form input to story title:', lastStoryData);
         }

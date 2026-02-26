@@ -280,7 +280,8 @@ export function goldenSquares(square) {
 }
 
 export function transparentDashedSquare(square) {
-  square.style.setProperty('border', '1px dashed rgb(254, 245, 222)');
+  square.style.setProperty('border', '2px dashed black');
+  // square.style.setProperty('border', '1px dashed rgb(254, 245, 222)');
 }
 
 export function defaultSquare(square) {

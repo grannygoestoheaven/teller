@@ -11,7 +11,7 @@ export async function startNewStoryProcess() {
   // allow cancellation of process
   abortController = new AbortController();
   // const subjectData = new FormData(elements.form);
-  let subject = elements.activeSquare.dataset.compactSubject;
+  let subject = elements.activeSquare.dataset.compactSubject || "emptiness"; 
   console.log("Subject from form input:", subject);
 
   // store and clean subject before sending to backend

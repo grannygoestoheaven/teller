@@ -1,5 +1,5 @@
-import { redSquare, goldenSquares } from "/static/js/ui.js";
-import { elements, lastTopicData, lastStoryData, getLastFilledSquares } from "/static/js/config.js";
+import { redSquare, goldenSquares, transparentDashedSquare } from "/static/js/ui.js";
+import { elements, lastTopicData, lastStoryData, getLastFilledSquares, getUsedTitles } from "/static/js/config.js";
 import { mapValuesToSquares } from "/static/js/uiInit.js";
 import { sanitizeSubject } from "/static/js/utils.js";
 
@@ -59,7 +59,7 @@ export async function generateSubjectsListFromTopic() {
   }
 }
 
-  export function addTitleToSquare() {
+export function addTitleToSquare() {
   'after storing the current story in /static/stories,'
   'we get the current story title from the form input '
   'and add it to a random square in the grid as a dataset attribute,'
@@ -74,11 +74,16 @@ export async function generateSubjectsListFromTopic() {
     return;
   }
 
+  if (getUsedTitles().has(lastStoryData.storyTitle)) {
+    console.warn("This story title is already assigned to a square!");
+    return;
+  }
+
   const square = availableSquares[Math.floor(Math.random() * availableSquares.length)];
   square.dataset.compactSubject = lastStoryData.storyTitle;
-  // redSquare(square); // Change background to red to indicate it has a title
-  goldenSquares(square); // Change background to red to indicate it has a title
   getLastFilledSquares().add(square); // Track it
+  getUsedTitles().add(lastStoryData.storyTitle); // Track the title
+  transparentDashedSquare(square); // Visual feedback for filled square
 }
 
 export function squareHasTitle(square) {

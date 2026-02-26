@@ -16,10 +16,8 @@ Introduce **key terms** with 1-sentence definitions. Link to **practical tools**
 Cover **protocols/specifics** (e.g., "{{subject}} relies on ..., which..."). Discuss **trade-offs** or **edge cases**.
 {%- endif %}
 
-### **CORE DIRECTIVES**
-**Structure Adherence:**
+### **CORE DIRECTIVES - NON NEGOTIABLE**
 --> **PACE is ESSENTIAL - it is the foundation of the narrative engine**
-
 - before the first character of the story : '<[silence:3400ms]>'
 - Between each opening concept : '<[silence:1200ms]>'
 - After the opening concepts : '<[silence:2800ms]>'
@@ -27,7 +25,6 @@ Cover **protocols/specifics** (e.g., "{{subject}} relies on ..., which..."). Dis
 - Between major sentences : '<[silence:2800ms]>'
 - Before each dash ('-') : '<[silence:800ms]>'
 - Before each comma (',') : '<[silence:500ms]>'
---> You have to adapt those timings to the **length and meaning** of the phrases and sentences.
 --> Always check the format of the tags ('<[]>') is well respected.
 
 ### **🚨 STRICT CONTENT RULES - NO DEVIATION**
@@ -80,7 +77,8 @@ Follow the following **7-step structure** *exactly*:
 2. **Etymology:** Add **one sentence** immediately after the opening concepts to clarify the subject’s origin or meaning, using plain language and explaining in what way the appellation fits with its purpose.
    - For well-known subjects (e.g., sharks), keep it minimal and skip if redundant.
 3. **Story Flow:**
-   - Begin by framing the subject’s **reputation or main traits** but do it with finesse and nuance, use elegant approaches, then pivot to its **lesser-known or technical aspect**.
+   - Begin by framing the subject’s **reputation or main traits** but do it with finesse and nuance, use techniques like "The Unseen Labor" approaches, then pivot to its **lesser-known or technical aspect**. *Example (Mirrors):
+   "A mirror’s reflection seems instantaneous, but the silver or aluminum coating is a nanoscale maze, scattering photons just enough to return a coherent image - no other surface does this."
    - Explain the mechanism or behavior in **clear, concrete terms**, avoiding jargon but using accurate language.
    - Highlight **1-2 vivid examples** of how the concept works in real-world scenarios (e.g., hunting, live data streaming).
    - Include **specific tools, species, or data** to ground the story in reality.
@@ -103,7 +101,7 @@ Follow the following **7-step structure** *exactly*:
    - Include **1-2 vivid real-world examples** (e.g., live chat, shark hunting).
    - Highlight **precision, impact, or uniqueness** with measurable details.
 8. **Story Ending**
-   - Always end the story by sparkling curiosity, in introducing 3 related concepts --> **2 that are pretty close, 1 a bit broader**, **explicitely saying, with this EXACT structure and punctuation: 'three related subject are {subject one}, {subject two} and {subject 3}.'. Make them 4 words long maximum**.
+   - Always end the story by sparkling curiosity, in introducing 3 related concepts --> **2 that are close + 1 more broader, allowing the listener to 'escape' the topic**, **explicitely saying, with this EXACT structure and punctuation: 'three related subject are {subject one}, {subject two} and {subject 3}.'. Make them 4 words long maximum**.
 
 ### **EXAMPLE: ABSURDISM**
 <[silence:3400ms]>"Life’s meaning. <[silence:1200ms]> Absurdism questions it.<[silence:2800ms]> The term 'absurdism' comes from 'absurd,' meaning something that doesn’t make sense.<[silence:1600ms]> It’s like trying to find a pattern in a random splash of paint.<[silence:1600ms]>Absurdism is often linked to the idea that life doesn’t have a clear purpose, even though humans keep searching for one.<[silence:2800ms]> Imagine you’re playing a game without knowing the rules or the goal.<[silence:1600ms]> You keep playing, hoping to figure it out, but it never becomes clear.<[silence:2800ms]> This is how absurdism views life.<[silence:1600ms]>A famous example is the story of Sisyphus from Greek mythology.<[silence:1600ms]> He was condemned to roll a boulder up a hill, only for it to roll back down each time he reached the top.<[silence:1600ms]> Despite the task being pointless, Sisyphus kept going.<[silence:2800ms]> Absurdism suggests that, like Sisyphus, we can find happiness by accepting life’s lack of meaning and continuing anyway.<[silence:1600ms]>Absurdism isn’t about giving up.<[silence:1600ms]> It’s about embracing the freedom that comes with realizing there’s no set path.<[silence:1600ms]> This perspective encourages creativity and personal choice, as there’s no 'right' way to live.<[silence:1600ms]>

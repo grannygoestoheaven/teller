@@ -2,6 +2,7 @@
     --period-color: #fffcf4;  /* Default color for periods */
     /* --period-color: hsl(0, 73%, 36%); */
     --grid-background-color: rgb(31, 31, 31); /* Background color for the grid */
+    /* --grid-background-color: transparent; */
     --square-bg-color: transparent; /* color for squares */
     --square-content-color: transparent; /* Default: hide text */
     --square-hover-bg-color: #d3cdba; /* color for hovered squares */
@@ -9,7 +10,8 @@
     --square-hover-content-color: transparent; /* Default: hide text */
     --square-border: none;
     --square-dashed-border: 1px dashed rgb(254, 245, 222);
-    --square-hover-dashed-border: 1px dashed #d3cdba;
+    /* --square-hover-dashed-border: 1px dashed #d3cdba; */
+    --square-hover-dashed-border: 1px dashed hsl(0, 0%, 0%);
     --subject-bg-color: rgb(20, 20, 20); /* Background for subject input group */
     /* --subject-bg-color: #3D5253; */
     /* --subject-bg-color: rgb(61, 46, 70); */
@@ -266,7 +268,6 @@ body {
     background-color: var(--square-bg-color);
     /* color: var(--square-content-color); */
     opacity: 75%;
-    /* border: 0.01px dashed rgb(255, 255, 255); */
     border: solid var(--square-border);
     border-radius: 25px;
     transition: all 750ms ease !important; /* TODO: Refactor when time allows—find why !important is needed. */

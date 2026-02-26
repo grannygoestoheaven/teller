@@ -255,8 +255,9 @@ export function redSquare(square) {
 export function goldenSquares(square) {
   const color = getRedGoldenrodColor();
   const borderColor = makeFlashy(color);
-  square.style.setProperty('background-color', color);
-  square.style.setProperty('border', `4px solid ${borderColor}`);
+  // square.style.setProperty('background-color', color);
+  // square.style.setProperty('border', `1px dashed ${borderColor}`);
+  square.style.setProperty('border', '1px dashed black');
 }
 
 export function transparentDashedSquare(square) {

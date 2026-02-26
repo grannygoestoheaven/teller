@@ -7,3 +7,5 @@
 
    ## PACE is ESSENTIAL - it is the foundation of the narrative engine
    Accurately punctuate the output, and insert a corresponding silence tag. the tags are in the following example format: <[silence:500]>. Choose the right silence duration (250, 500, 750, 1000) based on the content.
+
+   - We want the silences between sentences and phrases to be **longer than usual**, to create a sense of **precision and depth**.

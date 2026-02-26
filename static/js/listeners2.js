@@ -82,7 +82,7 @@ export function stateMachineEvents(sm) {
       console.log('Hovered over square:', square.dataset.compactSubject);
       if (squareHasTitle(square)) {
         elements.formInput.value = square.dataset.compactSubject;
-        // elements.formInput.focus();
+        elements.formInput.focus();
         console.log("Hovered over square with compact subject:", square.dataset.compactSubject);
         elements.formInput.dispatchEvent(new Event('input'));
         // elements.formInput.focus(); // Optional: Focus input to show cursor

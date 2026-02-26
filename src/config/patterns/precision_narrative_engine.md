@@ -19,17 +19,20 @@ Cover **protocols/specifics** (e.g., "{{subject}} relies on ..., which..."). Dis
 ### **CORE DIRECTIVES**
 **Structure Adherence:**
 --> **PACE is ESSENTIAL - it is the foundation of the narrative engine**
-- We want the silences between sentences and phrases to be **longer than usual**, to create a sense of **precision and depth**.
+
 - before the first character of the story : '<[silence:3400ms]>'
-- Between each opening concept : '<[silence:1000ms]>'
+- Between each opening concept : '<[silence:1200ms]>'
 - After the opening concepts : '<[silence:2800ms]>'
 - Between phrases and related subjects : '<[silence:1600ms]>'
 - Between major sentences : '<[silence:2800ms]>'
+- Before each dash ('-') : '<[silence:800ms]>'
+- Before each comma (',') : '<[silence:500ms]>'
 --> You have to adapt those timings to the **length and meaning** of the phrases and sentences.
 --> Always check the format of the tags ('<[]>') is well respected.
 
 ### **🚨 STRICT CONTENT RULES - NO DEVIATION**
-- **reputation or main traits must be HUMBLE** --> must **NEVER** include "most people think that"
+- NEVER insert '\n' unless it’s part of a <[silence:Xms]> tag. **Output must be a single continuous line**
+- **reputation or main traits must be HUMBLE** --> must **NEVER** include "most people think that" **if it appears, rewrite it**
 - Analogies **MUST** be unexpected. When using analogies, **invent analogies using only elements from the subject itself. Example: For ‘WebSockets’, use ‘telephone switchboard’ (persistent + bidirectional), not ‘kitchen’**.
 - **No filler phrases**: Ban "significant role," "crucial role," "important to note," "interestingly," or "it’s worth mentioning."
 - **No vague opinions**: Every claim must be **fact-based, measurable, or sourced**. If unsure, say: *"Records show [X], though details on [Y] are unclear."*
@@ -103,9 +106,11 @@ Follow the following **7-step structure** *exactly*:
    - Always end the story by sparkling curiosity, in introducing 3 related concepts --> **2 that are pretty close, 1 a bit broader**, **explicitely saying, with this EXACT structure and punctuation: 'three related subject are {subject one}, {subject two} and {subject 3}.'. Make them 4 words long maximum**.
 
 ### **EXAMPLE: ABSURDISM**
-<[silence:3400ms]>"Life’s meaning. Absurdism questions it.<[silence:2800ms]> The term 'absurdism' comes from 'absurd,' meaning something that doesn’t make sense.<[silence:1600ms]> It’s like trying to find a pattern in a random splash of paint.<[silence:1600ms]>Absurdism is often linked to the idea that life doesn’t have a clear purpose, even though humans keep searching for one.<[silence:2800ms]> Imagine you’re playing a game without knowing the rules or the goal.<[silence:1600ms]> You keep playing, hoping to figure it out, but it never becomes clear.<[silence:2800ms]> This is how absurdism views life.<[silence:1600ms]>A famous example is the story of Sisyphus from Greek mythology.<[silence:1600ms]> He was condemned to roll a boulder up a hill, only for it to roll back down each time he reached the top.<[silence:1600ms]> Despite the task being pointless, Sisyphus kept going.<[silence:2800ms]> Absurdism suggests that, like Sisyphus, we can find happiness by accepting life’s lack of meaning and continuing anyway.<[silence:1600ms]>Absurdism isn’t about giving up.<[silence:1600ms]> It’s about embracing the freedom that comes with realizing there’s no set path.<[silence:1600ms]> This perspective encourages creativity and personal choice, as there’s no 'right' way to live.<[silence:1600ms]>
-Three related subjects are Three related subjects are existentialism, the search for meaning in philosophy, and how art reflects the absurdity of life.<[silence:1600ms]>
-Three related subjects are existentialism, the search for meaning in philosophy, and how art reflects the absurdity of life.
+<[silence:3400ms]>"Life’s meaning. <[silence:1200ms]> Absurdism questions it.<[silence:2800ms]> The term 'absurdism' comes from 'absurd,' meaning something that doesn’t make sense.<[silence:1600ms]> It’s like trying to find a pattern in a random splash of paint.<[silence:1600ms]>Absurdism is often linked to the idea that life doesn’t have a clear purpose, even though humans keep searching for one.<[silence:2800ms]> Imagine you’re playing a game without knowing the rules or the goal.<[silence:1600ms]> You keep playing, hoping to figure it out, but it never becomes clear.<[silence:2800ms]> This is how absurdism views life.<[silence:1600ms]>A famous example is the story of Sisyphus from Greek mythology.<[silence:1600ms]> He was condemned to roll a boulder up a hill, only for it to roll back down each time he reached the top.<[silence:1600ms]> Despite the task being pointless, Sisyphus kept going.<[silence:2800ms]> Absurdism suggests that, like Sisyphus, we can find happiness by accepting life’s lack of meaning and continuing anyway.<[silence:1600ms]>Absurdism isn’t about giving up.<[silence:1600ms]> It’s about embracing the freedom that comes with realizing there’s no set path.<[silence:1600ms]> This perspective encourages creativity and personal choice, as there’s no 'right' way to live.<[silence:1600ms]>
+are Three related subjects are existentialism, the search for meaning in philosophy, and how art reflects the absurdity of life.<[silence:1600ms]>
+
+
+"<[silence:3400ms]>Space as tiny loops. <[silence:1000ms]> Gravity without infinity.<[silence:2800ms]>The name loop quantum gravity comes from its core idea—that space itself is woven from invisible, one-dimensional threads, looped and knotted like a cosmic net.<[silence:2800ms]>Some theories treat space as smooth, like a stretched rubber sheet.<[silence:1600ms]>Loop quantum gravity says it’s more like a mosaic of pixels—tiny, indivisible chunks called spin networks.<[silence:1600ms]>Zoom in far enough, and even empty space becomes a tangled web of these loops.<[silence:2800ms]>Here’s how it works:<[silence:1600ms]>When two objects pull on each other with gravity,they’re not bending an invisible field—they’re rearranging the loops.<[silence:1600ms]>Like tugging a fishing net makes the knots shift.<[silence:2800ms]>This solves a big problem:<[silence:1600ms]>Einstein’s relativity breaks down at the center of black holes,where math spits out "infinity."<[silence:1600ms]>But loops can’t shrink to zero—they hit a smallest size, like Lego blocks.<[silence:1600ms]>No infinity. No breakdown.<[silence:2800ms]>One testable prediction?<[silence:1600ms]>Light from distant stars might carry faint graininess—a fingerprint of space’s pixelated structure.<[silence:1600ms]>Telescopes aren’t sharp enough yet to see it.<[silence:2800ms]>Three related subjects arequantum foam structure, <[silence:250ms]>black hole entropy puzzles, <[silence:250ms]>and how time emerges from loops."
 
 ---
 ### **RULES OF ENGAGEMENT**

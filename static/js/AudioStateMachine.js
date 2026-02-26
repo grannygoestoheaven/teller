@@ -252,10 +252,10 @@ class AudioStateMachine
         this.stateId = AudioStateMachine.StateId.LOADING;
         
         // LOADING behavior
-        // uml: enter / { this.actions.uiLoadingButtons(); this.actions.removeBlurr(); this.actions.dotsView(); this.actions.loadingDots(); }
+        // uml: enter / { this.actions.uiLoadingButtons(); this.actions.removeBlurr(); this.actions.dotsView(); this.actions.redDots(); }
         {
-            // Step 1: execute action `this.actions.uiLoadingButtons(); this.actions.removeBlurr(); this.actions.dotsView(); this.actions.loadingDots();`
-            this.actions.uiLoadingButtons(); this.actions.removeBlurr(); this.actions.dotsView(); this.actions.loadingDots();
+            // Step 1: execute action `this.actions.uiLoadingButtons(); this.actions.removeBlurr(); this.actions.dotsView(); this.actions.redDots();`
+            this.actions.uiLoadingButtons(); this.actions.removeBlurr(); this.actions.dotsView(); this.actions.redDots();
         } // end of behavior for LOADING
     }
     
@@ -440,10 +440,10 @@ class AudioStateMachine
         this.stateId = AudioStateMachine.StateId.PLAYING;
         
         // PLAYING behavior
-        // uml: enter / { this.actions.uiPlayingButtons(); this.actions.removeBlurr(); this.actions.blueDots(); }
+        // uml: enter / { this.actions.uiPlayingButtons(); this.actions.removeBlurr(); this.actions.greenDots(); }
         {
-            // Step 1: execute action `this.actions.uiPlayingButtons(); this.actions.removeBlurr(); this.actions.blueDots();`
-            this.actions.uiPlayingButtons(); this.actions.removeBlurr(); this.actions.blueDots();
+            // Step 1: execute action `this.actions.uiPlayingButtons(); this.actions.removeBlurr(); this.actions.greenDots();`
+            this.actions.uiPlayingButtons(); this.actions.removeBlurr(); this.actions.greenDots();
         } // end of behavior for PLAYING
     }
     

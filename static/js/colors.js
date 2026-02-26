@@ -22,6 +22,39 @@ export function makeFlashy(hslColor) {
     return `hsl(${h}, ${Math.round(flashyS)}%, ${Math.round(flashyL)}%)`;
 }
 
+export function getGreenColor() {
+    const greenShades = [
+      "hsl(120, 61%, 34%)",
+      "hsl(120, 70%, 40%)",
+      "hsl(120, 75%, 45%)",
+      "hsl(120, 80%, 50%)",
+      "hsl(120, 85%, 55%)",
+      "hsl(120, 90%, 60%)",
+      "hsl(120, 95%, 65%)",
+      "hsl(120, 100%, 30%)",
+      "hsl(120, 100%, 35%)",
+      "hsl(120, 100%, 40%)",
+      "hsl(120, 100%, 45%)",
+      "hsl(120, 100%, 50%)",
+      "hsl(120, 80%, 30%)",
+      "hsl(120, 80%, 35%)",
+      "hsl(120, 80%, 40%)",
+      "hsl(120, 80%, 45%)",
+      "hsl(120, 80%, 50%)",
+      "hsl(120, 70%, 30%)",
+      "hsl(120, 70%, 35%)",
+      "hsl(120, 70%, 40%)",
+      "hsl(120, 70%, 45%)",
+      "hsl(120, 70%, 50%)",
+      "hsl(120, 60%, 30%)",
+      "hsl(120, 60%, 35%)",
+      "hsl(120, 60%, 40%)",
+      "hsl(120, 60%, 45%)",
+      "hsl(120, 60%, 50%)"
+     ]
+    return greenShades[Math.floor(Math.random() * greenShades.length)];
+}
+
 export function getRedGoldenrodColor() {
     // const redShades = ["#8B0000", "#A52A2A", "#B22222", "#DC143C", "#FF4500", "#D2691E", "#CD853F", "#DAA520", "#B8860B", "#F4A460"];
     const goldenRedShades = [

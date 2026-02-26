@@ -281,13 +281,13 @@ LOADING
 
 LOADING : LOADING
 
-LOADING : enter / #123; this.actions.uiLoadingButtons()#59; this.actions.removeBlurr()#59; this.actions.dotsView()#59; this.actions.loadingDots()#59; #125;
+LOADING : enter / #123; this.actions.uiLoadingButtons()#59; this.actions.removeBlurr()#59; this.actions.dotsView()#59; this.actions.redDots()#59; #125;
 
 PLAYING
 
 PLAYING : PLAYING
 
-PLAYING : enter / #123; this.actions.uiPlayingButtons()#59; this.actions.removeBlurr()#59; this.actions.blueDots()#59; #125;
+PLAYING : enter / #123; this.actions.uiPlayingButtons()#59; this.actions.removeBlurr()#59; this.actions.greenDots()#59; #125;
 
 PLAYING : FROM_START_CLICKED / #123; this.actions.pauseAllAudio()#59; this.actions.resetAllAudio()#59; this.actions.setUpAndStartAllAudio()#59; #125;
 
@@ -673,10 +673,10 @@ evaluateGuard = null;
         } // end of behavior for LOADING
         
         // LOADING behavior
-        // uml: enter / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.uiLoadingButtons(); this.actions.removeBlurr(); this.actions.dotsView(); this.actions.loadingDots();"); }
+        // uml: enter / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.uiLoadingButtons(); this.actions.removeBlurr(); this.actions.dotsView(); this.actions.redDots();"); }
         {
-            // Step 1: execute action `this.tracer?.log("⚡ FSM would execute action: " + "this.actions.uiLoadingButtons(); this.actions.removeBlurr(); this.actions.dotsView(); this.actions.loadingDots();");`
-            this.tracer?.log("⚡ FSM would execute action: " + "this.actions.uiLoadingButtons(); this.actions.removeBlurr(); this.actions.dotsView(); this.actions.loadingDots();");
+            // Step 1: execute action `this.tracer?.log("⚡ FSM would execute action: " + "this.actions.uiLoadingButtons(); this.actions.removeBlurr(); this.actions.dotsView(); this.actions.redDots();");`
+            this.tracer?.log("⚡ FSM would execute action: " + "this.actions.uiLoadingButtons(); this.actions.removeBlurr(); this.actions.dotsView(); this.actions.redDots();");
         } // end of behavior for LOADING
     }
     
@@ -892,10 +892,10 @@ evaluateGuard = null;
         } // end of behavior for PLAYING
         
         // PLAYING behavior
-        // uml: enter / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.uiPlayingButtons(); this.actions.removeBlurr(); this.actions.blueDots();"); }
+        // uml: enter / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.uiPlayingButtons(); this.actions.removeBlurr(); this.actions.greenDots();"); }
         {
-            // Step 1: execute action `this.tracer?.log("⚡ FSM would execute action: " + "this.actions.uiPlayingButtons(); this.actions.removeBlurr(); this.actions.blueDots();");`
-            this.tracer?.log("⚡ FSM would execute action: " + "this.actions.uiPlayingButtons(); this.actions.removeBlurr(); this.actions.blueDots();");
+            // Step 1: execute action `this.tracer?.log("⚡ FSM would execute action: " + "this.actions.uiPlayingButtons(); this.actions.removeBlurr(); this.actions.greenDots();");`
+            this.tracer?.log("⚡ FSM would execute action: " + "this.actions.uiPlayingButtons(); this.actions.removeBlurr(); this.actions.greenDots();");
         } // end of behavior for PLAYING
     }
     

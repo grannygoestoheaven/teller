@@ -1,4 +1,5 @@
-import { getBluePinkColor, getRedGoldenrodColor, makeFlashy } from "/static/js/colors.js";
+import { setIsChatVisible, setIsGridVisible, setAreDotsVisible } from "/static/js/config.js";
+import { getBluePinkColor, getRedGoldenrodColor, getGreenColor, makeFlashy } from "/static/js/colors.js";
 import { elements, lastStoryData } from "/static/js/config.js";
 import { playedSquares } from "/static/js/uiInit.js";
 
@@ -170,21 +171,31 @@ export function toggleView() {
     case 'dots': textView(); break;
     case 'text': gridView(); break;
   }
-  document.dispatchEvent(new CustomEvent('viewChanged', { detail: { view: currentView } }));
+  document.dispatchEvent(new CustomEvent('viewChanged', { detail: { view: currentView } })); // Dispatch custom event with the new view for later side effects.
 }
 
 export function gridView() {
   hideText(), hideDots(); showGrid();
   currentView = 'grid';
+  setIsGridVisible(true);
+  setIsChatVisible(false);
+  setAreDotsVisible(false);
 }
 export function dotsView() {
   hideGrid(); hideText(); showDots();
   currentView = 'dots';
+  setAreDotsVisible(true);
+  setIsChatVisible(false);
+  setIsGridVisible(false);
 }
 export function textView() {
   hideDots(); hideGrid(); showText();
   currentView = 'text';
+  setIsChatVisible(true);
+  setIsGridVisible(false);
+  setAreDotsVisible(false);
 }
+
 
 
 // Toggle function
@@ -252,12 +263,20 @@ export function redSquare(square) {
   square.style.setProperty('border', borderColor);
 }
 
+export function greenSquare(square) {
+  const color = getGreenColor();
+  // const borderColor = makeFlashy(color);
+  // square.style.setProperty('background-color', '#6d9778');
+  square.style.setProperty('background-color', color);
+  // square.style.setProperty('border', borderColor);
+}
+
 export function goldenSquares(square) {
   const color = getRedGoldenrodColor();
   const borderColor = makeFlashy(color);
   // square.style.setProperty('background-color', color);
   // square.style.setProperty('border', `1px dashed ${borderColor}`);
-  square.style.setProperty('border', '1px dashed black');
+  square.style.setProperty('border', '2px dashed black');
 }
 
 export function transparentDashedSquare(square) {
@@ -265,7 +284,7 @@ export function transparentDashedSquare(square) {
 }
 
 export function defaultSquare(square) {
-  square.style.setProperty('border', 'none');
+  square.style.setProperty('background-color', 'transparent');
 }
 
 export function applyGridViewStyle() {

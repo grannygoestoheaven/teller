@@ -77,11 +77,13 @@ def _clean_story_text(story: str) -> str:
     return cleaned.strip()
 
 def _remove_silence_tags(story: str) -> str:
-    """Remove <[silence:1200]> tags from the story text."""
+    """Remove <[silence:ms]> tags from the story text."""
     if not story:
         return story
     # cleaned = re.sub(r'<\[silence:\d+\]>', '', story).strip()
-    cleaned = re.sub(r'<\[silence:\d+ms\]>', '', story).strip()
+    # cleaned = re.sub(r'<\[silence:\d+ms\]>', '', story).strip()
+    # Match <[silence:1200ms], <[silence:1200], <silence:1200>, etc.
+    cleaned = re.sub(r'<\[?silence:\d+ms?\]?>', '', story).strip()
     # cleaned = re.sub(r'\.([^ \n])', r'. \1', cleaned)
     cleaned = re.sub(r'\.([^ \n])', r'. \1', cleaned)
     return cleaned.strip()

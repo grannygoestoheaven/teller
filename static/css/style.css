@@ -1,13 +1,27 @@
 :root {
-    --period-color: #888; /* Default color for periods */
+    --period-color: #e4b228;  /* Default color for periods */
+    /* --period-color: hsl(0, 73%, 36%); */
     --grid-background-color: rgb(31, 31, 31); /* Background color for the grid */
+    /* --grid-background-color: transparent; */
     --square-bg-color: transparent; /* color for squares */
     --square-content-color: transparent; /* Default: hide text */
-    --square-hover-bg-color: rgb(204, 6, 6); /* color for hovered squares */
+    --square-hover-bg-color: #d3cdba; /* color for hovered squares */
+    /* --square-hover-bg-color: #cc0606; */
     --square-hover-content-color: transparent; /* Default: hide text */
     --square-border: none;
-    --subject-bg-color: transparent; /* Background for subject input group */
-
+    --square-dashed-border: 1px dashed rgb(254, 245, 222);
+    /* --square-hover-dashed-border: 1px dashed #d3cdba; */
+    --square-hover-dashed-border: 1px dashed hsl(0, 0%, 0%);
+    --subject-bg-color: rgb(20, 20, 20); /* Background for subject input group */
+    /* --subject-bg-color: #3D5253; */
+    /* --subject-bg-color: rgb(61, 46, 70); */
+    --input-highlight-color: #5ECC67; /* Border color for focused input */
+    --input-highlight-color: hsl(131, 44%, 30%); /* Border color for focused input */
+    --input-highlight-color: rgb(63, 29, 137); /* Border color for focused input */
+    --input-highlight-color: hsl(0, 73%, 36%); /* Border color for focused input */
+    --input-highlight-color: #daa520; /* Border color for focused input */
+    /* #5ECC67 • #3D5253 */
+    --input-border-color: 4px hsl(131, 44%, 30%); /* Border color for input */
     /* Grain texture */
     --grain-texture: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="none"/><rect width="100" height="100" fill="rgba(0,0,0,0.03)" filter="url(%23noise)"/></svg>');
     
@@ -82,13 +96,24 @@
     --topic-7-sub7: #F7C9D1;
 }
 
+/* html:not(.loaded) * {
+    transition: none !important;
+  } */
+
 .hidden {
-    opacity: 0;
-    pointer-events: none; /* Disables interaction */
-    visibility: hidden;   /* Optional: Collapses space if needed */
+    opacity: 0 !important;
+    /* visibility: hidden !important; */
+    pointer-events: none !important; /* Disables clicks immediately */
+    transition: opacity 0.5s ease-in-out !important; /* Smooth fade-out */
   }
   
-
+  .visible {
+    opacity: 1 !important;
+    /* visibility: visible !important; */
+    pointer-events: auto !important; /* Enables clicks */
+    transition: opacity 0.5s ease-in-out !important; /* Smooth fade-in */
+  }
+  
 /* Hide scrollbars for the entire page */
 html, body {
     width: 100vw;
@@ -120,7 +145,7 @@ body {
     font-size: 1.9em; /* Base font size for the header container */
     z-index: 10;
     background: none;
-    padding: 15px 25px 15px;
+    padding: 5px 25px 0px;
     flex-shrink: 0; /* Prevent header from shrinking */
 }
 
@@ -173,7 +198,7 @@ body {
     font-size: 0.8em;
     border: none;
     border-radius: 5px;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
     padding: 5px 10px;
     background-color: #353432;
     color: rgb(79, 78, 77);
@@ -188,22 +213,26 @@ body {
 }
 
 .toggle-container {
-    display: block;
     position: relative;
-    aspect-ratio: 3/1;
-    justify-content: center;
-    align-items: center;
     width: 85%;
     height: 60vh;
-    overflow: auto;
+    overflow: hidden; /* Critical: Hide overflow for layers */
+    /* transition: none !important; */ /* Disable transitions for container */
+    transition: opacity 1s ease, visibility 1s ease; /* Smooth fade + visibility */
   }
 
-.grid-container, .chat-history, .loading-animation-container {
-    opacity: 1;
-    pointer-events: auto;
-    visibility: visible;
-    /* transition: opacity 0.3s ease, visibility 1s ease; */
-}
+  html.loaded .toggle-container {
+    transition: all 0.3s ease; /* Re-enable after DOM is ready */
+  }
+
+  .grid-container,
+  .loading-animation-container{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
 
 /* .grid-container.hidden, .chat-history.hidden {
   opacity: 0;
@@ -225,15 +254,10 @@ body {
     border-radius: 25px;
     background-color: var(--grid-background-color);
     z-index: 5;
-    transition: 1s;
+    /* transition: 1s; */
+    transition: opacity 1s ease, visibility 1s ease !important;
     /* opacity: 1;
     visibility: visible; */
-}
-
-.grid-container.hidden {
-    opacity: 0;
-    pointer-events: none;
-    visibility: hidden;
 }
 
 .grid-container > .square {
@@ -242,18 +266,18 @@ body {
     /* aspect-ratio: 1/1; */
     /* background-color: hsla(116, 75%, 16%, 0.107); */
     background-color: var(--square-bg-color);
-    border: var(--square-border);
-    color: var(--square-content-color);
+    /* color: var(--square-content-color); */
     opacity: 75%;
-    /* border: 0.01px dashed rgb(255, 255, 255); */
+    border: solid var(--square-border);
     border-radius: 25px;
-    transition: 900ms;
+    transition: all 750ms ease !important; /* TODO: Refactor when time allows—find why !important is needed. */
 }
-
+  
 .grid-container > .square:hover {
     background-color: var(--square-hover-bg-color);
+    /* border: var(--square-hover-dashed-border); */
     color: transparent;
-    transition: 150ms;
+    transition: background-color, 150ms ease, color 150ms ease !important; /* TODO: Refactor when time allows—find why !important is needed. */
 }
 
 /* Hide scrollbar for Webkit browsers (Chrome, Safari, Opera) */
@@ -269,13 +293,6 @@ body {
     overflow-wrap: break-word; /* Modern equivalent */
 }
 
-#chatHistory { 
-    top: 0; 
-    left: 0; 
-    height: 100%; 
-    /* opacity: 0; */
-}
-
 /* New: For text fully visible (e.g., when toggled) */
 #chatHistory.text-full {
     opacity: 1 !important;/* Full opacity */
@@ -284,63 +301,42 @@ body {
 }
 
 .chat-history {
-    position: absolute;
-    color: rgb(199, 191, 191); /* Text color */
-    /* flex: 1; */
-    display: flex;
-    max-width: 110ch;
+    top: 0; 
+    left: 0; 
+    display: flex; /* Remove flex */
+    position: relative;
+    height: 100%;
     justify-content: center;
-    /* align-items: center; */
+    align-items: center;
+    overflow-y: auto; /* Enable scrolling */
+    color: rgb(199, 191, 191);
     font-family: pixelify sans, serif;
     font-size: 1.5em;
-    /* overflow: hidden; */
-    border-radius: 5px;
-    /* Ensure proper spacing between words (adjusting chat-history directly) */
-    /* This is better applied to the #chatHistory itself if you want global word spacing */
-    white-space: normal;
-    word-spacing: -0.1em; /* Tighter word spacing */
-    letter-spacing: normal;
-    transition: all 0.3s ease-in-out;
-    overflow-y: auto; /* Enable vertical scrolling if content exceeds height */
-}
-
-.chat-history.hidden {
-    opacity: 0;
-    pointer-events: none;
-    visibility: hidden;
 }
 
 .chat-inner {
+    display: block; /* Change to inline-block for better text handling */
     max-width: 100ch;
-    width: 100%;
-    max-height: 100%;
-    margin: 0 auto;
-    word-spacing: 1em;
-    box-sizing: border-box;
-    overflow-y: auto;
-    scrollbar-width: auto;
-    scrollbar-color: rgba(201, 200, 200, 0.691) transparent;
-    /* padding: 1rem; */
+    /* height: 100%; */
+    margin: auto;
+    padding: 1rem 3rem;
+    overflow-y: auto; /* Ensure text scrolls */
+    text-align: center;
+    transition: opacity 1s ease, visibility 1s ease !important;
   }
 
-  .chat-inner.hidden {
-    opacity: 0;
-    pointer-events: none;
-    visibility: hidden;
-  }
-  
-  .chat-inner::-webkit-scrollbar {
-    width: 16px;
-  }
-  
-  .chat-inner::-webkit-scrollbar-thumb {
-    background-color: rgba(0, 0, 0, 0.5);
-  }
-  
-  .chat-inner .word {
-    display: inline;
-    margin: 0 .05em;
-  }
+.chat-inner::-webkit-scrollbar {
+width: 16px;
+}
+
+.chat-inner::-webkit-scrollbar-thumb {
+background-color: rgba(0, 0, 0, 0.5);
+}
+
+.chat-inner .word {
+display: inline-block;
+margin: 0 .05em;
+}
   
 /* Style for interactive words */
 .chat-history .word {
@@ -380,28 +376,27 @@ body {
 }
 
 /* --- NEW LOADING ANIMATION & CONTROLS STYLES --- */
-#loadingAnimationContainer {
-    display: none;
+.loading-animation-container {
+    /* position: absolute; */
+    /* top: 0; */
+    /* left: 0; */
+    /* width: 100%; */
+    /* height: 100%; */
+    /* display: none; */
+    opacity: 0;
     justify-content: center;
     align-items: center;
-    position: absolute; /* Position it on top of chat-history */
-    top: 35%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 100%;
-    height: 100%;
-    /* z-index: 100; Ensure it's on top */
-    pointer-events: none; /* Allows clicks to pass through when hidden */
-}
+    pointer-events: none;
+    z-index: 100;
+    overflow: hidden;
+    transition: opacity 0.5s ease, visibility 0.5s ease !important;
+  }
 
-#loadingAnimationContainer.visible {
-    display: flex;
-    pointer-events: auto; /* Re-enable pointer events when visible */
-}
-
-.loading-animation {
-    filter: none;
-    transition: filter .25s ease-in-out;
+.loading-animation-container.visible {
+    opacity: 1;
+    visibility: visible;
+    /* display: flex; */
+    /* pointer-events: none; */ /* Re-enable pointer events when visible */
 }
 
 .loading-animation.blur-overlay{
@@ -409,16 +404,17 @@ body {
 }
 
 .loading-animation {
-    display: flex; /* Flex container for the dots */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
     justify-content: center;
     align-items: center;
-    position: absolute;
-    color: var(--period-color); /* Use the dynamically set color, fallback to #888 */
-    border: #0f0f0f;
-    font-size: 100px; /* Overall size of the dots */
-    line-height: 0.5; /* Align dots vertically */
-    gap: 0;
-}
+    pointer-events: none;
+    font-size: 100px;
+  }
 
 .loading-animation .period {
     display: inline-block;
@@ -426,7 +422,7 @@ body {
     animation: period-fade 2.2s infinite ease-in-out; /* Main animation */
     margin: 0 -0.17em;
     font-family: 'Inika', serif;
-    font-size: 100px;
+    font-size: 3em;
     font-weight: bold;
     color: var(--period-color);
     line-height: 0.8;
@@ -450,7 +446,7 @@ footer.chat-input-area {
     /* width: 100%; */
     width: 100vw;
     max-height: auto;
-    margin: 5px auto 10px auto;
+    margin: 15px auto 15px auto;
     padding: 0 15px;
     box-sizing: border-box;
     background: none;
@@ -482,53 +478,82 @@ footer.chat-input-area {
     margin-top: 10px;
 }
 
+/* .subject-input-group:focus-within {
+    outline: 4px solid var(--input-highlight-color);
+} */
+
 .subject-input-group {
     position: relative;
     display: flex;
     align-items: center;
     height: 100%;
     width: 100%;
-    margin: 0px 5px;
-    margin-top: 5px;
-    padding: 5px;
-    border: 10px solid rgb(27, 27, 27);
+    margin: 0px 10px;
+    /* margin-top: 5px; */
+    /* padding: 5px; */
     box-sizing: border-box;
-    border: transparent !important ;
+    /* border: greenyellow !important ; */
+    /* border: transparent !important ; */
     /* background: #2c2c2caf; */
     /* background: #0c0c0c; */
-    background-color: var(--subject-bg-color, transparent);
-    border-radius: 20px;
+    border-radius: 25px;
 }
 
 /* Subject input specific styles */
 #subject {
-    background: transparent;
-    width: 800px;
+    /* background: transparent; */
+    background-color: var(--subject-bg-color, transparent);
+    /* border: solid var(--input-border-color, transparent); */
+    /* width: 800px; */
+    height: 100%;
     width: 100%;
     overflow: hidden;
     /* resize: none; */
     min-height: 1.5em;
     line-height: 1.2em;
-    border: none !important ;
-    padding: 5px;
+    border: none;
+    border-radius: 25px;
+    padding: 10px;
     box-sizing: border-box;
     font-size: 1.7em;
     letter-spacing: 0cqmin;
     font-family: 'Inika', serif;
     color: rgba(245, 245, 245, 0.9);
     transition: none;
-    box-shadow: none !important;
+    /* box-shadow: none !important; */
     text-align: center;
+    transition: border 0.8s ease-in-out, box-shadow 0.8s ease-in-out !important;
+    transition: 0.8s ease-in-out, box-shadow 0.8s ease-in-out !important;
 }
 
-#subject:focus, #subject:active {
-    outline: none !important;
+#subject:focus {
+    border: 4px solid var(--input-highlight-color);
+    caret-color: transparent;
+    /* box-shadow: none !important; */
+}
+
+/* #subject:focus, #subject:active { */
+    /* outline: none !important; */
+    /* border: 2px solid var(--input-highlight-color); */
+    /* caret-color: transparent; */
+    /* box-shadow: none !important; */
+    /* border: none !important; */
+/* }
+
+/* Focus: Highlight border (persistent) */
+#subject:focus {
+    outline: none;
+    caret-color: grey;
     box-shadow: none !important;
-    border: none !important;
+  }
+  
+/* Active: Optional click effect (temporary) */
+#subject:active {
+box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
 }
-
+  
 #subject::placeholder {
-    color: rgba(157, 155, 155, 0.521);
+    color: rgba(152, 152, 152, 0.342);
     font-style: regular;
     font-size: 0.9em;
     font-weight: lighter;
@@ -563,7 +588,8 @@ footer.chat-input-area {
     display: flex;
     justify-content: center;
     gap: 1rem;
-    padding-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    /* padding-top: 0.5rem; */
   }
 
 /* Pixel PLAY style */

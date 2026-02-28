@@ -1,7 +1,7 @@
 import { elements, lastStoryData, getLastFilledSquares, setIsChatVisible } from '/static/js/config.js';
 import { squareHasTitle } from '/static/js/subjectsService.js';
 import { cycleToNextTopic, mapValuesToSquares } from '/static/js/uiInit.js';
-import { handleMouseMove, handleMouseOut, currentlyHighlightedWords } from '/static/js/textInteractionSystem.js';
+// import { handleMouseMove, handleMouseOut, currentlyHighlightedWords } from '/static/js/textInteractionSystem.js';
 import { toggleView, redSquare, transparentDashedSquare, uiReadyButtons } from '/static/js/ui.js';
 import { formatTitle } from '/static/js/utils.js';
 import { getIsChatVisible } from '/static/js/config.js';

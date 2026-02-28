@@ -40,8 +40,7 @@ export const TextInteractionSystem = (function() {
         }
         
         const text = textContainer.textContent.trim();
-        if (!text || text === lastProcessedText) return;  // Skip if unchanged
-        
+        // if (!text || text === lastProcessedText) return;
         textContainer.innerHTML = text
             .split(/\s+/) // Split on whitespace, returns a list
             .map(word => `<span class="word">${word}</span>`) // use the list to create a new list of spans

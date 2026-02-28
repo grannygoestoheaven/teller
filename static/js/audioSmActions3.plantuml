@@ -21,25 +21,25 @@
     READY_DURING_IDLE --> LOADING : SQUARE_CLICKED [this.actions.getSquareClickAuthorized()] / this.actions.startNewStoryProcessForm();
     READY_DURING_IDLE --> LOADING : FORM_SUBMITTED / this.actions.startNewStoryProcessForm();
     READY_DURING_IDLE --> LOADING : TOGGLE_PAUSE_RESUME / this.actions.startNewStoryProcessForm();
-    READY_DURING_IDLE --> IDLE : INPUT_DEFOCUSED [this.actions.getIsTextHihlighted() == false && this.actions.getSquareClickAuthorized() == false]
+    READY_DURING_IDLE --> IDLE : INPUT_DEFOCUSED [!this.actions.getIsChatVisible()]
     READY_DURING_IDLE --> IDLE : CANCEL
 
     READY_DURING_PLAYBACK: enter / this.actions.uiReadyButtons();
     READY_DURING_PLAYBACK --> LOADING : SQUARE_CLICKED [this.actions.getSquareClickAuthorized()] / this.actions.startNewStoryProcessForm();
     READY_DURING_PLAYBACK --> LOADING : FORM_SUBMITTED / this.actions.startNewStoryProcessForm();
     READY_DURING_PLAYBACK --> LOADING : TOGGLE_PAUSE_RESUME / this.actions.startNewStoryProcessForm();
-    READY_DURING_PLAYBACK --> PLAYING : INPUT_DEFOCUSED [this.actions.getIsChatVisible() == false && this.actions.getSquareClickAuthorized() == false]
+    READY_DURING_PLAYBACK --> PLAYING : INPUT_DEFOCUSED 
     READY_DURING_PLAYBACK --> IDLE : CANCEL
 
     READY_DURING_PAUSED: enter / this.actions.uiReadyButtons();
     READY_DURING_PAUSED --> LOADING : SQUARE_CLICKED [this.actions.getSquareClickAuthorized()] / this.actions.startNewStoryProcessForm();
     READY_DURING_PAUSED --> LOADING : FORM_SUBMITTED / this.actions.startNewStoryProcessForm();
     READY_DURING_PAUSED --> LOADING : TOGGLE_PAUSE_RESUME / this.actions.startNewStoryProcessForm();
-    READY_DURING_PAUSED --> PAUSED : INPUT_DEFOCUSED [this.actions.getIsChatVisible() == false && this.actions.getSquareClickAuthorized() == false]
+    READY_DURING_PAUSED --> PAUSED : INPUT_DEFOCUSED 
     READY_DURING_PAUSED --> IDLE : CANCEL
 
     LOADING: enter / this.actions.uiLoadingButtons(); this.actions.removeBlurr(); this.actions.dotsView(); this.actions.redDots();
-    LOADING --> PLAYING : SPEECH_READY / this.actions.setUpAndStartAllAudio(); this.actions.displayStoryText(); this.actions.wrapWordsInSpans();
+    LOADING --> PLAYING : SPEECH_READY / this.actions.setUpAndStartAllAudio(); this.actions.displayStoryText(); this.actions.TextInteractionSystem.wrapWordsInSpans();
     LOADING --> PAUSED : TOGGLE_PAUSE_RESUME / this.actions.pauseAllAudio();
     LOADING --> IDLE : CANCEL
 

@@ -58,9 +58,9 @@ import {
 from "/static/js/textDisplay.js";
 
 import {
-  wrapWordsInSpans,
+  TextInteractionSystem
 }
-from "/static/js/textInteractionSystem.js";
+from "/static/js/textInteractionSystem2.js";
 
 import {
   // showLoadingAnimation,
@@ -150,7 +150,7 @@ export const localActions = {
 
     // Text Display Actions
     displayStoryText,
-    wrapWordsInSpans,
+    TextInteractionSystem,
     
     // Animation Actions
     // showLoadingAnimation,

@@ -1,10 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- we have to remove this later to prevent FOUC, but for development it's really annoying -->
+    <style>
+    * { transition: none !important; }
+    html { visibility: hidden; }
+    </style>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>teller - AI storytelling, Knowledge drifting</title>
-    <link rel="stylesheet" href="/static/css/style2.css">
+    <link rel="stylesheet" href="/static/css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans&family=Silkscreen&display=swap" rel="stylesheet">
@@ -13,7 +19,6 @@
 <body>
     <header class="chat-header">
         <h1 class="brand" id="teller-title">teller</h1>
-        <p class="subtitle" id="teller-subtitle">science</p>
     </header>
     <div class="toggle-grid-text" id="toggleGridText">
         <button class="toggle-button" id="toggleBtn">O O O</button>
@@ -27,7 +32,7 @@
                 <span id ="period3" class="period period-3">.</span>
             </div>
         </div>
-        <div class="chat-history">
+        <div class="chat-history" id="chatHistory">
             <div class="chat-inner" id="story"></div>
         </div>
     </div>
@@ -46,7 +51,7 @@
                       type="text"
                       id="subject"
                       name="subject"
-                      placeholder=""
+                      placeholder="Let's hear about..."
                       required
                     >
                     <!-- <button

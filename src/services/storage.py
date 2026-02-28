@@ -52,7 +52,7 @@ def save_txt_to_json_file(story_filename: str, story_title: str, tagged_story_fo
     }
     with open(filepath, 'w', encoding='utf-8') as f:
         json.dump(payload, f, ensure_ascii=False, indent=2)
-        
+
     clean_story = payload["clean_story"]
 
 def save_mp3_speech_file(story_foldername: str, speech_filename: str, speech_audio: bytes, save_dir: Path) -> str:
@@ -186,4 +186,3 @@ class AmbientTrackManager:
         cls._played_tracks.append(track_filename)
         
         return str(tracks_dir / track_filename)  # Use LOCAL_TRACKS_DIR directly
-

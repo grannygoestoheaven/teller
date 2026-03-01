@@ -1,10 +1,12 @@
 import os
 import json
 import random
+import boto3
 
 from pathlib import Path
 from datetime import datetime
-from scaleway.sdk import ObjectStorage  # or boto3 for AWS/S3
+from scaleway import Client  # or boto3 for AWS/S3
+from botocore.client import Config
 
 from src.config.settings import EnvSettings
 
@@ -22,13 +24,25 @@ class LocalFileSystem:
     def generate_url(self, key):
         return f"/static/{key}"
 
+# class BucketClient:
+#     def __init__(self, settings):
+#         self.client = Client(
+#             endpoint=settings.scw_endpoint,
+#             access_key=settings.scw_access_key,
+#             secret_key=settings.scw_secret_key,
+#             region="fr-par"
+#         )
+#         self.bucket_name = settings.scw_bucket_name
+
 class BucketClient:
     def __init__(self, settings):
-        self.client = ObjectStorage(
-            endpoint=settings.scw_endpoint,
-            access_key=settings.scw_access_key,
-            secret_key=settings.scw_secret_key,
-            region="fr-par"
+        self.client = boto3.client(
+            's3',
+            endpoint_url=settings.scw_endpoint,
+            aws_access_key_id=settings.scw_access_key,
+            aws_secret_access_key=settings.scw_secret_key,
+            config=Config(signature_version='s3v4'),
+            region_name='fr-par'
         )
         self.bucket_name = settings.scw_bucket_name
 
@@ -45,11 +59,19 @@ class BucketClient:
             key=key
         )
 
+    # def generate_url(self, key):
+    #     return self.client.generate_presigned_url(
+    #         bucket_name=self.bucket_name,
+    #         key=key
+    #     )
+    
     def generate_url(self, key):
         return self.client.generate_presigned_url(
-            bucket_name=self.bucket_name,
-            key=key
+            'get_object',
+            Params={'Bucket': self.bucket_name, 'Key': key},
+            ExpiresIn=3600
         )
+
 
 # --- High-level backend ---
 class StorageBackend:
@@ -78,39 +100,69 @@ class StorageBackend:
         """
         Saves the speech mp3 audio content to a file in the specified directory.
         """
-        key = f"stories/{story_filename}/{story_filename}"
+        key = f"stories/{story_foldername}/{speech_filename}"
         print(f"Saving mp3 file to: {key}")
         self.client.upload_file(speech_audio, key)
         return self.client.generate_url(key)
 
     # ==== FETCHING FUNCTIONS =====
 
+    # def get_tagged_text_from_json_file(self, story_filename) -> str:
+    #     """
+    #     Extracts the tagged story for TTS from the saved JSON file.
+    #     """        
+    #     key = f"stories/{story_filename}/{story_filename}.json"
+    #     print(f"Retrieving tagged story from: {key}")
+
+    #     return self.client.generate_url(key)
+
+    # def get_clean_text_from_json_file(self, story_filename) -> str:
+    #     """
+    #     Extracts the cleaned story from the saved JSON file.
+    #     """        
+    #     key = f"stories/{story_filename}/{story_filename}.json"
+    #     print(f"Retrieving clean story from: {key}")
+    
+    #     return self.client.generate_url(key)
+    
+    def get_clean_text_from_json_file(self, story_filename) -> str:
+        """
+        Extracts the cleaned story from the saved JSON file.
+        """    
+        key = f"stories/{story_filename}/{story_filename}.json"
+        json_data = self.client.download_file(key)
+        payload = json.loads(json_data)
+        
+        return payload["clean_story"]  # Return the actual text
+
     def get_tagged_text_from_json_file(self, story_filename) -> str:
         """
         Extracts the tagged story for TTS from the saved JSON file.
         """        
         key = f"stories/{story_filename}/{story_filename}.json"
-        print(f"Retrieving tagged story from: {key}")
+        json_data = self.client.download_file(key)
+        payload = json.loads(json_data)
+        
+        return payload["tagged_story_for_tts"]  # Return the actual tagged text
 
-        return self.client.generate_url(key)
-
-    def get_clean_text_from_json_file(self, story_filename) -> str:
-        """
-        Extracts the cleaned story from the saved JSON file.
-        """        
-        key = f"stories/{story_filename}/{story_filename}.json"
-        print(f"Retrieving clean story from: {key}")
+    # def get_text_title_from_json_file(self, story_filename) -> str:
+    #     """
+    #     Returns clean title for a story from storage.
+    #     """        
+    #     key = f"stories/{story_filename}/{story_filename}.json"
+    #     print(f"Retrieving filename from: {key}")
     
-        return self.client.generate_url(key)
-
+    #     return self.client.generate_url(key)
+    
     def get_text_title_from_json_file(self, story_filename) -> str:
         """
         Returns clean title for a story from storage.
-        """        
+        """     
         key = f"stories/{story_filename}/{story_filename}.json"
-        print(f"Retrieving filename from: {key}")
-    
-        return self.client.generate_url(key)
+        json_data = self.client.download_file(key)
+        payload = json.loads(json_data)
+        
+        return payload["story_title"]  # Return the actual title
         
     def get_speech_url(self, story_filename: str) -> str:
         """
@@ -159,6 +211,4 @@ class StorageBackend:
         if self.use_bucket:
             return self.client.generate_url(f"static/audio/local_ambient_tracks/{track_filename}")
         else:
-            return str(tracks_dir / track_filename)
-
-storage = StorageBackend(use_bucket=env_settings.use_bucket, settings=env_settings)
+            return f"/static/audio/local_ambient_tracks/{track_filename}"

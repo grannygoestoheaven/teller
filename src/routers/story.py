@@ -5,7 +5,8 @@ from fastapi.responses import JSONResponse
 
 from src.schemas.story import StoryRequest, StoryResponse, StoryCheckResponse
 from src.services.utils import _format_text_filename
-from src.services.build import build_story, load_story
+# from src.services.build import build_story, load_story
+from src.services.build2 import build_story, load_story
 from src.config.settings import BASE_DIR, STATIC_DIR, DEFAULT_PROMPT_PATH, PROMPTS
 
 router = APIRouter()
@@ -23,7 +24,7 @@ async def check_story(data: StoryRequest) -> StoryCheckResponse:
         if not json_path.exists():
             return {"exists": False, "story": None}
 
-        payload = load_story(subject, regenerate_mp3=True) # The load story function holds the condition to generate tts if missing.
+        payload = load_story(subject, regenerate_mp3=False) # The load story function holds the condition to generate tts if missing.
         
         return {"exists": True, "story": StoryResponse(**payload, by_alias=True)}
     

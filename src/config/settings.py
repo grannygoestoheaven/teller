@@ -54,10 +54,12 @@ class EnvSettings(BaseSettings):
     newsapi_api_key: str = Field(..., env="NEWSAPI_API_KEY")
     
     use_bucket: bool = Field(default=True, env="USE_BUCKET")  # Defaults to local
-    scw_bucket_name: str = Field(default="", env="SCW_BUCKET_NAME")
+    scw_bucket_name: str = Field(default="", env="SCW_TELLER_BUCKET_NAME")
     scw_access_key: str = Field(default="", env="SCW_ACCESS_KEY")
     scw_secret_key: str = Field(default="", env="SCW_SECRET_KEY")
-    scw_endpoint: str = Field(default="", env="SCW_ENDPOINT")
+    scw_endpoint: str = Field(default="", env="TELLER_ENDPOINT")
+    print("EnvSettings initialized with bucket usage:", use_bucket)
+    print("Bucket name:", scw_bucket_name)
 
     class Config:
         env_file = ".env"

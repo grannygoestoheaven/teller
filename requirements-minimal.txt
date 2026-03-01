@@ -12,3 +12,7 @@ python-vlc==3.0.21203
 spotipy==2.25.1
 uvicorn==0.31.0
 boto3==1.42.59
+botocore==1.42.59
+scaleway==2.10.3
+scaleway-core==2.10.3
+scaleway-sdk==1.15.0

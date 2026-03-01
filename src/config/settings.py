@@ -53,7 +53,7 @@ class EnvSettings(BaseSettings):
     elevenlabs_api_key: str = Field(..., env="ELEVEN_LABS_API_KEY")
     newsapi_api_key: str = Field(..., env="NEWSAPI_API_KEY")
     
-    use_bucket: bool = Field(default=False, env="USE_BUCKET")  # Defaults to local
+    use_bucket: bool = Field(default=True, env="USE_BUCKET")  # Defaults to local
     scw_bucket_name: str = Field(default="", env="SCW_BUCKET_NAME")
     scw_access_key: str = Field(default="", env="SCW_ACCESS_KEY")
     scw_secret_key: str = Field(default="", env="SCW_SECRET_KEY")

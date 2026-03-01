@@ -39,13 +39,13 @@ class BucketClient:
         self.client = boto3.client(
             's3',
             endpoint_url=settings.scw_endpoint,
-            print("Initializing BucketClient with endpoint:", settings.scw_endpoint),
             aws_access_key_id=settings.scw_access_key,
             aws_secret_access_key=settings.scw_secret_key,
             config=Config(signature_version='s3v4'),
             region_name='fr-par'
         )
         self.bucket_name = settings.scw_bucket_name
+        print("Initializing this:", settings.scw_endpoint),
 
     def upload_file(self, file_data, key):
         self.client.upload_file(

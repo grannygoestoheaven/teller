@@ -1,3 +1,6 @@
+import os
+print("TELLER_ENDPOINT:", os.getenv("TELLER_ENDPOINT"))
+
 from fastapi import FastAPI
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles

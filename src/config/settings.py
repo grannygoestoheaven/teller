@@ -60,6 +60,7 @@ class EnvSettings(BaseSettings):
     scw_endpoint: str = Field(default="", env="TELLER_ENDPOINT")
     print("EnvSettings initialized with bucket usage:", use_bucket)
     print("Bucket name:", scw_bucket_name)
+    print("SCW Endpoint:", scw_endpoint)
 
     class Config:
         env_file = ".env"

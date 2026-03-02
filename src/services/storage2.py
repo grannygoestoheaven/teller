@@ -93,7 +93,7 @@ class StorageBackend:
             "clean_story": clean_story,
             "timestamp": datetime.utcnow().strftime('%Y%m%dT%H%M%SZ')
         }
-        key = f"stories/{story_filename}/{story_filename}.json"
+        key = f"static/stories/{story_filename}/{story_filename}.json"
         print(f"Saving text to: {key}")
         self.client.upload_file(json.dumps(payload).encode('utf-8'), key)
         return self.client.generate_url(key)
@@ -102,7 +102,7 @@ class StorageBackend:
         """
         Saves the speech mp3 audio content to a file in the specified directory.
         """
-        key = f"stories/{story_foldername}/{speech_filename}"
+        key = f"static/stories/{story_foldername}/{speech_filename}"
         print(f"Saving mp3 file to: {key}")
         self.client.upload_file(speech_audio, key)
         return self.client.generate_url(key)
@@ -113,7 +113,7 @@ class StorageBackend:
     #     """
     #     Extracts the tagged story for TTS from the saved JSON file.
     #     """        
-    #     key = f"stories/{story_filename}/{story_filename}.json"
+    #     key = f"static/stories/{story_filename}/{story_filename}.json"
     #     print(f"Retrieving tagged story from: {key}")
 
     #     return self.client.generate_url(key)
@@ -122,7 +122,7 @@ class StorageBackend:
     #     """
     #     Extracts the cleaned story from the saved JSON file.
     #     """        
-    #     key = f"stories/{story_filename}/{story_filename}.json"
+    #     key = f"static/stories/{story_filename}/{story_filename}.json"
     #     print(f"Retrieving clean story from: {key}")
     
     #     return self.client.generate_url(key)
@@ -131,7 +131,7 @@ class StorageBackend:
         """
         Extracts the cleaned story from the saved JSON file.
         """    
-        key = f"stories/{story_filename}/{story_filename}.json"
+        key = f"static/stories/{story_filename}/{story_filename}.json"
         json_data = self.client.download_file(key)
         payload = json.loads(json_data)
         
@@ -141,7 +141,7 @@ class StorageBackend:
         """
         Extracts the tagged story for TTS from the saved JSON file.
         """        
-        key = f"stories/{story_filename}/{story_filename}.json"
+        key = f"static/stories/{story_filename}/{story_filename}.json"
         json_data = self.client.download_file(key)
         payload = json.loads(json_data)
         
@@ -151,7 +151,7 @@ class StorageBackend:
     #     """
     #     Returns clean title for a story from storage.
     #     """        
-    #     key = f"stories/{story_filename}/{story_filename}.json"
+    #     key = f"static/stories/{story_filename}/{story_filename}.json"
     #     print(f"Retrieving filename from: {key}")
     
     #     return self.client.generate_url(key)
@@ -160,7 +160,7 @@ class StorageBackend:
         """
         Returns clean title for a story from storage.
         """     
-        key = f"stories/{story_filename}/{story_filename}.json"
+        key = f"static/stories/{story_filename}/{story_filename}.json"
         json_data = self.client.download_file(key)
         payload = json.loads(json_data)
         
@@ -170,7 +170,7 @@ class StorageBackend:
         """
         Returns the speech URL for a story from storage.
         """
-        key = f"stories/{story_filename}/{story_filename}.mp3"
+        key = f"static/stories/{story_filename}/{story_filename}.mp3"
         print(f"Retrieving filename from: {key}")
     
         return self.client.generate_url(key)
@@ -187,8 +187,8 @@ class StorageBackend:
             ]
         else:
             # Cloud implementation - matches your bucket structure
-            response = self.client.list_objects(
-                bucket_name=self.bucket_name,
+            response = self.client.list_objects_v2(
+                Bucket=self.bucket_name,
                 prefix="static/audio/local_ambient_tracks/"  # Your exact path
             )
             self._tracks = [

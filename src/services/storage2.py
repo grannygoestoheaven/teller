@@ -49,14 +49,14 @@ class BucketClient:
 
     def upload_file(self, file_data, key):
         self.client.upload_file(
-            bucket_name=self.bucket_name,
+            # bucket_name=self.bucket_name,
             file_data=file_data,
             key=key
         )
    
     def download_file(self, key):
         return self.client.download_file(
-            bucket_name=self.bucket_name,
+            # bucket_name=self.bucket_name,
             key=key
         )
 

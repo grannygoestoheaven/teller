@@ -74,7 +74,7 @@ def generate_story_with_mistralai(subject, narrative_style: None, difficulty: No
         return clean_story_title, original_output, clean_story
     
     except Exception as e:
-        print(f"Full error: {e[:10]}")  # Log both error and response
+        print(f"Full error: {e[:20]}")  # Log both error and response
         error_title = f"Error generating story about {subject}"
         error_story = "We encountered an error while generating the story. Please try again."
         

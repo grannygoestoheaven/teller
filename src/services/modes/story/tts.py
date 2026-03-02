@@ -25,7 +25,7 @@ def openai_tts(story: TtsRequest, filename) -> bytes:
         The path to the saved audio file relative to the 'static' directory
         (e.g., 'audio/generated_stories/my_story.mp3'), or None on error.
     """
-
+    print(f"Entering openai_tts with story: {story} and filename: {filename}")
     try:
         # Ensure the input text is not empty and is a string
         if not story or not isinstance(story, str):
@@ -44,6 +44,8 @@ def openai_tts(story: TtsRequest, filename) -> bytes:
                         Emotional Range : peaceful.
                         ''',
         )
+        
+        print(f"OpenAI TTS response status: {response.status_code}")  # Should be 200
         
         speech_filename = _format_mp3_filename(filename) # generate an mp3 filename with underscores
         speech_audio = response.content

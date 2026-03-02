@@ -8,7 +8,7 @@ from datetime import datetime
 from scaleway import Client  # or boto3 for AWS/S3
 from botocore.client import Config
 
-from src.config.settings import EnvSettings
+# from src.config.settings import env_settings
 
 # --- Low-level clients ---
 class LocalFileSystem:
@@ -38,7 +38,7 @@ class BucketClient:
     def __init__(self, settings):
         self.client = boto3.client(
             's3',
-            endpoint_url=settings.scw_endpoint,
+            endpoint_url=settings.teller_endpoint,
             aws_access_key_id=settings.scw_access_key,
             aws_secret_access_key=settings.scw_secret_key,
             config=Config(signature_version='s3v4'),

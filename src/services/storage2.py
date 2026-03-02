@@ -39,13 +39,13 @@ class BucketClient:
         self.client = boto3.client(
             's3',
             endpoint_url=settings.teller_endpoint,
-            aws_access_key_id=settings.scw_access_key,
-            aws_secret_access_key=settings.scw_secret_key,
+            aws_access_key_id=settings.teller_access_key,
+            aws_secret_access_key=settings.teller_secret_key,
             config=Config(signature_version='s3v4'),
             region_name='fr-par'
         )
-        self.bucket_name = settings.scw_bucket_name
-        print("Initializing this:", settings.scw_endpoint),
+        self.bucket_name = settings.teller_bucket_name
+        print("Initializing this:", settings.teller_endpoint),
 
     def upload_file(self, file_data, key):
         self.client.upload_file(
@@ -53,7 +53,7 @@ class BucketClient:
             file_data=file_data,
             key=key
         )
-    
+   
     def download_file(self, key):
         return self.client.download_file(
             bucket_name=self.bucket_name,
@@ -72,7 +72,6 @@ class BucketClient:
             Params={'Bucket': self.bucket_name, 'Key': key},
             ExpiresIn=3600
         )
-
 
 # --- High-level backend ---
 class StorageBackend:

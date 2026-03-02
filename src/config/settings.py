@@ -57,8 +57,8 @@ class EnvSettings(BaseSettings):
     # use_bucket: bool = Field(default=False, env="USE_BUCKET")  # Defaults to local
     teller_bucket_name: str = Field(default="", env="TELLER_BUCKET_NAME")
     teller_endpoint: str = Field(default="", env="TELLER_ENDPOINT")
-    scw_access_key: str = Field(default="", env="SCW_ACCESS_KEY")
-    scw_secret_key: str = Field(default="", env="SCW_SECRET_KEY")
+    teller_access_key: str = Field(default="", env="TELLER_ACCESS_KEY")
+    teller_secret_key: str = Field(default="", env="TELLER_SECRET_KEY")
 
     class Config:
         env_file = ".env"

@@ -47,10 +47,10 @@ class BucketClient:
         self.bucket_name = settings.teller_bucket_name
         print("Initializing this:", settings.teller_endpoint),
 
-    def upload_file(self, file_data, key):
+    def upload_file(self, key):
         self.client.upload_file(
             # bucket_name=self.bucket_name,
-            file_data=file_data,
+            # file_data=file_data,
             key=key
         )
    

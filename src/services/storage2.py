@@ -48,17 +48,19 @@ class BucketClient:
         print("Initializing this:", settings.teller_endpoint),
 
     def upload_file(self, file_data, key):
-        self.client.upload_file(
-            # bucket_name=self.bucket_name,
-            file_data=file_data,
-            key=key
+        self.client.put_object(
+            Bucket=self.bucket_name,
+            Key=key,
+            Body=file_data
         )
+
    
     def download_file(self, key):
-        return self.client.download_file(
-            # bucket_name=self.bucket_name,
+        response = self.client.get_object(
+            Bucket=self.bucket_name,
             key=key
         )
+        return response['Body'].read()
 
     # def generate_url(self, key):
     #     return self.client.generate_presigned_url(

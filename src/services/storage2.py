@@ -187,7 +187,7 @@ class StorageBackend:
             ]
         else:
             # Cloud implementation - matches your bucket structure
-            response = self.client.list_objects_v2(
+            response = self.client.client.list_objects(
                 Bucket=self.bucket_name,
                 prefix="static/audio/local_ambient_tracks/"  # Your exact path
             )

@@ -8,18 +8,17 @@ class AudioStateMachine
     {
         CANCEL : 0,
         FORM_SUBMITTED : 1,
-        FROM_START_CLICKED : 2,
-        INPUT_CHANGED : 3,
-        INPUT_DEFOCUSED : 4,
-        MUSIC_OVER : 5,
-        SPEECH_OVER : 6,
-        SPEECH_READY : 7,
-        SQUARE_CLICKED : 8,
-        TOGGLE_PAUSE_RESUME : 9,
+        INPUT_CHANGED : 2,
+        INPUT_DEFOCUSED : 3,
+        MUSIC_OVER : 4,
+        SPEECH_OVER : 5,
+        SPEECH_READY : 6,
+        SQUARE_CLICKED : 7,
+        TOGGLE_PAUSE_RESUME : 8,
     }
     static { Object.freeze(this.EventId); }
     
-    static EventIdCount = 10;
+    static EventIdCount = 9;
     static { Object.freeze(this.EventIdCount); }
     
     static StateId = 
@@ -106,7 +105,6 @@ class AudioStateMachine
                 {
                     case AudioStateMachine.EventId.INPUT_CHANGED: this.#PAUSED_input_changed(); break;
                     case AudioStateMachine.EventId.TOGGLE_PAUSE_RESUME: this.#PAUSED_toggle_pause_resume(); break;
-                    case AudioStateMachine.EventId.FROM_START_CLICKED: this.#PAUSED_from_start_clicked(); break;
                     case AudioStateMachine.EventId.CANCEL: this.#PAUSED_cancel(); break;
                 }
                 break;
@@ -115,7 +113,6 @@ class AudioStateMachine
             case AudioStateMachine.StateId.PLAYING:
                 switch (eventId)
                 {
-                    case AudioStateMachine.EventId.FROM_START_CLICKED: this.#PLAYING_from_start_clicked(); break;
                     case AudioStateMachine.EventId.SPEECH_OVER: this.#PLAYING_speech_over(); break;
                     case AudioStateMachine.EventId.TOGGLE_PAUSE_RESUME: this.#PLAYING_toggle_pause_resume(); break;
                     case AudioStateMachine.EventId.INPUT_CHANGED: this.#PLAYING_input_changed(); break;
@@ -368,27 +365,6 @@ class AudioStateMachine
         // No ancestor handles this event.
     }
     
-    #PAUSED_from_start_clicked()
-    {
-        // PAUSED behavior
-        // uml: FROM_START_CLICKED / { this.actions.resetAllAudio(); this.actions.setUpAndStartAllAudio(); } TransitionTo(PLAYING)
-        {
-            // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
-            this.#PAUSED_exit();
-            
-            // Step 2: Transition action: `this.actions.resetAllAudio(); this.actions.setUpAndStartAllAudio();`.
-            this.actions.resetAllAudio(); this.actions.setUpAndStartAllAudio();
-            
-            // Step 3: Enter/move towards transition target `PLAYING`.
-            this.#PLAYING_enter();
-            
-            // Step 4: complete transition. Ends event dispatch. No other behaviors are checked.
-            return;
-        } // end of behavior for PAUSED
-        
-        // No ancestor handles this event.
-    }
-    
     #PAUSED_input_changed()
     {
         // PAUSED behavior
@@ -467,18 +443,6 @@ class AudioStateMachine
             
             // Step 4: complete transition. Ends event dispatch. No other behaviors are checked.
             return;
-        } // end of behavior for PLAYING
-        
-        // No ancestor handles this event.
-    }
-    
-    #PLAYING_from_start_clicked()
-    {
-        // PLAYING behavior
-        // uml: FROM_START_CLICKED / { this.actions.pauseAllAudio(); this.actions.resetAllAudio(); this.actions.setUpAndStartAllAudio(); }
-        {
-            // Step 1: execute action `this.actions.pauseAllAudio(); this.actions.resetAllAudio(); this.actions.setUpAndStartAllAudio();`
-            this.actions.pauseAllAudio(); this.actions.resetAllAudio(); this.actions.setUpAndStartAllAudio();
         } // end of behavior for PLAYING
         
         // No ancestor handles this event.
@@ -962,7 +926,6 @@ class AudioStateMachine
         {
             case AudioStateMachine.EventId.CANCEL: return "CANCEL";
             case AudioStateMachine.EventId.FORM_SUBMITTED: return "FORM_SUBMITTED";
-            case AudioStateMachine.EventId.FROM_START_CLICKED: return "FROM_START_CLICKED";
             case AudioStateMachine.EventId.INPUT_CHANGED: return "INPUT_CHANGED";
             case AudioStateMachine.EventId.INPUT_DEFOCUSED: return "INPUT_DEFOCUSED";
             case AudioStateMachine.EventId.MUSIC_OVER: return "MUSIC_OVER";

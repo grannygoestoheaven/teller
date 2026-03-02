@@ -75,10 +75,10 @@ export function stateMachineEvents(sm) {
     sm.dispatchEvent(AudioStateMachine.EventId.MUSIC_OVER); // leads to MUSIC_ENDED state
   });
 
-  elements.fromStartButton?.addEventListener("click", () => {
-    console.log('Replay clicked');
-    sm.dispatchEvent(AudioStateMachine.EventId.FROM_START_CLICKED); // leads to PLAYING state
-  });
+  // elements.fromStartButton?.addEventListener("click", () => {
+  //   console.log('Replay clicked');
+  //   sm.dispatchEvent(AudioStateMachine.EventId.FROM_START_CLICKED); // leads to PLAYING state
+  // });
 
   elements.gridSquares.forEach(square => {
     square.addEventListener('mouseenter', () => {

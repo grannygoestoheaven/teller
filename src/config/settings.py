@@ -36,8 +36,8 @@ DEFAULT_DURATION = 1
 PROMPTS_DIR = BASE_DIR / "src" / "config" / "patterns"
 # DEFAULT_PROMPT_PATH = BASE_DIR / "src" / "config"/ "patterns" / "default_narrative.md"
 # DEFAULT_PROMPT_PATH = BASE_DIR / "src" / "config"/ "patterns" / "brutal_facts.md"
-DEFAULT_PROMPT_PATH = BASE_DIR / "src" / "config"/ "patterns" / "precision_narrative_engine.md"
-# DEFAULT_PROMPT_PATH = BASE_DIR / "src" / "config"/ "patterns" / "pn_engine_moderate_pace.md"
+# DEFAULT_PROMPT_PATH = BASE_DIR / "src" / "config"/ "patterns" / "precision_narrative_engine.md"
+DEFAULT_PROMPT_PATH = BASE_DIR / "src" / "config"/ "patterns" / "pn_engine_moderate_pace.md"
 # DEFAULT_PROMPT_PATH = BASE_DIR / "src" / "config"/ "patterns" / "random_words.md"
 # DEFAULT_PROMPT_PATH = BASE_DIR / "src" / "config"/ "patterns" / "pne_no_tags.md"
 # DEFAULT_PROMPT_PATH = BASE_DIR / "src" / "config"/ "patterns" / "schizophrenic.md"
@@ -53,19 +53,22 @@ class EnvSettings(BaseSettings):
     elevenlabs_api_key: str = Field(..., env="ELEVEN_LABS_API_KEY")
     newsapi_api_key: str = Field(..., env="NEWSAPI_API_KEY")
     
-    use_bucket: bool = Field(default=True, env="USE_BUCKET")  # Defaults to local
-    scw_bucket_name: str = Field(default="", env="TELLER_BUCKET_NAME")
+    use_bucket: bool = Field(default=False, env="USE_BUCKET")
+    # use_bucket: bool = Field(default=True, env="USE_BUCKET")  # Defaults to local
+    scw_endpoint: str = Field(default="", env="SCW_ENDPOINT")
+    scw_bucket_name: str = Field(default="", env="SCW_BUCKET_NAME")
     scw_access_key: str = Field(default="", env="SCW_ACCESS_KEY")
     scw_secret_key: str = Field(default="", env="SCW_SECRET_KEY")
-    scw_endpoint: str = Field(default="", env="TELLER_ENDPOINT")
-    print("EnvSettings initialized with bucket usage:", use_bucket)
-    print("Bucket name:", scw_bucket_name)
-    print("SCW Endpoint:", scw_endpoint)
 
     class Config:
         env_file = ".env"
 
 env_settings = EnvSettings()
+
+# print("EnvSettings initialized with bucket usage:", use_bucket)
+# print("Bucket name:", scw_bucket_name)
+# print("SCW Endpoint:", scw_endpoint)
+# print("All env vars:", dict(env_settings))
 
 def load_prompts():
     patterns_dir = PROMPTS_DIR

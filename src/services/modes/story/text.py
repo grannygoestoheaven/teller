@@ -40,7 +40,7 @@ def generate_story_with_mistralai(subject, narrative_style: None, difficulty: No
                 },
                 {
                     # "content": f"generate a 1050 char MAXIMUM text about {subject}.",
-                    "content": f"generate a 750 char MAXIMUM text about {subject}.", # etymology text.
+                    "content": f"generate a 650 char MAXIMUM text about {subject}.", # etymology text.
                     "role": "user"
                 },
                 

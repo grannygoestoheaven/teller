@@ -45,8 +45,6 @@ def openai_tts(story: TtsRequest, filename) -> bytes:
                         ''',
         )
         
-        print(f"OpenAI TTS response status: {response.status_code}")  # Should be 200
-        
         speech_filename = _format_mp3_filename(filename) # generate an mp3 filename with underscores
         speech_audio = response.content
         

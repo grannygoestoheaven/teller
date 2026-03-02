@@ -47,10 +47,10 @@ class BucketClient:
         self.bucket_name = settings.teller_bucket_name
         print("Initializing this:", settings.teller_endpoint),
 
-    def upload_file(self, key):
+    def upload_file(self, file_data, key):
         self.client.upload_file(
             # bucket_name=self.bucket_name,
-            # file_data=file_data,
+            file_data=file_data,
             key=key
         )
    
@@ -185,7 +185,7 @@ class StorageBackend:
             ]
         else:
             # Cloud implementation - matches your bucket structure
-            response = self.client.scaleway_client.list_objects(
+            response = self.client.list_objects(
                 bucket_name=self.bucket_name,
                 prefix="static/audio/local_ambient_tracks/"  # Your exact path
             )

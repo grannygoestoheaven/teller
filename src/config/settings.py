@@ -53,12 +53,12 @@ class EnvSettings(BaseSettings):
     elevenlabs_api_key: str = Field(..., env="ELEVEN_LABS_API_KEY")
     newsapi_api_key: str = Field(..., env="NEWSAPI_API_KEY")
     
-    use_bucket: bool = Field(default=True, env="USE_BUCKET")
-    # use_bucket: bool = Field(default=False, env="USE_BUCKET")  # Defaults to local
-    teller_bucket_name: str = Field(default="", env="TELLER_BUCKET_NAME")
-    teller_endpoint: str = Field(default="", env="TELLER_ENDPOINT")
-    teller_access_key: str = Field(default="", env="TELLER_ACCESS_KEY")
-    teller_secret_key: str = Field(default="", env="TELLER_SECRET_KEY")
+    # use_bucket: bool = Field(default=True, env="USE_BUCKET")
+    use_bucket: bool = Field(default=False, env="USE_BUCKET")  # Defaults to local
+    bucket_name: str = Field(default="", env="BUCKET_NAME")
+    bucket_endpoint: str = Field(default="", env="BUCKET_ENDPOINT")
+    bucket_access_key: str = Field(default="", env="BUCKET_ACCESS_KEY")
+    bucket_secret_key: str = Field(default="", env="BUCKET_SECRET_KEY")
 
     class Config:
         env_file = ".env"

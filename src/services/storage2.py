@@ -36,27 +36,26 @@ class LocalFileSystem:
 
 class BucketClient:
     def __init__(self, settings):
-        self.client = boto3.client(
+        self.s3_client = boto3.client(
             's3',
-            endpoint_url=settings.teller_endpoint,
-            aws_access_key_id=settings.teller_access_key,
-            aws_secret_access_key=settings.teller_secret_key,
+            endpoint_url=settings.bucket_endpoint,
+            aws_access_key_id=settings.bucket_access_key,
+            aws_secret_access_key=settings.bucket_secret_key,
             config=Config(signature_version='s3v4'),
             region_name='fr-par'
         )
-        self.bucket_name = settings.teller_bucket_name
-        print("Initializing this:", settings.teller_endpoint),
+        self.bucket_name = settings.bucket_name
+        print("Initializing this:", settings.bucket_endpoint),
 
     def upload_file(self, file_data, key):
-        self.client.put_object(
+        self.s3_client.put_object(
             Bucket=self.bucket_name,
             Key=key,
             Body=file_data
         )
 
-   
     def download_file(self, key):
-        response = self.client.get_object(
+        response = self.s3_client.get_object(
             Bucket=self.bucket_name,
             key=key
         )
@@ -69,7 +68,7 @@ class BucketClient:
     #     )
     
     def generate_url(self, key):
-        return self.client.generate_presigned_url(
+        return self.s3_client.generate_presigned_url(
             'get_object',
             Params={'Bucket': self.bucket_name, 'Key': key},
             ExpiresIn=3600
@@ -93,7 +92,7 @@ class StorageBackend:
             "clean_story": clean_story,
             "timestamp": datetime.utcnow().strftime('%Y%m%dT%H%M%SZ')
         }
-        key = f"static/stories/{story_filename}/{story_filename}.json"
+        key = f"stories/{story_filename}/{story_filename}.json"
         print(f"Saving text to: {key}")
         self.client.upload_file(json.dumps(payload).encode('utf-8'), key)
         return self.client.generate_url(key)
@@ -102,7 +101,7 @@ class StorageBackend:
         """
         Saves the speech mp3 audio content to a file in the specified directory.
         """
-        key = f"static/stories/{story_foldername}/{speech_filename}"
+        key = f"stories/{story_foldername}/{speech_filename}"
         print(f"Saving mp3 file to: {key}")
         self.client.upload_file(speech_audio, key)
         return self.client.generate_url(key)
@@ -113,7 +112,7 @@ class StorageBackend:
     #     """
     #     Extracts the tagged story for TTS from the saved JSON file.
     #     """        
-    #     key = f"static/stories/{story_filename}/{story_filename}.json"
+    #     key = f"stories/{story_filename}/{story_filename}.json"
     #     print(f"Retrieving tagged story from: {key}")
 
     #     return self.client.generate_url(key)
@@ -122,7 +121,7 @@ class StorageBackend:
     #     """
     #     Extracts the cleaned story from the saved JSON file.
     #     """        
-    #     key = f"static/stories/{story_filename}/{story_filename}.json"
+    #     key = f"stories/{story_filename}/{story_filename}.json"
     #     print(f"Retrieving clean story from: {key}")
     
     #     return self.client.generate_url(key)
@@ -131,7 +130,7 @@ class StorageBackend:
         """
         Extracts the cleaned story from the saved JSON file.
         """    
-        key = f"static/stories/{story_filename}/{story_filename}.json"
+        key = f"stories/{story_filename}/{story_filename}.json"
         json_data = self.client.download_file(key)
         payload = json.loads(json_data)
         
@@ -141,7 +140,7 @@ class StorageBackend:
         """
         Extracts the tagged story for TTS from the saved JSON file.
         """        
-        key = f"static/stories/{story_filename}/{story_filename}.json"
+        key = f"stories/{story_filename}/{story_filename}.json"
         json_data = self.client.download_file(key)
         payload = json.loads(json_data)
         
@@ -151,7 +150,7 @@ class StorageBackend:
     #     """
     #     Returns clean title for a story from storage.
     #     """        
-    #     key = f"static/stories/{story_filename}/{story_filename}.json"
+    #     key = f"stories/{story_filename}/{story_filename}.json"
     #     print(f"Retrieving filename from: {key}")
     
     #     return self.client.generate_url(key)
@@ -160,7 +159,7 @@ class StorageBackend:
         """
         Returns clean title for a story from storage.
         """     
-        key = f"static/stories/{story_filename}/{story_filename}.json"
+        key = f"stories/{story_filename}/{story_filename}.json"
         json_data = self.client.download_file(key)
         payload = json.loads(json_data)
         
@@ -170,7 +169,7 @@ class StorageBackend:
         """
         Returns the speech URL for a story from storage.
         """
-        key = f"static/stories/{story_filename}/{story_filename}.mp3"
+        key = f"stories/{story_filename}/{story_filename}.mp3"
         print(f"Retrieving filename from: {key}")
     
         return self.client.generate_url(key)
@@ -187,12 +186,12 @@ class StorageBackend:
             ]
         else:
             # Cloud implementation - matches your bucket structure
-            response = self.client.client.list_objects(
-                Bucket=self.bucket_name,
-                prefix="static/audio/local_ambient_tracks/"  # Your exact path
+            response = self.client.s3_client.list_objects(
+                Bucket=self.client.bucket_name,
+                prefix="audio/local_ambient_tracks/"
             )
             self._tracks = [
-                obj.key.split('/')[-1]  # Extract just the filename
+                obj.key.split('/')[-1]  # Extracting just the filename
                 for obj in response.objects
                 if obj.key.endswith(('.mp3', '.wav', '.flac'))
             ]
@@ -211,6 +210,6 @@ class StorageBackend:
         self._played_tracks.append(track_filename)
 
         if self.use_bucket:
-            return self.client.generate_url(f"static/audio/local_ambient_tracks/{track_filename}")
+            return self.client.generate_url(f"audio/local_ambient_tracks/{track_filename}")
         else:
             return f"/static/audio/local_ambient_tracks/{track_filename}"

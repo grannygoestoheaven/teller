@@ -150,9 +150,12 @@ class StorageBackend:
             )
             self._tracks = [
                 obj.key.split('/')[-1]  # Extracting just the filename
-                for obj in response.objects
-                if obj.key.endswith(('.mp3', '.wav', '.flac'))
+                for obj in response.get('Contents', [])
+                if obj['key'].endswith(('.mp3', '.wav', '.flac'))
             ]
+            if 'Contents' not in response:
+                print("No objects found or bucket/prefix does not exist.")
+                self._tracks = []
 
         random.shuffle(self._tracks)
 

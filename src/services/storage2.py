@@ -78,6 +78,7 @@ class BucketClient:
 class StorageBackend:
     def __init__(self, use_bucket, settings=None):
         self.use_bucket = use_bucket
+        print(f"StorageBackend initialized with use_bucket={use_bucket}")
         self.client = BucketClient(settings) if use_bucket else LocalFileSystem()
         self._tracks = []
         self._played_tracks = []

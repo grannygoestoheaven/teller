@@ -1,188 +1,173 @@
 import os
 import json
-import glob
-import shutil
-import re
 import random
+import boto3
 
 from pathlib import Path
-from fastapi import Request
 from datetime import datetime
+from scaleway import Client  # or boto3 for AWS/S3
+from botocore.client import Config
 
-from src.config.settings import STATIC_DIR, FIELDS_DIR, GENERATED_STORIES_DIR, LOCAL_TRACKS_DIR
+# from src.config.settings import env_settings
 
-# ==== STORING FUNCTIONS =====
-def save_subjects_to_json_file(field: str, full_subjects: list[str], compact_subjects: list[str], save_dir: Path) -> str:
-    """
-    Saves the subjects list to a JSON file in the specified directory.
-    """
-    subject_dir = save_dir / field
-    subject_dir.mkdir(parents=True, exist_ok=True)
-    filepath = subject_dir / f"{field}_subjects.json"  # e.g., "science_subjects.json"
-    timestamp = datetime.utcnow().strftime('%Y%m%dT%H%M%SZ')
+# --- Low-level clients ---
+class LocalFileSystem:
+    def upload_file(self, file_data, key):
+        os.makedirs(os.path.dirname(f"static/{key}"), exist_ok=True)
+        with open(f"static/{key}", "wb") as f:
+            f.write(file_data)
+            
+    def download_file(self, key):
+        with open(f"static/{key}", "rb") as f:
+            return f.read()
 
-    # Prepare payload that will be stored, then fetched later for replay, or when user sends existing subject.
-    payload = {
-        "field": field,
-        "full_subjects": full_subjects,
-        "compact_subjects": compact_subjects,
-        "timestamp": timestamp
-    }
-    with open(filepath, 'w', encoding='utf-8') as f:
-        json.dump(payload, f, ensure_ascii=False, indent=2)
+    def generate_url(self, key):
+        return f"/static/{key}"
+
+class BucketClient:
+    def __init__(self, settings):
+        self.s3_client = boto3.client(
+            's3',
+            endpoint_url=settings.bucket_endpoint,
+            aws_access_key_id=settings.bucket_access_key,
+            aws_secret_access_key=settings.bucket_secret_key,
+            config=Config(signature_version='s3v4'),
+            region_name='fr-par'
+        )
+        self.bucket_name = settings.bucket_name
+        print("Initializing this:", settings.bucket_endpoint),
+
+    def upload_file(self, file_data, key):
+        self.s3_client.put_object(
+            Bucket=self.bucket_name,
+            Key=key,
+            Body=file_data
+        )
+
+    def download_file(self, key):
+        response = self.s3_client.get_object(
+            Bucket=self.bucket_name,
+            key=key
+        )
+        return response['Body'].read()
+    
+    def generate_url(self, key):
+        return self.s3_client.generate_presigned_url(
+            'get_object',
+            Params={'Bucket': self.bucket_name, 'Key': key},
+            ExpiresIn=3600
+        )
+
+# --- High-level backend ---
+class StorageBackend:
+    def __init__(self, use_bucket, settings=None):
+        self.use_bucket = use_bucket
+        print(f"StorageBackend initialized with use_bucket={use_bucket}")
+        self.client = BucketClient(settings) if use_bucket else LocalFileSystem()
+        self._tracks = []
+        self._played_tracks = []
+    
+    # ==== STORING FUNCTIONS =====
+
+    def save_txt_to_json_file(self, story_filename, story_title, tagged_story_for_tts, clean_story):
+        payload = {
+            "story_filename": story_filename,
+            "story_title": story_title,
+            "tagged_story_for_tts": tagged_story_for_tts,
+            "clean_story": clean_story,
+            "timestamp": datetime.utcnow().strftime('%Y%m%dT%H%M%SZ')
+        }
+        key = f"stories/{story_filename}/{story_filename}.json"
+        print(f"Saving text to: {key}")
+        self.client.upload_file(json.dumps(payload).encode('utf-8'), key)
+        return self.client.generate_url(key)
+
+    def save_mp3_speech_file(self, story_foldername: str, speech_filename: str, speech_audio: bytes) -> str:
+        """
+        Saves the speech mp3 audio content to a file in the specified directory.
+        """
+        key = f"stories/{story_foldername}/{speech_filename}"
+        print(f"Saving mp3 file to: {key}")
+        self.client.upload_file(speech_audio, key)
+        return self.client.generate_url(key)
+
+    # ==== FETCHING FUNCTIONS =====
+    
+    def get_clean_text_from_json_file(self, story_filename) -> str:
+        """
+        Extracts the cleaned story from the saved JSON file.
+        """    
+        key = f"stories/{story_filename}/{story_filename}.json"
+        json_data = self.client.download_file(key)
+        payload = json.loads(json_data)
         
-    return str(filepath.resolve())
+        return payload["clean_story"]  # Return the actual text
 
-def save_txt_to_json_file(story_filename: str, story_title: str, tagged_story_for_tts: str, clean_story: str, save_dir: Path) -> Path:
-    """
-    Saves the story text to a JSON file in the specified directory.
-    """
-    subject_dir = save_dir / story_filename
-    subject_dir.mkdir(parents=True, exist_ok=True)
-    filepath = subject_dir / f"{story_filename}.json"  # e.g., "the_sand.json"
-    timestamp = datetime.utcnow().strftime('%Y%m%dT%H%M%SZ')
-
-    # Prepare payload that will be stored, then fetched later for replay, or when user sends existing subject.
-    payload = {
-        "story_filename": story_filename,
-        "story_title": story_title,
-        "tagged_story_for_tts": tagged_story_for_tts,
-        "clean_story": clean_story,
-        "timestamp": timestamp
-    }
-    with open(filepath, 'w', encoding='utf-8') as f:
-        json.dump(payload, f, ensure_ascii=False, indent=2)
-
-    clean_story = payload["clean_story"]
-
-def save_mp3_speech_file(story_foldername: str, speech_filename: str, speech_audio: bytes, save_dir: Path) -> str:
-    """
-    Saves the speech mp3 audio content to a file in the specified directory.
-    """
-    save_dir.mkdir(parents=True, exist_ok=True)
-    filepath = save_dir / story_foldername / speech_filename
-    
-    with open(filepath, "wb") as f:
-        f.write(speech_audio)
+    def get_tagged_text_from_json_file(self, story_filename) -> str:
+        """
+        Extracts the tagged story for TTS from the saved JSON file.
+        """        
+        key = f"stories/{story_filename}/{story_filename}.json"
+        json_data = self.client.download_file(key)
+        payload = json.loads(json_data)
         
-    audio_fullpath = filepath.resolve()
+        return payload["tagged_story_for_tts"]  # Return the actual tagged text
+    
+    def get_text_title_from_json_file(self, story_filename) -> str:
+        """
+        Returns clean title for a story from storage.
+        """     
+        key = f"stories/{story_filename}/{story_filename}.json"
+        json_data = self.client.download_file(key)
+        payload = json.loads(json_data)
         
-    return str(audio_fullpath)
-
-# ==== FETCHING FUNCTIONS =====
-
-def get_subjects_from_subjects_list(field: str) -> list[str]:
-    """
-    Extracts subjects from the saved subjects list file.
-    """
-    subjects_filepath = STATIC_DIR / "fields" / f"{field}.js"
-    print(f"Retrieving subjects from: {subjects_filepath}")
+        return payload["story_title"]  # Return the actual title
+        
+    def get_speech_url(self, story_filename: str) -> str:
+        """
+        Returns the speech URL for a story from storage.
+        """
+        key = f"stories/{story_filename}/{story_filename}.mp3"
+        print(f"Retrieving filename from: {key}")
     
-    with open(subjects_filepath, "r", encoding="utf-8") as f:
-        subjects_data = f.read()
-        # Assuming the file contains a JSON array of subjects
-        full_subjects = json.loads(subjects_data["fullSubjects"])
-        compact_subjects = json.loads(subjects_data["compactSubjects"])
-    
-    return full_subjects, compact_subjects
+        return self.client.generate_url(key)
 
-def get_tagged_text_from_json_file(story_filename) -> str:
-    """
-    Extracts the tagged story for TTS from the saved JSON file.
-    """
-    json_path = STATIC_DIR / "stories" / story_filename / f"{story_filename}.json"
-    print(f"Retrieving tagged story from: {json_path}")
-    
-    with open(json_path, "r", encoding="utf-8") as f:
-        story_data = json.load(f)
-        tagged_story = story_data["tagged_story_for_tts"]
-    
-    return tagged_story
+    # ======= BACKGROUND TRACKS  =======
 
-def get_clean_text_from_json_file(story_filename) -> str:
-    """
-    Extracts the cleaned story from the saved JSON file.
-    """
-    json_path = STATIC_DIR / "stories" / story_filename / f"{story_filename}.json"
-    print(f"Retrieving clean story from: {json_path}")
-    
-    with open(json_path, "r", encoding="utf-8") as f:
-        story_data = json.load(f)
-        clean_story = story_data["clean_story"]
-    
-    return clean_story
-
-def get_text_title_from_json_file(story_filename) -> str:
-    """
-    Returns clean title for a story from storage.
-    """
-    story_filename_path = STATIC_DIR / "stories" / story_filename / f"{story_filename}.json"
-    print(f"Retrieving filename from: {story_filename_path}")
-    print(story_filename_path.exists())
-    
-    with open(story_filename_path, "r",encoding="utf-8") as f:
-        story_data = json.load(f)
-        print(f"Loaded story data: {story_data}")
-        story_title = story_data["story_title"]
-        print(f"Extracted story title: {story_title}")
-    
-    return story_title
-    
-def get_speech_url(story_filename: str) -> str:
-    """
-    Returns the speech URL for a story from storage.
-    """
-    speech_url = f"/static/stories/{story_filename}/{story_filename}.mp3"
-    
-    return speech_url
-
-# ======= BACKGROUND TRACKS  =======
-
-def get_random_track_url(tracks_dir) -> str | None:
-    """
-    Returns the relative path of the next ambient track (e.g., "audio/ambient/track.mp3").
-    Returns None if no tracks are available.
-    """
-    try:
-        return AmbientTrackManager.get_next_track(tracks_dir)
-    except Exception as e:
-        print(f"Error getting ambient track: {e}")  # Replace with your logger
-        return None
-
-# def get_clean_track_title(tracks_dir):
-
-# Handling random track selecton 
-class AmbientTrackManager:
-    _instance = None
-    _tracks = []
-    _played_tracks = []
-    _initialized = False
-
-    @classmethod
-    def initialize(cls, tracks_dir: str) -> None:
-        if cls._initialized:
-            return
-        try:
-            cls._tracks = [
+    def _initialize_tracks(self, tracks_dir):
+        """List tracks from cloud storage or local filesystem"""
+        if not self.use_bucket:
+            # Local implementation
+            self._tracks = [
                 f.name for f in tracks_dir.iterdir()
                 if f.suffix.lower() in (".mp3", ".wav", ".flac")
             ]
-            random.shuffle(cls._tracks)
-        except FileNotFoundError:
-            cls._tracks = []
-        cls._initialized = True
+        else:
+            # Cloud implementation - matches your bucket structure
+            response = self.client.s3_client.list_objects(
+                Bucket=self.client.bucket_name,
+                Prefix="audio/local_ambient_tracks/"
+            )
+            self._tracks = [
+                obj.key.split('/')[-1]  # Extracting just the filename
+                for obj in response.objects
+                if obj.key.endswith(('.mp3', '.wav', '.flac'))
+            ]
 
-    @classmethod
-    def get_next_track(cls, tracks_dir) -> str | None:
-        if not cls._initialized:
-            cls.initialize(tracks_dir)
-        if not cls._tracks and not cls._played_tracks:
+        random.shuffle(self._tracks)
+
+    def get_random_track_url(self, tracks_dir):
+        """Generate URL for track"""
+        if not self._tracks:
+            self._initialize_tracks(tracks_dir)
+
+        if not self._tracks:
             return None
-        if not cls._tracks:
-            cls._tracks, cls._played_tracks = cls._played_tracks, []
-            random.shuffle(cls._tracks)
 
-        track_filename = cls._tracks.pop(0)
-        cls._played_tracks.append(track_filename)
-        
-        return str(tracks_dir / track_filename)  # Use LOCAL_TRACKS_DIR directly
+        track_filename = self._tracks.pop(0)
+        self._played_tracks.append(track_filename)
+
+        if self.use_bucket:
+            return self.client.generate_url(f"audio/local_ambient_tracks/{track_filename}")
+        else:
+            return f"/static/audio/local_ambient_tracks/{track_filename}"

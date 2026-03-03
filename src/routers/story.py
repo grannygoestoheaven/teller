@@ -5,8 +5,7 @@ from fastapi.responses import JSONResponse
 
 from src.schemas.story import StoryRequest, StoryResponse, StoryCheckResponse
 from src.services.utils import _format_text_filename
-# from src.services.build import build_story, load_story
-from src.services.build2 import build_story, load_story
+from src.services.build import build_story, load_story
 from src.config.settings import BASE_DIR, STATIC_DIR, DEFAULT_PROMPT_PATH, PROMPTS
 
 router = APIRouter()

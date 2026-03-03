@@ -171,6 +171,7 @@ class StorageBackend:
         self._played_tracks.append(track_filename)
 
         if self.use_bucket:
+            print(f"Generating URL for track: {track_filename}")
             return self.client.generate_url(f"audio/local_ambient_tracks/{track_filename}")
         else:
             return f"/static/audio/local_ambient_tracks/{track_filename}"

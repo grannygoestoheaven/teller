@@ -189,7 +189,7 @@ class StorageBackend:
             # Cloud implementation - matches your bucket structure
             response = self.client.s3_client.list_objects(
                 Bucket=self.client.bucket_name,
-                prefix="audio/local_ambient_tracks/"
+                Prefix="audio/local_ambient_tracks/"
             )
             self._tracks = [
                 obj.key.split('/')[-1]  # Extracting just the filename

@@ -18,28 +18,3 @@ jobs:
       run: docker build . -t ${{ secrets.CONTAINER_REGISTRY_ENDPOINT }}/teller-image
     - name: Push the Docker Image
       run: docker push ${{ secrets.CONTAINER_REGISTRY_ENDPOINT }}/teller-image
-    - name: Install Scaleway CLI
-      run: |
-        curl -o- https://raw.githubusercontent.com/scaleway/scaleway-cli/main/scripts/get.sh | bash
-        echo "$HOME/.local/bin" >> $GITHUB_PATH
-    - name: Deploy to Scaleway
-      run: |
-        scw init --access-key ${{ secrets.SCALEWAY_API_KEY }}
-    - name: Create scaleway serverless container
-      id: create_container
-      run: |
-        CONTAINER_ID=$(scw serverless container create name=teller-container image-name=rg.fr-par.scw.cloud/teller-container/teller-image:latest --output-template={{.ID}})
-        echo "CONTAINER_ID=$CONTAINER_ID" >> $GITHUB_ENV
-    - name: Deploy scaleway serverless container
-      run: |
-        scw serverless container deploy ${{ env.CONTAINER_ID }}
-          --env "USE_BUCKET=${{ vars.USE_BUCKET }}"
-          --env "BUCKET_NAME=${{ vars.BUCKET_NAME }}"
-          --env "BUCKET_ENDPOINT=${{ vars.BUCKET_ENDPOINT }}"
-          --secret "BUCKET_ACCESS_KEY=${{ secrets.BUCKET_ACCESS_KEY }}"
-          --secret "BUCKET_SECRET_KEY=${{ secrets.BUCKET_SECRET_KEY }}"
-          --secret "CONTAINER_REGISTRY_ENDPOINT=${{ secrets.CONTAINER_REGISTRY_ENDPOINT }}"
-          --secret "MISTRAL_API_KEY=${{ secrets.MISTRAL_API_KEY }}"
-          --secret "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}"
-          --secret "ELEVENLABS_API_KEY=${{ secrets.ELEVENLABS_API_KEY }}"
-          --secret "NEWSAPI_API_KEY=${{ secrets.NEWSAPI_API_KEY }}"

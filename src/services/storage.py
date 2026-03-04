@@ -148,6 +148,7 @@ class StorageBackend:
                 Bucket=self.client.bucket_name,
                 Prefix="audio/local_ambient_tracks/"
             )
+            print(response)
             self._tracks = [
                 obj.key.split('/')[-1]  # Extracting just the filename
                 for obj in response.get('Contents', [])

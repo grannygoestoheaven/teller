@@ -25,7 +25,14 @@ jobs:
     - name: Deploy to Scaleway
       run: |
         scw init --access-key ${{ secrets.SCALEWAY_API_KEY }}
-        scw serverless container deploy ${{ secrets.CONTAINER_ID }}
+    - name: Create scaleway serverless container
+      id: create_container
+      run: |
+        CONTAINER_ID=$(scw serverless container create name=teller-container image-name=rg.fr-par.scw.cloud/teller-container/teller-image:latest --output-template={{.ID}})
+        echo "CONTAINER_ID=$CONTAINER_ID" >> $GITHUB_ENV
+    - name: Deploy scaleway serverless container
+      run: |
+        scw serverless container deploy ${{ env.CONTAINER_ID }}
           --env "USE_BUCKET=${{ vars.USE_BUCKET }}"
           --env "BUCKET_NAME=${{ vars.BUCKET_NAME }}"
           --env "BUCKET_ENDPOINT=${{ vars.BUCKET_ENDPOINT }}"

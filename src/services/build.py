@@ -3,9 +3,8 @@ from fastapi import HTTPException
 from src.services.modes.story.subjects_creation import generate_subjects_with_mistralai
 from src.services.modes.story.text import generate_story_with_openai_jinja, generate_story_with_mistralai
 from src.services.modes.story.tts import openai_tts
-from src.services.storage import StorageBackend
-
 from src.config.settings import env_settings, FIELDS_DIR, LOCAL_TRACKS_DIR
+from src.services.storage import StorageBackend
 
 storage = StorageBackend(use_bucket=env_settings.use_bucket, settings=env_settings)
 

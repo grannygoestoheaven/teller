@@ -76,7 +76,7 @@ export async function startNewStoryProcessForm() {
   // allow cancellation of process
   abortController = new AbortController();
   let formSubject = elements.formInput.value.trim();
-  subject = sanitizeSubject(formSubject);
+  const subject = sanitizeSubject(formSubject);
 
   console.log(JSON.stringify({ subject }));
   console.log("Sanitized form subject:", subject);

@@ -150,9 +150,10 @@ class StorageBackend:
             )
             print(response)
             self._tracks = [
-                obj.key.split('/')[-1]  # Extracting just the filename
+                obj['Key'].split('/')[-1]  # Extracting just the filename
                 for obj in response.get('Contents', [])
-                if obj['Key'].endswith(('.mp3', '.wav', '.flac'))
+                if not obj['Key'].endswith('/')  # Skip directories
+                and obj['Key'].endswith(('.mp3', '.wav', '.flac'))
             ]
             if 'Contents' not in response:
                 print("No objects found or bucket/prefix does not exist.")

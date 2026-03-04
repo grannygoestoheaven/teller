@@ -167,6 +167,7 @@ class StorageBackend:
         if not self._tracks:
             return None
 
+        print (f"Available tracks: {self._tracks}")
         track_filename = self._tracks.pop(0)
         self._played_tracks.append(track_filename)
 

@@ -17,6 +17,7 @@ ideas
 package.json
 wrappers.py.envrc
 *.egg-info
+cors.json
 speech_test.py
 migrate_stories.py
 script_default_fields.py

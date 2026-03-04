@@ -50,8 +50,8 @@ class EnvSettings(BaseSettings):
     # API keys for external services
     openai_api_key: str = Field(..., env="OPENAI_API_KEY")
     mistral_api_key: str = Field(..., env="MISTRAL_API_KEY")
-    elevenlabs_api_key: str = Field(..., env="ELEVEN_LABS_API_KEY")
-    newsapi_api_key: str = Field(..., env="NEWSAPI_API_KEY")
+    # elevenlabs_api_key: str = Field(..., env="ELEVEN_LABS_API_KEY")
+    # newsapi_api_key: str = Field(..., env="NEWSAPI_API_KEY")
     
     use_bucket: bool = Field(default=True, env="USE_BUCKET")
     # use_bucket: bool = Field(default=False, env="USE_BUCKET")  # Defaults to local

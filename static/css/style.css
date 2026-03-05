@@ -317,7 +317,8 @@ body {
 .chat-inner {
     display: block; /* Change to inline-block for better text handling */
     max-width: 100ch;
-    /* height: 100%; */
+    max-height: 100vh;
+    height: 100%;
     margin: auto;
     padding: 1rem 3rem;
     overflow-y: auto; /* Ensure text scrolls */

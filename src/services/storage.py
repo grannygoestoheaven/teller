@@ -47,7 +47,7 @@ class BucketClient:
     def download_file(self, key):
         response = self.s3_client.get_object(
             Bucket=self.bucket_name,
-            key=key
+            Key=key
         )
         return response['Body'].read()
     

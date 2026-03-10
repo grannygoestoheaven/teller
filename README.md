@@ -30,6 +30,11 @@ Made with ❤️ by Granny.
 ![App Screenshot](https://github.com/grannygoestoheaven/teller/blob/main/docs/images/teller_screenshot_6.png)
 
 Prototype UI: Red blocks = real-time audio generation. Backend fully functional; frontend in progress.
-"The Ising Model" = example subject. It can be any subject. The very basic interaction is depicted in the screenshot. It is an early stage prototype.
+"Quantum Mechanics" = example subject. It can be any subject. The very basic interaction is depicted in the screenshot. It is an early stage prototype.
+The button below 'teller' allows you to switch between dots (the current view), text, and grid modes.
+To listen to a new story, you can hover the text to select the words or subjects you're interested in, then press Enter or start. You can also type what you want.
+The stories already played will fill the grid. You can hover them and press Enter to listen to them again.
 
-Typescript migration is on her way.
+The app is at its very early stage. Many more features are coming.
+
+Typescript and React migration is on its way.

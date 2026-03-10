@@ -31,9 +31,10 @@ Made with ❤️ by Granny.
 
 Prototype UI: Red blocks = real-time audio generation. Backend fully functional; frontend in progress.
 "Quantum Mechanics" = example subject. It can be any subject. The very basic interaction is depicted in the screenshot. It is an early stage prototype.
-The button below 'teller' allows you to switch between dots (the current view), text, and grid modes.
-To listen to a new story, you can hover the text to select the words or subjects you're interested in, then press Enter or start. You can also type what you want.
-The stories already played will fill the grid. You can hover them and press Enter to listen to them again.
+
+- The button below 'teller' allows you to switch between dots (the current view), text, and grid modes.
+- To listen to a new story, you can hover the text to select the words or subjects you're interested in, then press Enter or start. You can also type what you want.
+- The stories already played will fill the grid. You can hover them and press Enter to listen to them again.
 
 The app is at its very early stage. Many more features are coming.
 

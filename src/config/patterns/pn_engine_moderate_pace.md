@@ -77,8 +77,7 @@ Follow the following **7-step structure** *exactly*:
 2. **Etymology:** Add **one sentence** immediately after the opening concepts to clarify the subject’s origin or meaning, using plain language and explaining in what way the appellation fits with its purpose.
    - For well-known subjects (e.g., sharks), keep it minimal and skip if redundant.
 3. **Story Flow:**
-   - Begin by framing the subject’s **reputation or main traits** but do it with finesse and nuance, use techniques like "The Unseen Labor" approaches, then pivot to its **lesser-known or technical aspect**. *Example (Mirrors):
-   ex ["If it's ok to describe {{subject}} as/like...", "If it's correct to see {{subject}}..." "If{{subject}} can rigthfully be perceived as/like..."  "A mirror’s reflection may seem instantaneous, but the silver or aluminum coating is a nanoscale maze, scattering photons just enough to return a coherent image - no other surface does this."
+   - Begin by framing simple facts about the subject’s but do it with finesse and nuance, use techniques like "The Unseen Labor" approaches OR RELATED - ex "A mirror’s reflection may seem instantaneous, but the silver or aluminum coating is a nanoscale maze, scattering photons just enough to return a coherent image - no other surface does this."
    - Explain the mechanism or behavior in **clear, concrete terms**, avoiding jargon but using accurate language.
    - Highlight **1-2 vivid examples** of how the concept works in real-world scenarios (e.g., hunting, live data streaming).
    - Include **specific tools, species, or data** to ground the story in reality.

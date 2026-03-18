@@ -118,7 +118,6 @@
 html, body {
     width: 100vw;
     height: 100vh;
-    /* overflow: hidden; Prevent scrolling on the body, manage inner content scroll */
     scrollbar-width: none; /* Hide scrollbar for Firefox */
     -ms-overflow-style: none; /* Hide scrollbar for IE and Edge */
     margin: 0;
@@ -136,7 +135,6 @@ body {
     flex-direction: column; /* Stack children vertically */
     justify-content: center;
     align-items: center; /* Center children horizontally */
-    /* overflow: hidden; Hide body scrollbar */
 }
 
 /* Header styles */
@@ -146,6 +144,7 @@ body {
     z-index: 10;
     background: none;
     padding: 5px 25px 0px;
+    margin-top: 15px;
     flex-shrink: 0; /* Prevent header from shrinking */
 }
 
@@ -214,8 +213,11 @@ body {
 
 .toggle-container {
     position: relative;
+    display: flex;
+    /* justify-content: center; */
+    /* align-items: center; */
     width: 85%;
-    height: 60vh;
+    height: 65%;
     overflow: hidden; /* Critical: Hide overflow for layers */
     /* transition: none !important; */ /* Disable transitions for container */
     transition: opacity 1s ease, visibility 1s ease; /* Smooth fade + visibility */
@@ -234,16 +236,6 @@ body {
     height: 100%;
   }
 
-/* .grid-container.hidden, .chat-history.hidden {
-  opacity: 0;
-  visibility: hidden; 
-} */
-
-/* .grid-container.visible, .chat-history.visible {
-  opacity: 1;
-  visibility: visible;
-} */
-
 .grid-container {   
     position: absolute;
     display: grid;
@@ -254,19 +246,11 @@ body {
     border-radius: 25px;
     background-color: var(--grid-background-color);
     z-index: 5;
-    /* transition: 1s; */
     transition: opacity 1s ease, visibility 1s ease !important;
-    /* opacity: 1;
-    visibility: visible; */
 }
 
 .grid-container > .square {
-    /* display: block; */
-    /* box-sizing: border-box; */
-    /* aspect-ratio: 1/1; */
-    /* background-color: hsla(116, 75%, 16%, 0.107); */
     background-color: var(--square-bg-color);
-    /* color: var(--square-content-color); */
     opacity: 75%;
     border: solid var(--square-border);
     border-radius: 25px;
@@ -306,19 +290,20 @@ body {
     display: flex; /* Remove flex */
     position: relative;
     height: 100%;
+    width: 100%;
     justify-content: center;
     align-items: center;
     overflow-y: auto; /* Enable scrolling */
     color: rgb(199, 191, 191);
-    font-family: pixelify sans, serif;
-    font-size: 1.5em;
+    /* font-family: pixelify sans, serif; */
+    font-family: typewriter;
+    font-size: 1.7em;
 }
 
 .chat-inner {
     display: block; /* Change to inline-block for better text handling */
     max-width: 100ch;
     max-height: 100vh;
-    height: 100%;
     margin: auto;
     padding: 1rem 3rem;
     overflow-y: auto; /* Ensure text scrolls */
@@ -378,12 +363,6 @@ margin: 0 .05em;
 
 /* --- NEW LOADING ANIMATION & CONTROLS STYLES --- */
 .loading-animation-container {
-    /* position: absolute; */
-    /* top: 0; */
-    /* left: 0; */
-    /* width: 100%; */
-    /* height: 100%; */
-    /* display: none; */
     opacity: 0;
     justify-content: center;
     align-items: center;
@@ -396,8 +375,6 @@ margin: 0 .05em;
 .loading-animation-container.visible {
     opacity: 1;
     visibility: visible;
-    /* display: flex; */
-    /* pointer-events: none; */ /* Re-enable pointer events when visible */
 }
 
 .loading-animation.blur-overlay{
@@ -419,6 +396,8 @@ margin: 0 .05em;
 
 .loading-animation .period {
     display: inline-block;
+    display: flex;
+    align-items: center;
     opacity: 0; /* Start invisible for animation */
     animation: period-fade 2.2s infinite ease-in-out; /* Main animation */
     margin: 0 -0.17em;
@@ -447,7 +426,7 @@ footer.chat-input-area {
     /* width: 100%; */
     width: 100vw;
     max-height: auto;
-    margin: 15px auto 15px auto;
+    margin: 15px auto 25px auto;
     padding: 0 15px;
     box-sizing: border-box;
     background: none;
@@ -490,11 +469,7 @@ footer.chat-input-area {
     height: 100%;
     width: 100%;
     margin: 0px 10px;
-    /* margin-top: 5px; */
-    /* padding: 5px; */
     box-sizing: border-box;
-    /* border: greenyellow !important ; */
-    /* border: transparent !important ; */
     /* background: #2c2c2caf; */
     /* background: #0c0c0c; */
     border-radius: 25px;
@@ -502,14 +477,10 @@ footer.chat-input-area {
 
 /* Subject input specific styles */
 #subject {
-    /* background: transparent; */
     background-color: var(--subject-bg-color, transparent);
-    /* border: solid var(--input-border-color, transparent); */
-    /* width: 800px; */
     height: 100%;
     width: 100%;
     overflow: hidden;
-    /* resize: none; */
     min-height: 1.5em;
     line-height: 1.2em;
     border: none;
@@ -521,7 +492,6 @@ footer.chat-input-area {
     font-family: 'Inika', serif;
     color: rgba(245, 245, 245, 0.9);
     transition: none;
-    /* box-shadow: none !important; */
     text-align: center;
     transition: border 0.8s ease-in-out, box-shadow 0.8s ease-in-out !important;
     transition: 0.8s ease-in-out, box-shadow 0.8s ease-in-out !important;
@@ -532,14 +502,6 @@ footer.chat-input-area {
     caret-color: transparent;
     /* box-shadow: none !important; */
 }
-
-/* #subject:focus, #subject:active { */
-    /* outline: none !important; */
-    /* border: 2px solid var(--input-highlight-color); */
-    /* caret-color: transparent; */
-    /* box-shadow: none !important; */
-    /* border: none !important; */
-/* }
 
 /* Focus: Highlight border (persistent) */
 #subject:focus {

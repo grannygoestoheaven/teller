@@ -2,7 +2,7 @@ from fastapi import HTTPException
 
 from src.services.modes.story.subjects_creation import generate_subjects_with_mistralai
 from src.services.modes.story.text import generate_story_with_openai_jinja, generate_story_with_mistralai
-from src.services.modes.story.tts import openai_tts
+from src.services.modes.story.tts import openai_tts, elevenlabs_text_to_speech
 from src.config.settings import env_settings, FIELDS_DIR, LOCAL_TRACKS_DIR
 from src.services.storage import StorageBackend
 
@@ -19,6 +19,7 @@ def build_story(subject: str, narrative_style: str, difficulty: str) -> dict:
     story_title, tagged_story_for_tts, story = generate_story_with_mistralai(subject, narrative_style, difficulty) # returns text files
     # print(f"Generated story: {story}")
     speech_filename, speech_audio = openai_tts(tagged_story_for_tts, subject) # one text file, one bytes file (mp3)
+    # speech_filename, speech_audio = elevenlabs_text_to_speech(tagged_story_for_tts, subject) # one text file, one bytes file (mp3)
     print(f"Generated speech filename: {speech_filename}")
     
     # store files and get their paths

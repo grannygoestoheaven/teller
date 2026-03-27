@@ -1,0 +1,173 @@
+import { generateSubjectsListFromTopic, addTitleToSquare, squareHasTitle, pasteSquareTitleInInput } from "./subjectsService.js";
+import { startNewStoryProcess, startNewStoryProcessForm, abortProcess } from "./storyService.js";
+import { getIsGridVisible, getIsGridFilled, getIsChatVisible, getSquareClickAuthorized, getIsTextHighlighted } from "./config.js";
+
+import {
+  loadPlayer,
+  startSpeech,
+  startMusic,
+  setUpAndStartAllAudio,
+  stopAndResetAllAudio,
+  syncAll,
+  pauseAllAudio,
+  resumeAllAudio,
+  resetAllAudio,
+  bothTracksEnded,
+  setBgVolume,
+  delaySpeechStart,
+  resumeBackgroundOnly
+} from "./player.js";
+
+import {
+  initInputAdjustments,
+  inputIsValid,
+  inputIsEmpty,
+  blurInput,
+  uiClearInput,
+  uiIdleButtons,
+  uiLoadingButtons,
+  uiPlayingButtons,
+  uiReadyButtons,
+  uiPausedButtons,
+  uiLoadingEnablePause,
+  clearStoryText,
+  showText,
+  hideText,
+  toggleTextVisibility,
+  updateStoryText,
+  toggleView,
+  dotsView,
+  gridView,
+  textView,
+  lockGrid,
+  unlockGrid,
+  dotsViewTitle,
+  applyDotsViewStyle,
+  applyGridViewStyle,
+  // addSquareToPlayed,
+  // removeSquareFromPlayed,
+  fixSquareColor,
+  removeFixedColorFromSquare,
+  // activateSquareTextHover,
+  // deactivateSquareTextHover
+} from "./ui.js";
+
+import {
+  displayStoryText
+}
+from "./textDisplay.js";
+
+import {
+  TextInteractionSystem
+}
+from "./textInteractionSystem2.js";
+
+import {
+  // showLoadingAnimation,
+  // hideLoadingAnimation,
+  getRedColor,
+  getGreenColor,
+  getLoadingColor,
+  redDots,
+  greenDots,
+  blueDots,
+  loadingDots,
+  addBlurr,
+  removeBlurr,
+  addBorderToInput
+} from "./animation.js";
+
+import {
+  createGridOfSquares,
+  mapValuesToSquares,
+  getSquareElements,
+} from "./uiInit.js";
+
+export const localActions = {
+    // Story and Process Actions
+    generateSubjectsListFromTopic,
+    addTitleToSquare,
+    squareHasTitle,
+    pasteSquareTitleInInput,
+    getSquareClickAuthorized,
+    getIsTextHighlighted,
+    startNewStoryProcess,
+    startNewStoryProcessForm,
+    abortProcess,
+
+    // check grid visibility
+    getIsGridVisible,
+    getIsGridFilled,
+    getIsChatVisible,
+
+    // Player Actions
+    loadPlayer,
+    startSpeech,
+    startMusic,
+    setUpAndStartAllAudio,
+    stopAndResetAllAudio,
+    syncAll,
+    pauseAllAudio,
+    resumeAllAudio,
+    resetAllAudio,
+    bothTracksEnded,
+    setBgVolume,
+    delaySpeechStart,
+    resumeBackgroundOnly,
+
+    // UI Actions
+    initInputAdjustments,
+    inputIsValid,
+    inputIsEmpty,
+    blurInput,
+    uiClearInput,
+    uiIdleButtons,
+    uiReadyButtons,
+    uiLoadingButtons,
+    uiPlayingButtons,
+    uiPausedButtons,
+    uiLoadingEnablePause,
+    clearStoryText,
+    showText,
+    hideText,
+    toggleTextVisibility,
+    updateStoryText,
+    toggleView,
+    dotsView,
+    gridView,
+    textView,    
+    lockGrid,
+    unlockGrid,
+    dotsViewTitle,
+    applyDotsViewStyle,
+    applyGridViewStyle,
+    // addSquareToPlayed,
+    // removeSquareFromPlayed,
+    fixSquareColor,
+    removeFixedColorFromSquare,
+    // activateSquareTextHover,
+    // deactivateSquareTextHover,
+
+    // Text Display Actions
+    displayStoryText,
+    TextInteractionSystem,
+    
+    // Animation Actions
+    // showLoadingAnimation,
+    // hideLoadingAnimation,
+    getRedColor,
+    getGreenColor,
+    getLoadingColor,
+    redDots,
+    greenDots,
+    blueDots,
+    loadingDots,
+    addBlurr,
+    removeBlurr,
+    addBorderToInput,
+
+    // Grid Actions
+    createGridOfSquares,
+    mapValuesToSquares,
+    getSquareElements,
+  };

@@ -10,7 +10,8 @@ from src.services.utils import _format_mp3_filename # Helper function to format 
 from openai import OpenAI  # OpenAI API client
 from elevenlabs.client import ElevenLabs # ElevenLabs API client
 
-client = OpenAI(api_key=env_settings.openai_api_key)
+openai_client = OpenAI(api_key=env_settings.openai_api_key)
+elevenlabs_client = ElevenLabs(api_key=env_settings.elevenlabs_api_key)
 
 def openai_tts(story: TtsRequest, filename) -> bytes:
     """
@@ -31,10 +32,8 @@ def openai_tts(story: TtsRequest, filename) -> bytes:
         if not story or not isinstance(story, str):
             raise ValueError("Story text must be a non-empty string")
         
-        response = client.audio.speech.create(
-            # model="tts-1-hd-1106",
+        response = openai_client.audio.speech.create(
             model="tts-1-hd",
-            # model="tts-1",
             voice="onyx",
             input=story.strip(),  # Ensure we're passing a clean string
             response_format="mp3",
@@ -91,36 +90,38 @@ def local_pyttsx3_tts(story: str, filename: str = "story.wav") -> str:
         print(f"Error in local pyttsx3 TTS: {str(e)}")
         return None
 
-# def elevenlabs_text_to_speech(story: str) -> bytes:
-    
-#     # Initialize client
-#     client = ElevenLabs(api_key=env_settings.elevenlabs_api_key)
+def elevenlabs_text_to_speech(story: TtsRequest, filename) -> bytes:
 
-#     # Define the text and parameters
-#     text = story
-#     voice_id = "JBFqnCBsd6RMkjVDRZzb"  # Replace with your voice ID
-#     model_id = "eleven_multilingual_v2"
+    # Define the text and parameters
+    text = story
+    # voice_id = "JBFqnCBsd6RMkjVDRZzb"
+    voice_id = "TSJI8fwfHJTx0WdruWnc" # American monotone 2 - custom voice made on eleven website
+    model_id = "eleven_v3"
+    output_format = "mp3_22050_32"
 
-#     # Generate speech
-#     audio = client.text_to_speech.convert(
-#         text=text,
-#         voice_id=voice_id,
-#         model_id=model_id,
-#         output_format="mp3_22050_32"
-#     )
+    # Generate speech
+    audio = elevenlabs_client.text_to_speech.convert(
+        text=text,
+        voice_id=voice_id,
+        model_id=model_id,
+        output_format=output_format
+    )
     
-#     audio_bytes = b"".join(audio)
-#     # we could return the audio bytes here, but we'll save it to a file instead
+    audio_bytes = b"".join(chunk for chunk in audio)
+    speech_filename = _format_mp3_filename(filename) # generate an mp3 filename with underscores
+    
+    return speech_filename, audio_bytes
 
-#     # Save the audio
-#     with open("output.mp3", "wb") as file:
-#         file.write(audio_bytes)
+    # we could return the audio bytes here, but we'll save it to a file instead
+
+    # Save the audio
+    # with open(speech_filename, "wb") as file:
+    #     file.write(audio)
     
-#     # Return the audio bytes    
-#     with open("output.mp3", "rb") as f:
-#         audio_bytes = f.read()
+    # Return the audio bytes    
+    # with open(speech_filename, "rb") as file:
+    #     audio_bytes = file.read()
     
-#     return audio_bytes
 
 # def coqui_tts_text_to_speech(story: str, filename: str = "story.wav", model_name: str = "tts_models/en/ljspeech/glow-tts") -> str:
 #     """

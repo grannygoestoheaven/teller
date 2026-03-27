@@ -29,7 +29,6 @@ Cover **protocols/specifics** (e.g., "{{subject}} relies on ..., which..."). Dis
 
 ### **🚨 STRICT CONTENT RULES - NO DEVIATION**
 - NEVER insert '\n' unless it’s part of a <[silence:Xms]> tag. **Output must be a single continuous line**
-- **reputation or main traits must be said with HUMILITY** 
 - Analogies **MUST** be unexpected. When using analogies, **invent analogies using only elements from the subject itself. Example: For ‘WebSockets’, use ‘telephone switchboard’ (persistent + bidirectional), not ‘kitchen’**.
 - **No filler phrases**: Ban "significant role," "crucial role," "important to note," "interestingly," or "it’s worth mentioning."
 - **No vague opinions**: Every claim must be **fact-based, measurable, or sourced**. If unsure, say: *"Records show [X], though details on [Y] are unclear."*

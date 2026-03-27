@@ -38,6 +38,7 @@ PROMPTS_DIR = BASE_DIR / "src" / "config" / "patterns"
 # DEFAULT_PROMPT_PATH = BASE_DIR / "src" / "config"/ "patterns" / "brutal_facts.md"
 # DEFAULT_PROMPT_PATH = BASE_DIR / "src" / "config"/ "patterns" / "precision_narrative_engine.md"
 DEFAULT_PROMPT_PATH = BASE_DIR / "src" / "config"/ "patterns" / "pn_engine_moderate_pace.md"
+# DEFAULT_PROMPT_PATH = BASE_DIR / "src" / "config"/ "patterns" / "unlearning_narrative.md"
 # DEFAULT_PROMPT_PATH = BASE_DIR / "src" / "config"/ "patterns" / "random_words.md"
 # DEFAULT_PROMPT_PATH = BASE_DIR / "src" / "config"/ "patterns" / "pne_no_tags.md"
 # DEFAULT_PROMPT_PATH = BASE_DIR / "src" / "config"/ "patterns" / "schizophrenic.md"
@@ -50,7 +51,7 @@ class EnvSettings(BaseSettings):
     # API keys for external services
     openai_api_key: str = Field(..., env="OPENAI_API_KEY")
     mistral_api_key: str = Field(..., env="MISTRAL_API_KEY")
-    # elevenlabs_api_key: str = Field(..., env="ELEVEN_LABS_API_KEY")
+    elevenlabs_api_key: str = Field(..., env="ELEVENLABS_API_KEY")
     # newsapi_api_key: str = Field(..., env="NEWSAPI_API_KEY")
     
     # use_bucket: bool = Field(default=True, env="USE_BUCKET")

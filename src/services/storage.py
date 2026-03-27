@@ -5,7 +5,7 @@ import boto3
 
 from pathlib import Path
 from datetime import datetime
-from scaleway import Client  # or boto3 for AWS/S3
+from scaleway import Client # or boto3 for AWS/S3
 from botocore.client import Config
 
 # from src.config.settings import env_settings
@@ -13,16 +13,29 @@ from botocore.client import Config
 # --- Low-level clients ---
 class LocalFileSystem:
     def upload_file(self, file_data, key):
-        os.makedirs(os.path.dirname(f"static/{key}"), exist_ok=True)
-        with open(f"static/{key}", "wb") as f:
+        os.makedirs(os.path.dirname(f"{key}"), exist_ok=True)
+        with open(f"{key}", "wb") as f:
             f.write(file_data)
             
     def download_file(self, key):
-        with open(f"static/{key}", "rb") as f:
+        with open(f"{key}", "rb") as f:
             return f.read()
 
     def generate_url(self, key):
-        return f"/static/{key}"
+        return f"{key}"
+    
+# class LocalFileSystem:
+#     def upload_file(self, file_data, key):
+#         os.makedirs(os.path.dirname(f"static/{key}"), exist_ok=True)
+#         with open(f"static/{key}", "wb") as f:
+#             f.write(file_data)
+            
+#     def download_file(self, key):
+#         with open(f"static/{key}", "rb") as f:
+#             return f.read()
+
+#     def generate_url(self, key):
+#         return f"/static/{key}"
 
 class BucketClient:
     def __init__(self, settings):

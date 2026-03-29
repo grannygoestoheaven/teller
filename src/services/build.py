@@ -23,7 +23,7 @@ def build_story(subject: str, narrative_style: str, difficulty: str) -> dict:
     print(f"Generated speech filename: {speech_filename}")
     
     # store files and get their paths
-    json_story_filepath = storage.save_txt_to_json_file(story_filename, story_title, tagged_story_for_tts, story) # store the story parameters on the server and returns the clean story file
+    json_story_filepath = storage.save_txt_to_json_file(story_foldername, story_filename, story_title, tagged_story_for_tts, story) # store the story parameters on the server and returns the clean story file
     # print(f"Saved story JSON filepath: {json_story_filepath}")
     speech_filepath = storage.save_mp3_speech_file(story_foldername, speech_filename, speech_audio) # store the speech audio file and returns its path
     print(f"Saved speech path: {speech_filepath}")
@@ -62,10 +62,10 @@ def load_story(subject: str, regenerate_mp3: bool) -> dict:
 
         # Check if MP3 exists; regenerate if missing and flag is True
         speech_url = storage.get_speech_url(story_filename)
-        # if regenerate_mp3 and not speech_url.exists():
-        #     print(f"MP3 missing for {story_filename}. Regenerating...")
-        #     speech_filename, speech_audio = openai_tts(tagged_story_for_tts, subject)  # Your TTS function
-        #     storage.save_mp3_speech_file(story_foldername, speech_filename, speech_audio)
+        if regenerate_mp3 and not speech_url:
+            print(f"MP3 missing for {story_filename}. Regenerating...")
+            speech_filename, speech_audio = openai_tts(tagged_story_for_tts, subject)  # Your TTS function
+            storage.save_mp3_speech_file(story_foldername, speech_filename, speech_audio)
 
         # URLs only (no filesystem paths)
         track_url = storage.get_random_track_url(LOCAL_TRACKS_DIR)

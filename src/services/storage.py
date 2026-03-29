@@ -7,35 +7,54 @@ from pathlib import Path
 from datetime import datetime
 from scaleway import Client # or boto3 for AWS/S3
 from botocore.client import Config
-
-# from src.config.settings import env_settings
+from src.config.settings import DATA_DIR
 
 # --- Low-level clients ---
+class LocalFileSystem:
+    def upload_file(self, file_data, key):
+        os.makedirs(os.path.dirname(str(DATA_DIR / key)), exist_ok=True)
+        with open(str(DATA_DIR / key), "wb") as f:
+            f.write(file_data)
+
+    def download_file(self, key):
+        with open(str(DATA_DIR / key), "rb") as f:
+            return f.read()
+
+    # def generate_url(self, key):
+    #     return str(DATA_DIR / key)
+    
+    # def generate_url(self, key):
+    #     if key.startswith("stories/"):
+    #         return f"/api/stories/audio/{key.replace('stories/', '')}"
+    #     elif key.startswith("audio/local_ambient_tracks/"):
+    #         return f"/api/tracks/{key.replace('audio/local_ambient_tracks/', '')}"
+    #     else:
+    #         return str(DATA_DIR / key)
+    
+    def generate_url(self, key):
+        if key.startswith("stories/"):
+            parts = key.split("/")
+            story_name = parts[1]
+            file_path = "/".join(parts[2:])
+            return f"/api/speeches/{story_name}/{file_path}"
+        elif key.startswith("audio/local_ambient_tracks/"):
+            file_path = key.replace("audio/local_ambient_tracks/", "")
+            return f"/api/tracks/{file_path}"
+        else:
+            return str(DATA_DIR / key)
+    
 # class LocalFileSystem:
 #     def upload_file(self, file_data, key):
-#         os.makedirs(os.path.dirname(f"{key}"), exist_ok=True)
-#         with open(f"{key}", "wb") as f:
+#         os.makedirs(os.path.dirname(f"static/{key}"), exist_ok=True)
+#         with open(f"static/{key}", "wb") as f:
 #             f.write(file_data)
             
 #     def download_file(self, key):
-#         with open(f"{key}", "rb") as f:
+#         with open(f"static/{key}", "rb") as f:
 #             return f.read()
 
 #     def generate_url(self, key):
-#         return f"{key}"
-    
-class LocalFileSystem:
-    def upload_file(self, file_data, key):
-        os.makedirs(os.path.dirname(f"static/{key}"), exist_ok=True)
-        with open(f"static/{key}", "wb") as f:
-            f.write(file_data)
-            
-    def download_file(self, key):
-        with open(f"static/{key}", "rb") as f:
-            return f.read()
-
-    def generate_url(self, key):
-        return f"/static/{key}"
+#         return f"/static/{key}"
 
 class BucketClient:
     def __init__(self, settings):
@@ -82,15 +101,16 @@ class StorageBackend:
     
     # ==== STORING FUNCTIONS =====
 
-    def save_txt_to_json_file(self, story_filename, story_title, tagged_story_for_tts, clean_story):
+    def save_txt_to_json_file(self, story_foldername, story_filename, story_title, tagged_story_for_tts, clean_story):
         payload = {
+            "story_foldername" : story_foldername,
             "story_filename": story_filename,
             "story_title": story_title,
             "tagged_story_for_tts": tagged_story_for_tts,
             "clean_story": clean_story,
             "timestamp": datetime.utcnow().strftime('%Y%m%dT%H%M%SZ')
         }
-        key = f"stories/{story_filename}/{story_filename}.json"
+        key = f"stories/{story_foldername}/{story_filename}.json"
         print(f"Saving text to: {key}")
         self.client.upload_file(json.dumps(payload).encode('utf-8'), key)
         return self.client.generate_url(key)
@@ -190,4 +210,5 @@ class StorageBackend:
             print(f"Generating URL for track: {track_filename}")
             return self.client.generate_url(f"audio/local_ambient_tracks/{track_filename}")
         else:
-            return f"/static/audio/local_ambient_tracks/{track_filename}"
+            # return f"DATA_DIR/audio/local_ambient_tracks/{track_filename}"
+            return f"/api/tracks/{track_filename}"

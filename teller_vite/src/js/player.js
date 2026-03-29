@@ -8,6 +8,7 @@ let hasInitialSyncOccurred = false;
 
 export function loadPlayer(data) {
   console.log('Loading player with last story data...');
+  console.log(data.speechUrl)
 
   if (data.speechUrl) {
     elements.speech.src = data.speechUrl;

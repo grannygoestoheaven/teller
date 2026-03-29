@@ -6,7 +6,7 @@ const topics = Object.keys(defaultFields); // gets the list of topics from the d
 export let playedSquares = new Set(); // Set to track played squares
 
 // Topic cycling variables
-let currentUserTopicData = '';
+// let currentUserTopicData = '';
 let currentTopicData = defaultFields[topics[0]];
 let currentTopicIndex = 0;
 let remainingSubjects = [];

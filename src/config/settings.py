@@ -14,8 +14,9 @@ print(f"BASE_DIR set to: {BASE_DIR}")
 
 # Directories for storing generated stories
 STATIC_DIR = BASE_DIR / "static"
-FIELDS_DIR = STATIC_DIR / "fields"
-GENERATED_STORIES_DIR = STATIC_DIR / "stories"
+DATA_DIR = BASE_DIR / "src" / "data"
+FIELDS_DIR = BASE_DIR / "src" / "data" / "fields"
+GENERATED_STORIES_DIR = BASE_DIR / "src" / "data" / "stories"
 
 # Directories for retrieval augmented generation sources
 NEWS_SOURCES = {"science": ["https://api.nature.com/headlines"],
@@ -23,12 +24,12 @@ NEWS_SOURCES = {"science": ["https://api.nature.com/headlines"],
                 "weather": "" }
 
 # Local Tracks
-LOCAL_TRACKS_DIR = STATIC_DIR / "audio" / "local_ambient_tracks"
+LOCAL_TRACKS_DIR = BASE_DIR / "src" / "data" / "audio" / "local_ambient_tracks"
 
 # Remaining subjects list
 
 # Fields and subjects
-DEFAULT_FIELDS = STATIC_DIR / "fields" / "defaultFieldsSmall.js"
+DEFAULT_FIELDS = BASE_DIR / "src" / "data" / "fields" / "defaultFieldsSmall.js"
 
 # Story settings
 DEFAULT_DURATION = 1

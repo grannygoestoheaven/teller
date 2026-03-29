@@ -6,7 +6,7 @@ from fastapi.responses import JSONResponse
 from src.schemas.story import StoryRequest, StoryResponse, StoryCheckResponse
 from src.services.utils import _format_text_filename
 from src.services.build import build_story, load_story
-from src.config.settings import env_settings, BASE_DIR, STATIC_DIR, DEFAULT_PROMPT_PATH, PROMPTS
+from src.config.settings import env_settings, BASE_DIR, DATA_DIR, DEFAULT_PROMPT_PATH, PROMPTS
 from src.services.storage import StorageBackend
 
 router = APIRouter()
@@ -18,7 +18,7 @@ async def check_story(data: StoryRequest) -> StoryCheckResponse:
     try:
         subject = data.subject
         filename = _format_text_filename(subject)
-        
+
         if storage.use_bucket:
             try:
                 key = f"stories/{filename}/{filename}.json"
@@ -28,14 +28,14 @@ async def check_story(data: StoryRequest) -> StoryCheckResponse:
                 print(f"Story not found in bucket: {str(e)}")
                 story_exists = False
         else:
-            json_path = STATIC_DIR / "stories" / filename / f"{filename}.json"
+            json_path = DATA_DIR / "stories" / filename / f"{filename}.json"
             story_exists = json_path.exists()
-            # mp3_path = STATIC_DIR / "stories" / filename / f"{filename}.mp3"
+            # mp3_path = DATA_DIR / "stories" / filename / f"{filename}.mp3"
 
         if not story_exists:
             return {"exists": False, "story": None}
 
-        payload = load_story(subject, regenerate_mp3=False) # The load story function holds the condition to generate tts if missing.
+        payload = load_story(subject, regenerate_mp3=True) # The load story function holds the condition to generate tts if missing.
         return {"exists": True, "story": StoryResponse(**payload, by_alias=True)}
     
     except Exception as e:

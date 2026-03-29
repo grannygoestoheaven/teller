@@ -23,7 +23,8 @@ export async function startNewStoryProcess() {
 
   console.log(JSON.stringify({ subject }));
 
-  const responseCheck = await fetch('/v1/stories/check_story', {
+  // const responseCheck = await fetch('/v1/stories/check_story', {
+  const responseCheck = await fetch('/api/v1/stories/check_story', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ subject })
@@ -49,7 +50,8 @@ export async function startNewStoryProcess() {
     
   } else {
     // If story does not exist, generate a new one
-    const response = await fetch('/v1/stories/new_story', {
+    // const response = await fetch('/v1/stories/new_story', {
+    const response = await fetch('/api/v1/stories/new_story', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ subject, narrativeStyle: null, difficulty: null }),
@@ -81,7 +83,8 @@ export async function startNewStoryProcessForm() {
   console.log(JSON.stringify({ subject }));
   console.log("Sanitized form subject:", subject);
 
-  const responseCheck = await fetch('/v1/stories/check_story', {
+  // const responseCheck = await fetch('/v1/stories/check_story', {
+  const responseCheck = await fetch('/api/v1/stories/check_story', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ subject })
@@ -107,7 +110,8 @@ export async function startNewStoryProcessForm() {
 
   } else {
     // If story does not exist, generate a new one
-    const response = await fetch('/v1/stories/new_story', {
+    // const response = await fetch('/v1/stories/new_story', {
+    const response = await fetch('/api/v1/stories/new_story', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ subject, narrativeStyle: null, difficulty: null }),

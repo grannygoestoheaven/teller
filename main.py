@@ -25,7 +25,7 @@ app.add_middleware(CORSMiddleware, allow_origins=["*"])
 app.include_router(ui_home.router)
 app.include_router(topic.router, prefix="/v1/topic")
 app.include_router(story.router, prefix="/v1/stories")
-app.include_router(media.router, prefix="/api")
+app.include_router(media.router)
 
 @app.on_event("startup")
 def startup_event():

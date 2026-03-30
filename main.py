@@ -14,6 +14,7 @@ from src.config.settings import env_settings, load_prompts, DATA_DIR
 app = FastAPI()
 app.add_middleware(CORSMiddleware, allow_origins=["*"])
 # app.mount("/static", StaticFiles(directory="static"), name="static")
+# app.mount("/", StaticFiles(directory="teller_vite/dist", html=True), name="frontend")
 
 # @app.get("/static/{file_path:path}")
 # async def serve_static(file_path: str):

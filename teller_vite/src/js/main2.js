@@ -4,6 +4,7 @@ import { createGridOfSquares, initializeGrid, initTopicCycling, mapValuesToSquar
 import { TextInteractionSystem } from "./textInteractionSystem2.js";
 import { stateMachineEvents, staticListeners } from "./listeners2.js";
 import { localActions } from "./actions.js";
+import "./AudioStateMachine.js";
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -49,7 +50,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Create an instance of the state machine and attach the actions object to it
-  const sm = new AudioStateMachine();
+  // const sm = new AudioStateMachine();
+  const sm = new window.AudioStateMachine();
   sm.actions = localActions;
   
   createGridOfSquares(getSquaresPerWidth(), sm);

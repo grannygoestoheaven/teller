@@ -937,3 +937,8 @@ class AudioStateMachine
         }
     }
 }
+
+// Create a global instance if needed
+if (typeof window !== 'undefined') {
+    window.AudioStateMachine = AudioStateMachine;
+  }

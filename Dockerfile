@@ -39,11 +39,7 @@ COPY . .
 
 # CRITICAL FIX: Explicitly and recursively force ownership and permissions for ALL files in /app
 # This runs as root, ensuring it has the power to change anything.
-# chown -R appuser:appuser /app: Recursively changes owner and group to appuser.
-# chmod -R u=rwX,g=rX,o=rX /app: Recursively sets permissions:
-#   u=rwX: user (appuser) has read, write, execute (X for directories)
-#   g=rX: group (appuser) has read, execute (X for directories)
-#   o=rX: others have read, execute (X for directories)
+
 RUN chown -R appuser:appuser /app && \
     chmod -R u=rwX,g=rX,o=rX /app
 

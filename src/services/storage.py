@@ -19,17 +19,6 @@ class LocalFileSystem:
     def download_file(self, key):
         with open(str(DATA_DIR / key), "rb") as f:
             return f.read()
-
-    # def generate_url(self, key):
-    #     return str(DATA_DIR / key)
-    
-    # def generate_url(self, key):
-    #     if key.startswith("stories/"):
-    #         return f"/api/stories/audio/{key.replace('stories/', '')}"
-    #     elif key.startswith("audio/local_ambient_tracks/"):
-    #         return f"/api/tracks/{key.replace('audio/local_ambient_tracks/', '')}"
-    #     else:
-    #         return str(DATA_DIR / key)
     
     def generate_url(self, key):
         if key.startswith("stories/"):
@@ -42,6 +31,17 @@ class LocalFileSystem:
             return f"/api/tracks/{file_path}"
         else:
             return str(DATA_DIR / key)
+
+    # def generate_url(self, key):
+    #     return str(DATA_DIR / key)
+    
+    # def generate_url(self, key):
+    #     if key.startswith("stories/"):
+    #         return f"/api/stories/audio/{key.replace('stories/', '')}"
+    #     elif key.startswith("audio/local_ambient_tracks/"):
+    #         return f"/api/tracks/{key.replace('audio/local_ambient_tracks/', '')}"
+    #     else:
+    #         return str(DATA_DIR / key)
     
 # class LocalFileSystem:
 #     def upload_file(self, file_data, key):

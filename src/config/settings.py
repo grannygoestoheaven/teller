@@ -38,10 +38,10 @@ PROMPTS_DIR = BASE_DIR / "src" / "config" / "patterns"
 # DEFAULT_PROMPT_PATH = BASE_DIR / "src" / "config"/ "patterns" / "default_narrative.md"
 # DEFAULT_PROMPT_PATH = BASE_DIR / "src" / "config"/ "patterns" / "brutal_facts.md"
 # DEFAULT_PROMPT_PATH = BASE_DIR / "src" / "config"/ "patterns" / "precision_narrative_engine.md"
-# DEFAULT_PROMPT_PATH = BASE_DIR / "src" / "config"/ "patterns" / "pn_engine_moderate_pace.md"
+DEFAULT_PROMPT_PATH = BASE_DIR / "src" / "config"/ "patterns" / "pn_engine_moderate_pace.md"
 # DEFAULT_PROMPT_PATH = BASE_DIR / "src" / "config"/ "patterns" / "unlearning_narrative.md"
 # DEFAULT_PROMPT_PATH = BASE_DIR / "src" / "config"/ "patterns" / "random_words.md"
-DEFAULT_PROMPT_PATH = BASE_DIR / "src" / "config"/ "patterns" / "pne_no_tags.md"
+# DEFAULT_PROMPT_PATH = BASE_DIR / "src" / "config"/ "patterns" / "pne_no_tags.md"
 # DEFAULT_PROMPT_PATH = BASE_DIR / "src" / "config"/ "patterns" / "schizophrenic.md"
 
 DEFAULT_PROMPT = DEFAULT_PROMPT_PATH.read_text()

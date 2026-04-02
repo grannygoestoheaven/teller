@@ -3,9 +3,6 @@
 /.vscode/
 /build/
 /venv_teller/
-/static/stories/
-/static/extra_functions.txt
-/src/teaicher/other_llms_functions/
 /tests/.cache
 __pycache__/
 *.pyc
@@ -23,8 +20,6 @@ migrate_stories.py
 script_default_fields.py
 script_philosophy.py
 scripts.py
-/static/audio/main2.js
-/static/audio/webAudioAPI.js
 /tests
 /files_to_pick_from/
 /function_factory/

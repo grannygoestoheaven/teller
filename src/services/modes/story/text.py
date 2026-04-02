@@ -65,13 +65,13 @@ def generate_story_with_mistralai(subject, narrative_style: None, difficulty: No
         silences = silence_map # Define your silence mapping here or import it from config
         
         clean_story_title = _clean_story_title(subject)
-        tts_text = _apply_silence_tags(original_output, silences)
-        # clean_story = _remove_silence_tags(original_output) # remove silence tags to have a clean version to display
+        # tts_text = _apply_silence_tags(original_output, silences)
+        clean_story = _remove_silence_tags(original_output) # remove silence tags to have a clean version to display
         # clean_story = _clean_story_text(original_output) # remove punctuation tags to have a clean version to display
         # print(f"CLEAN STORY: {clean_story}")
     
-        return clean_story_title, tts_text, original_output
-        # return clean_story_title, original_output, clean_story
+        # return clean_story_title, tts_text, original_output
+        return clean_story_title, original_output, clean_story
     
     except Exception as e:
         print(f"Full error: {e[:20]}")  # Log both error and response

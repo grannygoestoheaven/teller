@@ -38,10 +38,10 @@ PROMPTS_DIR = BASE_DIR / "src" / "config" / "patterns"
 # DEFAULT_PROMPT_PATH = BASE_DIR / "src" / "config"/ "patterns" / "default_narrative.md"
 # DEFAULT_PROMPT_PATH = BASE_DIR / "src" / "config"/ "patterns" / "brutal_facts.md"
 # DEFAULT_PROMPT_PATH = BASE_DIR / "src" / "config"/ "patterns" / "precision_narrative_engine.md"
-DEFAULT_PROMPT_PATH = BASE_DIR / "src" / "config"/ "patterns" / "pn_engine_moderate_pace.md"
+# DEFAULT_PROMPT_PATH = BASE_DIR / "src" / "config"/ "patterns" / "pn_engine_moderate_pace.md"
 # DEFAULT_PROMPT_PATH = BASE_DIR / "src" / "config"/ "patterns" / "unlearning_narrative.md"
 # DEFAULT_PROMPT_PATH = BASE_DIR / "src" / "config"/ "patterns" / "random_words.md"
-# DEFAULT_PROMPT_PATH = BASE_DIR / "src" / "config"/ "patterns" / "pne_no_tags.md"
+DEFAULT_PROMPT_PATH = BASE_DIR / "src" / "config"/ "patterns" / "pne_no_tags.md"
 # DEFAULT_PROMPT_PATH = BASE_DIR / "src" / "config"/ "patterns" / "schizophrenic.md"
 
 DEFAULT_PROMPT = DEFAULT_PROMPT_PATH.read_text()
@@ -55,8 +55,8 @@ class EnvSettings(BaseSettings):
     elevenlabs_api_key: str = Field(..., env="ELEVENLABS_API_KEY")
     # newsapi_api_key: str = Field(..., env="NEWSAPI_API_KEY")
     
-    # use_bucket: bool = Field(default=True, env="USE_BUCKET")
-    use_bucket: bool = Field(default=False, env="USE_BUCKET")  # Defaults to local
+    use_bucket: bool = Field(default=True, env="USE_BUCKET")
+    # use_bucket: bool = Field(default=False, env="USE_BUCKET")  # Defaults to local
     bucket_name: str = Field(default="", env="BUCKET_NAME")
     bucket_endpoint: str = Field(default="", env="BUCKET_ENDPOINT")
     bucket_access_key: str = Field(default="", env="BUCKET_ACCESS_KEY")

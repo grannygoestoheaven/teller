@@ -149,7 +149,7 @@ export function staticListeners() {
         // const allWords = currentlyHighlightedWords.map(span => span.textContent.trim());
         const cleanTitle = TextInteractionSystem.getCurrentlyHighlightedWords()
             .map(span => span.textContent.trim())
-            .map(word => word.charAt(0).toUpperCase() + word.slice(1).replace(/[.,]/g, ''))
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1).replace(/[.,"]/g, ''))
             .join(' ');
         elements.formInput.value = cleanTitle;
 

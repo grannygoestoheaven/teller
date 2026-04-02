@@ -87,6 +87,7 @@ class AudioStateMachine
                 switch (eventId)
                 {
                     case AudioStateMachine.EventId.INPUT_CHANGED: this.#IDLE_input_changed(); break;
+                    case AudioStateMachine.EventId.FROM_START_CLICKED: this.#IDLE_from_start_clicked(); break;
                 }
                 break;
             
@@ -221,6 +222,27 @@ class AudioStateMachine
     #IDLE_exit()
     {
         this.stateId = AudioStateMachine.StateId.ROOT;
+    }
+    
+    #IDLE_from_start_clicked()
+    {
+        // IDLE behavior
+        // uml: FROM_START_CLICKED / { this.actions.resetAllAudio(); this.actions.resumeAllAudio(); } TransitionTo(PLAYING)
+        {
+            // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
+            this.#IDLE_exit();
+            
+            // Step 2: Transition action: `this.actions.resetAllAudio(); this.actions.resumeAllAudio();`.
+            this.actions.resetAllAudio(); this.actions.resumeAllAudio();
+            
+            // Step 3: Enter/move towards transition target `PLAYING`.
+            this.#PLAYING_enter();
+            
+            // Step 4: complete transition. Ends event dispatch. No other behaviors are checked.
+            return;
+        } // end of behavior for IDLE
+        
+        // No ancestor handles this event.
     }
     
     #IDLE_input_changed()

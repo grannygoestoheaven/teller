@@ -16,6 +16,7 @@
 
     IDLE: enter / this.actions.abortProcess(); this.actions.dotsView(); this.actions.pauseAllAudio(); this.actions.resetAllAudio(); this.actions.uiIdleButtons(); this.actions.initInputAdjustments();
     IDLE --> READY_DURING_IDLE : INPUT_CHANGED
+    IDLE --> PLAYING : FROM_START_CLICKED / this.actions.resetAllAudio(); this.actions.resumeAllAudio();
 
     READY_DURING_IDLE: enter / this.actions.uiReadyButtons();
     READY_DURING_IDLE --> LOADING : SQUARE_CLICKED [this.actions.getSquareClickAuthorized()] / this.actions.startNewStoryProcessForm();

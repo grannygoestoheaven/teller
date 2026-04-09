@@ -1,5 +1,5 @@
 # === STAGE 1: Build ===
-FROM python:3.11 as builder
+FROM python:3.11 AS builder
 
 # Install system dependencies (as root)
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -28,7 +28,7 @@ WORKDIR /app/teller_vite
 RUN npm run build:vite-build
 
 # === STAGE 2: Runtime ===
-FROM python:3.11-slim
+FROM python:3.11-slim AS runtime
 
 # Create and switch to a non-root user
 RUN useradd -m appuser && mkdir -p /app && chown -R appuser:appuser /app

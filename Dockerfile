@@ -18,14 +18,13 @@ RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir -r requirements-minimal.txt
 
 # Copy Vite package files for caching
-COPY teller_vite/package*.json ./teller_vite/
+COPY teller_vite/package.json teller_vite/package-lock.json ./teller_vite/
 WORKDIR /app/teller_vite
 RUN ls -la  # Check if package.json and package-lock.json are present
 RUN npm ci --omit=dev
 
 # Copy the rest of the project
-COPY . .
-WORKDIR /app/teller_vite
+COPY teller_vite/ .
 RUN npm run build:vite-build
 
 # === STAGE 2: Runtime ===

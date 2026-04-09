@@ -10,6 +10,7 @@ __pycache__/
 summary_3.rtf
 paths_to_remove.txt
 node_modules
+/teller_vite/node_modules
 ideas
 package.json
 wrappers.py.envrc

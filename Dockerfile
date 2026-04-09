@@ -20,6 +20,7 @@ RUN pip install --no-cache-dir --upgrade pip && \
 # Copy Vite package files for caching
 COPY teller_vite/package*.json ./teller_vite/
 WORKDIR /app/teller_vite
+RUN ls -la  # Check if package.json and package-lock.json are present
 RUN npm ci --omit=dev
 
 # Copy the rest of the project

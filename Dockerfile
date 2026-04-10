@@ -25,7 +25,7 @@ COPY teller_vite/package.json teller_vite/package-lock.json .
 RUN chmod -R a+r .  # Fix permissions
 RUN ls -la  # Check if package.json and package-lock.json are present
 RUN npm ci --omit=dev
-RUN ls -la # Check if node_modules is present
+RUN ls -la node_modules # Check if node_modules is present
 
 # Copy the rest of the project
 COPY teller_vite/ .

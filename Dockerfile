@@ -29,7 +29,7 @@ RUN npm ci --omit=dev
 
 # Copy the rest of the project
 COPY teller_vite/ .
-RUN npm run build:vite-build
+RUN npm run build
 
 # === STAGE 2: Runtime ===
 FROM python:3.11-slim AS runtime

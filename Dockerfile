@@ -43,7 +43,7 @@ COPY --from=builder /usr/local/lib/python3.11/site-packages /usr/local/lib/pytho
 # Copy built frontend assets
 COPY --from=builder /app/teller_vite/dist ./teller_vite/dist
 # Copy app code
-COPY --from=builder /app/main.py ./main.py
+COPY --from=builder /app/ .
 
 EXPOSE 8080
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8080"]

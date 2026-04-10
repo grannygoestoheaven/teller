@@ -14,7 +14,6 @@ WORKDIR /app
 
 # Copy Python requirements first for caching
 COPY requirements-minimal.txt .
-RUN ls -la
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir -r requirements-minimal.txt
 
@@ -23,14 +22,12 @@ WORKDIR /app/teller_vite
 # Copy Vite package files for caching
 COPY teller_vite/package.json teller_vite/package-lock.json .
 
-RUN chmod -R a+r .  # Fix permissions
-RUN ls -la  # Check if package.json and package-lock.json are present
-RUN npm ci --omit=dev
-RUN ls -la node_modules # Check if node_modules is present
+RUN npm ci
 
 # Copy the rest of the project
 COPY teller_vite/ .
-RUN export PATH="./node_modules/.bin:$PATH" && npm run build
+# Build the frontend assets
+RUN npx run build
 
 # === STAGE 2: Runtime ===
 FROM python:3.11-slim AS runtime

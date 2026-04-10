@@ -42,6 +42,8 @@ script_default_fields.py
 script_philosophy.py
 scripts.py
 src/data/
+node_modules
+/teller_vite/node_modules
 /tests
 /files_to_pick_from/
 /function_factory/

@@ -20,8 +20,6 @@ RUN pip install --no-cache-dir --upgrade pip && \
 
 WORKDIR /app/teller_vite
 
-RUN export PATH="./node_modules/.bin:$PATH"
-
 # Copy Vite package files for caching
 COPY teller_vite/package.json teller_vite/package-lock.json .
 
@@ -32,8 +30,7 @@ RUN ls -la node_modules # Check if node_modules is present
 
 # Copy the rest of the project
 COPY teller_vite/ .
-
-RUN npm run build
+RUN export PATH="./node_modules/.bin:$PATH" && npm run build
 
 # === STAGE 2: Runtime ===
 FROM python:3.11-slim AS runtime

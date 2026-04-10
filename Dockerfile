@@ -21,6 +21,7 @@ WORKDIR /app/teller_vite
 
 # Copy Vite package files for caching
 COPY teller_vite/package.json teller_vite/package-lock.json .
+RUN chmod -R a+r .  # Fix permissions
 RUN ls -la  # Check if package.json and package-lock.json are present
 RUN npm ci --omit=dev
 

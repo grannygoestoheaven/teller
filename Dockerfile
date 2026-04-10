@@ -14,10 +14,12 @@ WORKDIR /app
 
 # Copy Python requirements first for caching
 COPY requirements-minimal.txt .
+RUN ls -la
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir -r requirements-minimal.txt
 
 WORKDIR /app/teller_vite
+RUN pwd
 
 # Copy Vite package files for caching
 COPY teller_vite/package.json teller_vite/package-lock.json .

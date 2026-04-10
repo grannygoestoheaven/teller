@@ -12,8 +12,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 WORKDIR /app
 
-# Copy Python requirements first for caching
-COPY requirements-minimal.txt .
+COPY . .
+
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir -r requirements-minimal.txt
 
@@ -27,7 +27,7 @@ RUN npm ci
 # Copy the rest of the project
 COPY teller_vite/ .
 # Build the frontend assets
-RUN npx run build
+RUN npx vite build
 
 # === STAGE 2: Runtime ===
 FROM python:3.11-slim AS runtime

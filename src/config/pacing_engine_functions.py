@@ -19,16 +19,17 @@ import re
 # }
 
 silence_map = {
-    '.': 500,    # Standard pause
-    ';': 200,    # Short pause
+    '. ': 500,    # Standard pause
+    ';': 300,    # Short pause
     '...': 900, # Dramatic pause
-    ':': 400,    # Introduction pause
+    ': ': 400,    # Introduction pause
     '!': 600,    # Exclamatory pause
     '?': 600,    # Question pause
+    '-': 200,    # Dash pause
 }
 
 # def _apply_silence_tags(text: str, silence_map: dict) -> str:
-#     """Injects <[silence:XXX]> after punctuation marks."""
+#     """Injects <[silence:]> after punctuation marks."""
 #     print("entering apply silence tags function")
 #     punct_pattern = re.compile(f"([{re.escape(''.join(silence_map.keys()))}])")
 #     print(punct_pattern)

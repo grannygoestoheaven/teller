@@ -9,7 +9,7 @@ You're gonna treat the following subject: {{subject}}.
 ## LEVEL OF DIFFICULTY
 (Tier: {{ difficulty }})
 {%- if difficulty == "beginner" %}
-Explain like I’m 12. Use simple analogies (e.g., "like [common everyday action] instead of [slower alternative]"). Avoid jargon.
+Explain like I’m 10. Use simple analogies (e.g., "like [common everyday action] instead of [slower alternative]"). Avoid jargon.
 {%- elif difficulty == "intermediate" %}
 Introduce key terms with 1-sentence definitions. Link to practical tools (e.g., "Tools like ... help with...").
 {%- elif difficulty == "expert" %}

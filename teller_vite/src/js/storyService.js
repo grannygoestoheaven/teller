@@ -27,7 +27,10 @@ export async function startNewStoryProcess() {
   const responseCheck = await fetch('/api/v1/stories/check_story', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ subject })
+    body: JSON.stringify({
+      subject,
+      // narrativeStyle: null
+    })
   });
 
   console.log("Response from check_story:", responseCheck);

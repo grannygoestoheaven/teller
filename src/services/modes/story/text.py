@@ -11,7 +11,7 @@ from openai import OpenAI
 from jinja2 import Template
 
 from src.config.settings import env_settings
-from src.config.pacing_engine_functions import _apply_silence_tags, silence_map
+from src.config.pacing_engine_functions import _apply_silence_tags, silence_map_openai_tts
 from src.services.utils import _clean_story_text, _remove_silence_tags, _format_text_filename, _clean_story_title
 
 mistral_client = Mistral(api_key=env_settings.mistral_api_key)
@@ -60,7 +60,7 @@ def generate_story_with_mistralai(subject, narrative_style: None, difficulty: No
         original_output = original_output.replace("*", "").replace("**", "")
         print(f"GENERATED OUTPUT: {original_output}")
         
-        silences = silence_map # Define your silence mapping here or import it from config
+        silences = silence_map_openai_tts # Define your silence mapping here or import it from config
         
         clean_story_title = _clean_story_title(subject)
         tts_text = _apply_silence_tags(original_output, silences)

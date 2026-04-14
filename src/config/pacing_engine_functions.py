@@ -46,7 +46,8 @@ import re
 def _apply_silence_tags(text: str, silence_map: dict) -> str:
     # Matches punct ONLY if followed by space or end of string
     # pattern = r'(\.{3}|[.;:!?])(?=\s|$)'
-    pattern = r'(\.{3}|[.;:!?\n])(?=\s|$)'
+    # pattern = r'(\.{3}|[.;:!?\n])(?=\s|$)'
+    pattern = r'(?<!\b[A-Z])(\.{3}|[.;:!?\n])(?=\s|$)'
     
     def replace(m):
         p = m.group(1)

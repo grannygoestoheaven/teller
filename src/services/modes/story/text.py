@@ -5,7 +5,8 @@ import re
 # from fastapi import APIRouter
 # from pydantic import BaseModel
 
-from mistralai import Mistral
+from mistralai.client import Mistral
+# from mistralai import Mistral
 from openai import OpenAI
 
 from jinja2 import Template
@@ -16,6 +17,9 @@ from src.services.utils import _clean_story_text, _remove_silence_tags, _format_
 
 mistral_client = Mistral(api_key=env_settings.mistral_api_key)
 openai_client = OpenAI(api_key=env_settings.openai_api_key)
+
+result = mistral_client.audio.voices.list(limit=10, offset=0)
+print(result)
 
 def generate_story_with_mistralai(subject, narrative_style: None, difficulty: None) -> tuple[str, str]:
     print("entering Mistral story: ", subject, narrative_style, difficulty)
@@ -63,12 +67,12 @@ def generate_story_with_mistralai(subject, narrative_style: None, difficulty: No
         silences = silence_map_openai_tts # Define your silence mapping here or import it from config
         
         clean_story_title = _clean_story_title(subject)
-        tts_text = _apply_silence_tags(original_output, silences)
+        # tts_text = _apply_silence_tags(original_output, silences)
         # clean_story = _remove_silence_tags(original_output) # remove silence tags to have a clean version to display
         # clean_story = _clean_story_text(original_output) # remove punctuation tags to have a clean version to display
         # print(f"CLEAN STORY: {clean_story}")
     
-        return clean_story_title, tts_text, original_output
+        return clean_story_title, original_output, original_output
         # return clean_story_title, original_output, clean_story
     
     except Exception as e:

@@ -2,7 +2,8 @@
 .envrc
 /.vscode/
 /build/
-/venv_teller/
+/venv/
+/venv_v2/
 /tests/.cache
 __pycache__/
 *.pyc

@@ -12,8 +12,8 @@ RUN useradd -m appuser
 WORKDIR /app
 
 # Install Backend Deps
-COPY requirements-minimal.txt .
-RUN pip install --no-cache-dir -r requirements-minimal.txt
+COPY requirements-minimal-v2.txt .
+RUN pip install --no-cache-dir -r requirements-minimal-v2.txt
 
 # Copy Assets & Code
 COPY --from=frontend-builder /build/dist ./teller_vite/dist

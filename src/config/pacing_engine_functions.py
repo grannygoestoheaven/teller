@@ -47,11 +47,13 @@ def _apply_silence_tags(text: str, silence_map: dict) -> str:
     # Matches punct ONLY if followed by space or end of string
     # pattern = r'(\.{3}|[.;:!?])(?=\s|$)'
     # pattern = r'(\.{3}|[.;:!?\n])(?=\s|$)'
-    pattern = r'(?<!\b[A-Z])(\.{3}|[.;:!?\n])(?=\s|$)'
+    # pattern = r'(?<!\b[A-Z])(\.{3}|[.;:!?\n])(?=\s|$)'
+    pattern = r'(?<!\b[A-Z])(\.{3}|[.;:!])(?=\s|$)'
     
     def replace(m):
         p = m.group(1)
-        return f"{p}<[silence:{silence_map_openai_tts[p]}]>"
+        return f"{p}<[silence:{silence_map_short_openai_tts[p]}]>"
+        # return f"{p}<[silence:{silence_map_openai_tts[p]}]>"
     
     return re.sub(pattern, replace, text)
 
@@ -65,4 +67,16 @@ silence_map_openai_tts = {
     '?': 100,    # Question pause
     '-': 100,    # Dash pause
     ',': 100,
+}
+
+silence_map_short_openai_tts = {
+    '\n' : 500,    # Newline pause
+    '.': 200,    # Standard pause
+    ';': 150,    # Short pause
+    '...': 900, # Dramatic pause
+    ':': 120,    # Introduction pause
+    '!': 110,    # Exclamatory pause
+    '-': 150,    # Dash pause
+    ',': 100,
+    '?': 100,
 }

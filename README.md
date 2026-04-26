@@ -1,7 +1,7 @@
 # Teller
-EdTech focused Text-To-Speech project
+AI narration Text-To-Speech project
 
-🧠 **Teller** is an AI-powered micro podcast that syncs voice and background ambient music to create immersive, focus-improved narratives, triggering curiosity and the will to explore further and further.
+🧠 **Teller** is an AI-powered application that syncs voice and background ambient music to create immersive, focus-improved narratives, triggering curiosity and the will to explore further and further.
 
 "Teller transforms any subject into an immersive 1-minute audio summary, using TTS + AI to boost engagement and retention."
 
@@ -9,7 +9,7 @@ Test the demo here : https://tellercontainerc73fsqdz-container-flamboyant-curran
 
 ## Features
 
-- Converts subject into an insightful micro podcast with player controls
+- Converts subject into an insightful presentation with player controls
 - Syncs narration with background track  
 - Uses LLMs text generation and text to speech.
 

@@ -1,6 +1,7 @@
 import os
 import tempfile
 import random
+import base64
 # import pyttsx3  # Local TTS library for testing purposes
 
 from src.schemas.tts import TtsRequest # Pydantic model for TTS request
@@ -9,9 +10,12 @@ from src.services.utils import _format_mp3_filename # Helper function to format 
 
 from openai import OpenAI  # OpenAI API client
 from elevenlabs.client import ElevenLabs # ElevenLabs API client
+from mistralai.client import Mistral # Mistral API client
+# from mistralai import Mistral # Mistral API client
 
 openai_client = OpenAI(api_key=env_settings.openai_api_key)
 elevenlabs_client = ElevenLabs(api_key=env_settings.elevenlabs_api_key)
+mistral_client = Mistral(api_key=env_settings.mistral_api_key)
 
 def openai_tts(story: TtsRequest, filename) -> bytes:
     """
@@ -122,6 +126,35 @@ def elevenlabs_text_to_speech(story: TtsRequest, filename) -> bytes:
     # with open(speech_filename, "rb") as file:
     #     audio_bytes = file.read()
     
+def mistral_tts(story: TtsRequest, filename) -> bytes:
+    """
+    """
+    try:
+    # Ensure the input text is not empty and is a string
+        if not story or not isinstance(story, str):
+            raise ValueError("Story text must be a non-empty string")
+        
+        response = mistral_client.audio.speech.complete(
+            model="voxtral-mini-tts-2603",
+            input=story.strip(),
+            # voice_id='e3596645-b1af-469e-b857-f18ddedc7652', # 'oliver' neutral
+            voice_id='530e2e20-58e2-45d8-b0a5-4594f4915944', # 'paul' sad
+            response_format="mp3",
+        )
+        
+        speech_filename = _format_mp3_filename(filename) # generate an mp3 filename with underscores
+        speech_audio = base64.b64decode(response.audio_data)
+        print(speech_audio[:20])  # Print the first few bytes to verify it's audio data
+        
+        print(f"Generated speech length: {len(speech_audio)} bytes")  # Should match expected size
+        
+        return speech_filename, speech_audio
+
+    except Exception as e:
+        # Log the error appropriately in a real application
+        print(f"Error in openai_tts: {e}")
+        return None
+    return None
 
 # def coqui_tts_text_to_speech(story: str, filename: str = "story.wav", model_name: str = "tts_models/en/ljspeech/glow-tts") -> str:
 #     """

@@ -1,7 +1,8 @@
 # from fastapi import APIRouter
 # from pydantic import BaseModel
 
-from mistralai import Mistral
+# from mistralai import Mistral
+from mistralai.client import Mistral
 from src.config.settings import env_settings
 
 mistral_client = Mistral(api_key=env_settings.mistral_api_key)

@@ -96,12 +96,6 @@
     --topic-7-sub7: #F7C9D1;
 }
 
-.caprasimo-regular {
-    font-family: "Caprasimo", serif;
-    font-weight: 400;
-    font-style: normal;
-  }  
-
 /* html:not(.loaded) * {
     transition: none !important;
   } */
@@ -134,6 +128,7 @@ html, body {
 body {
     display: flex; /* Use flexbox */
     font-family: 'Inika', serif;
+    /* font-family: 'Poiret One', cursive; */
     background-color: rgb(34, 34, 35);
     color: #d1caca;
     margin: 0;
@@ -155,7 +150,7 @@ body {
 }
 
 .brand{
-    cursor: pointer;                   /* h1 already sits on one line      */
+    cursor: pointer;        /* h1 already sits on one line      */
     display: inline-block;
     margin: 0 0 0 0px;      /* keep your left indent            */
     color: rgba(249,245,245);
@@ -302,8 +297,9 @@ body {
     overflow-y: auto; /* Enable scrolling */
     color: rgb(199, 191, 191);
     /* font-family: pixelify sans, serif; */
-    font-family: "Caprasimo";
-    font-weight: 400;
+    /* font-family: "Inika"; */
+    /* font-family: "Rufina", sans-serif; */
+    font-weight: 200;
     font-style: normal;
     font-size: 1.7em;
 }
@@ -410,7 +406,7 @@ margin: 0 .05em;
     animation: period-fade 2.2s infinite ease-in-out; /* Main animation */
     margin: 0 -0.17em;
     font-family: 'Inika', serif;
-    font-size: 3em;
+    font-size: 4em;
     font-weight: bold;
     color: var(--period-color);
     line-height: 0.8;

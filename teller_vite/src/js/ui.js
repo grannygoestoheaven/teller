@@ -72,7 +72,7 @@ export function uiClearInput() {
 }
 
 export function uiIdleButtons() {
-  // elements.fromStartButton.disabled = true;
+  elements.fromStartButton.disabled = false;
   elements.playPauseButton.disabled = true;
   elements.playPauseButton.textContent = 'Start';
 }
@@ -86,7 +86,7 @@ export function uiReadyButtons() {
 }
 
 export function uiLoadingButtons() {
-  // elements.fromStartButton.disabled = true;
+  elements.fromStartButton.disabled = true;
   elements.playPauseButton.disabled = true;
   elements.playPauseButton.textContent = 'Loading';
   // elements.formInput.style.display = 'none';
@@ -98,13 +98,13 @@ export function uiLoadingEnablePause() {
 }
 
 export function uiPlayingButtons() {
-  // elements.fromStartButton.disabled = false;
+  elements.fromStartButton.disabled = false;
   elements.playPauseButton.disabled = false;
   elements.playPauseButton.textContent = 'Pause';
 }
 
 export function uiPausedButtons() {
-  // elements.fromStartButton.disabled = false;
+  elements.fromStartButton.disabled = false;
   elements.playPauseButton.disabled = false;
   elements.playPauseButton.textContent = 'Resume';
 }

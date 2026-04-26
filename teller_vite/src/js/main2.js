@@ -1,9 +1,11 @@
 // import the elements object that will point to all HTML elements
 import { elements, getSquaresPerWidth } from "./config.js";
+import { startSharedStoryProcess } from "./storyService.js";
 import { createGridOfSquares, initializeGrid, initTopicCycling, mapValuesToSquares } from "./uiInit.js";
 import { TextInteractionSystem } from "./textInteractionSystem2.js";
 import { stateMachineEvents, staticListeners } from "./listeners2.js";
 import { localActions } from "./actions.js";
+import "./AudioStateMachine.js";
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -49,7 +51,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Create an instance of the state machine and attach the actions object to it
-  const sm = new AudioStateMachine();
+  // const sm = new AudioStateMachine();
+  const sm = new window.AudioStateMachine();
   sm.actions = localActions;
   
   createGridOfSquares(getSquaresPerWidth(), sm);
@@ -62,3 +65,15 @@ document.addEventListener('DOMContentLoaded', () => {
   // start the state machine
   sm.start();
 });
+
+  // // Check for shared stories urls
+  // const urlPath = window.location.pathname;
+  // if (urlPath.startsWith('/share/')) {
+  //   const sharedSubject = urlPath.replace('/share/', '');
+  //   console.log('Extracted subject:', sharedSubject, 'from URL:', urlPath);
+
+  //   // Wait a moment for everything to initialize, then load
+  //   setTimeout(() => {
+  //     startSharedStoryProcess(sharedSubject);
+  //   }, 100);
+  // }

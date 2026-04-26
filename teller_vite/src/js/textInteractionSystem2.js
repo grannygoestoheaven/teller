@@ -133,7 +133,9 @@ export const TextInteractionSystem = (function() {
     };
   })();
 
+export default TextInteractionSystem;
+
 // For CommonJS (Node.js) compatibility
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = TextInteractionSystem;
-  }
+// if (typeof module !== 'undefined' && module.exports) {
+//     module.exports = TextInteractionSystem;
+//   }

@@ -75,10 +75,10 @@ export function stateMachineEvents(sm) {
     sm.dispatchEvent(AudioStateMachine.EventId.MUSIC_OVER); // leads to MUSIC_ENDED state
   });
 
-  // elements.fromStartButton?.addEventListener("click", () => {
-  //   console.log('Replay clicked');
-  //   sm.dispatchEvent(AudioStateMachine.EventId.FROM_START_CLICKED); // leads to PLAYING state
-  // });
+  elements.fromStartButton?.addEventListener("click", () => {
+    console.log('Replay clicked');
+    sm.dispatchEvent(AudioStateMachine.EventId.FROM_START_CLICKED); // leads to PLAYING state
+  });
 
   elements.gridSquares.forEach(square => {
     square.addEventListener('mouseenter', () => {
@@ -149,7 +149,7 @@ export function staticListeners() {
         // const allWords = currentlyHighlightedWords.map(span => span.textContent.trim());
         const cleanTitle = TextInteractionSystem.getCurrentlyHighlightedWords()
             .map(span => span.textContent.trim())
-            .map(word => word.charAt(0).toUpperCase() + word.slice(1).replace(/[.,]/g, ''))
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1).replace(/[.,"]/g, ''))
             .join(' ');
         elements.formInput.value = cleanTitle;
 

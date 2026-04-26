@@ -8,6 +8,7 @@ let hasInitialSyncOccurred = false;
 
 export function loadPlayer(data) {
   console.log('Loading player with last story data...');
+  console.log(data.speechUrl)
 
   if (data.speechUrl) {
     elements.speech.src = data.speechUrl;
@@ -49,7 +50,7 @@ export function pauseBackgroundOnly() {
   elements.backgroundTrack.pause();
 }
 export function resumeBackgroundOnly() {
-  elements.backgroundTrack.volume = 0.1;
+  elements.backgroundTrack.volume = 0.03;
   elements.backgroundTrack.play();
 }
 

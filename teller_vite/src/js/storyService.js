@@ -23,10 +23,14 @@ export async function startNewStoryProcess() {
 
   console.log(JSON.stringify({ subject }));
 
-  const responseCheck = await fetch('/v1/stories/check_story', {
+  // const responseCheck = await fetch('/v1/stories/check_story', {
+  const responseCheck = await fetch('/api/v1/stories/check_story', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ subject })
+    body: JSON.stringify({
+      subject,
+      // narrativeStyle: null
+    })
   });
 
   console.log("Response from check_story:", responseCheck);
@@ -49,7 +53,8 @@ export async function startNewStoryProcess() {
     
   } else {
     // If story does not exist, generate a new one
-    const response = await fetch('/v1/stories/new_story', {
+    // const response = await fetch('/v1/stories/new_story', {
+    const response = await fetch('/api/v1/stories/new_story', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ subject, narrativeStyle: null, difficulty: null }),
@@ -81,7 +86,8 @@ export async function startNewStoryProcessForm() {
   console.log(JSON.stringify({ subject }));
   console.log("Sanitized form subject:", subject);
 
-  const responseCheck = await fetch('/v1/stories/check_story', {
+  // const responseCheck = await fetch('/v1/stories/check_story', {
+  const responseCheck = await fetch('/api/v1/stories/check_story', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ subject })
@@ -107,7 +113,8 @@ export async function startNewStoryProcessForm() {
 
   } else {
     // If story does not exist, generate a new one
-    const response = await fetch('/v1/stories/new_story', {
+    // const response = await fetch('/v1/stories/new_story', {
+    const response = await fetch('/api/v1/stories/new_story', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ subject, narrativeStyle: null, difficulty: null }),
@@ -125,6 +132,40 @@ export async function startNewStoryProcessForm() {
     loadPlayer(lastStoryData);
     
     return lastStoryData;
+  }
+}
+
+export async function startSharedStoryProcess(sharedSubject) {
+  console.log('Starting shared story process for:', sharedSubject);
+
+  try {
+    // Reuse existing check_story logic
+    const responseCheck = await fetch('/api/v1/stories/check_story', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ subject: sharedSubject })
+    });
+
+    if (!responseCheck.ok) {
+      throw new Error(`Error checking story: ${responseCheck.status}`);
+    }
+
+    const { exists, story } = await responseCheck.json();
+
+    if (exists) {
+      Object.assign(lastStoryData, story);
+      loadPlayer(lastStoryData);
+      console.log('Shared story loaded successfully:', sharedSubject);
+      return story;
+    } else {
+      console.error('Shared story not found:', sharedSubject);
+      // TODO: Show user-friendly error message
+      return null;
+    }
+  } catch (error) {
+    console.error('Error loading shared story:', error);
+    // TODO: Show user-friendly error message
+    return null;
   }
 }
 

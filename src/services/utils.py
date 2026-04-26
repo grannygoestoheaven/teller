@@ -4,6 +4,12 @@ import re
 def _prepare_story_parameters(request_form):
     return subject
 
+def _find_story_id_by_filename(filename: str, manifest: dict) -> str:
+    """Find the story ID in the manifest based on the filename."""
+    title_to_id_dict = {v['title']: k for k, v in manifest.items()}
+    story_id = title_to_id_dict[filename]
+    return story_id
+
 def _format_text_filename(subject: str) -> str:
     """Generate a text filename with underscores from a raw subject"""
     return re.sub(r'[^\w\-_]', '_', subject.strip().lower())
@@ -26,8 +32,6 @@ def _format_mp3_filename(subject: str, max_length: int = 200) -> str:
         return "mistral_story.mp3"
         
     return mp3_filename
-
-import re
 
 # def _clean_story_text(story: str) -> str:
 #     """

@@ -52,8 +52,8 @@ def _apply_silence_tags(text: str, silence_map: dict) -> str:
     
     def replace(m):
         p = m.group(1)
-        return f"{p}<[silence:{silence_map_short_openai_tts[p]}]>"
-        # return f"{p}<[silence:{silence_map_openai_tts[p]}]>"
+        # return f"{p}<[silence:{silence_map_short_openai_tts[p]}]>"
+        return f"{p}<[silence:{silence_map_openai_tts[p]}]>"
     
     return re.sub(pattern, replace, text)
 

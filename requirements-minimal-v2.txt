@@ -16,3 +16,4 @@ botocore==1.42.59
 scaleway==2.10.3
 scaleway-core==2.10.3
 scaleway-sdk==1.15.0
+uuid==1.30.0

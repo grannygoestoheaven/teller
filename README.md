@@ -1,20 +1,11 @@
----
-title: teller
-emoji: 🧠
-colorFrom: blue
-colorTo: green
-sdk: docker
-hardware: cpu
-app_file: main.py
-pinned: false
----
-
 # Teller
 EdTech focused Text-To-Speech project
 
 🧠 **Teller** is an AI-powered micro podcast that syncs voice and background ambient music to create immersive, focus-improved narratives, triggering curiosity and the will to explore further and further.
 
 "Teller transforms any subject into an immersive 1-minute audio summary, using TTS + AI to boost engagement and retention."
+
+Test the demo here : https://tellercontainerc73fsqdz-container-flamboyant-curran.functions.fnc.fr-par.scw.cloud
 
 ## Features
 
@@ -37,5 +28,3 @@ Prototype UI: Red blocks = real-time audio generation. Backend fully functional;
 - The stories already played will fill the grid. You can hover them and press Enter to listen to them again.
 
 The app is at its very early stage. Many more features are coming.
-
-Typescript and React migration is on its way.

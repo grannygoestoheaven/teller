@@ -32,7 +32,7 @@ export const TextInteractionSystem = (function() {
         clearHighlights(); // Clear highlights before updating text
         currentlyHighlightedWords = [];
         lastSpan = null;
-        lastZone = 0;    
+        lastZone = 0;
 
         if (!textContainer) {
             console.error('TextInteractionSystem: Container not initialized');
@@ -42,7 +42,10 @@ export const TextInteractionSystem = (function() {
         const text = textContainer.textContent.trim();
         // if (!text || text === lastProcessedText) return;
         textContainer.innerHTML = text
-            .split(/\s+/) // Split on whitespace, returns a list
+            // .split(/\s+/) // Split on whitespace, returns a list
+            .split(/([\s—–-]+)/)  // Split on whitespace OR hyphens, capture them
+            // .split(/(?<!\s)[—–-](?!\s)|(?<=\s)[—–-](?=\s)/)         
+            .filter(part => !/^\s+$/.test(part))  // Remove pure whitespace parts            
             .map(word => `<span class="word">${word}</span>`) // use the list to create a new list of spans
             .join(' '); // Join the list of spans back into a string and set as innerHTML
         

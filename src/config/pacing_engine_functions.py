@@ -58,25 +58,29 @@ def _apply_silence_tags(text: str, silence_map: dict) -> str:
     return re.sub(pattern, replace, text)
 
 silence_map_openai_tts = {
-    '\n': 1000,    # Newline pause
+    '\n': 1000,  # Newline pause
     '.': 400,    # Standard pause
     ';': 100,    # Short pause
-    '...': 900, # Dramatic pause
+    '...': 900,  # Dramatic pause
     ':': 100,    # Introduction pause
     '!': 400,    # Exclamatory pause
     '?': 100,    # Question pause
     '-': 100,    # Dash pause
-    ',': 100,
+    ',': 100,    # comma pause
+    '(': 50,     # open parenthese pause
+    ')': 50,     # close parenthese pause
 }
 
 silence_map_short_openai_tts = {
-    '\n' : 500,    # Newline pause
+    '\n' : 500,  # Newline pause
     '.': 200,    # Standard pause
     ';': 150,    # Short pause
-    '...': 900, # Dramatic pause
+    '...': 900,  # Dramatic pause
     ':': 120,    # Introduction pause
     '!': 110,    # Exclamatory pause
     '-': 150,    # Dash pause
-    ',': 100,
-    '?': 100,
+    ',': 100,    # comma pause
+    '?': 100,    # question mark pause
+    '(': 50,     # open parenthese pause
+    ')': 50,     # close parenthese pause
 }

@@ -2,6 +2,7 @@ from fastapi import HTTPException
 from uuid import uuid4
 
 from src.services.modes.story.subjects_creation import generate_subjects_with_mistralai
+from src.services.modes.story.create_ambiance_prompt import create_ambiance_prompt
 from src.services.modes.story.text import generate_story_with_openai_jinja, generate_story_with_mistralai
 from src.services.modes.story.tts import openai_tts, elevenlabs_text_to_speech, mistral_tts
 from src.config.settings import env_settings, FIELDS_DIR, LOCAL_TRACKS_DIR
@@ -18,16 +19,21 @@ def build_story(subject: str, narrative_style: str, difficulty: str) -> dict:
 
     story_title, tagged_story_for_tts, story = generate_story_with_mistralai(subject, narrative_style, difficulty) # returns text files
     # print(f"Generated story: {story}")
+    
+    ambiance_prompt = create_ambiance_prompt(story)
+
     speech_filename, speech_audio = openai_tts(tagged_story_for_tts, subject) # one text file, one bytes file (mp3)
     # speech_filename, speech_audio = mistral_tts(tagged_story_for_tts, subject) # one text file, one bytes file (mp3)
     # speech_filename, speech_audio = elevenlabs_text_to_speech(tagged_story_for_tts, subject) # one text file, one bytes file (mp3)
     print(f"Generated speech filename: {speech_filename}")
+    soundscape = eleven_labs_text_to_soundscape(soundscape_prompt)
     
     # store files and get their paths
     story_id = str(uuid.uuid4())[:8]  # Generate a short unique ID for the story
     json_story_filepath = storage.save_txt_to_json_file(story_id, story_title, tagged_story_for_tts, story) # store the story parameters on the server and returns the clean story file
     # print(f"Saved story JSON filepath: {json_story_filepath}")
     speech_filepath = storage.save_mp3_speech_file(story_id, speech_audio) # store the speech audio file and returns its path
+    soundscape_filepath = storage.save_mp3_soundscape_file(story_id)
     print(f"Saved speech path: {speech_filepath}")
     
     # get the path for a random local ambient track
@@ -44,6 +50,7 @@ def build_story(subject: str, narrative_style: str, difficulty: str) -> dict:
         "storyTitle": story_title,
         "story": story,
         "speechUrl": speech_url,
+        "backgroundSoundsUrl": story_background_sounds,
         "trackUrl": track_url,
         "trackTitle": track_title
     }

@@ -22,7 +22,10 @@ export function stateMachineEvents(sm) {
   });
 
   elements.formInput.addEventListener('focus', () => {
-    sm.dispatchEvent(AudioStateMachine.EventId.INPUT_CHANGED); // leads to READY state if input is valid (guard is in statemachine), otherwise stays in IDLE
+  // if input is focused, we want to check if it has a value and if so, trigger the input event to update the state machine and potentially other listeners. This is important for cases where the user clicks on the input after it has been pre-filled with a story title, ensuring that the state machine transitions to READY if the input is valid.
+    if (elements.formInput.value.trim()) {
+      sm.dispatchEvent(AudioStateMachine.EventId.INPUT_CHANGED); // leads to READY state if input is valid (guard is in statemachine), otherwise stays in IDLE
+    }
   })
 
   elements.formInput?.addEventListener('input', () => {

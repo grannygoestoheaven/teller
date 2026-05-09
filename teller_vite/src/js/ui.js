@@ -4,6 +4,7 @@ import { elements, lastStoryData } from "./config.js";
 import { playedSquares } from "./uiInit.js";
 
 let currentView = 'grid' // Default view is grid, can be 'text' or 'dots'
+let isEmpty = true;
 
 // export function uiIdle() {
 //   // Reset buttons
@@ -56,10 +57,12 @@ export function initInputAdjustments() {
 
 export function inputIsValid() {
   return elements.formInput.value.trim().length > 0;
+  document.dispatchEvent(new CustomEvent('inputValid', { detail: { isEmpty: false } }));
 }
 
 export function inputIsEmpty() {
   return elements.formInput.value.trim().length === 0;
+  document.dispatchEvent(new CustomEvent('inputEmpty', { detail: { isEmpty: true } }));
 }
 
 export function blurInput() {
@@ -72,7 +75,7 @@ export function uiClearInput() {
 }
 
 export function uiIdleButtons() {
-  elements.fromStartButton.disabled = false;
+  elements.fromStartButton.disabled = true;
   elements.playPauseButton.disabled = true;
   elements.playPauseButton.textContent = 'Start';
 }

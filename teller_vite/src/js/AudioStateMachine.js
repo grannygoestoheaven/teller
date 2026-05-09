@@ -212,10 +212,10 @@ class AudioStateMachine
         this.stateId = AudioStateMachine.StateId.IDLE;
         
         // IDLE behavior
-        // uml: enter / { this.actions.abortProcess(); this.actions.dotsView(); this.actions.pauseAllAudio(); this.actions.resetAllAudio(); this.actions.uiIdleButtons(); this.actions.initInputAdjustments(); }
+        // uml: enter / { this.actions.abortProcess(); this.actions.gridView(); this.actions.pauseAllAudio(); this.actions.resetAllAudio(); this.actions.uiIdleButtons(); this.actions.initInputAdjustments(); }
         {
-            // Step 1: execute action `this.actions.abortProcess(); this.actions.dotsView(); this.actions.pauseAllAudio(); this.actions.resetAllAudio(); this.actions.uiIdleButtons(); this.actions.initInputAdjustments();`
-            this.actions.abortProcess(); this.actions.dotsView(); this.actions.pauseAllAudio(); this.actions.resetAllAudio(); this.actions.uiIdleButtons(); this.actions.initInputAdjustments();
+            // Step 1: execute action `this.actions.abortProcess(); this.actions.gridView(); this.actions.pauseAllAudio(); this.actions.resetAllAudio(); this.actions.uiIdleButtons(); this.actions.initInputAdjustments();`
+            this.actions.abortProcess(); this.actions.gridView(); this.actions.pauseAllAudio(); this.actions.resetAllAudio(); this.actions.uiIdleButtons(); this.actions.initInputAdjustments();
         } // end of behavior for IDLE
     }
     
@@ -539,14 +539,14 @@ class AudioStateMachine
     #PLAYING_music_over()
     {
         // PLAYING behavior
-        // uml: MUSIC_OVER [this.actions.bothTracksEnded()] / { this.actions.resetAllAudio(); this.actions.uiIdleButtons(); } TransitionTo(IDLE)
+        // uml: MUSIC_OVER [this.actions.bothTracksEnded()] / { this.actions.resetAllAudio(); } TransitionTo(IDLE)
         if (this.actions.bothTracksEnded())
         {
             // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
             this.#PLAYING_exit();
             
-            // Step 2: Transition action: `this.actions.resetAllAudio(); this.actions.uiIdleButtons();`.
-            this.actions.resetAllAudio(); this.actions.uiIdleButtons();
+            // Step 2: Transition action: `this.actions.resetAllAudio();`.
+            this.actions.resetAllAudio();
             
             // Step 3: Enter/move towards transition target `IDLE`.
             this.#IDLE_enter();
@@ -721,7 +721,8 @@ class AudioStateMachine
     #READY_DURING_IDLE_toggle_pause_resume()
     {
         // READY_DURING_IDLE behavior
-        // uml: TOGGLE_PAUSE_RESUME / { this.actions.startNewStoryProcessForm(); } TransitionTo(LOADING)
+        // uml: TOGGLE_PAUSE_RESUME [!this.actions.inputIsEmpty()] / { this.actions.startNewStoryProcessForm(); } TransitionTo(LOADING)
+        if (!this.actions.inputIsEmpty())
         {
             // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
             this.#READY_DURING_IDLE_exit();
@@ -847,7 +848,8 @@ class AudioStateMachine
     #READY_DURING_PAUSED_toggle_pause_resume()
     {
         // READY_DURING_PAUSED behavior
-        // uml: TOGGLE_PAUSE_RESUME / { this.actions.startNewStoryProcessForm(); } TransitionTo(LOADING)
+        // uml: TOGGLE_PAUSE_RESUME [!this.actions.inputIsEmpty()] / { this.actions.startNewStoryProcessForm(); } TransitionTo(LOADING)
+        if (!this.actions.inputIsEmpty())
         {
             // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
             this.#READY_DURING_PAUSED_exit();
@@ -973,7 +975,8 @@ class AudioStateMachine
     #READY_DURING_PLAYBACK_toggle_pause_resume()
     {
         // READY_DURING_PLAYBACK behavior
-        // uml: TOGGLE_PAUSE_RESUME / { this.actions.startNewStoryProcessForm(); } TransitionTo(LOADING)
+        // uml: TOGGLE_PAUSE_RESUME [!this.actions.inputIsEmpty()] / { this.actions.startNewStoryProcessForm(); } TransitionTo(LOADING)
+        if (!this.actions.inputIsEmpty())
         {
             // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
             this.#READY_DURING_PLAYBACK_exit();

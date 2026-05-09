@@ -5,15 +5,6 @@ import { playedSquares } from "./uiInit.js";
 
 let currentView = 'grid' // Default view is grid, can be 'text' or 'dots'
 
-// export function uiIdle() {
-//   // Reset buttons
-//   elements.fromStartButton.disabled = true;
-//   elements.playPauseButton.disabled = true;
-//   elements.playPauseButton.textContent = 'Start';
-//   // elements.chatHistoryContainer.disabled = !getIsChatVisible();
-//   // inputIsValid();
-// }
-
 export function clearStoryText() {
   elements.storyText.innerHTML = '';
 }
@@ -31,28 +22,6 @@ export function initInputAdjustments() {
   subjectInput.addEventListener('input', adjustInput);
   adjustInput(); // initialize on load
 }
-
-// export function inputNotEmpty() {
-//   // Access elements from the global store
-//   const formInput = elements.formInput;
-//   const fromStartButton = elements.fromStartButton;
-//   const playPauseButton = elements.playPauseButton;
-
-//   // The logic is now cleaner
-//   const isNotEmpty = formInput.value.trim().length > 0;
-  
-//   if (fromStartButton) {
-//       fromStartButton.disabled = !isNotEmpty;
-//   }
-  
-//   if (playPauseButton) {
-//       playPauseButton.disabled = !isNotEmpty;
-//       // Optional: Set text only when it becomes startable
-//       if (isNotEmpty) {
-//           playPauseButton.textContent = 'Start new story';
-//       }
-//   }
-// }
 
 export function inputIsValid() {
   return elements.formInput.value.trim().length > 0;
@@ -72,7 +41,7 @@ export function uiClearInput() {
 }
 
 export function uiIdleButtons() {
-  elements.fromStartButton.disabled = false;
+  elements.fromStartButton.disabled = true;
   elements.playPauseButton.disabled = true;
   elements.playPauseButton.textContent = 'Start';
 }
@@ -140,20 +109,6 @@ export function hideDots() {
   elements.dotsContainer.classList.remove('visible');
 }
 
-// export function toggleTextVisibility() {
-//   const isTextVisible = elements.storyText.style.opacity === '1';
-
-//   if (isTextVisible) {
-//       // Hide Text (set opacity to 0) and Show Dots (set display to flex)
-//       elements.storyText.style.opacity = '0';
-//       elements.dotsContainer.style.display = 'flex';
-//   } else {
-//       // Show Text (set opacity to 1) and Hide Dots (set display to none)
-//       elements.storyText.style.opacity = '1';
-//       elements.dotsContainer.style.display = 'none';
-//   }
-// }
-
 export function toggleTextVisibility() {
   const isTextVisible = elements.storyText.classList.contains('visible');
   if (isTextVisible) hideStoryText();
@@ -196,35 +151,6 @@ export function textView() {
   setAreDotsVisible(false);
 }
 
-
-
-// Toggle function
-// export function toggleView() {
-//   const isGridVisible = getIsGridVisible();
-//   elements.gridContainer.style.display = isGridVisible ? "none" : "grid";
-//   elements.chatHistoryContainer.style.display = isGridVisible ? "flex" : "none";
-//   setIsGridVisible(!isGridVisible); // Toggle the state
-// }
-
-// export function toggleView() {
-//   const isGridVisible = getIsGridVisible();
-//   elements.gridContainer.classList.toggle("hidden", !isGridVisible);
-//   elements.gridContainer.classList.toggle("visible", isGridVisible);
-//   elements.chatHistoryContainer.classList.toggle("hidden", isGridVisible);
-//   elements.chatHistoryContainer.classList.toggle("visible", !isGridVisible);
-//   setIsGridVisible(!isGridVisible);
-// }
-
-// export function toggleView() {
-//   const visible = getIsGridVisible();
-//   // Reverse the logic for hidden/visible
-//   elements.gridContainer.classList.toggle("hidden", visible);    // Hide if visible
-//   elements.gridContainer.classList.toggle("visible", !visible);  // Show if hidden
-//   elements.chatHistoryContainer.classList.toggle("hidden", !visible);  // Hide if grid is hidden
-//   elements.chatHistoryContainer.classList.toggle("visible", visible);   // Show if grid is visible
-//   setIsGridVisible(!visible);
-// }
-
 export function lockGrid() {
   elements.gridSquares.forEach(square => {
     square.style.pointerEvents = 'none';
@@ -236,24 +162,6 @@ export function unlockGrid() {
     square.style.pointerEvents = 'auto';
   });
 }
-
-// Activate: Show text on hover, no background change
-// export function activateSquareTextHover() {
-//   elements.gridSquares.forEach(square => {
-//     square.style.setProperty('--square-bg-color:', 'transparent');
-//     square.style.setProperty('--square-hover-content-color', '#d1caca');
-//   });
-// }
-
-// Deactivate: Change background on hover, hide text
-// export function deactivateSquareTextHover() {
-//   elements.gridSquares.forEach(square => {
-//     square.style.setProperty('--square-hover-bg-color:', 'rgb(204, 6, 6)');
-//     square.style.setProperty('--square-hover-content-color', 'transparent');
-//   });
-// }
-
-// In your state machine's actions:
 
 export function redSquare(square) {
   const color = getBluePinkColor();
@@ -305,13 +213,6 @@ export function dotsViewTitle() {
     elements.formInput.value = lastStoryData.storyTitle;
   }
 }
-
-// export function addSquareToPlayed() {
-//   let square = elements.activeSquare;
-//   playedSquares.add(square);
-//   // elements.activeSquare.style.backgroundColor = 'rgba(204, 6, 6, 0.5)';
-// }
-
 
 export function removeSquareFromPlayed() {
   let square = elements.activeSquare;

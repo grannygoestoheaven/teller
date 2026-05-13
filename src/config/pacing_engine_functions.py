@@ -5,15 +5,15 @@ def _apply_silence_tags(text: str, silence_map: dict) -> str:
     # pattern = r'(\.{3}|[.;:!?])(?=\s|$)'
     # pattern = r'(\.{3}|[.;:!?\n])(?=\s|$)'
     # pattern = r'(?<!\b[A-Z])(\.{3}|[.;:!?\n])(?=\s|$)'
-    pattern = r'(?<!\b[A-Z])(\.{3}|[.;:!])(?=\s|$)'
+    pattern = r'(?<!\b[A-Z])(\.{3}|[.:;?!—])(?=\s|$)'
     
     def replace(m):
         p = m.group(1)
         # return f"{p}<[silence:{silence_map_short_openai_tts[p]}]>"
         # return f"{p}<[silence:{silence_map_openai_tts[p]}]>"
         # return f"{p}<[silence:{silence_map_long_openai_tts[p]}]>"
-        # return f"{p}<[silence:{silence_map[p]}]>"
-        return f"{p}<break time={silence_map[p]}ms/>"
+        return f"{p}<[silence:{silence_map[p]}ms]>"
+        # return f"{p}<break time={silence_map[p]}ms/>"
     
     return re.sub(pattern, replace, text)
 
@@ -32,17 +32,12 @@ silence_map_openai_tts = {
 }
 
 silence_map_long_openai_tts = {
-    '\n': 1500,  # Newline pause
-    '.': 800,    # Standard pause
+    '.': 600,    # Standard pause
     ';': 200,    # Short pause
-    '...': 900,  # Dramatic pause
-    ':': 100,    # Introduction pause
     '!': 800,    # Exclamatory pause
     '?': 200,    # Question pause
-    '—': 100,    # Em dash pause
-    ',': 200,    # comma pause
-    '(': 50,    # open parenthese pause
-    ')': 50,    # close parenthese pause
+    '—': 200,    # Em dash pause
+    ':': 200,
 }
 
 silence_map_short_openai_tts = {

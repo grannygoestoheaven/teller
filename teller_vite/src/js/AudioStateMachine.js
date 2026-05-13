@@ -310,13 +310,13 @@ class AudioStateMachine
     #LOADING_speech_ready()
     {
         // LOADING behavior
-        // uml: SPEECH_READY / { this.actions.setUpAndStartAllAudio(); this.actions.displayStoryText(); this.actions.TextInteractionSystem.wrapWordsInSpans(); } TransitionTo(PLAYING)
+        // uml: SPEECH_READY / { this.actions.addTitleToSquare(); this.actions.setUpAndStartAllAudio(); this.actions.displayStoryText(); this.actions.TextInteractionSystem.wrapWordsInSpans(); } TransitionTo(PLAYING)
         {
             // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
             this.#LOADING_exit();
             
-            // Step 2: Transition action: `this.actions.setUpAndStartAllAudio(); this.actions.displayStoryText(); this.actions.TextInteractionSystem.wrapWordsInSpans();`.
-            this.actions.setUpAndStartAllAudio(); this.actions.displayStoryText(); this.actions.TextInteractionSystem.wrapWordsInSpans();
+            // Step 2: Transition action: `this.actions.addTitleToSquare(); this.actions.setUpAndStartAllAudio(); this.actions.displayStoryText(); this.actions.TextInteractionSystem.wrapWordsInSpans();`.
+            this.actions.addTitleToSquare(); this.actions.setUpAndStartAllAudio(); this.actions.displayStoryText(); this.actions.TextInteractionSystem.wrapWordsInSpans();
             
             // Step 3: Enter/move towards transition target `PLAYING`.
             this.#PLAYING_enter();
@@ -561,10 +561,10 @@ class AudioStateMachine
     #PLAYING_speech_over()
     {
         // PLAYING behavior
-        // uml: SPEECH_OVER / { this.actions.addTitleToSquare(); this.actions.textView(); }
+        // uml: SPEECH_OVER / { this.actions.textView(); }
         {
-            // Step 1: execute action `this.actions.addTitleToSquare(); this.actions.textView();`
-            this.actions.addTitleToSquare(); this.actions.textView();
+            // Step 1: execute action `this.actions.textView();`
+            this.actions.textView();
         } // end of behavior for PLAYING
         
         // No ancestor handles this event.
@@ -699,8 +699,7 @@ class AudioStateMachine
     #READY_DURING_IDLE_square_clicked()
     {
         // READY_DURING_IDLE behavior
-        // uml: SQUARE_CLICKED [this.actions.getSquareClickAuthorized()] / { this.actions.startNewStoryProcessForm(); } TransitionTo(LOADING)
-        if (this.actions.getSquareClickAuthorized())
+        // uml: SQUARE_CLICKED / { this.actions.startNewStoryProcessForm(); } TransitionTo(LOADING)
         {
             // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
             this.#READY_DURING_IDLE_exit();
@@ -826,8 +825,7 @@ class AudioStateMachine
     #READY_DURING_PAUSED_square_clicked()
     {
         // READY_DURING_PAUSED behavior
-        // uml: SQUARE_CLICKED [this.actions.getSquareClickAuthorized()] / { this.actions.startNewStoryProcessForm(); } TransitionTo(LOADING)
-        if (this.actions.getSquareClickAuthorized())
+        // uml: SQUARE_CLICKED / { this.actions.startNewStoryProcessForm(); } TransitionTo(LOADING)
         {
             // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
             this.#READY_DURING_PAUSED_exit();
@@ -953,8 +951,7 @@ class AudioStateMachine
     #READY_DURING_PLAYBACK_square_clicked()
     {
         // READY_DURING_PLAYBACK behavior
-        // uml: SQUARE_CLICKED [this.actions.getSquareClickAuthorized()] / { this.actions.startNewStoryProcessForm(); } TransitionTo(LOADING)
-        if (this.actions.getSquareClickAuthorized())
+        // uml: SQUARE_CLICKED / { this.actions.startNewStoryProcessForm(); } TransitionTo(LOADING)
         {
             // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
             this.#READY_DURING_PLAYBACK_exit();

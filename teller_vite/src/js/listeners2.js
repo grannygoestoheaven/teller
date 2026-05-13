@@ -34,8 +34,12 @@ export function stateMachineEvents(sm) {
   });
 
   elements.formInput.addEventListener('blur', (e) => {
-    console.log('Blur fired!'); // Will log on click outside
-    if (e.relatedTarget === elements.playPauseButton || e.detail.view === 'text') return; // Skip if focus moved to the button
+    const target = e.relatedTarget || document.activeElement; // Fallback to activeElement if relatedTarget is null
+    console.log('Blur fired from', target); // Will log on click outside
+    if (target?.classList?.contains('square') && squareHasTitle(target)) {
+          console.log("Blur related target:", target);
+          return; // Skip if focus moved to the button
+        }
     sm.dispatchEvent(AudioStateMachine.EventId.INPUT_DEFOCUSED);
   }); 
 
@@ -57,7 +61,6 @@ export function stateMachineEvents(sm) {
 
   elements.form?.addEventListener("submit", (e) => {
     e.preventDefault();
-
     console.log('Form submitted');
     sm.dispatchEvent(AudioStateMachine.EventId.FORM_SUBMITTED) // leads to LOADING state
     elements.formInput.blur(); // Remove focus from input (hides cursor)
@@ -85,10 +88,11 @@ export function stateMachineEvents(sm) {
 
   elements.gridSquares.forEach(square => {
     square.addEventListener('mouseenter', () => {
+      elements.activeSquare = square; // Store reference
       console.log('Hovered over square:', square.dataset.compactSubject);
       if (squareHasTitle(square)) {
         greenSquare(square); // Change background to green on hover if it has a title
-        setSquareClickAuthorized(true); // Allow clicking this square
+        // setSquareClickAuthorized(true); // Allow clicking this square
         elements.formInput.value = square.dataset.compactSubject;
         elements.formInput.focus();
         console.log("Hovered over square with compact subject:", square.dataset.compactSubject);
@@ -101,9 +105,10 @@ export function stateMachineEvents(sm) {
   elements.gridSquares.forEach(square => {
     square.addEventListener('mouseout', () => {
       if (squareHasTitle(square)) {
-        setSquareClickAuthorized(false); // Prevent clicking when not hovered
+        // setSquareClickAuthorized(false); // Prevent clicking when not hovered
         defaultSquare(square); // Revert to default background on mouse out
-        elements.formInput.value = ''; // Clear input on mouse out
+        elements.formInput.blur(); // Remove focus from input (hides cursor)
+        // elements.formInput.value = ''; // Clear input on mouse out
       }
     })
   })
@@ -114,6 +119,7 @@ export function stateMachineEvents(sm) {
       console.log('Square clicked:', elements.activeSquare.dataset.compactSubject);
       if (squareHasTitle(square)) {
         sm.dispatchEvent(AudioStateMachine.EventId.SQUARE_CLICKED);
+        console.log("Square has title, dispatching SQUARE_CLICKED event with compact subject:", square.dataset.compactSubject);
       }
     });
   });

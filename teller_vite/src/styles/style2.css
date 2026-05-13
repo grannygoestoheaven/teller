@@ -1,7 +1,9 @@
 :root {
     --period-color: #e4b228;  /* Default color for periods */
     /* --period-color: hsl(0, 73%, 36%); */
-    --grid-background-color: rgb(31, 31, 31); /* Background color for the grid */
+    --grid-background-color: rgb(43, 43, 43);
+    /* --grid-background-color: rgb(31, 31, 31); */
+    /* --grid-background-color: rgb(22, 22, 22); */
     /* --grid-background-color: transparent; */
     --square-bg-color: transparent; /* color for squares */
     --square-content-color: transparent; /* Default: hide text */
@@ -13,6 +15,7 @@
     /* --square-hover-dashed-border: 1px dashed #d3cdba; */
     --square-hover-dashed-border: 1px dashed hsl(0, 0%, 0%);
     --subject-bg-color: rgb(20, 20, 20); /* Background for subject input group */
+    --subject-bg-color: rgba(0, 0, 0, 0.576); /* Background for subject input group */
     /* --subject-bg-color: #3D5253; */
     /* --subject-bg-color: rgb(61, 46, 70); */
     --input-highlight-color: #5ECC67; /* Border color for focused input */
@@ -130,6 +133,7 @@ body {
     font-family: 'Inika', serif;
     /* font-family: 'Poiret One', cursive; */
     background-color: rgb(34, 34, 35);
+    /* background-color: rgb(12, 12, 12); */
     color: #d1caca;
     margin: 0;
     padding: 0;
@@ -141,7 +145,7 @@ body {
 /* Header styles */
 .chat-header {
     text-align: center;
-    font-size: 1.9em; /* Base font size for the header container */
+    font-size: 2.4em; /* Base font size for the header container */
     z-index: 10;
     background: none;
     padding: 5px 25px 0px;
@@ -154,6 +158,7 @@ body {
     display: inline-block;
     margin: 0 0 0 0px;      /* keep your left indent            */
     color: rgba(249,245,245);
+    color: #e3ddc8;
     font-weight: 700;        /* make it stand out                */
     user-select: none;              /* Prevent text selection */
     -webkit-user-select: none;      /* Safari */
@@ -212,12 +217,38 @@ body {
     cursor: pointer;
 }
 
+.music-button {
+    /* display: none; */
+    /* font-size: 1em; */
+    border: none;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    padding: 5px 10px;
+    background-color: #353432;
+    color: rgb(223, 195, 198);
+    opacity: 0.7;
+    font-size: 1em;
+}
+
+.soundscapes-button {
+    /* display: none; */
+    font-size: 0.8em;
+    border: none;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    padding: 5px 10px;
+    background-color: #353432;
+    color: rgb(223, 195, 198);    opacity: 0.7;
+    font-size: 1em;
+}
+
 .toggle-container {
     position: relative;
     display: flex;
+    /* border: 20px solid rgb(10, 10, 10); */
     /* justify-content: center; */
     /* align-items: center; */
-    width: 85%;
+    width: 75%;
     height: 65%;
     overflow: hidden; /* Critical: Hide overflow for layers */
     /* transition: none !important; */ /* Disable transitions for container */
@@ -472,7 +503,7 @@ footer.chat-input-area {
     align-items: center;
     height: 100%;
     width: 100%;
-    margin: 0px 10px;
+    margin: 10px 10px;
     box-sizing: border-box;
     /* background: #2c2c2caf; */
     /* background: #0c0c0c; */

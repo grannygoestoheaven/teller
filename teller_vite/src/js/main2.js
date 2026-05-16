@@ -16,6 +16,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const domElements = {
     title: document.getElementById('teller-title'),
     subtitle: document.getElementById('teller-subtitle'),
+    toggleButton: document.getElementById('toggleBtn'),
+    paceButton: document.getElementById('paceBtn'),
     speech: document.getElementById('speechAudio'),
     backgroundTrack: document.getElementById('backgroundAudio'),
     toggleContainer: document.getElementById('toggleContainer'),
@@ -29,8 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
     fromStartButton: document.getElementById('replayBtn'),
     playPauseButton: document.getElementById('playPauseBtn'),
     stopButton: document.getElementById('stopBtn'),
-    difficultyLevelButton: document.getElementById('difficultyLevelBtn'),
-    toggleButton: document.getElementById('toggleBtn')
+    difficultyLevelButton: document.getElementById('difficultyLevelBtn')
   };
 
   if (domElements.storyText) {

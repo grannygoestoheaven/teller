@@ -1,8 +1,8 @@
-import { elements, lastStoryData, getLastFilledSquares, setIsChatVisible, setSquareClickAuthorized, setIsTextHighlighted } from './config.js';
+import { elements, lastStoryData, setPaceButton, getLastFilledSquares, setIsChatVisible, setSquareClickAuthorized, setIsTextHighlighted } from './config.js';
 import { squareHasTitle } from './subjectsService.js';
 import { cycleToNextTopic, mapValuesToSquares } from './uiInit.js';
 import { TextInteractionSystem } from './textInteractionSystem2.js';
-import { toggleView, greenSquare, defaultSquare } from './ui.js';
+import { toggleView, PaceButtonText, paceButtonColor, greenSquare, defaultSquare } from './ui.js';
 // import { uiClearInput } from 'static/js/ui.js';
 
 // On page load, check if input has cached value
@@ -128,25 +128,39 @@ export function stateMachineEvents(sm) {
 export function staticListeners() {
 
     document.addEventListener('viewChanged', (e) => {
-        let view = e.detail.view;
-        console.log('View changed to:', view);
-        if ((view === 'text' || view == 'dots') && lastStoryData?.storyTitle) {
-        elements.formInput.value = lastStoryData.storyTitle;
-        console.log('Updated form input to story title:', lastStoryData);
-        }
+      let view = e.detail.view;
+      console.log('View changed to:', view);
+      if ((view === 'text' || view == 'dots') && lastStoryData?.storyTitle) {
+      elements.formInput.value = lastStoryData.storyTitle;
+      console.log('Updated form input to story title:', lastStoryData);
+      }
     });  
 
     elements.toggleButton?.addEventListener('click', () => {
-        console.log('Toggling grid visibility');
-        // sm.dispatchEvent(AudioStateMachine.EventId.VIEW_TOGGLED);
-        toggleView();
+      console.log('Toggling grid visibility');
+      // sm.dispatchEvent(AudioStateMachine.EventId.VIEW_TOGGLED);
+      toggleView();
+    });
+
+    elements.paceButton?.addEventListener('click', () => {
+      if (elements.paceButton.textContent === 'Pace Off') {
+        PaceButtonText(true);
+        paceButtonColor(true);
+        setPaceButton(true);
+        console.log("Pace turned On");
+      } else {
+        PaceButtonText(false);
+        paceButtonColor(false);
+        setPaceButton(false);
+        console.log("Pace turned Off");
+      }
     });
 
     // Handling mouse interactions with the story text for word highlighting and pasting
     elements.storyText?.addEventListener('mousemove', (e) => {
-        TextInteractionSystem.handleMouseMove(e);
-        // elements.formInput.dispatchEvent(new Event('input', { bubbles: true }));
-        });
+      TextInteractionSystem.handleMouseMove(e);
+      // elements.formInput.dispatchEvent(new Event('input', { bubbles: true }));
+    });
     
     elements.storyText?.addEventListener('mouseout', (e) => {
         TextInteractionSystem.handleMouseOut(e);
@@ -154,48 +168,48 @@ export function staticListeners() {
     
     // Click: Paste highlighted words
     elements.storyText?.addEventListener('click', (e) => {
-        if (e.target.classList.contains('highlight-word')) {
-        // const allWords = currentlyHighlightedWords.map(span => span.textContent.trim());
-        const cleanTitle = TextInteractionSystem.getCurrentlyHighlightedWords()
-            .map(span => span.textContent.trim())
-            .map(word => word.charAt(0).toUpperCase() + word.slice(1).replace(/[.,"]/g, ''))
-            .join(' ');
-        elements.formInput.value = cleanTitle;
+      if (e.target.classList.contains('highlight-word')) {
+      // const allWords = currentlyHighlightedWords.map(span => span.textContent.trim());
+      const cleanTitle = TextInteractionSystem.getCurrentlyHighlightedWords()
+          .map(span => span.textContent.trim())
+          .map(word => word.charAt(0).toUpperCase() + word.slice(1).replace(/[.,"]/g, ''))
+          .join(' ');
+      elements.formInput.value = cleanTitle;
 
-        console.log("Pasted:", cleanTitle); // Debug
-        elements.formInput.dispatchEvent(new Event('input'));
-        elements.formInput.focus();
-        // elements.formInput.blur(); // Remove focus (hides cursor)
-        }
+      console.log("Pasted:", cleanTitle); // Debug
+      elements.formInput.dispatchEvent(new Event('input'));
+      elements.formInput.focus();
+      // elements.formInput.blur(); // Remove focus (hides cursor)
+      }
     });
 
     // Title click handler - now handles both topic cycling and state machine events
     elements.title?.addEventListener('click', (e) => {
-        // Prevent text selection and default behavior
-        e.preventDefault();
-        e.stopPropagation();
+      // Prevent text selection and default behavior
+      e.preventDefault();
+      e.stopPropagation();
 
-        // Cycle to next topic
-        cycleToNextTopic();
-        mapValuesToSquares();
-        // sm.dispatchEvent(AudioStateMachine.EventId.CANCEL); // leads to IDLE state
+      // Cycle to next topic
+      cycleToNextTopic();
+      mapValuesToSquares();
+      // sm.dispatchEvent(AudioStateMachine.EventId.CANCEL); // leads to IDLE state
     });
 
     // Prevent double-click text selection on title
     elements.title?.addEventListener('mousedown', (e) => {
-        if (e.detail > 1) {
-        e.preventDefault();
-        }
+      if (e.detail > 1) {
+      e.preventDefault();
+      }
     });
 
     // Prevent text selection on subtitle (for future functionality)
     elements.subtitle?.addEventListener('mousedown', (e) => {
-        e.preventDefault();
+      e.preventDefault();
     });
 
     // Subtitle click handler - currently a placeholder for future functionality
     elements.subtitle?.addEventListener('click', (e) => {
-        e.preventDefault();
-        console.log('Subtitle clicked - ready for future functionality');
+      e.preventDefault();
+      console.log('Subtitle clicked - ready for future functionality');
     });
     }

@@ -32,26 +32,21 @@ silence_map_openai_tts = {
 }
 
 silence_map_long_openai_tts = {
-    '.': 600,    # Standard pause
-    ';': 200,    # Short pause
-    '!': 800,    # Exclamatory pause
-    '?': 200,    # Question pause
-    '—': 200,    # Em dash pause
-    ':': 200,
+    '.': 500,    # Standard pause
+    ';': 70,    # Short pause
+    '!': 70,    # Exclamatory pause
+    '?': 70,    # Question pause
+    '—': 70,    # Em dash pause
+    ':': 70,
 }
 
 silence_map_short_openai_tts = {
-    '\n': 500,  # Newline pause
-    '.': 200,    # Standard pause
-    ';': 150,    # Short pause
-    '...': 900,  # Dramatic pause
-    ':': 120,    # Introduction pause
-    '!': 110,    # Exclamatory pause
-    '-': 150,    # Dash pause
-    ',': 100,    # comma pause
-    '?': 100,    # question mark pause
-    '(': 50,     # open parenthese pause
-    ')': 50,     # close parenthese pause
+    '.': 300,    # Standard pause
+    ';': 50,    # Short pause
+    '!': 50,    # Exclamatory pause
+    '?': 50,    # Question pause
+    ':': 50,    # Introduction pause
+    '—': 50,    # Em dash pause
 }
 
 silence_map_elevenlabs_tts = {

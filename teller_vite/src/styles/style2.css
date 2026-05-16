@@ -2,6 +2,7 @@
     --period-color: #e4b228;  /* Default color for periods */
     /* --period-color: hsl(0, 73%, 36%); */
     --grid-background-color: rgb(43, 43, 43);
+    --grid-background-color: rgb(58, 58, 58);
     /* --grid-background-color: rgb(31, 31, 31); */
     /* --grid-background-color: rgb(22, 22, 22); */
     /* --grid-background-color: transparent; */
@@ -132,7 +133,8 @@ body {
     display: flex; /* Use flexbox */
     font-family: 'Inika', serif;
     /* font-family: 'Poiret One', cursive; */
-    background-color: rgb(34, 34, 35);
+    background-color: rgb(42, 42, 42);
+    /* background-color: rgb(47, 47, 49); */
     /* background-color: rgb(12, 12, 12); */
     color: #d1caca;
     margin: 0;
@@ -200,21 +202,33 @@ body {
 
 .toggle-button {
     /* display: none; */
-    font-size: 0.8em;
+    font-size: 1em;
     border: none;
     border-radius: 5px;
     margin-bottom: 20px;
     padding: 5px 10px;
     background-color: #353432;
-    color: rgb(79, 78, 77);
+    background-color: #4a4845;
+    color: rgb(238, 235, 231);
     opacity: 0.7;
-    font-size: 0.6em;
 }
 
 .toggle-button .button {
     text-align: center;
     text-decoration: underline;
     cursor: pointer;
+}
+
+.pace-button {
+    font-size: 0.8em;
+    border: none;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    padding: 5px 10px;
+    background-color: #353432;
+    color: rgb(223, 195, 198);
+    opacity: 0.7;
+    font-size: 1em;
 }
 
 .music-button {
@@ -273,7 +287,8 @@ body {
     display: grid;
     width: 100%;
     height: 100%;
-    border: 1px dashed rgb(237, 230, 212, 3);
+    /* border: 1px dashed rgb(237, 230, 212, 3);
+    border: 1px solid rgb(237, 230, 212, 3); */
     border: none;
     border-radius: 25px;
     background-color: var(--grid-background-color);

@@ -1,5 +1,5 @@
 // storyService.js
-import { elements, lastStoryData, currentFormInputValue } from "./config.js";
+import { elements, lastStoryData, getPaceValue, currentFormInputValue } from "./config.js";
 import { loadPlayer } from "./player.js";
 import { sanitizeSubject } from "./utils.js";
 
@@ -81,6 +81,8 @@ export async function startNewStoryProcessForm() {
   // allow cancellation of process
   abortController = new AbortController();
   let formSubject = elements.formInput.value.trim();
+  let pace = getPaceValue();
+
   const subject = sanitizeSubject(formSubject);
 
   console.log(JSON.stringify({ subject }));
@@ -90,7 +92,8 @@ export async function startNewStoryProcessForm() {
   const responseCheck = await fetch('/api/v1/stories/check_story', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ subject })
+    // body: JSON.stringify({ subject })
+    body: JSON.stringify({ subject, pace})
   });
 
   console.log("Response from check_story:", responseCheck);

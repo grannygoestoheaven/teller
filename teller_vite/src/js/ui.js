@@ -5,6 +5,7 @@ import { playedSquares } from "./uiInit.js";
 
 let currentView = 'grid' // Default view is grid, can be 'text' or 'dots'
 let isEmpty = true;
+// let isPaceOn = false;
 
 // export function uiIdle() {
 //   // Reset buttons
@@ -17,6 +18,14 @@ let isEmpty = true;
 
 export function clearStoryText() {
   elements.storyText.innerHTML = '';
+}
+
+export function PaceButtonText(isPaceOn) {
+  return isPaceOn ? elements.paceButton.textContent = "Pace On" : elements.paceButton.textContent = "Pace Off";
+}
+
+export function paceButtonColor(isPaceOn) {
+  return isPaceOn ? elements.paceButton.style.backgroundColor = 'rgb(109, 151, 120)' : elements.paceButton.style.backgroundColor = '';
 }
 
 export function initInputAdjustments() {

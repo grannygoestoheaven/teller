@@ -1,4 +1,5 @@
 export const elements = {}; // the elements object is defined in main.js
+
 export let lastStoryData = {}; // the lastStoryData object is assigned in storyService.js
 export let lastTopicData = {}; // the lastTopicData object is assigned in storyService.js
 export let currentFormInputValue = ''; // to track the current value of the form input, will be updated on input events in ui.js
@@ -19,6 +20,19 @@ let squareClickAuthorized = true; // To control when squares can be clicked
 let squareValues = []; // Array to hold values for each square
 let lastFilledSquares = new Set(); // Set to track if each square has data
 let usedTitles = new Set(); // To track used titles and prevent duplicates
+let currentLoadingTitle = "";
+let paceValue = false; // To track the state of the pace button
+
+// Setters
+export function setGridSize(value) { gridSize = value; }
+export function setGridValues(value) { gridValues = value; }
+export function setIsGridVisible(value) { isGridVisible = value; }
+export function setIsChatVisible(value) { isChatVisible = value; }
+export function setAreDotsVisible(value) { areDotsVisible = value; }
+export function setSquareClickAuthorized(value) { squareClickAuthorized = value; }
+export function setIsTextHighlighted(value) { isTextHighlighted = value; }
+export function setCurrentLoadingTitle(value) { currentLoadingTitle = value; }
+export function setPaceButton(value) { paceValue = value; }
 
 // Getters
 export function getGridSize() { return gridSize; }
@@ -34,12 +48,5 @@ export function getUsedTitles() { return usedTitles; }
 export function getCurrentPlayingSquare() { return currentPlayingSquare; }
 export function getSquareClickAuthorized() { return squareClickAuthorized; }
 export function getIsTextHighlighted() { return isTextHighlighted; }
-
-// Setters
-export function setGridSize(value) { gridSize = value; }
-export function setGridValues(value) { gridValues = value; }
-export function setIsGridVisible(value) { isGridVisible = value; }
-export function setIsChatVisible(value) { isChatVisible = value; }
-export function setAreDotsVisible(value) { areDotsVisible = value; }
-export function setSquareClickAuthorized(value) { squareClickAuthorized = value; }
-export function setIsTextHighlighted(value) { isTextHighlighted = value; }
+export function getCurrentLoadingTitle() { return currentLoadingTitle; }
+export function getPaceValue() { return paceValue; }

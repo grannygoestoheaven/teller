@@ -76,6 +76,7 @@ def generate_story_with_mistralai(subject, narrative_style: None, difficulty: No
         # print(f"CLEAN STORY: {clean_story}")
     
         return clean_story_title, tts_text, original_output
+        # return clean_story_title, original_output, original_output # for mistral tts >> no silence tags supported
         # return clean_story_title, original_output, clean_story
     
     except Exception as e:

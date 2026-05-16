@@ -41,11 +41,11 @@ def openai_tts(story: TtsRequest, filename) -> bytes:
             voice="onyx",
             input=story.strip(),  # Ensure we're passing a clean string
             response_format="mp3",
-            instructions='''
-                        Tone : discreet, tired.
-                        Pacing : slow.
-                        Emotional Range : peaceful.
-                        ''',
+            # instructions='''
+            #             Tone : discreet, tired.
+            #             Pacing : slow.
+            #             Emotional Range : peaceful.
+            #             ''',
         )
         
         speech_filename = _format_mp3_filename(filename) # generate an mp3 filename with underscores

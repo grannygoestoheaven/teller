@@ -66,6 +66,7 @@ def load_story(subject: str, regenerate_mp3: bool) -> dict:
         if regenerate_mp3 and not speech_url:
             print(f"MP3 missing for {story_filename}. Regenerating...")
             speech_filename, speech_audio = openai_tts(tagged_story_for_tts, subject)  # Your TTS function
+            # speech_filename, speech_audio = mistralai_tts(tagged_story_for_tts, subject)  # Your TTS function
             storage.save_mp3_speech_file(story_foldername, speech_filename, speech_audio)
 
         # URLs only (no filesystem paths)

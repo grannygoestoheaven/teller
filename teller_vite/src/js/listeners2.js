@@ -1,4 +1,4 @@
-import { elements, lastStoryData, setPaceButton, getLastFilledSquares, setIsChatVisible, setSquareClickAuthorized, setIsTextHighlighted } from './config.js';
+import { elements, lastStoryData, setPaceValue, getPaceValue } from './config.js';
 import { squareHasTitle } from './subjectsService.js';
 import { cycleToNextTopic, mapValuesToSquares } from './uiInit.js';
 import { TextInteractionSystem } from './textInteractionSystem2.js';
@@ -142,19 +142,21 @@ export function staticListeners() {
       toggleView();
     });
 
-    elements.paceButton?.addEventListener('click', () => {
-      if (elements.paceButton.textContent === 'Pace Off') {
-        PaceButtonText(true);
-        paceButtonColor(true);
-        setPaceButton(true);
-        console.log("Pace turned On");
-      } else {
-        PaceButtonText(false);
-        paceButtonColor(false);
-        setPaceButton(false);
-        console.log("Pace turned Off");
-      }
-    });
+    // elements.paceButton?.addEventListener('click', () => {
+    //   if (elements.paceButton.textContent === 'Pace Off') {
+    //     PaceButtonText(true);
+    //     paceButtonColor(true);
+    //     setPaceValue(true);
+    //     console.log("Pace turned On");
+    //     console.log("Current paceValue:", getPaceValue());
+    //   } else {
+    //     PaceButtonText(false);
+    //     paceButtonColor(false);
+    //     setPaceValue(false);
+    //     console.log("Pace turned Off");
+    //     console.log("Current paceValue:", getPaceValue());
+    //   }
+    // });
 
     // Handling mouse interactions with the story text for word highlighting and pasting
     elements.storyText?.addEventListener('mousemove', (e) => {

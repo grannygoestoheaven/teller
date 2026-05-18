@@ -92,8 +92,8 @@ export async function startNewStoryProcessForm() {
   const responseCheck = await fetch('/api/v1/stories/check_story', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    // body: JSON.stringify({ subject })
-    body: JSON.stringify({ subject, pace})
+    body: JSON.stringify({ subject })
+    // body: JSON.stringify({ subject, pace })
   });
 
   console.log("Response from check_story:", responseCheck);
@@ -121,6 +121,7 @@ export async function startNewStoryProcessForm() {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ subject, narrativeStyle: null, difficulty: null }),
+      // body: JSON.stringify({ subject, pace, narrativeStyle: null, difficulty: null }),
       signal: abortController.signal
     });
 

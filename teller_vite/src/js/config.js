@@ -32,7 +32,7 @@ export function setAreDotsVisible(value) { areDotsVisible = value; }
 export function setSquareClickAuthorized(value) { squareClickAuthorized = value; }
 export function setIsTextHighlighted(value) { isTextHighlighted = value; }
 export function setCurrentLoadingTitle(value) { currentLoadingTitle = value; }
-export function setPaceButton(value) { paceValue = value; }
+export function setPaceValue(value) { paceValue = value; }
 
 // Getters
 export function getGridSize() { return gridSize; }

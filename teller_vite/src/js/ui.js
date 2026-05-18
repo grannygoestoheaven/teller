@@ -66,12 +66,12 @@ export function initInputAdjustments() {
 
 export function inputIsValid() {
   return elements.formInput.value.trim().length > 0;
-  document.dispatchEvent(new CustomEvent('inputValid', { detail: { isEmpty: false } }));
+  // document.dispatchEvent(new CustomEvent('inputValid', { detail: { isEmpty: false } }));
 }
 
 export function inputIsEmpty() {
   return elements.formInput.value.trim().length === 0;
-  document.dispatchEvent(new CustomEvent('inputEmpty', { detail: { isEmpty: true } }));
+  // document.dispatchEvent(new CustomEvent('inputEmpty', { detail: { isEmpty: true } }));
 }
 
 export function blurInput() {

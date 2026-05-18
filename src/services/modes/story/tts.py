@@ -18,6 +18,7 @@ elevenlabs_client = ElevenLabs(api_key=env_settings.elevenlabs_api_key)
 mistral_client = Mistral(api_key=env_settings.mistral_api_key)
 
 def openai_tts(story: TtsRequest, filename) -> bytes:
+# def openai_tts(story: TtsRequest) -> bytes:
     """
     Generates speech from text using OpenAI's TTS and saves it to a static directory.
 
@@ -30,7 +31,8 @@ def openai_tts(story: TtsRequest, filename) -> bytes:
         The path to the saved audio file relative to the 'static' directory
         (e.g., 'audio/generated_stories/my_story.mp3'), or None on error.
     """
-    print(f"Entering openai_tts with story: {story} and filename: {filename}")
+    print(f"Entering openai_tts with story: {story}")
+    # print(f"Entering openai_tts with story: {story} and filename: {filename}")
     try:
         # Ensure the input text is not empty and is a string
         if not story or not isinstance(story, str):
@@ -41,11 +43,11 @@ def openai_tts(story: TtsRequest, filename) -> bytes:
             voice="onyx",
             input=story.strip(),  # Ensure we're passing a clean string
             response_format="mp3",
-            # instructions='''
-            #             Tone : discreet, tired.
-            #             Pacing : slow.
-            #             Emotional Range : peaceful.
-            #             ''',
+            instructions='''
+                        Tone : discreet, tired.
+                        Pacing : slow.
+                        Emotional Range : peaceful.
+                        ''',
         )
         
         speech_filename = _format_mp3_filename(filename) # generate an mp3 filename with underscores
@@ -54,6 +56,7 @@ def openai_tts(story: TtsRequest, filename) -> bytes:
         print(f"Generated speech length: {len(speech_audio)} bytes")  # Should match expected size
         
         return speech_filename, speech_audio
+        # return speech_audio
 
     except Exception as e:
         # Log the error appropriately in a real application

@@ -14,21 +14,31 @@ storage = StorageBackend(use_bucket=env_settings.use_bucket, settings=env_settin
 
 #loading endpoint for an existing story
 @router.post("/check_story", response_model=StoryCheckResponse)
-async def check_story(data: StoryRequest) -> StoryCheckResponse:
+def check_story(data: StoryRequest) -> StoryCheckResponse:
+    print("entering check_story endpoint")
     try:
         subject = data.subject
+        # pace = data.pace
+        # print(pace)
+        foldername = _format_text_filename(subject)
         filename = _format_text_filename(subject)
+        # foldername = _format_text_filename(subject, pace)
+        # filename = _format_text_filename(subject, pace)
+        print(foldername, filename)
 
         if storage.use_bucket:
             try:
-                key = f"stories/{filename}/{filename}.json" # we'll have to update the path for the bucket to have a parent folder {narrative_style}
+                # key = f"stories/{filename}/{filename}.json" # we'll have to update the path for the bucket to have a parent folder {narrative_style}
+                key = f"stories/{foldername}/{filename}.json" # we'll have to update the path for the bucket to have a parent folder {narrative_style}
                 storage.client.download_file(key)
                 story_exists = True
             except Exception as e:
                 print(f"Story not found in bucket: {str(e)}")
                 story_exists = False
         else:
-            json_path = DATA_DIR / "stories" / filename / f"{filename}.json"
+            # json_path = DATA_DIR / "stories" / filename / f"{filename}.json" 
+            json_path = DATA_DIR / "stories" / foldername / f"{filename}.json"
+            print(f"Checking for story at path: {json_path}")
             story_exists = json_path.exists()
             # mp3_path = DATA_DIR / "stories" / filename / f"{filename}.mp3"
 
@@ -49,13 +59,17 @@ async def check_story(data: StoryRequest) -> StoryCheckResponse:
 @router.post("/new_story", response_model = StoryResponse)
 def new_story(data: StoryRequest) -> StoryResponse:
     try:
-        subject = data.subject
-        print(f"Hello Server {data.subject}")  # Debug print to verify subject
+        subject = data.subject # str
+        # pace = data.pace # bool
         narrative_style = data.narrative_style or DEFAULT_PROMPT_PATH
         difficulty = data.difficulty or "beginner"
         # difficulty = data.difficulty or "intermediate"
         # difficulty = data.difficulty or "expert"
+        
+        # print(f"pace value : {pace}")
+        print(f"Hello Server {data.subject}")  # Debug print to verify subject
 
+        # payload = build_story(subject, pace, narrative_style, difficulty) # the build story function generates both text then sends it to tts.
         payload = build_story(subject, narrative_style, difficulty) # the build story function generates both text then sends it to tts.
         # print(f"Payload from build_story: {payload}")  # Debug print to verify payload
         return StoryResponse(**payload, by_alias=True)

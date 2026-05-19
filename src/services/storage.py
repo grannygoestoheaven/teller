@@ -159,9 +159,15 @@ class StorageBackend:
     def get_speech_url(self, story_filename: str) -> str:
         """
         Returns the speech URL for a story from storage.
+        Returns None if the file does not exist.
         """
         key = f"stories/{story_filename}/{story_filename}.mp3"
         print(f"Retrieving filename from: {key}")
+        
+        file_path = str(DATA_DIR / key)
+        
+        if not os.path.exists(file_path):
+            print(f"Speech file not found: {file_path}")
     
         return self.client.generate_url(key)
 

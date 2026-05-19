@@ -43,7 +43,7 @@ export function stateMachineEvents(sm) {
     sm.dispatchEvent(AudioStateMachine.EventId.INPUT_DEFOCUSED);
   }); 
 
-  elements.playPauseButton?.addEventListener("click", () => {
+  elements.playPauseButton?.addEventListener("mousedown", () => {
     console.log('Play/Pause clicked');
     const input = elements.formInput;
     // if (input.value.trim() === "") {
@@ -81,7 +81,7 @@ export function stateMachineEvents(sm) {
     sm.dispatchEvent(AudioStateMachine.EventId.MUSIC_OVER); // leads to MUSIC_ENDED state
   });
 
-  elements.fromStartButton?.addEventListener("click", () => {
+  elements.fromStartButton?.addEventListener("mousedown", () => {
     console.log('Replay clicked');
     sm.dispatchEvent(AudioStateMachine.EventId.FROM_START_CLICKED); // leads to PLAYING state
   });
@@ -114,7 +114,7 @@ export function stateMachineEvents(sm) {
   })
 
   elements.gridSquares.forEach(square => {
-    square.addEventListener('click', () => { // we need to get sure the click happens only inside the grid - to prevent triggering reassigment of activeSquare when clicking outside, like when choosing a new topic.
+    square.addEventListener('mousedown', () => { // we need to get sure the click happens only inside the grid - to prevent triggering reassigment of activeSquare when clicking outside, like when choosing a new topic.
       elements.activeSquare = square; // Store reference
       console.log('Square clicked:', elements.activeSquare.dataset.compactSubject);
       if (squareHasTitle(square)) {

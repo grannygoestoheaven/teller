@@ -5,7 +5,7 @@ def _apply_silence_tags(text: str, silence_map: dict) -> str:
     # pattern = r'(\.{3}|[.;:!?])(?=\s|$)'
     # pattern = r'(\.{3}|[.;:!?\n])(?=\s|$)'
     # pattern = r'(?<!\b[A-Z])(\.{3}|[.;:!?\n])(?=\s|$)'
-    pattern = r'(?<!\b[A-Z])(\.{3}|[.:;?!—])(?=\s|$)'
+    pattern = r'(?<!\b[A-Z])(\.{3}|[:;?!—])(?=\s|$)'
     
     def replace(m):
         p = m.group(1)
@@ -32,12 +32,11 @@ silence_map_openai_tts = {
 }
 
 silence_map_variations_openai_tts = {
-    '.': 700,    # Standard pause
-    ';': 100,    # Short pause
-    '!': 150,    # Exclamatory pause
-    '?': 150,    # Question pause
-    '—': 100,    # Em dash pause
-    ':': 120,    
+    ';': 80,    # Short pause
+    '!': 110,    # Exclamatory pause
+    '?': 110,    # Question pause
+    '—': 70,    # Em dash pause
+    ':': 80,    
 }
 
 silence_map_long_plus_openai_tts = {

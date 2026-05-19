@@ -8,7 +8,7 @@ export let currentFormInputValue = ''; // to track the current value of the form
 // export let compactSubjects = []; // for later use, will be populated from subjects files - in a compacted version - in relation to the Topic the user would have clicked onto.
 
 // Global variables
-let squaresPerWidth = 11; // Default squares per width
+let squaresPerWidth = 5; // Default squares per width
 let gridValues = new Map(); // { id: { value: string, size: string } }
 let isGridVisible = true; // Default visibility
 let isChatVisible = false; // Default chat visibility

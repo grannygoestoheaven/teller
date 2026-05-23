@@ -1,5 +1,6 @@
 from fastapi import HTTPException
 
+from src.services.utils import _format_text_filename
 from src.services.modes.story.subjects_creation import generate_subjects_with_mistralai
 from src.services.modes.story.text import generate_story_with_openai_jinja, generate_story_with_mistralai
 from src.services.modes.story.tts import openai_tts, elevenlabs_text_to_speech, mistral_tts
@@ -53,8 +54,8 @@ def load_story(subject: str, regenerate_mp3: bool) -> dict:
     # Load an existing story from stored JSON and speech files
     try:
         print(f"Loading story: {subject}")
-        story_filename = subject
-        story_foldername = subject
+        story_filename = _format_text_filename(subject)
+        story_foldername = _format_text_filename(subject)
         story_title = storage.get_text_title_from_json_file(story_filename)
         print(f"Story filename: {story_filename}, Story title: {story_title}")
 

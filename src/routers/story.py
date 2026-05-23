@@ -4,7 +4,7 @@ from fastapi import APIRouter, HTTPException
 from fastapi.responses import JSONResponse
 
 from src.schemas.story import StoryRequest, StoryResponse, StoryCheckResponse
-from src.services.utils import _format_text_filename
+from src.services.utils import _format_text_filename, _clean_story_title
 from src.services.build import build_story, load_story
 from src.config.settings import env_settings, BASE_DIR, DATA_DIR, DEFAULT_PROMPT_PATH, PROMPTS
 from src.services.storage import StorageBackend
@@ -18,10 +18,12 @@ def check_story(data: StoryRequest) -> StoryCheckResponse:
     print("entering check_story endpoint")
     try:
         subject = data.subject
+        print(f"Received subject: {subject}")  # Debug print to verify subject
         # pace = data.pace
         # print(pace)
-        foldername = _format_text_filename(subject)
+        # subject = _format_text_filename(subject)
         filename = _format_text_filename(subject)
+        foldername = _format_text_filename(subject)
         # foldername = _format_text_filename(subject, pace)
         # filename = _format_text_filename(subject, pace)
         print(foldername, filename)

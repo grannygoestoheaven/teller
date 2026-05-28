@@ -5,10 +5,10 @@
 /venv/
 /venv_v2/
 /tests/.cache
-src/services/storage_v2.py
-src/services/build_pace.py
-src/services/build_v2.py
-templates
+/src/services/storage_v2.py
+/src/services/build_pace.py
+/src/services/build_v2.py
+/templates/
 __pycache__/
 *.pyc
 .cache

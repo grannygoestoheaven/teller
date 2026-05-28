@@ -21,7 +21,6 @@ def check_story(data: StoryRequest) -> StoryCheckResponse:
         print(f"Received subject: {subject}")  # Debug print to verify subject
         # pace = data.pace
         # print(pace)
-        # subject = _format_text_filename(subject)
         filename = _format_text_filename(subject)
         foldername = _format_text_filename(subject)
         # foldername = _format_text_filename(subject, pace)

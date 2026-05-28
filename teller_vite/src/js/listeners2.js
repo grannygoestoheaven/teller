@@ -1,8 +1,9 @@
-import { elements, lastStoryData, setPaceValue, getPaceValue } from './config.js';
+import { elements, lastStoryData, setPaceValue, getPaceValue, setMusicValue, getMusicValue } from './config.js';
 import { squareHasTitle } from './subjectsService.js';
 import { cycleToNextTopic, mapValuesToSquares } from './uiInit.js';
 import { TextInteractionSystem } from './textInteractionSystem2.js';
-import { toggleView, PaceButtonText, paceButtonColor, greenSquare, defaultSquare } from './ui.js';
+import { toggleView, PaceButtonText, musicButtonColor, musicButtonText, greenSquare, defaultSquare } from './ui.js';
+import { muteBackgroundTrack, unmuteBackgroundTrack } from './player.js';
 // import { uiClearInput } from 'static/js/ui.js';
 
 // On page load, check if input has cached value
@@ -157,6 +158,26 @@ export function staticListeners() {
     //     console.log("Current paceValue:", getPaceValue());
     //   }
     // });
+
+    elements.musicButton?.addEventListener('click', () => {
+      if (elements.musicButton.textContent === 'music on') {
+        elements.musicButton.textContent = 'music off';
+        musicButtonText(false);
+        musicButtonColor(false)
+        setMusicValue(true);
+        muteBackgroundTrack();
+        console.log("Music muted");
+        console.log("Current muteValue:", getMusicValue());
+      } else {
+        elements.musicButton.textContent = 'music on';
+        musicButtonColor(true)
+        musicButtonText(true);
+        setMusicValue(false);
+        unmuteBackgroundTrack();
+        console.log("Music unmuted");
+        console.log("Current muteValue:", getMusicValue());
+      }
+    });
 
     // Handling mouse interactions with the story text for word highlighting and pasting
     elements.storyText?.addEventListener('mousemove', (e) => {

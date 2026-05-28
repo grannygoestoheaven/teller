@@ -28,6 +28,15 @@ export function paceButtonColor(isPaceOn) {
   return isPaceOn ? elements.paceButton.style.backgroundColor = 'rgb(109, 151, 120)' : elements.paceButton.style.backgroundColor = '';
 }
 
+export function musicButtonText(isMusicOn) {
+  return isMusicOn ? elements.musicButton.textContent = "music on" : elements.musicButton.textContent = "music off";
+}
+
+export function musicButtonColor(isMusicOn) {
+  return isMusicOn ? elements.musicButton.style.backgroundColor = '#096a28' : elements.musicButton.style.backgroundColor = '#39423c';
+  return isMusicOn ? elements.musicButton.style.backgroundColor = '#0f5c1d' : elements.musicButton.style.backgroundColor = '';
+}
+
 export function initInputAdjustments() {
   const subjectInput = elements.formInput; // Get input from store
   const minHeight = subjectInput.clientHeight;

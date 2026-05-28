@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
     subtitle: document.getElementById('teller-subtitle'),
     toggleButton: document.getElementById('toggleBtn'),
     paceButton: document.getElementById('paceBtn'),
+    musicButton: document.getElementById('musicBtn'),
     speech: document.getElementById('speechAudio'),
     backgroundTrack: document.getElementById('backgroundAudio'),
     toggleContainer: document.getElementById('toggleContainer'),

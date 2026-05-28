@@ -1,21 +1,21 @@
 import re
 
 def _apply_silence_tags(text: str, silence_map: dict) -> str:
+    print("entering silence function")
     # Matches punct ONLY if followed by space or end of string
-    # pattern = r'(\.{3}|[.;:!?])(?=\s|$)'
-    # pattern = r'(\.{3}|[.;:!?\n])(?=\s|$)'
-    # pattern = r'(?<!\b[A-Z])(\.{3}|[.;:!?\n])(?=\s|$)'
     pattern = r'(?<!\b[A-Z])(\.{3}|[.:;?!—])(?=\s|$)'
+
+    print(f"Using pattern: {pattern}")  
     
     def replace(m):
         p = m.group(1)
-        # return f"{p}<[silence:{silence_map_short_openai_tts[p]}]>"
-        # return f"{p}<[silence:{silence_map_openai_tts[p]}]>"
-        # return f"{p}<[silence:{silence_map_long_openai_tts[p]}]>"
         return f"{p}<[silence:{silence_map[p]}ms]>"
-        # return f"{p}<break time={silence_map[p]}ms/>"
     
     return re.sub(pattern, replace, text)
+
+silence_map_super_short_openai_tts = {
+    '.': 20,    # Standard pause
+}
 
 silence_map_openai_tts = {
     '\n': 1000,  # Newline pause
@@ -38,6 +38,24 @@ silence_map_variations_openai_tts = {
     '?': 110,    # Question pause
     '—': 70,    # Em dash pause
     ':': 80,    
+}
+
+silence_map_variations_short_openai_tts = {
+    '.': 50,    # Standard pause
+    ';': 40,    # Short pause
+    '!': 55,    # Exclamatory pause
+    '?': 55,    # Question pause
+    '—': 35,    # Em dash pause
+    ':': 40,    
+}
+
+silence_map_variations_long_openai_tts = {
+    '.': 90,    # Standard pause
+    ';': 100,    # Short pause
+    '!': 130,    # Exclamatory pause
+    '?': 130,    # Question pause
+    '—': 90,    # Em dash pause
+    ':': 100,    
 }
 
 silence_map_long_plus_openai_tts = {
@@ -68,13 +86,15 @@ silence_map_medium_openai_tts = {
 }
 
 silence_map_short_openai_tts = {
-    '.': 300,    # Standard pause
-    ';': 50,    # Short pause
+    '.': 30,    # Standard pause
+    ';': 20,    # Short pause
     '!': 50,    # Exclamatory pause
-    '?': 50,    # Question pause
-    ':': 50,    # Introduction pause
-    '—': 50,    # Em dash pause
+    '?': 20,    # Question pause
+    ':': 20,    # Introduction pause
+    '—': 20,    # Em dash pause
 }
+
+
 
 silence_map_elevenlabs_tts = {
     '\n': "[long pause]",  # Newline pause

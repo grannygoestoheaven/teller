@@ -22,6 +22,7 @@ let lastFilledSquares = new Set(); // Set to track if each square has data
 let usedTitles = new Set(); // To track used titles and prevent duplicates
 let currentLoadingTitle = "";
 let paceValue = false; // To track the state of the pace button
+let muteValue = false; // To track the state of the music button
 
 // Setters
 export function setGridSize(value) { gridSize = value; }
@@ -33,6 +34,7 @@ export function setSquareClickAuthorized(value) { squareClickAuthorized = value;
 export function setIsTextHighlighted(value) { isTextHighlighted = value; }
 export function setCurrentLoadingTitle(value) { currentLoadingTitle = value; }
 export function setPaceValue(value) { paceValue = value; }
+export function setMusicValue(value) { muteValue = value; }
 
 // Getters
 export function getGridSize() { return gridSize; }
@@ -50,3 +52,4 @@ export function getSquareClickAuthorized() { return squareClickAuthorized; }
 export function getIsTextHighlighted() { return isTextHighlighted; }
 export function getCurrentLoadingTitle() { return currentLoadingTitle; }
 export function getPaceValue() { return paceValue; }
+export function getMusicValue() { return muteValue; }

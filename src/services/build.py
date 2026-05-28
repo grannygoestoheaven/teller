@@ -12,10 +12,13 @@ storage = StorageBackend(use_bucket=env_settings.use_bucket, settings=env_settin
 def build_story(subject: str, narrative_style: str, difficulty: str) -> dict:
     # the goal of this function is to call the generation functions, group their respective outputs (text files, audio files),
     # store them for later use and send their data and urls to the frontend.
-    story_foldername = subject
-    story_filename = subject
+    story_filename = _format_text_filename(subject)
+    story_foldername = _format_text_filename(subject)
+    # story_foldername = subject
+    # story_filename = subject
     
-    print (subject, narrative_style, difficulty)
+    print(subject, narrative_style, difficulty)
+    print(story_filename, story_foldername)
 
     story_title, tagged_story_for_tts, story = generate_story_with_mistralai(subject, narrative_style, difficulty) # returns text files
     # print(f"Generated story: {story}")
@@ -64,6 +67,7 @@ def load_story(subject: str, regenerate_mp3: bool) -> dict:
 
         # Check if MP3 exists; regenerate if missing and flag is True
         speech_url = storage.get_speech_url(story_filename)
+        
         if regenerate_mp3 and not speech_url:
             print(f"MP3 missing for {story_filename}. Regenerating...")
             speech_filename, speech_audio = openai_tts(tagged_story_for_tts, subject)  # Your TTS function

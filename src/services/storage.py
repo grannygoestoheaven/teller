@@ -168,6 +168,7 @@ class StorageBackend:
         
         if not os.path.exists(file_path):
             print(f"Speech file not found: {file_path}")
+            return None
     
         return self.client.generate_url(key)
 

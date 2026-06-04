@@ -15,7 +15,7 @@ from src.services.utils import _clean_story_text, _remove_silence_tags, _format_
 mistral_client = Mistral(api_key=env_settings.mistral_api_key)
 openai_client = OpenAI(api_key=env_settings.openai_api_key)
 
-def generate_story_with_mistralai(subject, narrative_style: None, difficulty: None) -> tuple[str, str]:
+def generate_story_with_mistralai(subject, length: None, narrative_style: None, difficulty: None) -> tuple[str, str]:
     print("entering Mistral story: ", subject, narrative_style, difficulty)
     try:
         # 1. Read the prompt template from the file
@@ -44,7 +44,7 @@ def generate_story_with_mistralai(subject, narrative_style: None, difficulty: No
                 },
                 
             ],
-            max_tokens=500,
+            max_tokens=length,
             temperature=0.2,
             presence_penalty=1.2,
             stream=False)

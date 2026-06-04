@@ -9,7 +9,7 @@ from src.services.storage import StorageBackend
 
 storage = StorageBackend(use_bucket=env_settings.use_bucket, settings=env_settings)
 
-def build_story(subject: str, narrative_style: str, difficulty: str) -> dict:
+def build_story(subject: str, length: int, narrative_style: str, difficulty: str) -> dict:
     # the goal of this function is to call the generation functions, group their respective outputs (text files, audio files),
     # store them for later use and send their data and urls to the frontend.
     story_filename = _format_text_filename(subject)
@@ -20,7 +20,7 @@ def build_story(subject: str, narrative_style: str, difficulty: str) -> dict:
     print(subject, narrative_style, difficulty)
     print(story_filename, story_foldername)
 
-    story_title, tagged_story_for_tts, story = generate_story_with_mistralai(subject, narrative_style, difficulty) # returns text files
+    story_title, tagged_story_for_tts, story = generate_story_with_mistralai(subject, length, narrative_style, difficulty) # returns text files
     # print(f"Generated story: {story}")
     speech_filename, speech_audio = openai_tts(tagged_story_for_tts, subject) # one text file, one bytes file (mp3)
     # speech_filename, speech_audio = mistral_tts(tagged_story_for_tts, subject) # one text file, one bytes file (mp3)

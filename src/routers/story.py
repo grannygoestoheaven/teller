@@ -62,7 +62,7 @@ def new_story(data: StoryRequest) -> StoryResponse:
     try:
         subject = data.subject # str
         # pace = data.pace # bool
-        length = data.length or 500 # int
+        length = data.length or 500 # int defining the max_tokens for the story generation. We can adjust it according to the desired story length and the model's token limits.
         narrative_style = data.narrative_style or DEFAULT_PROMPT_PATH
         difficulty = data.difficulty or "beginner"
         # difficulty = data.difficulty or "intermediate"

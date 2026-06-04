@@ -79,6 +79,16 @@ export function resumeAllAudio() {
   }
 }
 
+export function rewind5Seconds() {
+  elements.speech.currentTime = Math.max(0, elements.speech.currentTime - 5);
+  elements.backgroundTrack.currentTime = Math.max(0, elements.backgroundTrack.currentTime - 5);
+}
+
+export function forward5Seconds() {
+  elements.speech.currentTime = Math.min(elements.speech.duration, elements.speech.currentTime + 5);
+  elements.backgroundTrack.currentTime = Math.min(elements.backgroundTrack.duration, elements.backgroundTrack.currentTime + 5);
+}
+
 export function resetAllAudio(){
   elements.speech.currentTime = 0;
   elements.backgroundTrack.currentTime = 0;

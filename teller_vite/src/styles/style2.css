@@ -1,5 +1,6 @@
 :root {
-    --music-on-background-color: #096a28;
+    --music-on-background-color: #345d18;
+    --music-on-background-color: #d12709;
     --music-off-background-color: #39423c;
     
     --soundscapes-on-background-color: #ffc787;
@@ -129,6 +130,7 @@ html, body {
     -ms-overflow-style: none; /* Hide scrollbar for IE and Edge */
     margin: 0;
     padding: 0;
+    font-size: 0.9em;
 }
 
 /* Update body and layout */
@@ -150,7 +152,7 @@ body {
 /* Header styles */
 .chat-header {
     text-align: center;
-    font-size: 2.4em; /* Base font size for the header container */
+    font-size: 2.6em; /* Base font size for the header container */
     z-index: 10;
     background: none;
     padding: 5px 25px 0px;
@@ -398,7 +400,9 @@ margin: 0 .05em;
 /* Hover effect for words */
 .chat-history .word.highlight-word {
     -webkit-text-stroke: 2px rgba(10, 184, 21, 0.849);
+    -webkit-text-stroke: 2px rgba(254, 152, 0);
     text-stroke: 2px rgba(10, 184, 21, 0.849);
+    text-stroke: 2px rgb(254, 152, 0);
     position: relative;
     z-index: 1;
 }
@@ -543,7 +547,7 @@ footer.chat-input-area {
     border-radius: 25px;
     padding: 10px;
     box-sizing: border-box;
-    font-size: 1.7em;
+    font-size: 1.9em;
     letter-spacing: 0cqmin;
     font-family: 'Inika', serif;
     color: rgba(245, 245, 245, 0.9);
@@ -609,6 +613,7 @@ box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
     gap: 1rem;
     padding-bottom: 1rem;
     /* padding-top: 0.5rem; */
+    font-size: 1.2em;
   }
 
 /* Pixel PLAY style */
@@ -648,4 +653,19 @@ box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
 .send-button:disabled {
     opacity: 0.5;
     cursor: not-allowed;
+}
+
+.rewind-and-forward-buttons {
+    padding: 4px 14px;
+    display: flex;
+    /* gap: 0.5rem; */
+    border: none;
+    border: 0.3px dashed rgb(248, 190, 16);
+    border-radius: 4px;
+    color: inherit;
+    background-color: #555351c2;
+    background-color: transparent;
+    letter-spacing: 0.12em;
+    /* font-family: 'Pixelify Sans', serif; */
+    text-align: center;
 }

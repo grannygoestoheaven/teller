@@ -58,6 +58,12 @@ export function getBlueColor() {
   return playingBlue;
 }
 
+export function getOrangeColor() {
+  // let orange = "#ff7f50";
+  let orange = "#ff6200";
+  return orange;
+}
+
 export function getLoadingColor() {
   let loadingGrey = "#888888";
   return loadingGrey;
@@ -77,6 +83,11 @@ export function redDots() {
 export function greenDots() {
   const color = getGreenColor(); // generate a color
   elements.dots.style.setProperty("--period-color", color); // set CSS variable to make the dots turn green
+}
+
+export function orangeDots() {
+  const color = getOrangeColor(); // generate a color
+  elements.dots.style.setProperty("--period-color", color); // set CSS variable to make the dots turn orange
 }
 
 export function blueDots() {

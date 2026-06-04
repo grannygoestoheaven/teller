@@ -33,7 +33,8 @@ export function musicButtonText(isMusicOn) {
 }
 
 export function musicButtonColor(isMusicOn) {
-  return isMusicOn ? elements.musicButton.style.backgroundColor = '#096a28' : elements.musicButton.style.backgroundColor = '#39423c';
+  return isMusicOn ? elements.musicButton.style.backgroundColor = '#d12709' : elements.musicButton.style.backgroundColor = '#39423c';
+  return isMusicOn ? elements.musicButton.style.backgroundColor = '#345d18' : elements.musicButton.style.backgroundColor = '#39423c';
   return isMusicOn ? elements.musicButton.style.backgroundColor = '#0f5c1d' : elements.musicButton.style.backgroundColor = '';
 }
 

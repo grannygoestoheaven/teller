@@ -6,6 +6,7 @@ import { TextInteractionSystem } from "./textInteractionSystem2.js";
 import { stateMachineEvents, staticListeners } from "./listeners2.js";
 import { localActions } from "./actions.js";
 import "./AudioStateMachine.js";
+import { rewind5Seconds } from "./player.js";
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -29,8 +30,10 @@ document.addEventListener('DOMContentLoaded', () => {
     dots: document.getElementById('loadingAnimation'),
     form: document.getElementById('storyForm'),
     formInput: document.getElementById('subject'),
+    rewind5SecondsButton: document.getElementById('rewind5SecondsBtn'),
     fromStartButton: document.getElementById('replayBtn'),
     playPauseButton: document.getElementById('playPauseBtn'),
+    forward5SecondsButton: document.getElementById('forward5SecondsBtn'),
     stopButton: document.getElementById('stopBtn'),
     difficultyLevelButton: document.getElementById('difficultyLevelBtn')
   };

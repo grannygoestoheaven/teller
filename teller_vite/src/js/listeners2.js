@@ -3,7 +3,7 @@ import { squareHasTitle } from './subjectsService.js';
 import { cycleToNextTopic, mapValuesToSquares } from './uiInit.js';
 import { TextInteractionSystem } from './textInteractionSystem2.js';
 import { toggleView, PaceButtonText, musicButtonColor, musicButtonText, greenSquare, defaultSquare } from './ui.js';
-import { muteBackgroundTrack, unmuteBackgroundTrack } from './player.js';
+import { muteBackgroundTrack, unmuteBackgroundTrack, rewind5Seconds, forward5Seconds } from './player.js';
 // import { uiClearInput } from 'static/js/ui.js';
 
 // On page load, check if input has cached value
@@ -179,6 +179,16 @@ export function staticListeners() {
       }
     });
 
+    elements.rewind5SecondsButton.addEventListener('click', () => {
+      console.log('Rewind 5 seconds clicked');
+      rewind5Seconds();
+    });
+
+    elements.forward5SecondsButton.addEventListener('click', () => {
+      console.log('Forward 5 seconds clicked');
+      forward5Seconds();
+    });
+    
     // Handling mouse interactions with the story text for word highlighting and pasting
     elements.storyText?.addEventListener('mousemove', (e) => {
       TextInteractionSystem.handleMouseMove(e);

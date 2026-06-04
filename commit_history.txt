@@ -1,0 +1,466 @@
+2025-04-05 Clean init with working project
+2025-04-05 ignore build
+2025-04-05 edith editing
+2025-04-05 edith editing
+2025-04-06 edith editing
+2025-04-06 edith editing
+2025-04-06 update gitignore
+2025-04-06 update gitignore
+2025-04-06 update gitignore
+2025-04-06 update gitignore
+2025-04-06 edith editing
+2025-04-06 teller is the new name of the app
+2025-04-07 working on spotify synchronisation
+2025-04-10 trying local mp3 file
+2025-04-10 managing track url or track path
+2025-04-10 return to simple
+2025-04-11 first sync working with local track path
+2025-04-11 smooth playing and fade working
+2025-04-11 edith editing
+2025-04-11 edith editing
+2025-04-11 new README
+2025-04-11 edith editing
+2025-04-15 edith editing
+2025-04-16 fixed fade out for backing track
+2025-04-16 edith editing
+2025-04-17 requirements and yaml
+2025-04-20 improving prompt for narration clarity and life
+2025-04-21 edith editing
+2025-04-25 simple demo with one background sound
+2025-04-25 edith editing
+2025-04-25 edith editing
+2025-04-25 edith editing
+2025-04-26 gradio entry points in root directory
+2025-04-27 edith editing
+2025-04-27 edith editing
+2025-04-28 edith editing
+2025-04-29 yaml modif
+2025-04-29 yaml modif
+2025-04-30 new story genre and pattern
+2025-04-30 README update
+2025-04-30 news_pattern_10_lines_summary
+2025-04-30 news_pattern_10_lines_summary
+2025-04-30 new story genre and pattern
+2025-05-01 edith editing
+2025-05-04 gradio app functional
+2025-05-04 edith editing
+2025-05-04 edith editing
+2025-05-04 improvements and new ideas
+2025-05-04 improvements and new ideas
+2025-05-05 improvements in tone
+2025-05-05 avoid dotenv for Spaces
+2025-05-05 edith editing
+2025-05-05 edith editing
+2025-05-05 edith editing
+2025-05-05 edith editing
+2025-05-05 requirements fix
+2025-05-05 modified hardware in readme
+2025-05-07 new interface
+2025-05-08 handling /n separation
+2025-05-08 keep words close
+2025-05-08 keep words closer
+2025-05-09 green words
+2025-05-09 growing words
+2025-05-10 multiple words selection working
+2025-05-11 multiple words selection working 2
+2025-05-11 10 words highlighting
+2025-05-11 Save current progress before backup
+2025-05-11 cleaner structure
+2025-05-11 length box
+2025-05-12 edith editing
+2025-05-14 cleaning project and add helper functions
+2025-05-14 ignore yaml
+2025-05-14 ignore yaml
+2025-05-15 edith editing
+2025-05-17 music lasts longer
+2025-05-19 controlled silences
+2025-05-20 ui improvements
+2025-05-20 border to story box
+2025-05-20 keeping simple
+2025-05-22 classic openai completion call
+2025-05-22 fixing ui behavior
+2025-05-23 helper functions and clean terminology
+2025-05-23 ui improvements
+2025-05-23 streaming text by default
+2025-05-24 edith editing
+2025-05-24 edith editing
+2025-05-24 edith editing
+2025-05-24 smoother ui with hidden scrollbars
+2025-05-24 UI adapted to screen, play button stylized
+2025-05-24 story stays when page reloads
+2025-05-24 ignore generated stories audio files
+2025-05-25 edith editing
+2025-05-25 almost functional
+2025-05-25 functional with padding for the chat history
+2025-05-25 functional version 1
+2025-05-25 functional version 2 with silences
+2025-05-25 improving voice
+2025-05-26 improving UI with cool animation
+2025-05-26 improving UI - bigger title
+2025-05-26 edith editing
+2025-05-26 untrack audio files
+2025-05-27 lighter dependencies and mp3 files only
+2025-05-27 fix: update .gitattributes with proper Git LFS configuration
+2025-05-30 cleaning a bit - extra functions in text files
+2025-06-01 lighter dependencies, gitattributes file and mp3 files only
+2025-06-01 lighter dependencies, gitattributes file and mp3 files only
+2025-06-01 history rewritten to get rid of larges files and binaries
+2025-06-01 clean cloned repo - teller
+2025-06-08 update audio files
+2025-06-08 Add Git LFS tracking for future large files
+2025-06-10 Ensure LFS tracking for all relevant file types
+2025-06-11 adding static files to dockerfile
+2025-06-11 Dockerfile changes for css and flask_app changes for better serving css
+2025-06-12 use of relative paths to match hugging face proxy setup
+2025-06-18 Dockerignore fix
+2025-06-19 browser handles playing - first steps
+2025-06-27 separated js modules
+2025-06-27 Updated Readme
+2025-06-27 Updated Readme
+2025-06-27 loading animation and text stream fixed
+2025-06-27 re added a finally block after the catch
+2025-06-28 big dots && fades still not working
+2025-07-04 close loading dots
+2025-07-04 text appears right after speech
+2025-07-04 edith editing
+2025-07-08 cognitive_science_approaches
+2025-07-10 add 'the knowledge drifter'
+2025-07-10 fixed centered span in chat history
+2025-07-11 web audio api tests
+2025-07-24 learning and cleaning
+2025-07-24 edith editings
+2025-07-25 start debugging new process and dots animation
+2025-07-26 play/pause toggling implementation
+2025-07-30 web audio api and js playback team work
+2025-07-30 making progress
+2025-07-30 web audio api tests
+2025-07-30 back to audioElements audio handling only
+2025-07-31 horizontally aligned buttons and scaling subject input
+2025-07-31 animation dots slight cool overlap when animated
+2025-07-31 all buttons style fixed
+2025-07-31 edith editing
+2025-08-01 fine tuning controls buttons behavior
+2025-08-01 edith editing
+2025-08-02 dots change color^^
+2025-08-03 edith editing
+2025-08-03 controls mostly work
+2025-08-04 blur effect on dots
+2025-08-04 refactor(audio): immediate fade-out on new play, reset ambient volume, sanitize filenames, & replay button state
+2025-08-05 story text saved on server for future cached stories
+2025-08-05 prompt tests
+2025-08-06 edith editing
+2025-08-06 simplifying audio with no fades
+2025-08-07 web audio api working for gain and panner
+2025-08-07 centering UI and new grey background
+2025-08-07 edith editing
+2025-08-08 edith editing
+2025-08-13 controls ok until end of speech, blur is back
+2025-08-14 controls focus and form focus handled correctly
+2025-08-18 cleaning project structure
+2025-08-20 setting a cleaner state machine with new files
+2025-08-20 putting state update function in state files and UI update functions in view file
+2025-08-21 all new setup seems in place and utils.js created to store clearPlaybackTimers function
+2025-08-23 the websocket subject test
+2025-08-29 add AGPL-3,0 license
+2025-09-02 hierarchical state machine with StateSmith gh project
+2025-09-04 getting used to uml approach to state machine
+2025-09-07 commit before creating new branch
+2025-09-08 first commit of clean state machine
+2025-09-08 setting a cleaner state machine with new files
+2025-09-09 ui and player files for DOM elements - wired in main
+2025-09-09 implementing initEvents and initPlayer
+2025-09-09 implementing loading animation file
+2025-09-10 actions object attached to state machine instance
+2025-09-11 soon first test
+2025-09-11 almost there
+2025-09-12 clean declarative uml file
+2025-09-12 fixing states.js file with conditional for playing state
+2025-09-13 wrapping AudioSm and add the stop/cancel button
+2025-09-13 debugging world
+2025-09-15 edith editing
+2025-09-17 edith editing
+2025-10-09 edith editing
+2025-10-09 clarifying startOrRestartNewStory function with 'newInput' argument
+2025-10-12 story and tts generated but UI not responding
+2025-10-21 both speech and background play with state machine but UI still to be fixed
+2025-10-22 dots appear and animate with color
+2025-10-26 commit before new branch
+2025-10-27 first changes towards globals elements and actions
+2025-10-27 refactoring connection with backend function
+2025-10-28 mapping loadPlayer and listeners
+2025-10-29 first try of dependency injection
+2025-10-30 progress but process stuck in loading state - speech ready event may be missed
+2025-10-30 still not response from backend
+2025-10-31 edith editing
+2025-10-31 edith editing
+2025-10-31 edith editing
+2025-11-04 edith editing
+2025-11-05 integrating actions in uml
+2025-11-06 testing actions in url
+2025-11-06 cleaning main by creating actions module
+2025-11-07 fixing loading player and uml typos
+2025-11-08 internal events and exit actions
+2025-11-08 process ok until playing - pause behavior is to fix next
+2025-11-08 start to fix pause resume
+2025-11-09 new event for space toggling
+2025-11-10 files renaming to standard practices
+2025-11-10 text streaming step
+2025-11-10 edith editing
+2025-11-10 edith editing
+2025-11-10 merge sm_and_global_storing 20251110
+2025-11-10 README edit
+2025-11-10 edith editing
+2025-11-10 text streaming step
+2025-11-12 starting news mode and backend organizing with FastAPI
+2025-11-16 routers schemas and services
+2025-11-17 moved generated text stories to static
+2025-11-17 schemas for api keys
+2025-11-18 managing storage for audio and text
+2025-11-18 emptying main.pay(backend) to populate modules
+2025-11-18 main is clean and routers included
+2025-11-19 done debugging backend
+2025-11-19 moving stories into json folder
+2025-11-20 edith editing
+2025-11-20 handling file storage server side and payload for the frontend
+2025-11-20 edith editing
+2025-11-21 returning system paths for filenames and url for frontend
+2025-11-22 frontend reached and audio src loaded correctly, playing process running
+2025-11-23 backend and FastAPI correctly implemented, back to frontend state machine efficiency
+2025-11-23 README update
+2025-11-23 fixing pydantic models keys + Fields specifying frontend camelCase names
+2025-11-24 spotted the nasty filename bug with single quotes - reinforced the _sanitize_filename function
+2025-11-24 improving state machine and player - progress made
+2025-11-25 edith editing
+2025-11-25 edith editing
+2025-11-25 edith editing
+2025-11-25 edith editing
+2025-11-25 edith editing
+2025-11-25 edith editing
+2025-11-26 darkening ui
+2025-11-26 stop button
+2025-11-27 css lessons recap and stop button
+2025-11-27 borders and refine styling
+2025-11-27 edith editing
+2025-11-28 teller UI screenshot
+2025-11-28 README update
+2025-11-28 edith editing
+2025-11-28 redesign input and background
+2025-11-28 shorten tokens on story
+2025-12-03 new directories with text and speech grouped together for each story
+2025-12-03 edith editing
+2025-12-04 refacoring storage for efficiency and readability
+2025-12-04 edith editing
+2025-12-06 fixing paths
+2025-12-06 loading existing story works
+2025-12-06 backend fully structured and functional
+2025-12-07 hedge case of mp3 missing handled - allows the user to import it's own story
+2025-12-07 fixed click button
+2025-12-10 mistral ai prompt for stories + jinja 2 .md managing
+2025-12-10 conditionals in system prompts with jinja2 - the process works with Mistral generation
+2025-12-10 three levels of difficulty
+2025-12-11 edith editing
+2025-12-13 first commit react branch
+2025-12-13 edith editing
+2025-12-13 edith editing
+2025-12-14 prompt developed in system prompt - super deterministic and impactful
+2025-12-14 edith editing
+2025-12-14 edith editing
+2025-12-14 edith editing
+2025-12-15 edith editing
+2025-12-18 grid of choices integrated to UI
+2025-12-19 squares grid basically functional
+2025-12-19 strugling with grid placement
+2025-12-20 edith editing
+2025-12-20 grid of rectangles and grid of squares
+2025-12-21 edith editing
+2025-12-21 grid centered for zoom
+2025-12-21 subjects mapped to the grid and displayed in form input when hovering the grid squares
+2025-12-23 mistral good prompt and grid displayed by default
+2025-12-28 managing squares and listeners - beware of race conflicts
+2025-12-31 topic and subjects grid generation
+2026-01-10 main fields to sub fields grid
+2026-01-12 edith editings
+2026-01-12 README update
+2026-01-13 README screenshot
+2026-01-13 README screenshot
+2026-01-13 fixed paused and resume for start delay
+2026-01-14 input width issue fixed
+2026-01-14 subject border-radius
+2026-01-18 title locked when playing and hovering still works - progress
+2026-01-18 add teller title click for IDLE
+2026-01-18 refining UI style
+2026-01-18 refining plus
+2026-01-18 edith editings
+2026-01-18 edith editings
+2026-01-23 fields selection under teller title
+2026-01-23 topics toggle and subjects work
+2026-01-24 minimalist interface - no control buttons
+2026-01-26 css variables and square textcontent
+2026-01-27 grid available again after speech
+2026-01-27 title cleared when toggling next topic
+2026-01-27 edith editing
+2026-01-28 edith editing
+2026-01-30 testing GRID_VIEW and DOTS_VIEW substates
+2026-01-31 smooth transition between grid and dots - removed dashed border for grid container
+2026-01-31 optimizing max_tokens vs max char
+2026-01-31 very basic working
+2026-01-31 enabled toggling during PAUSED state
+2026-02-01 demo is decent
+2026-02-03 created subjects generation endpoint
+2026-02-03 working on topic generation - fixed topic working
+2026-02-04 edith editing
+2026-02-04 edith editing
+2026-02-04 edith editing
+2026-02-05 edith editing - created build.yaml file for github workflows - connection to scaleway container registry
+2026-02-05 edith editing
+2026-02-05 edith editing
+2026-02-06 edith editing
+2026-02-06 edith editing
+2026-02-06 fixed EXPOSE port 8080 in Dockerfile
+2026-02-07 full requirements in Dockerfile
+2026-02-07 fixing syntax errors and get minimal requirements with pigar tool
+2026-02-07 removed patterns from .dockerignore
+2026-02-07 README update
+2026-02-07 edith editing
+2026-02-07 edith editing
+2026-02-07 remove patterns from gitignore
+2026-02-09 added CORS middleware to allow mp3 files request to pass
+2026-02-09 used absolute path for inika font in css
+2026-02-09 added missing '/' in css for inika font family path - replaced app.mount by app.get to include custom CORS headers
+2026-02-09 added crossorigin for audio elements in html and font-display swap for immediate rendering in css
+2026-02-11 implementing the pacing engine function - a dict of {punctuation element : assigned length
+2026-02-13 text is back and prompts are evolving
+2026-02-14 text words wrapped into spans
+2026-02-15 edith editing
+2026-02-15 edith editing
+2026-02-17 words animation is back
+2026-02-17 enlarged dots
+2026-02-17 outline of subject input group in green
+2026-02-18 simplified state machine - static UI moves in core code - correct toggling hierarchy
+2026-02-18 implemented add title to square, not tested yet. app functional
+2026-02-18 square added to lastFilledSquares - successful
+2026-02-19 success clicking on played squares
+2026-02-20 text is now centered - issue was positon:absolute on chat-history - switched to position:relative
+2026-02-21 applied stylse on subject input directly, not parent + prevent empty submission + defocus/bur input when clicking outside or submitting
+2026-02-21 solved issue : race condition between INPUT_DEFOCUSED and FORM_SUBMITTED state machine events
+2026-02-22 working on fixing blur issues and undefined titles - app still functional
+2026-02-23 fixed player and input blur for all states + fixed smooth css transitions
+2026-02-23 edith editing
+2026-02-24 added guard to avoid INPUT_DEFOCUSED on textView + encapsulated the text interaction system for quick initialization
+2026-02-25 red loading dots and green playing dots + bordered squares with title
+2026-02-25 player working again after regenerating last uml
+2026-02-26 edith editing
+2026-02-26 dashed + green played square and no title on mouse out
+2026-02-27 Title during dots + empty click story on dots
+2026-02-28 editing settings.py for cloud bucket - to enable toggling between dev and prod environments
+2026-03-01 local workflow works with StorageBackend class - storage2 and build2
+2026-03-01 edith editing
+2026-03-01 edith editing
+2026-03-01 added boto3 in requirements_minimal
+2026-03-01 little refinements on default prompt
+2026-03-01 edith editing
+2026-03-01 edited names in env_settings
+2026-03-01 printing env endpoint
+2026-03-01 printing endpoint in boto3 Client
+2026-03-01 printing endpoint in boto3 Client again
+2026-03-01 test debug env var TELLER_ENDPOINT
+2026-03-02 just one button - app works ok locally (USE_BUCKET=false)
+2026-03-02 USE_BUCKET=true - env var names matching variable names in env_settings
+2026-03-02 removed unused env_settings import in storage2
+2026-03-02 USE_BUCKET=true and unused env_settings import removed from storage2.py
+2026-03-02 changed env variables names to teller - fixed bucket_name mismatch in storage2.py
+2026-03-02 deployement successful - text generated - tts fails silently - putting logs in tts
+2026-03-02 removed the unexpected 'bucket_name' arg from the upload_file function in storage2.py
+2026-03-02 removed bad print 'status code from tts function'
+2026-03-02 just left key(expected url) in upload function
+2026-03-02 fixing storage file to make the StorageBucket functions match the local functions
+2026-03-02 fixing upload and download functions for them to match the official boto3 documentation
+2026-03-02 testing with list_objects_v2
+2026-03-02 self.client.client -> class cascade because of both Storage and Bucket classes
+2026-03-03 test local again, works ok - edited the storage2 file for more clarity
+2026-03-03 added log at Storage Bucket inititalization - issue : files not stored on bucket
+2026-03-03 json and speech mp3 storing on bucket = success - fixing 'Prefix' attribute and redeploying
+2026-03-03 cleaned module names 'build and storage'
+2026-03-03 re-saved correctly after cleaning routers story
+2026-03-03 silenting imports from routers topics.py
+2026-03-03 get response(Contents, []) for tracks retrieval
+2026-03-03 ['Key'] with capital K in response.get(Contents) - botos3 standard
+2026-03-03 checking the value of {track_filename}in storage.py before sending url
+2026-03-04 edited yaml file for automatic deployment to scaleway from github action
+2026-03-04 using bash instead of sh in yaml file for scw cli installation
+2026-03-04 binary install of scw cli in yaml file (get.sh instead of sh)
+2026-03-04 edith editing
+2026-03-04 create serverless container and capture its ID for next workflow step (container deployment)
+2026-03-04 back to initial version of yaml file
+2026-03-04 logging storage-->self._tracks
+2026-03-04 commented out elevenlabs and newsapi api keys - not needed for now
+2026-03-04 printing response in initialize tracks
+2026-03-04 fixing ['Key'].split and skipping directories with not ['Key'].endswith('/')
+2026-03-04 added cors.json to gitignore - used the global cors.json file to upload cors from outside the venv
+2026-03-04 added bucket check in check_story + fixed missing const before subject in storyService.js
+2026-03-05 fixed 'Key' with capital K (required by AWS api) in storage.download_file()
+2026-03-05 use bucket = false - improved prompt
+2026-03-10 README - instructions for teller demo
+2026-03-10 README - instructions for teller demo
+2026-03-16 simplified prompt - no main traits of the subject
+2026-03-18 centered text (again)
+2026-03-27 test to see if main keeps safe
+2026-03-27 edith editing
+2026-03-27 edith editing
+2026-03-29 vite configuration process
+2026-03-29 edith editing
+2026-03-29 edith editing
+2026-03-29 removed prefix from router in backend
+2026-03-30 /dist in production checking issues
+2026-03-30 /dist is working - production process works locally
+2026-03-30 removed old static folder
+2026-03-30 added stories to Dockerignore
+2026-03-31 replay button is back
+2026-04-02 container production push - collect stories script
+2026-04-02 production push 2
+2026-04-10 multistage Dockerfile
+2026-04-10 changed image name in gh actions yaml file
+2026-04-10 modified package.json && regenerated package-lock.json via npm install
+2026-04-10 debug line in Dockerfile
+2026-04-10 modified Dockerfile - explicit copy of package.json && package-lock.json
+2026-04-10 fixed copy issue in Dockerfile
+2026-04-10 fixed copy issue in Dockerfile 2
+2026-04-10 pwd log after entering teller_vite in Dockerfile
+2026-04-10 rm -rf node modules + package-lock.json and npm install to sync them
+2026-04-10 removed script name in npm run build
+2026-04-10 fixed name 'vite build' in package.json
+2026-04-10 log check for node dependencies in dockerfile
+2026-04-10 log check for node dependencies in dockerfile
+2026-04-10 added export PATH to dockerfile - trying to fix 'vite not found' error
+2026-04-10 docker build --no-cache in yaml gh actions to ensure a fresh build for docker
+2026-04-10 removed node_modules from dockerignore
+2026-04-10 removed --omit=dev from dockerfile
+2026-04-10 deleted old dockerfiles
+2026-04-10 npx vite build (not run build)
+2026-04-10 removed no cache from gh yaml for docker build
+2026-04-10 some backend files were missing
+2026-04-11 testing Dockerfile with base Node image
+2026-04-12 pauses dictionary - no tags in text output
+2026-04-13 local run settings
+2026-04-13 production run settings
+2026-04-13 production - use_bucket = true
+2026-04-14 fixed silence_map regex for composed names like 'Jackson C Frank'
+2026-04-14 yaml avril 14th teller image
+2026-04-18 new voices - mistralai
+2026-04-22 new venv_v2 with updated mistral dependency and pacing refinements
+2026-04-26 bigger dots and default silences - period = 400
+2026-04-26 removed static from git - now using vite folder
+2026-04-26 teller demo link added in README
+2026-04-26 README update
+2026-04-26 README update
+2026-04-26 README update
+2026-04-29 new prompts - dev mode tests ok
+2026-05-01 deleted old venv
+2026-05-01 deleted venv_v2 (too recent python version)
+2026-05-06 last commit before ui features implementation
+2026-05-09 improved silence map and avoiding abbreviations in generated text
+2026-05-13 can launch existing stories by clicking on it
+2026-05-16 stories removed and stored on ext drive - pace button implemented on UI
+2026-05-18 view button and clickable stories - pace button process in progress
+2026-05-19 bigger grid for subjects map
+2026-05-19 apparently fixed regenerate mp3 + used mousedown instead of 'click to avoid race condition between blur and play button'

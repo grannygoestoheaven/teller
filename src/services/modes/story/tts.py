@@ -18,6 +18,7 @@ elevenlabs_client = ElevenLabs(api_key=env_settings.elevenlabs_api_key)
 mistral_client = Mistral(api_key=env_settings.mistral_api_key)
 
 def openai_tts(story: TtsRequest, filename) -> bytes:
+# def openai_tts(story: TtsRequest) -> bytes:
     """
     Generates speech from text using OpenAI's TTS and saves it to a static directory.
 
@@ -30,7 +31,8 @@ def openai_tts(story: TtsRequest, filename) -> bytes:
         The path to the saved audio file relative to the 'static' directory
         (e.g., 'audio/generated_stories/my_story.mp3'), or None on error.
     """
-    print(f"Entering openai_tts with story: {story} and filename: {filename}")
+    print(f"Entering openai_tts with story: {story}")
+    # print(f"Entering openai_tts with story: {story} and filename: {filename}")
     try:
         # Ensure the input text is not empty and is a string
         if not story or not isinstance(story, str):
@@ -41,11 +43,11 @@ def openai_tts(story: TtsRequest, filename) -> bytes:
             voice="onyx",
             input=story.strip(),  # Ensure we're passing a clean string
             response_format="mp3",
-            instructions='''
-                        Tone : discreet, tired.
-                        Pacing : slow.
-                        Emotional Range : peaceful.
-                        ''',
+        #     instructions='''
+        #                 Tone : discreet, tired.
+        #                 Pacing : slow.
+        #                 Emotional Range : peaceful.
+        #                 ''',
         )
         
         speech_filename = _format_mp3_filename(filename) # generate an mp3 filename with underscores
@@ -54,6 +56,7 @@ def openai_tts(story: TtsRequest, filename) -> bytes:
         print(f"Generated speech length: {len(speech_audio)} bytes")  # Should match expected size
         
         return speech_filename, speech_audio
+        # return speech_audio
 
     except Exception as e:
         # Log the error appropriately in a real application
@@ -155,44 +158,3 @@ def mistral_tts(story: TtsRequest, filename) -> bytes:
         print(f"Error in openai_tts: {e}")
         return None
     return None
-
-# def coqui_tts_text_to_speech(story: str, filename: str = "story.wav", model_name: str = "tts_models/en/ljspeech/glow-tts") -> str:
-#     """
-#     Generates speech from text using Coqui TTS and saves it to a static directory.
-
-#     Args:
-#         story: The text content of the story.
-#         filename: The desired filename for the audio (e.g., 'my_story.wav').
-#         model_name: The Coqui TTS model to use (default: 'tts_models/en/ljspeech/glow-tts').
-#                   Other options: 'tts_models/en/ljspeech/tacotron2-DDC', 'tts_models/en/ek1/tacotron2'
-
-#     Returns:
-#         The path to the saved audio file relative to the 'static' directory,
-#         or None if an error occurs.
-#     """
-#     try:
-#         from TTS.api import TTS
-#         import torch
-        
-#         # Set device (use GPU if available)
-#         device = 'cuda' if torch.cuda.is_available() else 'cpu'
-        
-#         # Initialize TTS with the specified model
-#         tts = TTS(model_name=model_name, progress_bar=False).to(device)
-        
-#         # Create output directory if it doesn't exist
-#         if not filename.lower().endswith('.wav'):
-#             filename = f"{os.path.splitext(filename)[0]}.wav"
-            
-#         output_path = os.path.join('static', GENERATED_STORIES_SUBDIR, filename)
-#         os.makedirs(os.path.dirname(output_path), exist_ok=True)
-        
-#         # Generate and save speech
-#         tts.tts_to_file(text=story, file_path=output_path)
-        
-#         # Return path relative to static directory
-#         return os.path.join(GENERATED_STORIES_SUBDIR, filename)
-        
-#     except Exception as e:
-#         print(f"Error in Coqui TTS: {str(e)}")
-#         return None

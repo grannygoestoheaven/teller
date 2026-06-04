@@ -165,6 +165,7 @@ export function createGridOfSquares(squaresPerWidth) {
   {
       const squareDiv = document.createElement('div');
       squareDiv.classList.add('square');
+      squareDiv.setAttribute('tabindex', 0); // Make squares focusable for accessibility
       fragment.appendChild(squareDiv);
       elements.gridContainer.append(squareDiv);
   }

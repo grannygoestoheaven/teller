@@ -1,8 +1,9 @@
-import { elements, lastStoryData, getLastFilledSquares, setIsChatVisible, setSquareClickAuthorized, setIsTextHighlighted } from './config.js';
+import { elements, lastStoryData, setPaceValue, getPaceValue, setMusicValue, getMusicValue } from './config.js';
 import { squareHasTitle } from './subjectsService.js';
 import { cycleToNextTopic, mapValuesToSquares } from './uiInit.js';
 import { TextInteractionSystem } from './textInteractionSystem2.js';
-import { toggleView, greenSquare, defaultSquare } from './ui.js';
+import { toggleView, PaceButtonText, musicButtonColor, musicButtonText, greenSquare, defaultSquare } from './ui.js';
+import { muteBackgroundTrack, unmuteBackgroundTrack, rewind5Seconds, forward5Seconds } from './player.js';
 // import { uiClearInput } from 'static/js/ui.js';
 
 // On page load, check if input has cached value
@@ -22,7 +23,10 @@ export function stateMachineEvents(sm) {
   });
 
   elements.formInput.addEventListener('focus', () => {
-    sm.dispatchEvent(AudioStateMachine.EventId.INPUT_CHANGED); // leads to READY state if input is valid (guard is in statemachine), otherwise stays in IDLE
+  // if input is focused, we want to check if it has a value and if so, trigger the input event to update the state machine and potentially other listeners. This is important for cases where the user clicks on the input after it has been pre-filled with a story title, ensuring that the state machine transitions to READY if the input is valid.
+    if (elements.formInput.value.trim()) {
+      sm.dispatchEvent(AudioStateMachine.EventId.INPUT_CHANGED); // leads to READY state if input is valid (guard is in statemachine), otherwise stays in IDLE
+    }
   })
 
   elements.formInput?.addEventListener('input', () => {
@@ -31,12 +35,16 @@ export function stateMachineEvents(sm) {
   });
 
   elements.formInput.addEventListener('blur', (e) => {
-    console.log('Blur fired!'); // Will log on click outside
-    if (e.relatedTarget === elements.playPauseButton || e.detail.view === 'text') return; // Skip if focus moved to the button
+    const target = e.relatedTarget || document.activeElement; // Fallback to activeElement if relatedTarget is null
+    console.log('Blur fired from', target); // Will log on click outside
+    if (target?.classList?.contains('square') && squareHasTitle(target)) {
+          console.log("Blur related target:", target);
+          return; // Skip if focus moved to the button
+        }
     sm.dispatchEvent(AudioStateMachine.EventId.INPUT_DEFOCUSED);
   }); 
 
-  elements.playPauseButton?.addEventListener("click", () => {
+  elements.playPauseButton?.addEventListener("mousedown", () => {
     console.log('Play/Pause clicked');
     const input = elements.formInput;
     // if (input.value.trim() === "") {
@@ -54,7 +62,6 @@ export function stateMachineEvents(sm) {
 
   elements.form?.addEventListener("submit", (e) => {
     e.preventDefault();
-
     console.log('Form submitted');
     sm.dispatchEvent(AudioStateMachine.EventId.FORM_SUBMITTED) // leads to LOADING state
     elements.formInput.blur(); // Remove focus from input (hides cursor)
@@ -75,17 +82,18 @@ export function stateMachineEvents(sm) {
     sm.dispatchEvent(AudioStateMachine.EventId.MUSIC_OVER); // leads to MUSIC_ENDED state
   });
 
-  elements.fromStartButton?.addEventListener("click", () => {
+  elements.fromStartButton?.addEventListener("mousedown", () => {
     console.log('Replay clicked');
     sm.dispatchEvent(AudioStateMachine.EventId.FROM_START_CLICKED); // leads to PLAYING state
   });
 
   elements.gridSquares.forEach(square => {
     square.addEventListener('mouseenter', () => {
+      elements.activeSquare = square; // Store reference
       console.log('Hovered over square:', square.dataset.compactSubject);
       if (squareHasTitle(square)) {
         greenSquare(square); // Change background to green on hover if it has a title
-        setSquareClickAuthorized(true); // Allow clicking this square
+        // setSquareClickAuthorized(true); // Allow clicking this square
         elements.formInput.value = square.dataset.compactSubject;
         elements.formInput.focus();
         console.log("Hovered over square with compact subject:", square.dataset.compactSubject);
@@ -98,19 +106,21 @@ export function stateMachineEvents(sm) {
   elements.gridSquares.forEach(square => {
     square.addEventListener('mouseout', () => {
       if (squareHasTitle(square)) {
-        setSquareClickAuthorized(false); // Prevent clicking when not hovered
+        // setSquareClickAuthorized(false); // Prevent clicking when not hovered
         defaultSquare(square); // Revert to default background on mouse out
-        elements.formInput.value = ''; // Clear input on mouse out
+        elements.formInput.blur(); // Remove focus from input (hides cursor)
+        // elements.formInput.value = ''; // Clear input on mouse out
       }
     })
   })
 
   elements.gridSquares.forEach(square => {
-    square.addEventListener('click', () => { // we need to get sure the click happens only inside the grid - to prevent triggering reassigment of activeSquare when clicking outside, like when choosing a new topic.
+    square.addEventListener('mousedown', () => { // we need to get sure the click happens only inside the grid - to prevent triggering reassigment of activeSquare when clicking outside, like when choosing a new topic.
       elements.activeSquare = square; // Store reference
       console.log('Square clicked:', elements.activeSquare.dataset.compactSubject);
       if (squareHasTitle(square)) {
         sm.dispatchEvent(AudioStateMachine.EventId.SQUARE_CLICKED);
+        console.log("Square has title, dispatching SQUARE_CLICKED event with compact subject:", square.dataset.compactSubject);
       }
     });
   });
@@ -119,25 +129,71 @@ export function stateMachineEvents(sm) {
 export function staticListeners() {
 
     document.addEventListener('viewChanged', (e) => {
-        let view = e.detail.view;
-        console.log('View changed to:', view);
-        if ((view === 'text' || view == 'dots') && lastStoryData?.storyTitle) {
-        elements.formInput.value = lastStoryData.storyTitle;
-        console.log('Updated form input to story title:', lastStoryData);
-        }
+      let view = e.detail.view;
+      console.log('View changed to:', view);
+      if ((view === 'text' || view == 'dots') && lastStoryData?.storyTitle) {
+      elements.formInput.value = lastStoryData.storyTitle;
+      console.log('Updated form input to story title:', lastStoryData);
+      }
     });  
 
     elements.toggleButton?.addEventListener('click', () => {
-        console.log('Toggling grid visibility');
-        // sm.dispatchEvent(AudioStateMachine.EventId.VIEW_TOGGLED);
-        toggleView();
+      console.log('Toggling grid visibility');
+      // sm.dispatchEvent(AudioStateMachine.EventId.VIEW_TOGGLED);
+      toggleView();
     });
 
+    // elements.paceButton?.addEventListener('click', () => {
+    //   if (elements.paceButton.textContent === 'Pace Off') {
+    //     PaceButtonText(true);
+    //     paceButtonColor(true);
+    //     setPaceValue(true);
+    //     console.log("Pace turned On");
+    //     console.log("Current paceValue:", getPaceValue());
+    //   } else {
+    //     PaceButtonText(false);
+    //     paceButtonColor(false);
+    //     setPaceValue(false);
+    //     console.log("Pace turned Off");
+    //     console.log("Current paceValue:", getPaceValue());
+    //   }
+    // });
+
+    elements.musicButton?.addEventListener('click', () => {
+      if (elements.musicButton.textContent === 'music on') {
+        elements.musicButton.textContent = 'music off';
+        musicButtonText(false);
+        musicButtonColor(false)
+        setMusicValue(true);
+        muteBackgroundTrack();
+        console.log("Music muted");
+        console.log("Current muteValue:", getMusicValue());
+      } else {
+        elements.musicButton.textContent = 'music on';
+        musicButtonColor(true)
+        musicButtonText(true);
+        setMusicValue(false);
+        unmuteBackgroundTrack();
+        console.log("Music unmuted");
+        console.log("Current muteValue:", getMusicValue());
+      }
+    });
+
+    elements.rewind5SecondsButton.addEventListener('click', () => {
+      console.log('Rewind 5 seconds clicked');
+      rewind5Seconds();
+    });
+
+    elements.forward5SecondsButton.addEventListener('click', () => {
+      console.log('Forward 5 seconds clicked');
+      forward5Seconds();
+    });
+    
     // Handling mouse interactions with the story text for word highlighting and pasting
     elements.storyText?.addEventListener('mousemove', (e) => {
-        TextInteractionSystem.handleMouseMove(e);
-        // elements.formInput.dispatchEvent(new Event('input', { bubbles: true }));
-        });
+      TextInteractionSystem.handleMouseMove(e);
+      // elements.formInput.dispatchEvent(new Event('input', { bubbles: true }));
+    });
     
     elements.storyText?.addEventListener('mouseout', (e) => {
         TextInteractionSystem.handleMouseOut(e);
@@ -145,48 +201,48 @@ export function staticListeners() {
     
     // Click: Paste highlighted words
     elements.storyText?.addEventListener('click', (e) => {
-        if (e.target.classList.contains('highlight-word')) {
-        // const allWords = currentlyHighlightedWords.map(span => span.textContent.trim());
-        const cleanTitle = TextInteractionSystem.getCurrentlyHighlightedWords()
-            .map(span => span.textContent.trim())
-            .map(word => word.charAt(0).toUpperCase() + word.slice(1).replace(/[.,"]/g, ''))
-            .join(' ');
-        elements.formInput.value = cleanTitle;
+      if (e.target.classList.contains('highlight-word')) {
+      // const allWords = currentlyHighlightedWords.map(span => span.textContent.trim());
+      const cleanTitle = TextInteractionSystem.getCurrentlyHighlightedWords()
+          .map(span => span.textContent.trim())
+          .map(word => word.charAt(0).toUpperCase() + word.slice(1).replace(/[.,"]/g, ''))
+          .join(' ');
+      elements.formInput.value = cleanTitle;
 
-        console.log("Pasted:", cleanTitle); // Debug
-        elements.formInput.dispatchEvent(new Event('input'));
-        elements.formInput.focus();
-        // elements.formInput.blur(); // Remove focus (hides cursor)
-        }
+      console.log("Pasted:", cleanTitle); // Debug
+      elements.formInput.dispatchEvent(new Event('input'));
+      elements.formInput.focus();
+      // elements.formInput.blur(); // Remove focus (hides cursor)
+      }
     });
 
     // Title click handler - now handles both topic cycling and state machine events
     elements.title?.addEventListener('click', (e) => {
-        // Prevent text selection and default behavior
-        e.preventDefault();
-        e.stopPropagation();
+      // Prevent text selection and default behavior
+      e.preventDefault();
+      e.stopPropagation();
 
-        // Cycle to next topic
-        cycleToNextTopic();
-        mapValuesToSquares();
-        // sm.dispatchEvent(AudioStateMachine.EventId.CANCEL); // leads to IDLE state
+      // Cycle to next topic
+      cycleToNextTopic();
+      mapValuesToSquares();
+      // sm.dispatchEvent(AudioStateMachine.EventId.CANCEL); // leads to IDLE state
     });
 
     // Prevent double-click text selection on title
     elements.title?.addEventListener('mousedown', (e) => {
-        if (e.detail > 1) {
-        e.preventDefault();
-        }
+      if (e.detail > 1) {
+      e.preventDefault();
+      }
     });
 
     // Prevent text selection on subtitle (for future functionality)
     elements.subtitle?.addEventListener('mousedown', (e) => {
-        e.preventDefault();
+      e.preventDefault();
     });
 
     // Subtitle click handler - currently a placeholder for future functionality
     elements.subtitle?.addEventListener('click', (e) => {
-        e.preventDefault();
-        console.log('Subtitle clicked - ready for future functionality');
+      e.preventDefault();
+      console.log('Subtitle clicked - ready for future functionality');
     });
     }

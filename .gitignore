@@ -5,6 +5,10 @@
 /venv/
 /venv_v2/
 /tests/.cache
+/src/services/storage_v2.py
+/src/services/build_pace.py
+/src/services/build_v2.py
+/templates/
 __pycache__/
 *.pyc
 .cache
@@ -23,7 +27,7 @@ script_default_fields.py
 script_philosophy.py
 scripts.py
 /tests
-/files_to_pick_from/
-/function_factory/
+files_to_pick_from
+function_factory
 Dockerfile_ori
 Dockerfile0

@@ -4,6 +4,8 @@ from typing import Optional
 # text and audio schemas request
 class StoryRequest(BaseModel):
     subject: str
+    # pace: bool = False
+    length: Optional[int] = None
     narrative_style: str | None = None
     difficulty: str | None = None
 

@@ -14,6 +14,10 @@ def _format_text_filename(subject: str) -> str:
     """Generate a text filename with underscores from a raw subject"""
     return re.sub(r'[^\w\-_]', '_', subject.strip().lower())
 
+# def _format_text_filename(subject: str, pace: bool) -> str:
+#     """Generate a text filename with underscores from a raw subject"""
+#     return re.sub(r'[^\w\-_]', '_', subject.strip().lower()) if not pace else re.sub(r'[^\w\-_]', '_', subject.strip().lower()) + "_pace"
+
 def _format_mp3_filename(subject: str, max_length: int = 200) -> str:
     """Generate an mp3 filename with underscores from a raw subject."""
     if not subject or not isinstance(subject, str):
@@ -24,7 +28,7 @@ def _format_mp3_filename(subject: str, max_length: int = 200) -> str:
     # Ensure .mp3 extension
     if not mp3_filename.endswith(".mp3"):
         mp3_filename += ".mp3"
-    
+
     # Handle edge cases
     if len(mp3_filename) > max_length:
         mp3_filename = mp3_filename[:max_length - 4] + ".mp3"
@@ -32,6 +36,25 @@ def _format_mp3_filename(subject: str, max_length: int = 200) -> str:
         return "mistral_story.mp3"
         
     return mp3_filename
+
+# def _format_mp3_filename(subject: str, pace: bool, max_length: int = 200) -> str:
+#     """Generate an mp3 filename with underscores from a raw subject."""
+#     if not subject or not isinstance(subject, str):
+#         return "mistral_story.mp3"
+        
+#     mp3_filename = re.sub(r'[^\w\-_]', '_', subject.strip().lower()) if not pace else re.sub(r'[^\w\-_]', '_', subject.strip().lower()) + "_pace"
+    
+#     # Ensure .mp3 extension
+#     if not mp3_filename.endswith(".mp3"):
+#         mp3_filename += ".mp3"
+
+#     # Handle edge cases
+#     if len(mp3_filename) > max_length:
+#         mp3_filename = mp3_filename[:max_length - 4] + ".mp3"
+#     if mp3_filename == ".mp3":
+#         return "mistral_story.mp3"
+        
+#     return mp3_filename
 
 # def _clean_story_text(story: str) -> str:
 #     """
@@ -131,3 +154,10 @@ def _clean_story_title(subject: str) -> str:
         return "Mistral Story"
     
     return subject.replace("_", " ").title()
+
+# def _clean_story_title_pace(subject: str) -> str:
+#     """Generate a clean story filename with 'pace' appended at the end"""
+#     if not subject or not isinstance(subject, str):
+#         return "Mistral Story"
+    
+#     return subject.replace("_", " ").title() + "_pace"

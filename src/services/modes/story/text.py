@@ -2,9 +2,6 @@ import os
 import math  # For character-to-token conversion
 import re
 
-# from fastapi import APIRouter
-# from pydantic import BaseModel
-
 from mistralai.client import Mistral
 # from mistralai import Mistral
 from openai import OpenAI
@@ -12,16 +9,13 @@ from openai import OpenAI
 from jinja2 import Template
 
 from src.config.settings import env_settings
-from src.config.pacing_engine_functions import _apply_silence_tags, silence_map_openai_tts, silence_map_short_openai_tts
+from src.config.pacing_engine_functions import _apply_silence_tags, silence_map_openai_tts, silence_map_super_short_openai_tts, silence_map_short_openai_tts, silence_map_medium_openai_tts, silence_map_long_openai_tts, silence_map_long_plus_openai_tts, silence_map_variations_openai_tts, silence_map_variations_long_openai_tts, silence_map_variations_short_openai_tts, silence_map_elevenlabs_tts
 from src.services.utils import _clean_story_text, _remove_silence_tags, _format_text_filename, _clean_story_title
 
 mistral_client = Mistral(api_key=env_settings.mistral_api_key)
 openai_client = OpenAI(api_key=env_settings.openai_api_key)
 
-result = mistral_client.audio.voices.list(limit=10, offset=0)
-print(result)
-
-def generate_story_with_mistralai(subject, narrative_style: None, difficulty: None) -> tuple[str, str]:
+def generate_story_with_mistralai(subject, length: None, narrative_style: None, difficulty: None) -> tuple[str, str]:
     print("entering Mistral story: ", subject, narrative_style, difficulty)
     try:
         # 1. Read the prompt template from the file
@@ -34,6 +28,7 @@ def generate_story_with_mistralai(subject, narrative_style: None, difficulty: No
             )
 
         print(f" Let's see : {narrative_style_rendered[:50]}")
+        print(f"text subject: {subject}")
             
         response = mistral_client.chat.complete(
             model="mistral-medium-latest",
@@ -49,9 +44,8 @@ def generate_story_with_mistralai(subject, narrative_style: None, difficulty: No
                 },
                 
             ],
-            # max_tokens=1350,
-            max_tokens=500,
-            temperature=0.4,
+            max_tokens=length,
+            temperature=0.2,
             presence_penalty=1.2,
             stream=False)
         
@@ -63,18 +57,16 @@ def generate_story_with_mistralai(subject, narrative_style: None, difficulty: No
         original_output = response.choices[0].message.content if response else ""
         original_output = original_output.replace("*", "").replace("**", "")
         print(f"GENERATED OUTPUT: {original_output}")
-        
-        # silences = silence_map_openai_tts # Define your silence mapping here or import it from config
-        silences = silence_map_short_openai_tts # Define your silence mapping here or import it from config
-        
-        clean_story_title = _clean_story_title(subject)
+
+        silences = silence_map_variations_short_openai_tts # Define your silence mapping here or import it from config
+        # silences = silence_map_elevenlabs_tts # Define your silence mapping here or import it from config
+
         tts_text = _apply_silence_tags(original_output, silences)
-        # clean_story = _remove_silence_tags(original_output) # remove silence tags to have a clean version to display
-        # clean_story = _clean_story_text(original_output) # remove punctuation tags to have a clean version to display
-        # print(f"CLEAN STORY: {clean_story}")
+        print(f"TTS TEXT WITH SILENCE TAGS: {tts_text}")
+        clean_story_title = _clean_story_title(subject)
     
         return clean_story_title, tts_text, original_output
-        # return clean_story_title, original_output, clean_story
+        # return clean_story_title, original_output, original_output # >> no silence tags - default tts behavior (mistral tts do not accept tags)
     
     except Exception as e:
         print(f"Full error: {e[:20]}")  # Log both error and response

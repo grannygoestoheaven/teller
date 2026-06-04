@@ -1,5 +1,5 @@
 // storyService.js
-import { elements, lastStoryData, currentFormInputValue } from "./config.js";
+import { elements, lastStoryData, getPaceValue, currentFormInputValue } from "./config.js";
 import { loadPlayer } from "./player.js";
 import { sanitizeSubject } from "./utils.js";
 
@@ -80,8 +80,11 @@ export async function startNewStoryProcessForm() {
 
   // allow cancellation of process
   abortController = new AbortController();
-  let formSubject = elements.formInput.value.trim();
-  const subject = sanitizeSubject(formSubject);
+  let subject = elements.formInput.value.trim();
+  let pace = getPaceValue();
+
+  // const subject = sanitizeSubject(formSubject);
+  console.log(subject)
 
   console.log(JSON.stringify({ subject }));
   console.log("Sanitized form subject:", subject);
@@ -91,6 +94,7 @@ export async function startNewStoryProcessForm() {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ subject })
+    // body: JSON.stringify({ subject, pace })
   });
 
   console.log("Response from check_story:", responseCheck);
@@ -118,6 +122,7 @@ export async function startNewStoryProcessForm() {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ subject, narrativeStyle: null, difficulty: null }),
+      // body: JSON.stringify({ subject, pace, narrativeStyle: null, difficulty: null }),
       signal: abortController.signal
     });
 

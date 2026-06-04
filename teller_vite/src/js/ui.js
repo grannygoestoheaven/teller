@@ -4,9 +4,29 @@ import { elements, lastStoryData } from "./config.js";
 import { playedSquares } from "./uiInit.js";
 
 let currentView = 'grid' // Default view is grid, can be 'text' or 'dots'
+let isEmpty = true;
+// let isPaceOn = false;
 
 export function clearStoryText() {
   elements.storyText.innerHTML = '';
+}
+
+export function PaceButtonText(isPaceOn) {
+  return isPaceOn ? elements.paceButton.textContent = "Pace On" : elements.paceButton.textContent = "Pace Off";
+}
+
+export function paceButtonColor(isPaceOn) {
+  return isPaceOn ? elements.paceButton.style.backgroundColor = 'rgb(109, 151, 120)' : elements.paceButton.style.backgroundColor = '';
+}
+
+export function musicButtonText(isMusicOn) {
+  return isMusicOn ? elements.musicButton.textContent = "music on" : elements.musicButton.textContent = "music off";
+}
+
+export function musicButtonColor(isMusicOn) {
+  return isMusicOn ? elements.musicButton.style.backgroundColor = '#d12709' : elements.musicButton.style.backgroundColor = '#39423c';
+  return isMusicOn ? elements.musicButton.style.backgroundColor = '#345d18' : elements.musicButton.style.backgroundColor = '#39423c';
+  return isMusicOn ? elements.musicButton.style.backgroundColor = '#0f5c1d' : elements.musicButton.style.backgroundColor = '';
 }
 
 export function initInputAdjustments() {
@@ -25,10 +45,12 @@ export function initInputAdjustments() {
 
 export function inputIsValid() {
   return elements.formInput.value.trim().length > 0;
+  document.dispatchEvent(new CustomEvent('inputValid', { detail: { isEmpty: false } }));
 }
 
 export function inputIsEmpty() {
   return elements.formInput.value.trim().length === 0;
+  document.dispatchEvent(new CustomEvent('inputEmpty', { detail: { isEmpty: true } }));
 }
 
 export function blurInput() {
@@ -232,4 +254,8 @@ export function fixSquareColor() {
 
 export function removeFixedColorFromSquare() {
   elements.activSquare.style.backgroundColor = 'transparent';
+}
+
+export function mutedButtonDisplay() {
+  elements.muteBtn.textContent = 'unmute';
 }

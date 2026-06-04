@@ -70,11 +70,13 @@ import {
   getLoadingColor,
   redDots,
   greenDots,
+  orangeDots,
   blueDots,
   loadingDots,
   addBlurr,
   removeBlurr,
-  addBorderToInput
+  addBorderToInput,
+  // orangeDots
 } from "./animation.js";
 
 import {
@@ -160,6 +162,7 @@ export const localActions = {
     getLoadingColor,
     redDots,
     greenDots,
+    orangeDots,
     blueDots,
     loadingDots,
     addBlurr,

@@ -257,7 +257,7 @@ IDLE
 
 IDLE : IDLE
 
-IDLE : enter / #123; this.actions.abortProcess()#59; this.actions.dotsView()#59; this.actions.pauseAllAudio()#59; this.actions.resetAllAudio()#59; this.actions.uiIdleButtons()#59; this.actions.initInputAdjustments()#59; #125;
+IDLE : enter / #123; this.actions.abortProcess()#59; this.actions.gridView()#59; this.actions.pauseAllAudio()#59; this.actions.resetAllAudio()#59; this.actions.uiIdleButtons()#59; this.actions.initInputAdjustments()#59; #125;
 
 READY_DURING_IDLE
 
@@ -287,9 +287,9 @@ PLAYING
 
 PLAYING : PLAYING
 
-PLAYING : enter / #123; this.actions.uiPlayingButtons()#59; this.actions.removeBlurr()#59; this.actions.greenDots()#59; #125;
+PLAYING : enter / #123; this.actions.uiPlayingButtons()#59; this.actions.removeBlurr()#59; this.actions.orangeDots()#59; #125;
 
-PLAYING : SPEECH_OVER / #123; this.actions.addTitleToSquare()#59; this.actions.textView()#59; #125;
+PLAYING : SPEECH_OVER / #123; this.actions.textView()#59; #125;
 
 PAUSED
 
@@ -303,11 +303,11 @@ IDLE --> READY_DURING_IDLE : INPUT_CHANGED
 
 IDLE --> PLAYING : FROM_START_CLICKED / #123; this.actions.resetAllAudio()#59; this.actions.resumeAllAudio()#59; #125;
 
-READY_DURING_IDLE --> LOADING : SQUARE_CLICKED [this.actions.getSquareClickAuthorized()] / #123; this.actions.startNewStoryProcessForm()#59; #125;
+READY_DURING_IDLE --> LOADING : SQUARE_CLICKED / #123; this.actions.startNewStoryProcessForm()#59; #125;
 
 READY_DURING_IDLE --> LOADING : FORM_SUBMITTED / #123; this.actions.startNewStoryProcessForm()#59; #125;
 
-READY_DURING_IDLE --> LOADING : TOGGLE_PAUSE_RESUME / #123; this.actions.startNewStoryProcessForm()#59; #125;
+READY_DURING_IDLE --> LOADING : TOGGLE_PAUSE_RESUME [!this.actions.inputIsEmpty()] / #123; this.actions.startNewStoryProcessForm()#59; #125;
 
 READY_DURING_IDLE --> IDLE : INPUT_DEFOCUSED [!this.actions.getIsChatVisible()]
 
@@ -315,27 +315,27 @@ READY_DURING_IDLE --> IDLE : CANCEL
 
 READY_DURING_IDLE --> PLAYING : FROM_START_CLICKED / #123; this.actions.resumeAllAudio()#59; #125;
 
-READY_DURING_PLAYBACK --> LOADING : SQUARE_CLICKED [this.actions.getSquareClickAuthorized()] / #123; this.actions.startNewStoryProcessForm()#59; #125;
+READY_DURING_PLAYBACK --> LOADING : SQUARE_CLICKED / #123; this.actions.startNewStoryProcessForm()#59; #125;
 
 READY_DURING_PLAYBACK --> LOADING : FORM_SUBMITTED / #123; this.actions.startNewStoryProcessForm()#59; #125;
 
-READY_DURING_PLAYBACK --> LOADING : TOGGLE_PAUSE_RESUME / #123; this.actions.startNewStoryProcessForm()#59; #125;
+READY_DURING_PLAYBACK --> LOADING : TOGGLE_PAUSE_RESUME [!this.actions.inputIsEmpty()] / #123; this.actions.startNewStoryProcessForm()#59; #125;
 
 READY_DURING_PLAYBACK --> PLAYING : INPUT_DEFOCUSED
 
 READY_DURING_PLAYBACK --> IDLE : CANCEL
 
-READY_DURING_PAUSED --> LOADING : SQUARE_CLICKED [this.actions.getSquareClickAuthorized()] / #123; this.actions.startNewStoryProcessForm()#59; #125;
+READY_DURING_PAUSED --> LOADING : SQUARE_CLICKED / #123; this.actions.startNewStoryProcessForm()#59; #125;
 
 READY_DURING_PAUSED --> LOADING : FORM_SUBMITTED / #123; this.actions.startNewStoryProcessForm()#59; #125;
 
-READY_DURING_PAUSED --> LOADING : TOGGLE_PAUSE_RESUME / #123; this.actions.startNewStoryProcessForm()#59; #125;
+READY_DURING_PAUSED --> LOADING : TOGGLE_PAUSE_RESUME [!this.actions.inputIsEmpty()] / #123; this.actions.startNewStoryProcessForm()#59; #125;
 
 READY_DURING_PAUSED --> PAUSED : INPUT_DEFOCUSED
 
 READY_DURING_PAUSED --> IDLE : CANCEL
 
-LOADING --> PLAYING : SPEECH_READY / #123; this.actions.setUpAndStartAllAudio()#59; this.actions.displayStoryText()#59; this.actions.TextInteractionSystem.wrapWordsInSpans()#59; #125;
+LOADING --> PLAYING : SPEECH_READY / #123; this.actions.addTitleToSquare()#59; this.actions.setUpAndStartAllAudio()#59; this.actions.displayStoryText()#59; this.actions.TextInteractionSystem.wrapWordsInSpans()#59; #125;
 
 LOADING --> PAUSED : TOGGLE_PAUSE_RESUME / #123; this.actions.pauseAllAudio()#59; #125;
 
@@ -347,7 +347,7 @@ PLAYING --> PLAYING : FROM_START_CLICKED / #123; this.actions.resetAllAudio()#59
 
 PLAYING --> READY_DURING_PLAYBACK : INPUT_CHANGED
 
-PLAYING --> IDLE : MUSIC_OVER [this.actions.bothTracksEnded()] / #123; this.actions.resetAllAudio()#59; this.actions.uiIdleButtons()#59; #125;
+PLAYING --> IDLE : MUSIC_OVER [this.actions.bothTracksEnded()] / #123; this.actions.resetAllAudio()#59; #125;
 
 PLAYING --> IDLE : CANCEL
 
@@ -622,10 +622,10 @@ evaluateGuard = null;
         } // end of behavior for IDLE
         
         // IDLE behavior
-        // uml: enter / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.abortProcess(); this.actions.dotsView(); this.actions.pauseAllAudio(); this.actions.resetAllAudio(); this.actions.uiIdleButtons(); this.actions.initInputAdjustments();"); }
+        // uml: enter / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.abortProcess(); this.actions.gridView(); this.actions.pauseAllAudio(); this.actions.resetAllAudio(); this.actions.uiIdleButtons(); this.actions.initInputAdjustments();"); }
         {
-            // Step 1: execute action `this.tracer?.log("⚡ FSM would execute action: " + "this.actions.abortProcess(); this.actions.dotsView(); this.actions.pauseAllAudio(); this.actions.resetAllAudio(); this.actions.uiIdleButtons(); this.actions.initInputAdjustments();");`
-            this.tracer?.log("⚡ FSM would execute action: " + "this.actions.abortProcess(); this.actions.dotsView(); this.actions.pauseAllAudio(); this.actions.resetAllAudio(); this.actions.uiIdleButtons(); this.actions.initInputAdjustments();");
+            // Step 1: execute action `this.tracer?.log("⚡ FSM would execute action: " + "this.actions.abortProcess(); this.actions.gridView(); this.actions.pauseAllAudio(); this.actions.resetAllAudio(); this.actions.uiIdleButtons(); this.actions.initInputAdjustments();");`
+            this.tracer?.log("⚡ FSM would execute action: " + "this.actions.abortProcess(); this.actions.gridView(); this.actions.pauseAllAudio(); this.actions.resetAllAudio(); this.actions.uiIdleButtons(); this.actions.initInputAdjustments();");
         } // end of behavior for IDLE
     }
     
@@ -743,13 +743,13 @@ evaluateGuard = null;
     #LOADING_speech_ready()
     {
         // LOADING behavior
-        // uml: SPEECH_READY / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.setUpAndStartAllAudio(); this.actions.displayStoryText(); this.actions.TextInteractionSystem.wrapWordsInSpans();");this.tracer?.edgeTransition("edge19"); } TransitionTo(PLAYING)
+        // uml: SPEECH_READY / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.addTitleToSquare(); this.actions.setUpAndStartAllAudio(); this.actions.displayStoryText(); this.actions.TextInteractionSystem.wrapWordsInSpans();");this.tracer?.edgeTransition("edge19"); } TransitionTo(PLAYING)
         {
             // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
             this.#LOADING_exit();
             
-            // Step 2: Transition action: `this.tracer?.log("⚡ FSM would execute action: " + "this.actions.setUpAndStartAllAudio(); this.actions.displayStoryText(); this.actions.TextInteractionSystem.wrapWordsInSpans();");this.tracer?.edgeTransition("edge19");`.
-            this.tracer?.log("⚡ FSM would execute action: " + "this.actions.setUpAndStartAllAudio(); this.actions.displayStoryText(); this.actions.TextInteractionSystem.wrapWordsInSpans();");this.tracer?.edgeTransition("edge19");
+            // Step 2: Transition action: `this.tracer?.log("⚡ FSM would execute action: " + "this.actions.addTitleToSquare(); this.actions.setUpAndStartAllAudio(); this.actions.displayStoryText(); this.actions.TextInteractionSystem.wrapWordsInSpans();");this.tracer?.edgeTransition("edge19");`.
+            this.tracer?.log("⚡ FSM would execute action: " + "this.actions.addTitleToSquare(); this.actions.setUpAndStartAllAudio(); this.actions.displayStoryText(); this.actions.TextInteractionSystem.wrapWordsInSpans();");this.tracer?.edgeTransition("edge19");
             
             // Step 3: Enter/move towards transition target `PLAYING`.
             this.#PLAYING_enter();
@@ -919,10 +919,10 @@ evaluateGuard = null;
         } // end of behavior for PLAYING
         
         // PLAYING behavior
-        // uml: enter / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.uiPlayingButtons(); this.actions.removeBlurr(); this.actions.greenDots();"); }
+        // uml: enter / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.uiPlayingButtons(); this.actions.removeBlurr(); this.actions.orangeDots();"); }
         {
-            // Step 1: execute action `this.tracer?.log("⚡ FSM would execute action: " + "this.actions.uiPlayingButtons(); this.actions.removeBlurr(); this.actions.greenDots();");`
-            this.tracer?.log("⚡ FSM would execute action: " + "this.actions.uiPlayingButtons(); this.actions.removeBlurr(); this.actions.greenDots();");
+            // Step 1: execute action `this.tracer?.log("⚡ FSM would execute action: " + "this.actions.uiPlayingButtons(); this.actions.removeBlurr(); this.actions.orangeDots();");`
+            this.tracer?.log("⚡ FSM would execute action: " + "this.actions.uiPlayingButtons(); this.actions.removeBlurr(); this.actions.orangeDots();");
         } // end of behavior for PLAYING
     }
     
@@ -1004,14 +1004,14 @@ evaluateGuard = null;
     #PLAYING_music_over()
     {
         // PLAYING behavior
-        // uml: MUSIC_OVER [this.tracer?.log("🛡️ User evaluating guard: " + "this.actions.bothTracksEnded()") || this.evaluateGuard("PLAYING","MUSIC_OVER [this.actions.bothTracksEnded()] / { this.actions.resetAllAudio(); this.actions.uiIdleButtons(); } TransitionTo(IDLE)")] / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.resetAllAudio(); this.actions.uiIdleButtons();");this.tracer?.edgeTransition("edge25"); } TransitionTo(IDLE)
-        if (this.tracer?.log("🛡️ User evaluating guard: " + "this.actions.bothTracksEnded()") || this.evaluateGuard("PLAYING","MUSIC_OVER [this.actions.bothTracksEnded()] / { this.actions.resetAllAudio(); this.actions.uiIdleButtons(); } TransitionTo(IDLE)"))
+        // uml: MUSIC_OVER [this.tracer?.log("🛡️ User evaluating guard: " + "this.actions.bothTracksEnded()") || this.evaluateGuard("PLAYING","MUSIC_OVER [this.actions.bothTracksEnded()] / { this.actions.resetAllAudio(); } TransitionTo(IDLE)")] / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.resetAllAudio();");this.tracer?.edgeTransition("edge25"); } TransitionTo(IDLE)
+        if (this.tracer?.log("🛡️ User evaluating guard: " + "this.actions.bothTracksEnded()") || this.evaluateGuard("PLAYING","MUSIC_OVER [this.actions.bothTracksEnded()] / { this.actions.resetAllAudio(); } TransitionTo(IDLE)"))
         {
             // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
             this.#PLAYING_exit();
             
-            // Step 2: Transition action: `this.tracer?.log("⚡ FSM would execute action: " + "this.actions.resetAllAudio(); this.actions.uiIdleButtons();");this.tracer?.edgeTransition("edge25");`.
-            this.tracer?.log("⚡ FSM would execute action: " + "this.actions.resetAllAudio(); this.actions.uiIdleButtons();");this.tracer?.edgeTransition("edge25");
+            // Step 2: Transition action: `this.tracer?.log("⚡ FSM would execute action: " + "this.actions.resetAllAudio();");this.tracer?.edgeTransition("edge25");`.
+            this.tracer?.log("⚡ FSM would execute action: " + "this.actions.resetAllAudio();");this.tracer?.edgeTransition("edge25");
             
             // Step 3: Enter/move towards transition target `IDLE`.
             this.#IDLE_enter();
@@ -1026,10 +1026,10 @@ evaluateGuard = null;
     #PLAYING_speech_over()
     {
         // PLAYING behavior
-        // uml: SPEECH_OVER / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.addTitleToSquare(); this.actions.textView();"); }
+        // uml: SPEECH_OVER / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.textView();"); }
         {
-            // Step 1: execute action `this.tracer?.log("⚡ FSM would execute action: " + "this.actions.addTitleToSquare(); this.actions.textView();");`
-            this.tracer?.log("⚡ FSM would execute action: " + "this.actions.addTitleToSquare(); this.actions.textView();");
+            // Step 1: execute action `this.tracer?.log("⚡ FSM would execute action: " + "this.actions.textView();");`
+            this.tracer?.log("⚡ FSM would execute action: " + "this.actions.textView();");
         } // end of behavior for PLAYING
         
         // No ancestor handles this event.
@@ -1180,8 +1180,7 @@ evaluateGuard = null;
     #READY_DURING_IDLE_square_clicked()
     {
         // READY_DURING_IDLE behavior
-        // uml: SQUARE_CLICKED [this.tracer?.log("🛡️ User evaluating guard: " + "this.actions.getSquareClickAuthorized()") || this.evaluateGuard("READY_DURING_IDLE","SQUARE_CLICKED [this.actions.getSquareClickAuthorized()] / { this.actions.startNewStoryProcessForm(); } TransitionTo(LOADING)")] / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.startNewStoryProcessForm();");this.tracer?.edgeTransition("edge3"); } TransitionTo(LOADING)
-        if (this.tracer?.log("🛡️ User evaluating guard: " + "this.actions.getSquareClickAuthorized()") || this.evaluateGuard("READY_DURING_IDLE","SQUARE_CLICKED [this.actions.getSquareClickAuthorized()] / { this.actions.startNewStoryProcessForm(); } TransitionTo(LOADING)"))
+        // uml: SQUARE_CLICKED / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.startNewStoryProcessForm();");this.tracer?.edgeTransition("edge3"); } TransitionTo(LOADING)
         {
             // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
             this.#READY_DURING_IDLE_exit();
@@ -1202,7 +1201,8 @@ evaluateGuard = null;
     #READY_DURING_IDLE_toggle_pause_resume()
     {
         // READY_DURING_IDLE behavior
-        // uml: TOGGLE_PAUSE_RESUME / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.startNewStoryProcessForm();");this.tracer?.edgeTransition("edge5"); } TransitionTo(LOADING)
+        // uml: TOGGLE_PAUSE_RESUME [this.tracer?.log("🛡️ User evaluating guard: " + "!this.actions.inputIsEmpty()") || this.evaluateGuard("READY_DURING_IDLE","TOGGLE_PAUSE_RESUME [!this.actions.inputIsEmpty()] / { this.actions.startNewStoryProcessForm(); } TransitionTo(LOADING)")] / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.startNewStoryProcessForm();");this.tracer?.edgeTransition("edge5"); } TransitionTo(LOADING)
+        if (this.tracer?.log("🛡️ User evaluating guard: " + "!this.actions.inputIsEmpty()") || this.evaluateGuard("READY_DURING_IDLE","TOGGLE_PAUSE_RESUME [!this.actions.inputIsEmpty()] / { this.actions.startNewStoryProcessForm(); } TransitionTo(LOADING)"))
         {
             // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
             this.#READY_DURING_IDLE_exit();
@@ -1322,8 +1322,7 @@ evaluateGuard = null;
     #READY_DURING_PAUSED_square_clicked()
     {
         // READY_DURING_PAUSED behavior
-        // uml: SQUARE_CLICKED [this.tracer?.log("🛡️ User evaluating guard: " + "this.actions.getSquareClickAuthorized()") || this.evaluateGuard("READY_DURING_PAUSED","SQUARE_CLICKED [this.actions.getSquareClickAuthorized()] / { this.actions.startNewStoryProcessForm(); } TransitionTo(LOADING)")] / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.startNewStoryProcessForm();");this.tracer?.edgeTransition("edge14"); } TransitionTo(LOADING)
-        if (this.tracer?.log("🛡️ User evaluating guard: " + "this.actions.getSquareClickAuthorized()") || this.evaluateGuard("READY_DURING_PAUSED","SQUARE_CLICKED [this.actions.getSquareClickAuthorized()] / { this.actions.startNewStoryProcessForm(); } TransitionTo(LOADING)"))
+        // uml: SQUARE_CLICKED / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.startNewStoryProcessForm();");this.tracer?.edgeTransition("edge14"); } TransitionTo(LOADING)
         {
             // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
             this.#READY_DURING_PAUSED_exit();
@@ -1344,7 +1343,8 @@ evaluateGuard = null;
     #READY_DURING_PAUSED_toggle_pause_resume()
     {
         // READY_DURING_PAUSED behavior
-        // uml: TOGGLE_PAUSE_RESUME / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.startNewStoryProcessForm();");this.tracer?.edgeTransition("edge16"); } TransitionTo(LOADING)
+        // uml: TOGGLE_PAUSE_RESUME [this.tracer?.log("🛡️ User evaluating guard: " + "!this.actions.inputIsEmpty()") || this.evaluateGuard("READY_DURING_PAUSED","TOGGLE_PAUSE_RESUME [!this.actions.inputIsEmpty()] / { this.actions.startNewStoryProcessForm(); } TransitionTo(LOADING)")] / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.startNewStoryProcessForm();");this.tracer?.edgeTransition("edge16"); } TransitionTo(LOADING)
+        if (this.tracer?.log("🛡️ User evaluating guard: " + "!this.actions.inputIsEmpty()") || this.evaluateGuard("READY_DURING_PAUSED","TOGGLE_PAUSE_RESUME [!this.actions.inputIsEmpty()] / { this.actions.startNewStoryProcessForm(); } TransitionTo(LOADING)"))
         {
             // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
             this.#READY_DURING_PAUSED_exit();
@@ -1464,8 +1464,7 @@ evaluateGuard = null;
     #READY_DURING_PLAYBACK_square_clicked()
     {
         // READY_DURING_PLAYBACK behavior
-        // uml: SQUARE_CLICKED [this.tracer?.log("🛡️ User evaluating guard: " + "this.actions.getSquareClickAuthorized()") || this.evaluateGuard("READY_DURING_PLAYBACK","SQUARE_CLICKED [this.actions.getSquareClickAuthorized()] / { this.actions.startNewStoryProcessForm(); } TransitionTo(LOADING)")] / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.startNewStoryProcessForm();");this.tracer?.edgeTransition("edge9"); } TransitionTo(LOADING)
-        if (this.tracer?.log("🛡️ User evaluating guard: " + "this.actions.getSquareClickAuthorized()") || this.evaluateGuard("READY_DURING_PLAYBACK","SQUARE_CLICKED [this.actions.getSquareClickAuthorized()] / { this.actions.startNewStoryProcessForm(); } TransitionTo(LOADING)"))
+        // uml: SQUARE_CLICKED / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.startNewStoryProcessForm();");this.tracer?.edgeTransition("edge9"); } TransitionTo(LOADING)
         {
             // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
             this.#READY_DURING_PLAYBACK_exit();
@@ -1486,7 +1485,8 @@ evaluateGuard = null;
     #READY_DURING_PLAYBACK_toggle_pause_resume()
     {
         // READY_DURING_PLAYBACK behavior
-        // uml: TOGGLE_PAUSE_RESUME / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.startNewStoryProcessForm();");this.tracer?.edgeTransition("edge11"); } TransitionTo(LOADING)
+        // uml: TOGGLE_PAUSE_RESUME [this.tracer?.log("🛡️ User evaluating guard: " + "!this.actions.inputIsEmpty()") || this.evaluateGuard("READY_DURING_PLAYBACK","TOGGLE_PAUSE_RESUME [!this.actions.inputIsEmpty()] / { this.actions.startNewStoryProcessForm(); } TransitionTo(LOADING)")] / { this.tracer?.log("⚡ FSM would execute action: " + "this.actions.startNewStoryProcessForm();");this.tracer?.edgeTransition("edge11"); } TransitionTo(LOADING)
+        if (this.tracer?.log("🛡️ User evaluating guard: " + "!this.actions.inputIsEmpty()") || this.evaluateGuard("READY_DURING_PLAYBACK","TOGGLE_PAUSE_RESUME [!this.actions.inputIsEmpty()] / { this.actions.startNewStoryProcessForm(); } TransitionTo(LOADING)"))
         {
             // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
             this.#READY_DURING_PLAYBACK_exit();

@@ -7,6 +7,8 @@
     --soundscapes-off-background-color: transparent;
 
     --period-color: #e4b228;  /* Default color for periods */
+    --period-color: #dad8d3;  /* Default color for periods */
+    --period-border: transparent;
 
     --grid-background-color: rgb(43, 43, 43);
     --grid-background-color: rgb(58, 58, 58);
@@ -151,13 +153,17 @@ body {
 
 /* Header styles */
 .chat-header {
+    display: inline-block;
     text-align: center;
-    font-size: 2.6em; /* Base font size for the header container */
+    position: relative;
+    font-size: 3em; /* Base font size for the header container */
     z-index: 10;
     background: none;
     padding: 5px 25px 0px;
     margin-top: 10px;
+    margin-bottom:15px;
     flex-shrink: 0; /* Prevent header from shrinking */
+    line-height: 1;
 }
 
 .brand{
@@ -171,6 +177,23 @@ body {
     -webkit-user-select: none;      /* Safari */
     -moz-user-select: none;         /* Firefox */
     -ms-user-select: none;          /* IE/Edge */
+    line-height: 1;
+}
+
+.beta-label{
+    font-size: xx-small;
+}
+
+.subtitle {
+    position: absolute;
+    font-size: 0.3em; /* 50% of the h1 size */
+    font-family: Inika, serif;
+    opacity: 0.75;
+    margin: 0 0;
+    color: rgba(249, 245, 245, 0.9);
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    /* text-transform: uppercase; */
 }
 
 /* Teller subtitle styling */
@@ -465,6 +488,7 @@ margin: 0 .05em;
     font-size: 4em;
     font-weight: bold;
     color: var(--period-color);
+    /* border: dashed 0.5px rgba(255, 255, 255, 0.8); */
     line-height: 0.8;
     text-align: center;
     line-height: match-font-size;
@@ -544,13 +568,14 @@ footer.chat-input-area {
     min-height: 1.5em;
     line-height: 1.2em;
     border: none;
-    border-radius: 25px;
+    border-radius: 15px;
     padding: 10px;
     box-sizing: border-box;
-    font-size: 1.9em;
+    font-size: 1.7em;
     letter-spacing: 0cqmin;
     font-family: 'Inika', serif;
     color: rgba(245, 245, 245, 0.9);
+    /* color: #fdb900; */
     transition: none;
     text-align: center;
     transition: border 0.8s ease-in-out, box-shadow 0.8s ease-in-out !important;
@@ -576,7 +601,7 @@ box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
 }
   
 #subject::placeholder {
-    color: rgba(152, 152, 152, 0.342);
+    color: rgba(205, 204, 204, 0.473);
     font-style: regular;
     font-size: 0.9em;
     font-weight: lighter;

@@ -3,7 +3,7 @@ import re
 def _apply_silence_tags(text: str, silence_map: dict) -> str:
     print("entering silence function")
     # Matches punct ONLY if followed by space or end of string
-    pattern = r'(?<!\b[A-Z])(\.{3}|[.;?!—])(?=\s|$)'
+    pattern = r'(?<!\b[A-Z])(\.{3}|[.;?!—\n])(?=\s|$)'
 
     print(f"Using pattern: {pattern}")  
     
@@ -41,11 +41,12 @@ silence_map_variations_openai_tts = {
 }
 
 silence_map_variations_short_openai_tts = {
-    '.': 60,    # Standard pause
+    '.': 50,    # Standard pause
     ';': 40,    # Short pause
-    '!': 55,    # Exclamatory pause
-    '?': 55,    # Question pause
-    '—': 35,    # Em dash pause
+    '!': 50,    # Exclamatory pause
+    '?': 50,    # Question pause
+    '—': 40,    # Em dash pause
+    '\n': 50,
 }
 
 silence_map_variations_long_openai_tts = {

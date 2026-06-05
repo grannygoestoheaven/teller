@@ -61,7 +61,8 @@ export function getBlueColor() {
 export function getOrangeColor() {
   // let orange = "#ff7f50";
   // let orange = "#ff6200";
-  let orange = "#fdb900";
+  // let orange = "#fdb900";
+  let orange = 'darkGreen'
   return orange;
 }
 
@@ -98,8 +99,8 @@ export function blueDots() {
 
 export function loadingDots() {
   // const color = getLoadingColor(); // generate a color
-  const color = 'transparent'; // generate a color
-  const border = '0.5px dashed rgba(255, 255, 255, 0.8)'
+  const color = '#fdb900'; // generate a color
+  const border = '1px dashed rgba(255, 255, 255, 0.8)'
   elements.dots.style.setProperty("--period-color", color); // set CSS variable to make the dots turn grey
   elements.period.style.setProperty('--periodo-border', border);
 }

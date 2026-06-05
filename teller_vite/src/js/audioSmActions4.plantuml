@@ -40,7 +40,7 @@
     READY_DURING_PAUSED --> PAUSED : INPUT_DEFOCUSED 
     READY_DURING_PAUSED --> IDLE : CANCEL
 
-    LOADING: enter / this.actions.uiLoadingButtons(); this.actions.removeBlurr(); this.actions.dotsView(); this.actions.redDots();
+    LOADING: enter / this.actions.uiLoadingButtons(); this.actions.removeBlurr(); this.actions.dotsView(); this.actions.loadingDots();
     LOADING --> PLAYING : SPEECH_READY / this.actions.addTitleToSquare(); this.actions.setUpAndStartAllAudio(); this.actions.displayStoryText(); this.actions.TextInteractionSystem.wrapWordsInSpans();
     LOADING --> PAUSED : TOGGLE_PAUSE_RESUME / this.actions.pauseAllAudio();
     LOADING --> IDLE : CANCEL

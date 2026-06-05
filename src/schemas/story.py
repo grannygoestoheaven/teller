@@ -4,7 +4,7 @@ from typing import Optional
 # text and audio schemas request
 class StoryRequest(BaseModel):
     subject: str
-    # pace: bool = False
+    # pace: Optional[bool] = False
     length: Optional[int] = None
     narrative_style: str | None = None
     difficulty: str | None = None
@@ -14,7 +14,7 @@ class StoryResponse(BaseModel):
     story_filename: str = Field(alias="storyFilename")  # raw filename
     story_title: str = Field(alias="storyTitle")        # cleaned title   
     story: str = Field(alias="story")                   # cleaned story text
-    speech_url: str = Field(alias="speechUrl")          # url to speech
+    speech_url: str = Field(alias="speechUrl")        # url to speech
     track_url: str = Field(alias="trackUrl")            # url to track
     track_title: str = Field(alias="trackTitle")        # clean track filename
     

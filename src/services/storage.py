@@ -113,6 +113,7 @@ class StorageBackend:
         key = f"stories/{story_foldername}/{story_filename}.json"
         print(f"Saving text to: {key}")
         self.client.upload_file(json.dumps(payload).encode('utf-8'), key)
+        
         return self.client.generate_url(key)
 
     def save_mp3_speech_file(self, story_foldername: str, speech_filename: str, speech_audio: bytes) -> str:
@@ -122,6 +123,7 @@ class StorageBackend:
         key = f"stories/{story_foldername}/{speech_filename}"
         print(f"Saving mp3 file to: {key}")
         self.client.upload_file(speech_audio, key)
+        
         return self.client.generate_url(key)
 
     # ==== FETCHING FUNCTIONS =====
@@ -166,9 +168,9 @@ class StorageBackend:
         
         file_path = str(DATA_DIR / key)
         
-        if not os.path.exists(file_path):
-            print(f"Speech file not found: {file_path}")
-            return None
+        # if not os.path.exists(file_path):
+        #     print(f"Speech file not found: {file_path}")
+        #     return None
     
         return self.client.generate_url(key)
 

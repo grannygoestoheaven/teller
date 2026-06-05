@@ -24,8 +24,8 @@ app.include_router(topic.router, prefix="/api/v1/topic")
 app.include_router(story.router, prefix="/api/v1/stories")
 app.include_router(media.router, prefix="/api")
 
-app.mount("/", StaticFiles(directory="teller_vite/dist", html=True)) # for local development. the server is running in the root directory (teller_vite)
-# app.mount("/", StaticFiles(directory="/app/teller_vite/dist", html=True)) # for docker. the container is running in /app
+# app.mount("/", StaticFiles(directory="teller_vite/dist", html=True)) # for local development. the server is running in the root directory (teller_vite)
+app.mount("/", StaticFiles(directory="/app/teller_vite/dist", html=True)) # for docker. the container is running in /app
 
 print(app.routes)
 

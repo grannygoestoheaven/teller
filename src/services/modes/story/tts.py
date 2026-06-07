@@ -28,7 +28,7 @@ def openai_tts(story: TtsRequest, filename) -> bytes:
         pause_between_sentences_ms: Duration of pause between sentences in milliseconds (default: 500ms).
 
     Returns:
-        The path to the saved audio file relative to the 'static' directory
+        The path to the saved audio file
         (e.g., 'audio/generated_stories/my_story.mp3'), or None on error.
     """
     print(f"Entering openai_tts with story: {story}")

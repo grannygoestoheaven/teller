@@ -10,6 +10,7 @@ def _apply_silence_tags(text: str, silence_map: dict) -> str:
     def replace(m):
         p = m.group(1)
         return f"{p}<[silence:{silence_map[p]}ms]>"
+        # return f"{p}{silence_map[p]}" # test for voxtral
     
     return re.sub(pattern, replace, text)
 
@@ -94,8 +95,6 @@ silence_map_short_openai_tts = {
     '—': 20,    # Em dash pause
 }
 
-
-
 silence_map_elevenlabs_tts = {
     '\n': "[long pause]",  # Newline pause
     '.': "[long pause]",    # Standard pause
@@ -105,4 +104,14 @@ silence_map_elevenlabs_tts = {
     '?': "[long pause]",    # Question pause
     '-': "[pause]",    # Dash pause
     ',': "[pause]",    # comma pause
+}
+
+# a simple test for voxtral 
+silence_map_variations_voxtral_tts = {
+    '.': '...',    # Standard pause
+    ';': '...',    # Short pause
+    '!': '...',    # Exclamatory pause
+    '?': '...',    # Question pause
+    '—': '...',    # Em dash pause
+    '\n': '...',
 }

@@ -23,8 +23,8 @@ Made with ❤️ by Granny.
 Prototype UI: Red blocks = real-time audio generation. Backend functional; frontend in progress.
 "Quantum Mechanics" = example subject. It can be any subject. The very basic interaction is depicted in the screenshot. It is an early stage prototype.
 
-- The button below 'teller' allows you to switch between dots (the current view), text, and grid modes.
-- To listen to a new story, you can hover the text to select the words or subjects you're interested in, then press Enter or start. You can also type what you want.
+- The button 'ooo' below 'teller' allows you to switch between dots (the current view), text, and grid modes.
+- To listen to a new story, you can hover the text of the last generated story to select the words or subjects you're interested in, click to paste them in the form, then press Enter or start. You can also type what you want.
 - The stories already played will fill the grid. You can hover them and press Enter to listen to them again.
 
 NOTE: the pacing is handled via a punctuation dictionary that insert silences tags in the generated text, before sending it to the text to speech function. It's customizable and adaptable, and avoids wasting tokens by asking the model to place them in the text. It works pretty well but the control is not total yet, the openai tts is a bit opaque and some pauses can be longer or shorter than expected. Tests with Eleven Labs and Voxtral tts are ongoing.

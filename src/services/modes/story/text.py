@@ -9,7 +9,7 @@ from openai import OpenAI
 from jinja2 import Template
 
 from src.config.settings import env_settings
-from src.config.pacing_engine_functions import _apply_silence_tags, silence_map_openai_tts, silence_map_super_short_openai_tts, silence_map_short_openai_tts, silence_map_medium_openai_tts, silence_map_long_openai_tts, silence_map_long_plus_openai_tts, silence_map_variations_openai_tts, silence_map_variations_long_openai_tts, silence_map_variations_short_openai_tts, silence_map_elevenlabs_tts
+from src.config.pacing_engine_functions import _apply_silence_tags, silence_map_variations_short_openai_tts, silence_map_elevenlabs_tts, silence_map_variations_voxtral_tts
 from src.services.utils import _clean_story_text, _remove_silence_tags, _format_text_filename, _clean_story_title
 
 mistral_client = Mistral(api_key=env_settings.mistral_api_key)
@@ -39,7 +39,7 @@ def generate_story_with_mistralai(subject, length: None, narrative_style: None, 
                 },
                 {
                     # "content": f"generate a 1050 char MAXIMUM text about {subject}.",
-                    "content": f"generate a 600 char MAXIMUM text about {subject}.", # etymology text.
+                    "content": f"generate a 600 char MAXIMUM text about {subject}.",
                     "role": "user"
                 },
                 
@@ -60,6 +60,7 @@ def generate_story_with_mistralai(subject, length: None, narrative_style: None, 
 
         silences = silence_map_variations_short_openai_tts # Define your silence mapping here or import it from config
         # silences = silence_map_elevenlabs_tts # Define your silence mapping here or import it from config
+        # silences = silence_map_variations_voxtral_tts
 
         tts_text = _apply_silence_tags(original_output, silences)
         print(f"TTS TEXT WITH SILENCE TAGS: {tts_text}")

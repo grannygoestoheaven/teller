@@ -5,8 +5,6 @@ AI narration Text-To-Speech project
 
 "Teller transforms any subject into an immersive 1-minute audio summary, using TTS + AI to boost engagement and retention."
 
-Test the demo here : https://tellercontainerc73fsqdz-container-sweet-matsumoto.functions.fnc.fr-par.scw.cloud
-
 ## Features
 
 - Converts subject into an insightful presentation with player controls

@@ -17,7 +17,8 @@ def build_story(subject: str, narrative_style: str, difficulty: str) -> dict:
     
     print (subject, narrative_style, difficulty)
 
-    story_title, tagged_story_for_tts, story = generate_story_with_mistralai(subject, narrative_style, difficulty) # returns text files
+    story_title, tagged_story_for_tts, story = generate_story_with_mistralai(subject, temperature, length, narrative_style, difficulty) # returns text files
+    # story_title, tagged_story_for_tts, story = generate_story_with_mistralai(subject, narrative_style, difficulty) # returns text files
     # print(f"Generated story: {story}")
     
     ambiance_prompt = create_ambiance_prompt(story)

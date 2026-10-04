@@ -5,6 +5,7 @@ from typing import Optional
 class StoryRequest(BaseModel):
     subject: str
     # pace: Optional[bool] = False
+    temperature: Optional[float] = 0.2
     length: Optional[int] = None
     narrative_style: str | None = None
     difficulty: str | None = None

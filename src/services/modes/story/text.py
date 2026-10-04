@@ -15,14 +15,14 @@ from src.services.utils import _clean_story_text, _remove_silence_tags, _format_
 mistral_client = Mistral(api_key=env_settings.mistral_api_key)
 openai_client = OpenAI(api_key=env_settings.openai_api_key)
 
-def generate_story_with_mistralai(subject, length: None, narrative_style: None, difficulty: None) -> tuple[str, str]:
+def generate_story_with_mistralai(subject, temperature: None, length: None, narrative_style: None, difficulty: None) -> tuple[str, str]:
     print("entering Mistral story: ", subject, narrative_style, difficulty)
     try:
         # 1. Read the prompt template from the file
         with open(narrative_style, "r") as f:
             print("Opened narrative style file successfully.")
             narrative_style_template = Template(f.read())
-            narrative_style_rendered = narrative_style_template.render(
+            narrative_style_rendered = narrative_style_template.render(     
                 subject = subject,
                 difficulty = difficulty
             )
@@ -39,13 +39,15 @@ def generate_story_with_mistralai(subject, length: None, narrative_style: None, 
                 },
                 {
                     # "content": f"generate a 1050 char MAXIMUM text about {subject}.",
-                    "content": f"generate a 600 char MAXIMUM text about {subject}.",
+                    "content": f"generate a {length} char MAXIMUM text about {subject}.",
+                    # "content": f"generate a 600 char MAXIMUM text about {subject}.",
                     "role": "user"
                 },
                 
             ],
             max_tokens=length,
-            temperature=0.2,
+            # temperature=0.2,
+            temperature=temperature,
             presence_penalty=1.2,
             stream=False)
         

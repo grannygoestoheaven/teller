@@ -42,12 +42,12 @@ silence_map_variations_openai_tts = {
 }
 
 silence_map_variations_short_openai_tts = {
-    '.': 50,    # Standard pause
-    ';': 40,    # Short pause
-    '!': 50,    # Exclamatory pause
-    '?': 50,    # Question pause
-    '—': 40,    # Em dash pause
-    '\n': 50,
+    '.': 30,    # Standard pause
+    ';': 20,    # Short pause
+    '!': 30,    # Exclamatory pause
+    '?': 30,    # Question pause
+    '—': 20,    # Em dash pause
+    '\n': 30,
 }
 
 silence_map_variations_long_openai_tts = {

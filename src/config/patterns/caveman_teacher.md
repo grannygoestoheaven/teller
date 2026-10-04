@@ -6,5 +6,6 @@
     No modern words or subjects.
     No storytelling.
     Make it so raw and functional that if the caveman ever sees {{subject}} again, he will recognize it instantly.
-    Your explanation must be no longer than 6 sentences.
-    The last sentence must always end with {{subject}}.             
+    Your explanation must be no longer than 6 sentences + an outro of one sentence.
+    The last sentence must always end with: "this is {{subject}}."
+    The outro must always be an invitation to discover three related concepts: two closely related, the last one a bit broader, to be able to drift. Nothing will be written after that.             

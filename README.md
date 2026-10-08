@@ -5,12 +5,11 @@ AI narration Text-To-Speech project
 
 ## Features
 
-- Converts subject into an insightful presentation with player controls
-- Syncs narration with background track  
-- Uses LLMs (mistral-medium-latest) text generation and text to speech (OpenAI tts - soon Voxtral tts by Mistral AI)
-
-- The backend is powered by FastAPI.
-- The Frontend player is handled by a uml generated state machine, created using the StateSmithg GitHub project.
+* A generative AI + text-to-speech application that turns any topic into engaging 1-minute audio summaries — voice, ambient music layers, and narrative techniques combined into an immersive discovery experience. Designed for attentive listening and exploration.  
+    * Built and deployed end-to-end, solo: FastAPI backend, JS frontend, containerized service running on Scaleway Cloud, with CI/CD via GitHub Actions and media/text storage on Scaleway S3.  
+    * Integrates Mistral LLM (text generation) and OpenAI TTS (speech) in a single orchestration pipeline with request deduplication — stories are generated once, stored, then served.  
+    * Frontend features a UML-driven state machine audio player and an original text-highlighting interaction for AI-friendly reading.  
+    * Currently being hardened: request logging, API cost monitoring, and authentication — building production-grade habits into my own product.  Tech: Python, FastAPI, JavaScript, Vite, Docker, GitHub Actions, Scaleway Cloud (container + S3). 
 
 Made with ❤️ by Granny.
 

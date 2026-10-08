@@ -3,8 +3,6 @@ AI narration Text-To-Speech project
 
 🧠 **Teller** is an AI-powered application that syncs voice and background ambient music to create immersive, focus-improved narratives, triggering curiosity and the will to explore further and further.
 
-"Teller transforms any subject into an immersive 1-minute audio summary, using TTS + AI to boost engagement and retention."
-
 ## Features
 
 - Converts subject into an insightful presentation with player controls
@@ -24,7 +22,5 @@ Prototype UI: Red blocks = real-time audio generation. Backend functional; front
 - The button 'ooo' below 'teller' allows you to switch between dots (the current view), text, and grid modes.
 - To listen to a new story, you can hover the text of the last generated story to select the words or subjects you're interested in, click to paste them in the form, then press Enter or start. You can also type what you want.
 - The stories already played will fill the grid. You can hover them and press Enter to listen to them again.
-
-NOTE: the pacing is handled via a punctuation dictionary that insert silences tags in the generated text, before sending it to the text to speech function. It's customizable and adaptable, and avoids wasting tokens by asking the model to place them in the text. It works pretty well but the control is not total yet, the openai tts is a bit opaque and some pauses can be longer or shorter than expected. Tests with Voxtral tts are ongoing.
 
 The app is at its very early stage. Many more features are coming.

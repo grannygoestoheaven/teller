@@ -295,7 +295,7 @@ body {
     /* justify-content: center; */
     /* align-items: center; */
     width: 75%;
-    width: 35%;
+    /* width: 35%; */
     height: 65%;
     overflow: hidden; /* Critical: Hide overflow for layers */
     /* transition: none !important; */ /* Disable transitions for container */
@@ -381,6 +381,7 @@ body {
     font-weight: 200;
     font-style: normal;
     font-size: 1.2em;
+    font-size: 1.6em;
 }
 
 .chat-inner {
@@ -529,7 +530,7 @@ footer.chat-input-area {
     align-items: center;
     height: 100%;
     width: 530px;
-    width: 230px;
+    /* width: 230px; */
     /* padding: 5px; */
     gap: 12px;
 }
